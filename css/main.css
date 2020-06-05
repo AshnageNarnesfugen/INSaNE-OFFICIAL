@@ -14,7 +14,7 @@
     height: 100%;
     width: 100%;
     padding: 5%;
-    background-color: red;
+    background-color: #5f0000;
     -webkit-clip-path: polygon(11px 415px, 881px 367px, 876px 26px, 7px 8px);
     clip-path: polygon(11px 415px, 881px 367px, 876px 26px, 7px 8px);
 }
