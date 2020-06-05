@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>INSaNE | Heróe del universo</title>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="js/parallax.js"></script>
+    <script src="js/shuffle.js"></script>
+    <script src="js/main.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/main.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <script>
+        var tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/player_api";
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+        // Replace the 'ytplayer' element with an <iframe> and
+        // YouTube player after the API code downloads.
+        var player;
+
+        function onYouTubePlayerAPIReady() {
+            player = new YT.Player('ytplayer', {
+                height: '300px',
+                width: '50%',
+                playerVars: {
+                    autoplay: 0,
+                    origin: window.location.href
+                },
+                videoId: '7A9BjukbzkI'
+            });
+        }
+    </script>
+</head>
+
+<body>
+    <div class="burger_menu">
+        <ul class="menu-nav">
+            <li class="menu">
+                <a href="#esc1" class="scroll">
+                    <p class="list">Home</p>
+                </a>
+            </li>
+            <li class="menu">
+                <a href="#esc2" class="scroll">
+                    <p class="list">Story</p>
+                </a>
+            </li>
+            <li class="menu">
+                <a href="#esc3" class="scroll">
+                    <p class="list">Characters</p>
+                </a>
+            </li>
+            <li class="menu">
+                <a href="#esc4" class="scroll">
+                    <p class="list">About</p>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div id="fullpage">
+        <section class="space_sec section" id="esc1">
+            <div class="menu-wrapper">
+                <div class="hamburger-menu"></div>
+            </div>
+            <div class="text" id="planet">
+                <div class="title">
+                    <mark class="mark">INSaNE</mark><span id="letter">Project</span>
+                </div>
+                <img src="css/img/planet.png" class="planet img-fluid" id="cross">
+            </div>
+        </section>
+        <section class="space_sec section" id="esc2">
+            <div class="container">
+                <div class="Section_Title">
+                    <h1>Story</h1>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                        <div class="box" data-aos="fade-right">
+                            This is the story of someone who desires to be The king of the universe, Deep down in the Milky Way a strange object aproaches earth then colides with it's surface.
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                        <div class="box" data-aos="fade-left">
+                            At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia
+                            animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus,
+                            omnis voluptas assumenda est, omnis dolor repellendus.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="space_sec section" id="esc3">
+            <div class="container">
+                <div class="Section_Title">
+                    <h1>Characters</h1>
+                    <div class="row-centered equal">
+                        <p class="speakers">XP/Achievements</p>
+                    </div>
+                    <div class="d-flex flex-row equal">
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                            <img data-aos="fade-right" class="img-fluid mx-auto d-block vertical-aligment" src="img/2b933cd10c629591c60aa3b4f71be690.png" width="50%" height="50%" alt="">
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                            <div data-aos="fade-left" class="alse">
+                                <p>Ashnage Narnesfugen</p>
+                                <p>Skills</p>
+                                <ul>
+                                    <li>Lorem ipsum dolor sit, amet consectetur adipisicing elit.</li>
+                                    <li>Lorem ipsum dolor sit amet consectetur, adipisicing elit.</li>
+                                    <li>Lorem ipsum dolor sit amet consectetur adipisicing elit.</li>
+                                    <li>Lorem ipsum dolor sit amet consectetur adipisicing elit.</li>
+                                    <li>Lorem ipsum dolor sit amet consectetur adipisicing elit.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex flex-row-reverse equal">
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                            <img data-aos="fade-left" class="img-fluid mx-auto d-block vertical-aligment" src="img/82525ef9db4bfa10d95cdf6b0042c446.png" width="50%" height="50%" alt="">
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                            <div data-aos="fade-right" class="alse">
+                                <p>Protono Prutacio</p>
+                                <p>Skills</p>
+                                <ul>
+                                    <li>Lorem ipsum dolor sit, amet consectetur adipisicing elit.</li>
+                                    <li>Lorem ipsum dolor sit amet consectetur, adipisicing elit.</li>
+                                    <li>Lorem ipsum dolor sit amet consectetur adipisicing elit.</li>
+                                    <li>Lorem ipsum dolor sit amet consectetur adipisicing elit.</li>
+                                    <li>Lorem ipsum dolor sit amet consectetur adipisicing elit.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex flex-row equal">
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                            <img data-aos="fade-right" class="img-fluid mx-auto d-block vertical-aligment" src="img/fba2260c06a301f8bf681916bd04ac2a.png" width="50%" height="50%" alt="">
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                            <div data-aos="fade-left" class="alse">
+                                <p>Noward Killery</p>
+                                <p>Skills</p>
+                                <ul>
+                                    <li>Lorem ipsum dolor sit, amet consectetur adipisicing elit.</li>
+                                    <li>Lorem ipsum dolor sit amet consectetur, adipisicing elit.</li>
+                                    <li>Lorem ipsum dolor sit amet consectetur adipisicing elit.</li>
+                                    <li>Lorem ipsum dolor sit amet consectetur adipisicing elit.</li>
+                                    <li>Lorem ipsum dolor sit amet consectetur adipisicing elit.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="space_sec section" id="esc4">
+            <div class="container">
+                <div class="Section_Title">
+                    <h1>About the project</h1>
+                    <!--<iframe width="50%" height="300px" src="https://www.youtube.com/embed/7A9BjukbzkI" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>-->
+                    <div id="ytplayer" data-aos="fade-up"></div>
+                </div>
+            </div>
+        </section>
+    </div>
+</body>
+
+</html>
