@@ -1,7 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Chelsea+Market&family=Montaga&family=Playfair+Display&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Amatic+SC&display=swap');
 * {
-    font-family: 'Playfair Display', serif;
+    /*font-family: 'Playfair Display', serif;*/
+    font-family: 'Amatic SC', cursive;
     list-style: none;
+}
+
+.ul-centered {
+    padding: 0%;
 }
 
 :root {
@@ -316,7 +322,7 @@ a:hover {
 .alse {
     display: flex;
     place-items: center;
-    text-align: left;
+    text-align: center;
 }
 
 .equal {
