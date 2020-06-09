@@ -9,7 +9,7 @@
                 f = a(window).scrollTop();
             b + c < f || b > f + a(window).height() || e.css("backgroundPosition", d.x + " " + Math.round((h - f) * d.speed) + "px")
         }
-        var d = { minWidth: 0, x: "50%", speed: .2 };
+        var d = { minWidth: 0, x: "50%", speed: -.5 };
         g && (d = a.extend(d, g));
         var e = a(b),
             h = e.offset().top;
