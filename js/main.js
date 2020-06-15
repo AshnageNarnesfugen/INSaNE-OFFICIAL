@@ -53,7 +53,7 @@ $(document).ready(function() {
     });
 
     $(".space_sec").parallaxie({
-        speed: 0.5
+        speed: 0.8
     });
     $(function() {
 
