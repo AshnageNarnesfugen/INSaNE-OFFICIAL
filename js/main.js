@@ -52,7 +52,9 @@ $(document).ready(function() {
         }, 1000);
     });
 
-    $(".space_sec").parallax();
+    $(".space_sec").parallaxie({
+        speed: 0.5
+    });
     $(function() {
 
         // container is the DOM element;
