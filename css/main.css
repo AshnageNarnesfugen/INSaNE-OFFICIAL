@@ -27,6 +27,9 @@
         position: unset;
         transform: translateY(120%)
     }
+    .height{
+        height: 100%;
+    }
 }
 
 :root {
