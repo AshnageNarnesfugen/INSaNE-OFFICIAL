@@ -16,7 +16,7 @@
 
 .right{
     float: right;
-    text-align: right;
+    text-align: right !important;
 }
 
 .red-bar {
