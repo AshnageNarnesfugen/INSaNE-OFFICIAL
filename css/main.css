@@ -6,6 +6,10 @@
     list-style: none;
 }
 
+.height{
+    height: 70vh;
+}
+
 .ul-centered {
     padding: 0%;
 }
