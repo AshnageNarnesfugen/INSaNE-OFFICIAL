@@ -6,14 +6,9 @@
     list-style: none;
 }
 
-.height{
-    height: 70vh;
-}
-
 .ul-centered {
     padding: 0%;
 }
-
 
 .red-bar {
     position: absolute;
@@ -27,9 +22,6 @@
     .red-bar {
         position: unset;
         transform: translateY(120%)
-    }
-    .height{
-        height: 100%;
     }
 }
 
@@ -81,11 +73,13 @@
 }
 
 #esc3 {
-    height: 100%;
+    height: 100vh;
     overflow: hidden;
-    background: black;
+    background: #3f2d40;
     background-position: center center;
-    display: flow-root;
+    display: flex;
+    place-content: center;
+    align-items: center;
 }
 
 #esc4 {
@@ -366,4 +360,12 @@ a:hover {
 
 #letter {
     margin: 1%;
+}
+
+.char-tit {
+    writing-mode: vertical-rl;
+    text-orientation: upright;
+    letter-spacing: 2px;
+    line-height: 2px;
+    color: whitesmoke;
 }
