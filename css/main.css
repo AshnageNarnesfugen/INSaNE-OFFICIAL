@@ -1,7 +1,28 @@
 @import url('https://fonts.googleapis.com/css2?family=Chelsea+Market&family=Montaga&family=Playfair+Display&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Amatic+SC&display=swap');
 * {
-    font-family: 'Playfair Display', serif;
+    /*font-family: 'Playfair Display', serif;*/
+    font-family: 'Amatic SC', cursive;
     list-style: none;
+}
+
+.ul-centered {
+    padding: 0%;
+}
+
+.red-bar {
+    position: absolute;
+    background: red;
+    width: 100%;
+    height: 200px;
+    transform: translateY(35%)
+}
+
+@media (max-width: 769px) {
+    .red-bar {
+        position: unset;
+        transform: translateY(120%)
+    }
 }
 
 :root {
@@ -10,13 +31,31 @@
     --bar-spacing: 25px;
 }
 
+.row-centered {
+    text-align: center !important;
+    z-index: 1;
+    display: flex;
+}
+
+.col-centered {
+    display: contents;
+    float: none;
+    /* reset the text-align */
+    text-align: left;
+    /* inline-block space fix */
+    margin-right: -4px;
+    text-align: left;
+    margin: 3 5;
+}
+
 .box {
     height: 100%;
     width: 100%;
     padding: 5%;
-    background-color: red;
+    background-color: #5f0000;
     -webkit-clip-path: polygon(11px 415px, 881px 367px, 876px 26px, 7px 8px);
     clip-path: polygon(11px 415px, 881px 367px, 876px 26px, 7px 8px);
+    font-size: 20px;
 }
 
 .Section_Title {
@@ -34,11 +73,13 @@
 }
 
 #esc3 {
-    height: 100%;
+    height: 100vh;
     overflow: hidden;
-    background: black;
+    background: #3f2d40;
     background-position: center center;
-    display: flow-root;
+    display: flex;
+    place-content: center;
+    align-items: center;
 }
 
 #esc4 {
@@ -219,6 +260,7 @@ a:hover {
     z-index: 5;
     opacity: 0.7;
     transition: all 0.5s;
+    filter: drop-shadow(2px 4px 4px black);
 }
 
 .menu-wrapper:hover {
@@ -291,15 +333,13 @@ a:hover {
     .d-flex {
         display: block !important;
     }
-    .alse {
-        display: block !important;
-    }
 }
 
 .alse {
-    display: flex;
+    display: block;
     place-items: center;
     text-align: left;
+    font-size: 20px;
 }
 
 .equal {
@@ -320,4 +360,12 @@ a:hover {
 
 #letter {
     margin: 1%;
+}
+
+.char-tit {
+    writing-mode: vertical-rl;
+    text-orientation: upright;
+    letter-spacing: 2px;
+    line-height: 2px;
+    color: whitesmoke;
 }
