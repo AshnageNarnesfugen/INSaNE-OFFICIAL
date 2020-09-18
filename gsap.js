@@ -22,7 +22,7 @@ resize();
 
 var draggable = new Draggable(proxy, {
     trigger: ".slides-container",
-    inertia: true,
+    /*inertia: true,*/
     onPressInit: function() {
         animation.pause();
         timer.pause();
