@@ -86,7 +86,7 @@ function resize() {
         .progress(progress);
 }
 
-Hamster(document.querySelector('.slides-container')).wheel(function(event, delta, deltaX, deltaY) {
+/*Hamster(document.querySelector('.slides-container')).wheel(function(event, delta, deltaX, deltaY) {
     event.preventDefault();
     animateSlides(delta / 30);
-});
+});*/
