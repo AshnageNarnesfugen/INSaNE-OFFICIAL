@@ -52,7 +52,10 @@ $(document).ready(function() {
         }, 1000);
     });
 
-    $(".space_sec").parallaxie({
+    $("#esc1").parallaxie({
+        speed: 0.8
+    });
+    $("#esc4").parallaxie({
         speed: 0.8
     });
     $(function() {
@@ -79,6 +82,7 @@ $(document).ready(function() {
         }, 4000);
 
     });
+    //
 
     AOS.init();
 });
