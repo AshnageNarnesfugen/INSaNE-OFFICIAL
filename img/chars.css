@@ -29,10 +29,13 @@ a {
 }
 
 .character_container:nth-child(1) .char-head {
-    background-image: url("  https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/3a5ef8c2-e760-454f-a749-b700e7b78d60/ddd9qwk-73debecf-bbcc-4783-bcd5-2fe5787c9c70.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOiIsImlzcyI6InVybjphcHA6Iiwib2JqIjpbW3sicGF0aCI6IlwvZlwvM2E1ZWY4YzItZTc2MC00NTRmLWE3NDktYjcwMGU3Yjc4ZDYwXC9kZGQ5cXdrLTczZGViZWNmLWJiY2MtNDc4My1iY2Q1LTJmZTU3ODdjOWM3MC5wbmcifV1dLCJhdWQiOlsidXJuOnNlcnZpY2U6ZmlsZS5kb3dubG9hZCJdfQ.ocgurTTVrqNXkSzYDMx7b2CPp2kaprjG3yycU6UgfoU");
-    /*
-  
-    */
+    background-image: url("NOWARD\ KILLERY.png");
+    background-size: 80%;
+}
+
+.character_container:nth-child(1):hover .char-head {
+    background-size: 150%;
+    background-position: center 0%;
 }
 
 .character_container:nth-child(2) .char-head {
@@ -41,9 +44,6 @@ a {
 
 .character_container:nth-child(3) .char-head {
     background-image: url("https://i.pinimg.com/originals/b4/e5/55/b4e555eb4e72cacfb794d28e90a8a596.png");
-    /*
-    
-    */
 }
 
 .character_container:hover .char-head {
@@ -149,12 +149,14 @@ a {
     height: 100%;
     opacity: 0;
     display: grid;
-    top: 84%;
+    bottom: -85%;
+    top: 85%;
     clip-path: polygon(50% 0, 100% 5%, 100% 100%, 0 100%, 0 5%);
 }
 
 .char-content:target {
-    top: 0;
+    bottom: 0%;
+    top: 0%;
     clip-path: polygon(50% 0, 100% 0%, 100% 100%, 0 100%, 0 0%);
 }
 
