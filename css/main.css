@@ -419,3 +419,157 @@ main.slider {
     width: 100%;
     overflow: hidden;
 }
+
+.swiper-container {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+@media (min-width: 480px) {
+    .swiper-container {
+        min-height: 320px;
+    }
+}
+
+.swiper-container-wrapper {
+    display: flex;
+    flex-flow: column nowrap;
+    height: 100vh;
+    width: 100vw;
+}
+
+@media (min-width: 480px) {
+    .swiper-container-wrapper {
+        flex-flow: row nowrap;
+    }
+}
+
+.swiper-button-next,
+.swiper-button-prev {
+    color: #000;
+}
+
+.swiper-slide-duplicate,
+.swiper-slide {
+    text-align: center;
+    background-size: cover !important;
+    background-position: center !important;
+    /* Center slide text vertically */
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+    /* Slide content */
+}
+
+.swiper-slide-duplicate .description,
+.swiper-slide .description,
+.swiper-slide-duplicate .title,
+.swiper-slide .title {
+    display: block;
+    opacity: 0;
+    transition: 0.5s ease 0.5s;
+}
+
+.swiper-slide-duplicate-active .description,
+.swiper-slide-active .description,
+.swiper-slide-duplicate-active .title,
+.swiper-slide-active .title {
+    opacity: 1;
+}
+
+.swiper-slide-duplicate-active .title,
+.swiper-slide-active .title {
+    margin-bottom: 0.5rem;
+    font-size: 24px;
+    color: #000;
+    transition: opacity 0.5s ease 0.5s;
+}
+
+.swiper-slide-duplicate-active .description,
+.swiper-slide-active .description {
+    font-size: 16px;
+    color: #777;
+    transition: opacity 0.5s ease 0.75s;
+}
+
+.swiper-slide:nth-child(1) {
+    background: url("https://i.ytimg.com/vi/7A9BjukbzkI/maxresdefault.jpg");
+}
+
+.swiper-slide:nth-child(2) {
+    background: url("img/solar_system_minimal_blue_art_4k.jpg");
+}
+
+.swiper-slide:nth-child(3) {
+    background: url("img/space-art-minimalist-xq.jpg");
+}
+
+.swiper-slide:nth-child(4) {
+    background: url("../img/Arte_conceptual_-_ASH\ \(1\).png");
+}
+
+.swiper-slide:nth-child(5) {
+    background: url("../img/Arte\ conceptual\ -\ NOWARD\ KILLERY.png");
+}
+
+.swiper-slide:nth-child(6) {
+    background: url("../img/lkkllkklkljklknmknlnlnknnknnlknlknklnnlkn.png");
+}
+
+.gallery-top {
+    width: 100%;
+    height: 75vh;
+}
+
+@media (min-width: 480px) {
+    .gallery-top {
+        width: 80%;
+        height: 100vh;
+        margin-right: 10px;
+    }
+}
+
+.gallery-thumbs {
+    width: 100%;
+    height: 25vh;
+    padding-top: 10px;
+}
+
+@media (min-width: 480px) {
+    .gallery-thumbs {
+        width: 20%;
+        height: 100vh;
+        padding: 0;
+    }
+}
+
+.gallery-thumbs .swiper-wrapper {
+    flex-direction: row;
+}
+
+@media (min-width: 480px) {
+    .gallery-thumbs .swiper-wrapper {
+        flex-direction: column;
+    }
+}
+
+.gallery-thumbs .swiper-slide {
+    width: 25%;
+    flex-flow: row nowrap;
+    height: 100%;
+    opacity: 0.75;
+    cursor: pointer;
+}
+
+@media (min-width: 480px) {
+    .gallery-thumbs .swiper-slide {
+        flex-flow: column nowrap;
+        width: 100%;
+    }
+}
+
+.gallery-thumbs .swiper-slide-thumb-active {
+    opacity: 1;
+}
