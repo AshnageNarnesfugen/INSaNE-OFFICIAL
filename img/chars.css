@@ -170,7 +170,7 @@ a {
 
 .tab-info {
     display: block;
-    margin-top: 30px;
+    margin-top: 10%;
     mix-blend-mode: difference;
 }
 
@@ -229,7 +229,7 @@ a {
 .link-container {
     position: absolute;
     right: 10px;
-    top: 50px;
+    top: 8%;
 }
 
 .text-content {
