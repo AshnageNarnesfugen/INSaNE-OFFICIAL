@@ -453,7 +453,7 @@ main.slider {
 .swiper-slide-duplicate,
 .swiper-slide {
     text-align: center;
-    background-size: cover !important;
+    background-size: contain !important;
     background-position: center !important;
     /* Center slide text vertically */
     display: flex;
