@@ -573,3 +573,14 @@ main.slider {
 .gallery-thumbs .swiper-slide-thumb-active {
     opacity: 1;
 }
+.swiper-slide-duplicate, .swiper-slide {
+    text-align: center;
+    background-size: contain !important;
+    background-position: center !important;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+    background-repeat: no-repeat !important;
+    backdrop-filter: blur(10px);
+}
