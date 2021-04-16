@@ -152,6 +152,7 @@ a {
     bottom: -85%;
     top: 85%;
     clip-path: polygon(50% 0, 100% 5%, 100% 100%, 0 100%, 0 5%);
+    z-index: 5;
 }
 
 .char-content:target {
@@ -170,8 +171,9 @@ a {
 
 .tab-info {
     display: block;
-    margin-top: 10%;
+    margin-top: 30px;
     mix-blend-mode: difference;
+    text-align: center;
 }
 
 .tab-info>p:nth-child(1) {
@@ -229,7 +231,7 @@ a {
 .link-container {
     position: absolute;
     right: 10px;
-    top: 8%;
+    top: 50px;
 }
 
 .text-content {
