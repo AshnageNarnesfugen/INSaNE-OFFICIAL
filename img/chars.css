@@ -222,6 +222,7 @@ a {
     .char-content {
         top: 0%;
         height: -webkit-fill-available;
+        clip-path: polygon(50% 0, 100% 0%, 100% 100%, 0 100%, 0 0%) !important;
     }
     .link-container {
         display: none;
