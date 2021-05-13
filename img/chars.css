@@ -44,6 +44,7 @@ a {
 
 .character_container:nth-child(3) .char-head {
     background-image: url("PROTONO.png");
+    background-size: 55%;
 }
 
 .character_container:hover .char-head {
