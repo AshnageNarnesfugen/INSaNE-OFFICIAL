@@ -34,12 +34,17 @@ a {
 }
 
 .character_container:nth-child(1):hover .char-head {
-    background-size: 150%;
+    background-size: 135%;
     background-position: center 0%;
 }
 
 .character_container:nth-child(2) .char-head {
     background-image: url("b6416f4ac11522c425d7b52bd39df2e40c2487bc_s2_n2.png");
+}
+
+.character_container:nth-child(2):hover .char-head {
+    background-size: 135%;
+    background-position: center 0%;
 }
 
 .character_container:nth-child(3) .char-head {
