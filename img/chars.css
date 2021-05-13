@@ -43,7 +43,7 @@ a {
 }
 
 .character_container:nth-child(2):hover .char-head {
-    background-size: 135%;
+    background-size: 80%;
     background-position: center 0%;
 }
 
