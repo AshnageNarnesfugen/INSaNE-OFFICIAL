@@ -189,6 +189,14 @@ a {
     text-align: center;
 }
 
+.tab-info>p{
+    color: rgb(193, 193, 193);
+    font-weight: bold;
+    margin: 0;
+    text-shadow: 3px 2px 0px black;
+    letter-spacing: 2px;
+}
+
 .tab-info>p:nth-child(1) {
     color: white;
     font-weight: bold;
@@ -198,7 +206,7 @@ a {
 .tab-info>p:nth-child(2) {
     color: white;
     font-weight: 100;
-    letter-spacing: 2px;
+    
     font-size: 20px;
     margin: 0;
 }
