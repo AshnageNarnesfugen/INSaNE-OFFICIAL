@@ -47,6 +47,7 @@ $(document).ready(function() {
 
     scrolllink.click(function(e) {
         e.preventDefault();
+        $(".menu-wrapper").trigger("click");
         $('body,html').animate({
             scrollTop: $(this.hash).offset().top
         }, 1000);
