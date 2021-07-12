@@ -270,7 +270,7 @@ a:hover {
     width: 100px;
     height: 60px;
     cursor: pointer;
-    z-index: 5;
+    z-index: 6;
     opacity: 0.7;
     transition: all 0.5s;
     filter: drop-shadow(2px 4px 4px black);
