@@ -1,8 +1,6 @@
-@import url('https://fonts.googleapis.com/css2?family=Chelsea+Market&family=Montaga&family=Playfair+Display&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Amatic+SC&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Architects+Daughter&display=swap');
 * {
-    /*font-family: 'Playfair Display', serif;*/
-    font-family: 'Amatic SC', cursive;
+    font-family: 'Architects Daughter', cursive;
     list-style: none;
 }
 
