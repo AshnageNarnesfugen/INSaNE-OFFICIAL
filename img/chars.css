@@ -201,6 +201,7 @@ a {
     color: white;
     font-weight: bold;
     margin: 0;
+    font-size: 2em;
 }
 
 .tab-info>p:nth-child(2) {
