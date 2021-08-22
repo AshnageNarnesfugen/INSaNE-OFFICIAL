@@ -264,6 +264,6 @@ a {
 .text-content ul>li {
     color: white;
     font-size: 20px;
-    text-align: center;
+    text-align: left;
     mix-blend-mode: difference;
 }
