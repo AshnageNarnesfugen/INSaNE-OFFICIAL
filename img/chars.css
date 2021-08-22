@@ -261,7 +261,7 @@ a {
     margin: 20px;
 }
 
-.text-content>ul>li {
+.text-content ul>li {
     color: white;
     font-size: 20px;
     text-align: center;
