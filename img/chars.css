@@ -261,7 +261,7 @@ a {
     margin: 20px;
 }
 
-.text-content>p {
+.text-content>li p b {
     color: white;
     font-size: 20px;
     text-align: center;
