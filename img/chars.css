@@ -155,7 +155,7 @@ a {
     transition: all 0.5s ease-in-out;
     /*backdrop-filter: blur(10px);*/
     width: 100%;
-    height: 100%;
+    height: 50%;
     opacity: 0;
     display: grid;
     bottom: -85%;
@@ -165,8 +165,8 @@ a {
 }
 
 .char-content:target {
-    bottom: 0%;
-    top: 0%;
+    bottom: -50%;
+    top: 50%;
     clip-path: polygon(50% 0, 100% 0%, 100% 100%, 0 100%, 0 0%);
 }
 
