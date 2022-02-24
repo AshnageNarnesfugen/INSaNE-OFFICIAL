@@ -120,35 +120,31 @@ a {
 }
 
 .character_container:nth-child(1) .char-content {
-    background: rgb(226,149,135);
-    background: -moz-linear-gradient(270deg, rgba(226,149,135,0.8015581232492998) 0%, rgba(214,109,117,0.7987570028011204) 100%);
-    background: -webkit-linear-gradient(270deg, rgba(226,149,135,0.8015581232492998) 0%, rgba(214,109,117,0.7987570028011204) 100%);
-    background: linear-gradient(270deg, rgba(226,149,135,0.8015581232492998) 0%, rgba(214,109,117,0.7987570028011204) 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#e29587",endColorstr="#d66d75",GradientType=1);
+    background: rgb(226, 149, 135);
+    background: -moz-linear-gradient(270deg, rgba(226, 149, 135, 0.8015581232492998) 0%, rgba(214, 109, 117, 0.7987570028011204) 100%);
+    background: -webkit-linear-gradient(270deg, rgba(226, 149, 135, 0.8015581232492998) 0%, rgba(214, 109, 117, 0.7987570028011204) 100%);
+    background: linear-gradient(270deg, rgba(226, 149, 135, 0.8015581232492998) 0%, rgba(214, 109, 117, 0.7987570028011204) 100%);
+    filter: progid: DXImageTransform.Microsoft.gradient(startColorstr="#e29587", endColorstr="#d66d75", GradientType=1);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
 }
 
 .character_container:nth-child(2) .char-content {
-        background: rgb(44,83,100);
-        background: -moz-linear-gradient(270deg, rgba(44,83,100,0.8015581232492998) 0%, rgba(32,58,67,0.7987570028011204) 48%, rgba(15,32,39,0.7959558823529411) 100%);
-        background: -webkit-linear-gradient(
-270deg
-, rgba(44,83,100,0.8015581232492998) 0%, rgba(32,58,67,0.7987570028011204) 48%, rgba(15,32,39,0.7959558823529411) 100%);
-        background: linear-gradient(
-270deg
-, rgba(44,83,100,0.8015581232492998) 0%, rgba(32,58,67,0.7987570028011204) 48%, rgba(15,32,39,0.7959558823529411) 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#2c5364",endColorstr="#0f2027",GradientType=1);
+    background: rgb(44, 83, 100);
+    background: -moz-linear-gradient(270deg, rgba(44, 83, 100, 0.8015581232492998) 0%, rgba(32, 58, 67, 0.7987570028011204) 48%, rgba(15, 32, 39, 0.7959558823529411) 100%);
+    background: -webkit-linear-gradient( 270deg, rgba(44, 83, 100, 0.8015581232492998) 0%, rgba(32, 58, 67, 0.7987570028011204) 48%, rgba(15, 32, 39, 0.7959558823529411) 100%);
+    background: linear-gradient( 270deg, rgba(44, 83, 100, 0.8015581232492998) 0%, rgba(32, 58, 67, 0.7987570028011204) 48%, rgba(15, 32, 39, 0.7959558823529411) 100%);
+    filter: progid: DXImageTransform.Microsoft.gradient(startColorstr="#2c5364", endColorstr="#0f2027", GradientType=1);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
 }
 
 .character_container:nth-child(3) .char-content {
-    background: rgb(247,183,51);
-    background: -moz-linear-gradient(270deg, rgba(247,183,51,0.7987570028011204) 0%, rgba(252,74,26,0.8015581232492998) 100%);
-    background: -webkit-linear-gradient(270deg, rgba(247,183,51,0.7987570028011204) 0%, rgba(252,74,26,0.8015581232492998) 100%);
-    background: linear-gradient(270deg, rgba(247,183,51,0.7987570028011204) 0%, rgba(252,74,26,0.8015581232492998) 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#f7b733",endColorstr="#fc4a1a",GradientType=1);
+    background: rgb(247, 183, 51);
+    background: -moz-linear-gradient(270deg, rgba(247, 183, 51, 0.7987570028011204) 0%, rgba(252, 74, 26, 0.8015581232492998) 100%);
+    background: -webkit-linear-gradient(270deg, rgba(247, 183, 51, 0.7987570028011204) 0%, rgba(252, 74, 26, 0.8015581232492998) 100%);
+    background: linear-gradient(270deg, rgba(247, 183, 51, 0.7987570028011204) 0%, rgba(252, 74, 26, 0.8015581232492998) 100%);
+    filter: progid: DXImageTransform.Microsoft.gradient(startColorstr="#f7b733", endColorstr="#fc4a1a", GradientType=1);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
 }
@@ -189,7 +185,7 @@ a {
     text-align: center;
 }
 
-.tab-info>p{
+.tab-info>p {
     color: rgb(193, 193, 193);
     font-weight: bold;
     margin: 0;
@@ -207,7 +203,6 @@ a {
 .tab-info>p:nth-child(2) {
     color: white;
     font-weight: 100;
-    
     font-size: 20px;
     margin: 0;
 }
@@ -258,7 +253,8 @@ a {
 }
 
 .text-content {
-    margin: 20px;
+    display: grid;
+    place-content: flex-end;
 }
 
 .text-content ul>li {
@@ -267,7 +263,7 @@ a {
     text-align: left;
 }
 
-.text-content ul li > p {
+.text-content ul li>p {
     margin: 0;
     line-height: 1.7;
 }
