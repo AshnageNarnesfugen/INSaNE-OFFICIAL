@@ -266,3 +266,8 @@ a {
     font-size: 20px;
     text-align: left;
 }
+
+.text-content ul li > p {
+    margin: 0;
+    line-height: 1.7;
+}
