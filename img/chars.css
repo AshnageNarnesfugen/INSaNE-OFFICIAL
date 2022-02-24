@@ -165,8 +165,8 @@ a {
 }
 
 .char-content:target {
-    bottom: 0%;
-    top: 0%;
+    bottom: 0.0%;
+    top: 0.0%;
     clip-path: polygon(50% 0, 100% 0%, 100% 100%, 0 100%, 0 0%);
 }
 
