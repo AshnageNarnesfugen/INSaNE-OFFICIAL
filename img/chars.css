@@ -253,8 +253,9 @@ a {
 }
 
 .text-content {
-    display: grid;
-    place-content: flex-end;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
 }
 
 .text-content ul>li {
