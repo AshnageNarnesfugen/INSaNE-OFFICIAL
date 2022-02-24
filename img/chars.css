@@ -258,6 +258,12 @@ a {
     justify-content: end;
 }
 
+.text-content ul {
+    margin: 0 !important;
+    margin-block-start: 0 !important;
+    padding-inline-start: 0 !important;
+}
+
 .text-content ul>li {
     color: white;
     font-size: 20px;
