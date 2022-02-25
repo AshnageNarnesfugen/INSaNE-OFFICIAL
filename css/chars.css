@@ -58,11 +58,9 @@ a {
 }
 
 .character_container:hover .char-content {
-    opacity: 1;
-}
-
-.character_container:hover .char-content>p {
-    opacity: 1;
+    bottom: -50%;
+    top: 50%;
+    clip-path: polygon(50% 0, 100% 0%, 100% 100%, 0 100%, 0 0%);
 }
 
 .char-back {
@@ -156,7 +154,6 @@ a {
     /*backdrop-filter: blur(10px);*/
     width: 100%;
     height: 50%;
-    opacity: 1;
     display: grid;
     bottom: -85%;
     top: 85%;
@@ -164,16 +161,9 @@ a {
     z-index: 5;
 }
 
-.char-content:target {
-    bottom: -50%;
-    top: 50%;
-    clip-path: polygon(50% 0, 100% 0%, 100% 100%, 0 100%, 0 0%);
-}
-
 .char-content>p {
     color: white;
     transition: all 1.5s ease-in-out;
-    opacity: 0;
     margin: 0;
     letter-spacing: 1.5px;
 }
