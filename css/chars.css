@@ -29,7 +29,7 @@ a {
 }
 
 .character_container:nth-child(1) .char-head {
-    background-image: url("NOWARD\ KILLERY.png");
+    background-image: url("../img/NOWARD\ KILLERY.png");
     background-size: 80%;
 }
 
@@ -39,7 +39,7 @@ a {
 }
 
 .character_container:nth-child(2) .char-head {
-    background-image: url("b6416f4ac11522c425d7b52bd39df2e40c2487bc_s2_n2.png");
+    background-image: url("../img/b6416f4ac11522c425d7b52bd39df2e40c2487bc_s2_n2.png");
 }
 
 .character_container:nth-child(2):hover .char-head {
@@ -48,7 +48,7 @@ a {
 }
 
 .character_container:nth-child(3) .char-head {
-    background-image: url("PROTONO.png");
+    background-image: url("../img/PROTONO.png");
     background-size: 55%;
 }
 
@@ -90,32 +90,32 @@ a {
 }
 
 .character_container:nth-child(1) .char-back {
-    background: url("Diamond-Sunset.svg");
+    background: url("../img/Diamond-Sunset.svg");
     background-size: cover;
 }
 
 .character_container:nth-child(1):hover .char-back {
-    background: url("43-439772_nebula-pink-galaxy-stars-hd-mobile-wallpaper-iphone.jpg");
+    background: url("../img/43-439772_nebula-pink-galaxy-stars-hd-mobile-wallpaper-iphone.jpg");
     animation: back 10s ease-in-out infinite;
 }
 
 .character_container:nth-child(2) .char-back {
-    background: url("pat.svg");
+    background: url("../img/pat.svg");
     background-size: cover;
 }
 
 .character_container:nth-child(2):hover .char-back {
-    background: url("57168.jpg");
+    background: url("../img/57168.jpg");
     animation: back 10s ease-in-out infinite;
 }
 
 .character_container:nth-child(3) .char-back {
-    background: url("Liquid-Cheese.svg");
+    background: url("../img/Liquid-Cheese.svg");
     background-size: cover;
 }
 
 .character_container:nth-child(3):hover .char-back {
-    background: url("Space-Phone-Wallpaper-152-1080x2340.jpg");
+    background: url("../img/Space-Phone-Wallpaper-152-1080x2340.jpg");
     animation: back 10s ease-in-out infinite;
 }
 
