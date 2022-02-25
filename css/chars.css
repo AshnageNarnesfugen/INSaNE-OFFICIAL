@@ -58,8 +58,8 @@ a {
 }
 
 .character_container:hover .char-content {
-    bottom: -40%;
-    top: 40%;
+    bottom: -60%;
+    top: 60%;
     clip-path: polygon(50% 0, 100% 0%, 100% 100%, 0 100%, 0 0%);
 }
 
