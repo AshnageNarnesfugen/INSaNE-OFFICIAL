@@ -215,12 +215,12 @@ a {
 }
 
 .visible {
-    display: block;
+    display: none;
 }
 
 @media (max-width: 807px) {
     .visible {
-        display: none !important;
+        display: block !important;
     }
     .character_container {
         flex: 1 0 100%;
