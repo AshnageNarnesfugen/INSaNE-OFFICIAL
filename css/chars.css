@@ -227,9 +227,15 @@ a {
         background-position: center 100%;
     }
     .char-content {
-        top: 0%;
+        bottom: 0% !important;
+        top: 0% !important;
         height: -webkit-fill-available;
         clip-path: polygon(50% 0, 100% 0%, 100% 100%, 0 100%, 0 0%) !important;
+    }
+    .character_container:hover .char-content {
+        bottom: 0% !important;
+        top: 0% !important;
+        clip-path: polygon(50% 0, 100% 0%, 100% 100%, 0 100%, 0 0%);
     }
     .link-container {
         display: none;
