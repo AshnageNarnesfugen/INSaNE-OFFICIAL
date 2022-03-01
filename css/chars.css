@@ -216,6 +216,8 @@ a {
 
 .visible {
     display: none;
+    width: 25%;
+    height: 25%;
 }
 
 @media (max-width: 807px) {
