@@ -56,7 +56,7 @@ $(document).ready(function() {
     $("#esc1").parallaxie({
         speed: 0.8
     });
-    $("#esc4").parallaxie({
+    $("#esc3").parallaxie({
         speed: 0.8
     });
     $(function() {
