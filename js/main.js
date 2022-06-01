@@ -83,8 +83,7 @@ $(document).ready(function() {
         }, 4000);
 
     });
-    //
-
+    /*
     var galleryThumbs = new Swiper(".gallery-thumbs", {
         direction: "horizontal",
         spaceBetween: 10,
@@ -110,6 +109,8 @@ $(document).ready(function() {
             swiper: galleryThumbs
         }
     });
+    */
+
 
     window.twttr = function(d, s, id) {
         var t, js, fjs = d.getElementsByTagName(s)[0];
