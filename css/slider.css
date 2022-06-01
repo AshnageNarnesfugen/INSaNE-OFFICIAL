@@ -23,6 +23,12 @@ mark {
     background: whitesmoke;
 }
 
+.slider,
+.owl-stage-outer,
+.image {
+    height: 100%;
+}
+
 .slide {
     display: flex;
     height: 100vh;
