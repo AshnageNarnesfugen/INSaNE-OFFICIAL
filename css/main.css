@@ -56,25 +56,7 @@
     font-size: 20px;
 }
 
-#esc2 {
-    overflow: hidden;
-    color: white;
-    background-position: center center;
-    background-image: url('img/solar_system_minimal_blue_art_4k.jpg');
-    display: flow-root;
-}
-
 #esc3 {
-    height: 100vh;
-    overflow: hidden;
-    background: #3f2d40;
-    background-position: center center;
-    display: flex;
-    place-content: center;
-    align-items: center;
-}
-
-#esc4 {
     background-image: url('https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/01b229e6-1399-4cb7-a1f5-6fea0f3b0cfd/dctmc8i-b4eebcbd-1a66-4ba4-8caa-0ea445964f2b.jpg/v1/fill/w_1920,h_1080,q_75,strp/minimalist_space_4k_by_soefati_dctmc8i-fullview.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOiIsImlzcyI6InVybjphcHA6Iiwib2JqIjpbW3siaGVpZ2h0IjoiPD0xMDgwIiwicGF0aCI6IlwvZlwvMDFiMjI5ZTYtMTM5OS00Y2I3LWExZjUtNmZlYTBmM2IwY2ZkXC9kY3RtYzhpLWI0ZWViY2JkLTFhNjYtNGJhNC04Y2FhLTBlYTQ0NTk2NGYyYi5qcGciLCJ3aWR0aCI6Ijw9MTkyMCJ9XV0sImF1ZCI6WyJ1cm46c2VydmljZTppbWFnZS5vcGVyYXRpb25zIl19.LTZ2lPk5loezq98_QKu7-RsA_tEnnws1Qrmk0t3uEyA');
     background-size: cover;
     background-repeat: no-repeat;
@@ -159,7 +141,6 @@ body {
     height: auto;
     display: block;
 }
-
 
 .text {
     align-self: center;
@@ -582,7 +563,9 @@ main.slider {
 .gallery-thumbs .swiper-slide-thumb-active {
     opacity: 1;
 }
-.swiper-slide-duplicate, .swiper-slide {
+
+.swiper-slide-duplicate,
+.swiper-slide {
     text-align: center;
     background-size: contain !important;
     background-position: center !important;
@@ -593,7 +576,6 @@ main.slider {
     background-repeat: no-repeat !important;
     backdrop-filter: blur(10px);
 }
-
 
 .grid {
     width: 100%;
