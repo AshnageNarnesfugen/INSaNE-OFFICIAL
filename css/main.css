@@ -50,7 +50,7 @@
     margin: 3 5;
 }
 
-ul {
+.char-list-item {
     display: block;
     list-style-type: disc;
     margin-block-start: 0px !important;
