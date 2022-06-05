@@ -165,7 +165,7 @@ body {
     z-index: 2;
     font-size: 4rem;
     font-weight: bold;
-    display: flow-root;
+    display: grid;
 }
 
 @media (max-width: 676px) {
