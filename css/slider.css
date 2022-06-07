@@ -47,7 +47,7 @@ mark {
     padding: 0px 15px;
     background: #2B2B2B !important;
     display: grid;
-    align-content: center;
+    align-content: space-around;
 }
 
 .image {
