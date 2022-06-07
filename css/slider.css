@@ -43,6 +43,7 @@ mark {
 .text {
     overflow: hidden;
     width: 0;
+    height: 100%;
     padding: 0px 15px;
     background: #2B2B2B !important;
 }
