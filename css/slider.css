@@ -173,6 +173,12 @@ span {
     width: 30% !important;
 }
 
+.owl-prev,
+.owl-next {
+    outline: none !important;
+    box-shadow: none !important;
+}
+
 
 /*
 .slide .image:hover~.text {
