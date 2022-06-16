@@ -5,7 +5,7 @@ jQuery(() => {
         loop: true,
         mouseDrag: false,
         dots: false,
-        autoplay: false,
+        autoplay: true,
         nav: false
     })
     $('.owl-prev').click(() => owl.trigger('prev.owl.carousel'))

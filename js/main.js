@@ -8,13 +8,6 @@ $(document).ready(function() {
         }
     });
 
-    /*function parallax() {
-        var wScroll = $(window).scrollTop();
-        //.space_sec:not(:last-child)
-        $('#esc1').css({
-            'background-position': `center ${wScroll * 0.5}px`
-        });
-    }*/
     $.fn.clickToggle = function(func1, func2) {
         var funcs = [func1, func2];
         this.data('toggleclicked', 0);
@@ -60,57 +53,12 @@ $(document).ready(function() {
         speed: 0.8
     });
     $(function() {
-
-        // container is the DOM element;
-        // userText is the textbox
-
         var container = $("#letter")
-
-        // Shuffle the contents of container
         container.shuffleLetters();
-
-        // Bind events
-
-        // Leave a 4 second pause
-
         setTimeout(function() {
-
-            // Shuffle the container with custom text
-            container.shuffleLetters({
-                // $(".letter").children().addClass(".shuffle");
-
-            });
+            container.shuffleLetters();
         }, 4000);
-
     });
-    /*
-    var galleryThumbs = new Swiper(".gallery-thumbs", {
-        direction: "horizontal",
-        spaceBetween: 10,
-        slidesPerView: 3,
-        freeMode: false,
-        watchSlidesVisibility: true,
-        watchSlidesProgress: true,
-        breakpoints: {
-            480: {
-                direction: "vertical",
-                slidesPerView: 3,
-            }
-        }
-    });
-    var galleryTop = new Swiper(".gallery-top", {
-        direction: "horizontal",
-        spaceBetween: 10,
-        navigation: {
-            nextEl: ".swiper-button-next",
-            prevEl: ".swiper-button-prev"
-        },
-        thumbs: {
-            swiper: galleryThumbs
-        }
-    });
-    */
-
 
     window.twttr = function(d, s, id) {
         var t, js, fjs = d.getElementsByTagName(s)[0];

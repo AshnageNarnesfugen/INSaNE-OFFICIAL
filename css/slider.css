@@ -188,6 +188,9 @@ span {
     background-size: cover;
     background-position: center;
     transition: all 0.5s ease-in-out;
+    z-index: 1;
+    position: relative;
+    height: 100%;
 }
 
 .owl-item:is(.active) .slide_main_title::after {
@@ -207,10 +210,7 @@ span {
     transition: all 0.5s ease-in-out;
 }
 
-.slide_main_title {
-    z-index: 1;
-    position: relative;
-}
+.slide_main_title {}
 
 .slide_main_title * {
     z-index: 1;
