@@ -10,7 +10,7 @@
 
 .punch {
     width: 100%;
-    height: 100%;
+    height: inherit;
     object-fit: cover;
     object-position: center;
 }
@@ -28,6 +28,7 @@
 .right-col {
     background: #2B2B2B;
     width: 50%;
+    height: inherit;
     display: grid;
     place-content: center;
     place-items: center;
