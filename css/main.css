@@ -18,8 +18,8 @@
 .punch {
     width: 100%;
     height: inherit;
-    object-fit: cover;
-    object-position: center 20%;
+    object-fit: contain;
+    object-position: center;
 }
 
 .left-col p {
@@ -33,7 +33,6 @@
 
 .left-col,
 .right-col {
-    background: #2B2B2B;
     width: 50%;
     height: inherit;
     display: grid;
@@ -41,10 +40,15 @@
     place-items: center;
 }
 
+.left-col {
+    background: #2B2B2B;
+}
+
+.right-col {
+    background: #ffffff;
+}
+
 @media (max-width: 979px) {
-    .punch {
-        object-position: center !important;
-    }
     #quickresume,
     .row-content {
         height: unset !important;
