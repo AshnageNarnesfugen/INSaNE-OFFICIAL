@@ -241,6 +241,7 @@ body {
 
 #esc1::before {
     content: "";
+    height: inherit;
     left: 0px;
     top: 0px;
     bottom: 0px;
