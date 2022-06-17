@@ -4,6 +4,13 @@
     list-style: none;
 }
 
+.row-content {
+    display: flex;
+    height: inherit;
+    flex-wrap: wrap;
+    width: inherit;
+}
+
 #quickresume {
     height: 500px;
 }
@@ -35,6 +42,10 @@
 }
 
 @media (max-width: 979px) {
+    #quickresume,
+    .row-content {
+        height: unset !important;
+    }
     .left-col,
     .right-col {
         width: 100% !important;
