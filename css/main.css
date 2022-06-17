@@ -30,7 +30,7 @@
     width: 50%;
     height: inherit;
     display: grid;
-    place-content: center;
+    align-content: center;
     place-items: center;
 }
 
