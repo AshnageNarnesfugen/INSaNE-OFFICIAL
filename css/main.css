@@ -60,6 +60,9 @@
     #esc1 {
         height: 100vh !important;
     }
+    .content-text {
+        padding: 40px 0px;
+    }
 }
 
 #container {
