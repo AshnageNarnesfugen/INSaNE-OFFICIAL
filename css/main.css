@@ -57,6 +57,9 @@
     .right-col {
         width: 100% !important;
     }
+    #esc1 {
+        height: 100vh !important;
+    }
 }
 
 #container {
@@ -198,7 +201,6 @@ body {
     place-items: center;
     flex-direction: row;
     width: 100%;
-    height: 100vh;
     background-position: center center;
     background-size: cover;
 }
@@ -273,6 +275,7 @@ body {
     background-size: cover;
     background-repeat: space;
     background-size: cover;
+    height: 750px;
 }
 
 #esc1::before {
