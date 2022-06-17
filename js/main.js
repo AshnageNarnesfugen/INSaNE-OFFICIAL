@@ -1,13 +1,4 @@
 $(document).ready(function() {
-    $(window).scroll(function() {
-        //parallax();
-        if ($(document).scrollTop() > 250) {
-            $(".planet").hide('slow');
-        } else {
-            $(".planet").show('slow');
-        }
-    });
-
     $.fn.clickToggle = function(func1, func2) {
         var funcs = [func1, func2];
         this.data('toggleclicked', 0);
