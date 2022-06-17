@@ -11,6 +11,18 @@
     object-position: center;
 }
 
+.left-col,
+.right-col {
+    width: 50%;
+}
+
+@media (max-width: 979px) {
+    .left-col,
+    .right-col {
+        width: 100%;
+    }
+}
+
 #container {
     width: 100%;
 }
