@@ -133,6 +133,7 @@ span {
     display: flex;
     place-content: space-between;
     user-select: none;
+    height: 0;
 }
 
 .customized button {
