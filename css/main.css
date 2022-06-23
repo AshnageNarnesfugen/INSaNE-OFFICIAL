@@ -400,10 +400,6 @@ a:hover {
     font-stretch: ultra-expanded;
 }
 
-.list:hover {
-    letter-spacing: 0.1em;
-}
-
 @media only screen and (max-width: 767px) {
     .d-flex {
         display: block !important;
