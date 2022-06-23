@@ -310,7 +310,7 @@ a {
 }
 
 a:hover {
-    color: rgb(255, 114, 58) !important;
+    color: red !important;
     text-decoration: none !important;
 }
 
