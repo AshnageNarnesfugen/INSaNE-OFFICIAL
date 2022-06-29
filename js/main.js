@@ -21,11 +21,11 @@ $(document).ready(function() {
             "z-index": "-1"
         });
     });
-    (function() {
-        $('.menu-wrapper').on('click', function() {
-            $('.hamburger-menu').toggleClass('animate');
-        })
-    })();
+
+    $('.menu-wrapper').on('click', function() {
+        $('.hamburger-menu').toggleClass('animate');
+    })
+
     var scrolllink = $('.scroll');
     //smooth scrolling
 
@@ -43,13 +43,11 @@ $(document).ready(function() {
     $("#esc3").parallaxie({
         speed: 0.8
     });
-    $(function() {
-        var container = $("#letter")
+
+    var container = $("#letter")
+    setInterval(function() {
         container.shuffleLetters();
-        setTimeout(function() {
-            container.shuffleLetters();
-        }, 4000);
-    });
+    }, 4000);
 
     window.twttr = function(d, s, id) {
         var t, js, fjs = d.getElementsByTagName(s)[0];
