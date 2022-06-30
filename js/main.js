@@ -1,8 +1,8 @@
-$(document).ready(function() {
-    $.fn.clickToggle = function(func1, func2) {
+jQuery(() => {
+    $.fn.clickToggle = (func1, func2) => {
         var funcs = [func1, func2];
         this.data('toggleclicked', 0);
-        this.click(function() {
+        this.click(() => {
             var data = $(this).data();
             var tc = data.toggleclicked;
             $.proxy(funcs[tc], this)();
@@ -10,26 +10,24 @@ $(document).ready(function() {
         });
         return this;
     };
-    $(".menu-wrapper").clickToggle(function() {
+    $(".menu-wrapper").clickToggle(() => {
         $(".burger_menu").css({
             "opacity": "1",
             "z-index": "6"
         });
-    }, function() {
+    }, () => {
         $(".burger_menu").css({
             "opacity": "0",
             "z-index": "-1"
         });
     });
 
-    $('.menu-wrapper').on('click', function() {
+    $('.menu-wrapper').on('click', () => {
         $('.hamburger-menu').toggleClass('animate');
     })
 
     var scrolllink = $('.scroll');
-    //smooth scrolling
-
-    scrolllink.click(function(e) {
+    scrolllink.click((e) => {
         e.preventDefault();
         $(".menu-wrapper").trigger("click");
         $('body,html').animate({
@@ -45,7 +43,7 @@ $(document).ready(function() {
     });
 
     var container = $("#letter")
-    setInterval(function() {
+    setInterval(() => {
         container.shuffleLetters();
     }, 4000);
 
@@ -60,8 +58,8 @@ $(document).ready(function() {
     }(document, 'script', 'twitter-wjs');
 
     // When widget is ready, run masonry
-    twttr.ready(function(twttr) {
-        twttr.events.bind('loaded', function(event) {
+    twttr.ready((twttr) => {
+        twttr.events.bind('loaded', (event) => {
             $('.grid').masonry({
                 itemSelector: '.grid-item',
                 columnWidth: 300,
@@ -70,4 +68,4 @@ $(document).ready(function() {
         });
     });
     AOS.init();
-});
+})
