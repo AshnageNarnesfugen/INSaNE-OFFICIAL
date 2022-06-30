@@ -27,7 +27,7 @@ jQuery(() => {
     })
 
     var scrolllink = $('.scroll');
-    scrolllink.click((e) => {
+    scrolllink.click(function(e) {
         e.preventDefault();
         $(".menu-wrapper").trigger("click");
         $('body,html').animate({
