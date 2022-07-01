@@ -44,7 +44,10 @@ jQuery(() => {
 
     var container = $("#letter")
     setInterval(() => {
-        container.shuffleLetters();
+        container.shuffleLetters({
+            "step": 30,
+            "fps": 60
+        });
     }, 4000);
 
     window.twttr = function(d, s, id) {
