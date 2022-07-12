@@ -226,6 +226,7 @@ body {
 }
 
 .mark {
+    width: 280px;
     background-color: red !important;
     color: black;
     -webkit-clip-path: polygon(0 0, 100% 0, 96% 50%, 100% 100%, 0 100%, 5% 51%);
