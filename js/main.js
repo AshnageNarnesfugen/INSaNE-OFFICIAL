@@ -47,6 +47,7 @@ jQuery(() => {
     var container = $("#letter")
     var index = 0
     const interval = setInterval(() => {
+        index++
         container.shuffleLetters({
             "step": 30,
             "fps": 60,
