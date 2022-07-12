@@ -56,6 +56,7 @@ jQuery(() => {
         if (current > data.length - 1) {
             console.log('reset')
             clearInterval(interval)
+            setInterval(interval)
         }
     }, 4000);
 
