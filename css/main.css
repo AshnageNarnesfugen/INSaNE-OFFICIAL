@@ -242,6 +242,8 @@ body {
     font-size: 4rem;
     font-weight: bold;
     display: grid;
+    place-content: center;
+    place-items: center;
 }
 
 @media (max-width: 676px) {
