@@ -54,6 +54,7 @@ jQuery(() => {
                 "text": data[current]
             });
         if (current > data.length - 1) {
+            console.log('reset')
             clearInterval(interval)
         }
     }, 4000);
