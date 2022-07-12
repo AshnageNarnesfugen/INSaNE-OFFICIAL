@@ -42,7 +42,7 @@ jQuery(() => {
         speed: 0.8
     });
 
-    let data = ["A Broken Hero", "Hero of the universe", "Not your typical kind of hero, but the one you needed.", "Never knows best"]
+    let data = ["A Broken Hero", "Hero of the universe", "Not your typical kind of hero, but the one you needed.", "Never knows best", "The saviour of the broken", "The one that the truth has spoken", "Leading the Sweetest Revenge Ever", "Sweetening your dankest dreams", "The revelion against the evil and the corrupted has started", "At the end life keeps going on"]
 
     var container = $("#letter")
     var index = 0
