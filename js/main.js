@@ -47,13 +47,13 @@ jQuery(() => {
     var container = $("#letter")
     var index = 0
     const interval = setInterval(() => {
-        index++
-        container.shuffleLetters({
-            "step": 30,
-            "fps": 60,
-            "text": data[index]
-        });
-        if (index > data.length) {
+        let current = index++
+            container.shuffleLetters({
+                "step": 30,
+                "fps": 60,
+                "text": data[current]
+            });
+        if (current > data.length) {
             clearInterval(interval)
         }
     }, 4000);
