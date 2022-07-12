@@ -52,7 +52,7 @@ jQuery(() => {
         "Leading the Sweetest Revenge Ever",
         "Sweetening your dankest dreams",
         "The revelion against the evil and the corrupted has started",
-        "At the end life keeps going on"
+        "At the end, life keeps going on"
     ]
 
     var container = $("#letter")
