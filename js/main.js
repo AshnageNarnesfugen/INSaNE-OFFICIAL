@@ -52,7 +52,7 @@ jQuery(() => {
             "fps": 60,
             "text": data[index]
         });
-        index++
+        index++ % data.length
     }, 4000);
 
     window.twttr = function(d, s, id) {
