@@ -55,6 +55,10 @@ jQuery(() => {
         });
 
         index++
+
+        if (index === data.length) {
+            index = 0;
+        }
     }
 
     setInterval(interval, 4000)
