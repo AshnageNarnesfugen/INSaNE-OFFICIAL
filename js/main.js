@@ -53,9 +53,8 @@ jQuery(() => {
                 "fps": 60,
                 "text": data[current]
             });
-        if (current > data.length) {
+        if (current > data.length - 1) {
             clearInterval(interval)
-            setInterval(interval)
         }
     }, 4000);
 
