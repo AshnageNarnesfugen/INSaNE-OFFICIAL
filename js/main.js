@@ -42,12 +42,17 @@ jQuery(() => {
         speed: 0.8
     });
 
+    let data = ["A Broken Hero", "Hero of the universe", "Not your typical kind of hero, but the one you needed.", "Never knows best"]
+
     var container = $("#letter")
+    var index = 0
     setInterval(() => {
         container.shuffleLetters({
             "step": 30,
-            "fps": 60
+            "fps": 60,
+            "text": data[index]
         });
+        index++
     }, 4000);
 
     window.twttr = function(d, s, id) {
