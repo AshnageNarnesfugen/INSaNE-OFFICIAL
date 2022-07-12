@@ -46,13 +46,15 @@ jQuery(() => {
 
     var container = $("#letter")
     var index = 0
-    setInterval(() => {
+    const interval = setInterval(() => {
         container.shuffleLetters({
             "step": 30,
             "fps": 60,
             "text": data[index]
         });
-        if (data.length - 1) return clearInterval()
+        if (index > data.length) {
+            clearInterval(interval)
+        }
     }, 4000);
 
     window.twttr = function(d, s, id) {
