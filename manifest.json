@@ -2,7 +2,7 @@
     "short_name": "INSaNE",
     "name": "INSaNE OFFICIAL",
     "icons": [{
-        "src": "img/webiconspace-removebg-preview",
+        "src": "img/webiconspace-removebg-preview.png",
         "sizes": "192x192",
         "type": "image/png"
     }],
