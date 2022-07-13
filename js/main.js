@@ -89,7 +89,8 @@ jQuery(() => {
             $('.grid').masonry({
                 itemSelector: '.grid-item',
                 columnWidth: 300,
-                gutter: 20
+                gutter: 20,
+                isFitWidth: true
             });
         });
     });

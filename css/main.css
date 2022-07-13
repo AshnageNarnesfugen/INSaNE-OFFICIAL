@@ -661,7 +661,7 @@ main.slider {
 .grid {
     width: 100%;
     max-width: 940px;
-    margin: 50px auto;
+    margin: 0 auto;
 }
 
 .grid-item {
