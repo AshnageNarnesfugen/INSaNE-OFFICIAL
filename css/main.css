@@ -668,3 +668,9 @@ main.slider {
     width: 300px;
     float: left;
 }
+
+@media only screen and (max-width: 459px) {
+    .av-masonry-entry.av-masonry-entry {
+        left: 4%!important;
+    }
+}
