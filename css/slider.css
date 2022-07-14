@@ -59,7 +59,7 @@ mark {
 .character-position {
     position: absolute;
     width: fit-content !important;
-    height: 100vh !important;
+    height: 100% !important;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
