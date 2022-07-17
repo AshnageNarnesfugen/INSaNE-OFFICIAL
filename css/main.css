@@ -691,6 +691,12 @@ main.slider {
     border-radius: 5px;
 }
 
+@media (max-width: 767px) {
+    .post-form {
+        width: 100% !important;
+    }
+}
+
 input {
     height: 50px;
     padding-left: 10px;
