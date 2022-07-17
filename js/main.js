@@ -73,25 +73,12 @@ jQuery(() => {
 
     setInterval(interval, 4000)
 
-    window.twttr = function(d, s, id) {
-        var t, js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) return;
-        js = d.createElement(s);
-        js.id = id;
-        js.src = "https://platform.twitter.com/widgets.js";
-        fjs.parentNode.insertBefore(js, fjs);
-        return window.twttr || (t = { _e: [], ready: function(f) { t._e.push(f) } });
-    }(document, 'script', 'twitter-wjs');
+    var form = $('.post-form')
+    form.on('submit', () => {
+        alert('Your message has been sumitted.')
+        form.css('display', 'none')
+        $('.form-container').append(`<h1>Thank you for contacting us.</h1>`)
+    })
 
-    // When widget is ready, run masonry
-    twttr.ready((twttr) => {
-        twttr.events.bind('loaded', (event) => {
-            $('.grid').masonry({
-                itemSelector: '.grid-item',
-                columnWidth: 300,
-                gutter: 20
-            });
-        });
-    });
     AOS.init();
 })
