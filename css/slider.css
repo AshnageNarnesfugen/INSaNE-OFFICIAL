@@ -194,6 +194,10 @@ span {
     height: 100%;
 }
 
+.slide_main_title h1 {
+    text-align: center;
+}
+
 .owl-item:is(.active) .slide_main_title::after {
     background-color: rgba(0, 0, 0, 0.3);
     backdrop-filter: blur(0px);
