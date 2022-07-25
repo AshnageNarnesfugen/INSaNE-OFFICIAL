@@ -208,9 +208,11 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-    background: rgb(0, 73, 117);
-    background: linear-gradient(0deg, rgb(117, 0, 0) 0%, rgb(255, 13, 13) 100%);
-    border-radius: 5px;
+    background: rgb(43, 43, 43);
+    background: -moz-linear-gradient(0deg, rgba(43, 43, 43, 1) 0%, rgba(74, 83, 77, 1) 100%);
+    background: -webkit-linear-gradient(0deg, rgba(43, 43, 43, 1) 0%, rgba(74, 83, 77, 1) 100%);
+    background: linear-gradient(0deg, rgba(43, 43, 43, 1) 0%, rgba(74, 83, 77, 1) 100%);
+    filter: progid: DXImageTransform.Microsoft.gradient(startColorstr="#2b2b2b", endColorstr="#4a534d", GradientType=1);
 }
 
 .space_sec {
