@@ -717,6 +717,7 @@ input {
 
 textarea {
     padding: 10px;
+    border-radius: 0;
 }
 
 button[type="submit"] {
