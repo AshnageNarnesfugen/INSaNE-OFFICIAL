@@ -373,6 +373,7 @@ a:hover {
 
 .hamburger-menu.animate {
     background: rgba(255, 255, 255, 0);
+    border: unset;
 }
 
 .hamburger-menu:before {
