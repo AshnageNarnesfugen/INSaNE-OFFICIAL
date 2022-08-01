@@ -764,6 +764,10 @@ textarea {
     border: solid 2px #000;
 }
 
+.arrow-btn {
+    background: #fff;
+}
+
 .arrow-btn:hover {
     background: #000;
     cursor: pointer;
