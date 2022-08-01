@@ -737,7 +737,7 @@ button[type="submit"] {
 
 button[type="submit"]:hover {
     background: rgb(0, 0, 0);
-    box-shadow: 4.5px 4.5px 0px 0px #fff;
+    box-shadow: unset;
     color: white !important;
 }
 
@@ -766,6 +766,7 @@ textarea {
 
 .arrow-btn {
     background: #fff;
+    box-shadow: unset;
 }
 
 .arrow-btn:hover {
