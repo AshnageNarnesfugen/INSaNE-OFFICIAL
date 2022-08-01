@@ -718,6 +718,7 @@ input {
 textarea {
     padding: 10px;
     border-radius: 0;
+    border: solid 2px #000;
 }
 
 button[type="submit"] {
