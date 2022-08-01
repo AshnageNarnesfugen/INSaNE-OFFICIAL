@@ -349,7 +349,7 @@ a:hover {
     z-index: 6;
     opacity: 0.7;
     transition: all 0.5s;
-    filter: drop-shadow(2px 4px 4px black);
+    filter: drop-shadow(2px 4px 0px black);
 }
 
 .menu-wrapper:hover {
@@ -372,6 +372,7 @@ a:hover {
 
 .hamburger-menu.animate {
     background: rgba(255, 255, 255, 0);
+    border: solid 2px #000;
 }
 
 .hamburger-menu:before {
@@ -381,6 +382,7 @@ a:hover {
     bottom: 15px;
     background: rgb(255, 0, 0);
     transition: bottom 300ms 300ms cubic-bezier(0.23, 1, 0.32, 1), transform 300ms cubic-bezier(0.23, 1, 0.32, 1);
+    border: solid 2px #000;
 }
 
 .hamburger-menu:after {
@@ -390,6 +392,7 @@ a:hover {
     top: 15px;
     background: rgb(255, 0, 0);
     transition: top 300ms 300ms cubic-bezier(0.23, 1, 0.32, 1), transform 300ms cubic-bezier(0.23, 1, 0.32, 1);
+    border: solid 2px #000;
 }
 
 .hamburger-menu.animate:after {
