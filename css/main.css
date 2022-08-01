@@ -716,9 +716,9 @@ input {
 }
 
 textarea {
-    padding: 10px;
-    border-radius: 0;
-    border: solid 2px #000;
+    padding: 10px !important;
+    border-radius: 0 !important;
+    border: solid 2px #000 !important;
 }
 
 button[type="submit"] {
