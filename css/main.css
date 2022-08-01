@@ -368,11 +368,11 @@ a:hover {
     transform: translateY(25px);
     background: rgb(255, 0, 0);
     transition: all 0ms 300ms;
+    border: solid 2px #000;
 }
 
 .hamburger-menu.animate {
     background: rgba(255, 255, 255, 0);
-    border: solid 2px #000;
 }
 
 .hamburger-menu:before {
