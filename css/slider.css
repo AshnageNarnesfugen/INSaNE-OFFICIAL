@@ -149,6 +149,10 @@ span {
     padding: 0px 30px;
 }
 
+.text-content h1 {
+    margin-bottom: 10px;
+}
+
 @media (max-width: 979px) {
     .mobile-hidden {
         display: none;
