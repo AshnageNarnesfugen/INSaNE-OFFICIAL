@@ -105,7 +105,8 @@ span {
     width: 100%;
     max-width: 750px;
     margin: 0 auto;
-    border-radius: 10px;
+    border: solid 2px #000;
+    box-shadow: 10px 10px 0px #000;
 }
 
 .img-container {
