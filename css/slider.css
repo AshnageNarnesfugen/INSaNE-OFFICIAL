@@ -72,6 +72,10 @@ mark {
     object-position: center;
 }
 
+.column-min {
+    border: solid 2px #000;
+}
+
 .column-min p,
 h1,
 h2,
