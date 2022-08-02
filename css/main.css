@@ -20,6 +20,8 @@
     height: inherit;
     object-fit: contain;
     object-position: center;
+    border-top: solid 2px #000;
+    border-bottom: solid 2px #000;
 }
 
 .left-col p {
