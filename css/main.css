@@ -4,6 +4,17 @@
     list-style: none;
 }
 
+::-moz-selection {
+    /* Code for Firefox */
+    color: rgb(43, 43, 43);
+    background: red;
+}
+
+::selection {
+    color: rgb(43, 43, 43);
+    background: red;
+}
+
 .row-content {
     display: flex;
     height: inherit;
