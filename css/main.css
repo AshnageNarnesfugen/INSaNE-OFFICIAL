@@ -453,6 +453,7 @@ a:hover {
 
 #letter {
     margin: 1%;
+    color: black !important;
 }
 
 .char-tit {
