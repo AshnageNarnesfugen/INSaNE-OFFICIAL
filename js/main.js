@@ -77,7 +77,7 @@ jQuery(() => {
     form.on('submit', () => {
         alert('Your message has been sumitted.')
         form.css('display', 'none')
-        $('.form-container').append(`<h1 class="mini-charted">Thank you for contacting us.</h1>`)
+        $('.form-container').append(`<h1><mark class="mini-charted">Thank you for contacting us.</mark></h1>`)
     })
 
     AOS.init();
