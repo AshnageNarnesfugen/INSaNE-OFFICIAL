@@ -73,10 +73,10 @@ jQuery(() => {
 
     setInterval(interval, 4000)
 
-    var form = $('.post-form')
+    var form = $('#former-form')
     form.on('submit', () => {
         alert('Your message has been submitted.')
         form.css('display', 'none')
-        $('.form-container').append(`<h1><mark class="mini-charted">Thank you for contacting us.</mark></h1>`)
+        $('.form-container').append(`<div class="post-form"><h1><mark class="mini-charted">Thank you for contacting us.</mark></h1></div>`)
     })
 })
