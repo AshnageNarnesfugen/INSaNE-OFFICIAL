@@ -79,6 +79,4 @@ jQuery(() => {
         form.css('display', 'none')
         $('.form-container').append(`<h1><mark class="mini-charted">Thank you for contacting us.</mark></h1>`)
     })
-
-    AOS.init();
 })
