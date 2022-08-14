@@ -463,6 +463,7 @@ a:hover {
 #letter {
     margin: 1%;
     color: black !important;
+    word-break: break-word;
 }
 
 .char-tit {
