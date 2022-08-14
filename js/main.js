@@ -77,6 +77,6 @@ jQuery(() => {
     form.on('submit', () => {
         alert('Your message has been submitted.')
         form.css('display', 'none')
-        $('.form-container').append(`<div class="post-form"><h1><mark class="mini-charted">Thank you for contacting us.</mark></h1></div>`)
+        $('.form-container').append(`<div class="post-form"><h1>Thank you for contacting us.</h1></div>`)
     })
 })
