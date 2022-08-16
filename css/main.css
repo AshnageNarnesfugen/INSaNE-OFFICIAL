@@ -750,6 +750,7 @@ main.slider {
 @media (max-width: 767px) {
     .form-container {
         place-content: unset !important;
+        padding: 0 !important;
     }
     .post-form {
         width: 100% !important;
