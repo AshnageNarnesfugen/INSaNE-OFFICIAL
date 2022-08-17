@@ -239,6 +239,10 @@ span {
     font-size: 20px;
 }
 
+#portrait {
+    border: solid 2px #000;
+}
+
 
 /*
 .slide .image:hover~.text {
