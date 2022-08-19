@@ -39,9 +39,7 @@ jQuery(() => {
         speed: 0.8
     });
 
-
-    const mediaQuery = window.matchMedia('(min-width: 767px)')
-    if (mediaQuery.matches) {
+    if (window.innerWidth > 768) {
         $("#esc3").parallaxie({
             speed: 0.8
         });
