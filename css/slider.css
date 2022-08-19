@@ -188,6 +188,13 @@ span {
     height: 100%;
 }
 
+@media (max-width: 767px) {
+    .slide_main_title {
+        background-image: unset !important;
+        background-color: rgba(0, 0, 0, 0.3) !important;
+    }
+}
+
 .slide_main_title h1 {
     text-align: center;
 }
@@ -231,10 +238,3 @@ span {
 #esc1 {
     border: solid 2px #000;
 }
-
-
-/*
-.slide .image:hover~.text {
-    
-}
-*/

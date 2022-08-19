@@ -195,6 +195,12 @@
         border-radius: 0px !important;
         margin: 0px !important;
     }
+    #esc3::before {
+        display: none !important;
+    }
+    #esc3 {
+        background-image: unset !important;
+    }
 }
 
 .burger,
