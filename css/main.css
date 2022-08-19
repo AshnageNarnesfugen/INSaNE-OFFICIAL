@@ -91,21 +91,6 @@
     padding: 0%;
 }
 
-.red-bar {
-    position: absolute;
-    background: red;
-    width: 100%;
-    height: 200px;
-    transform: translateY(35%)
-}
-
-@media (max-width: 769px) {
-    .red-bar {
-        position: unset;
-        transform: translateY(120%)
-    }
-}
-
 :root {
     --bar-width: 100px;
     --bar-height: 10px;
