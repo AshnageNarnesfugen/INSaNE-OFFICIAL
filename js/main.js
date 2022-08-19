@@ -50,7 +50,7 @@ jQuery(() => {
         "Hero of the universe",
         "Not your typical kind of hero, but the one you needed.",
         "Never knows best",
-        "The saviour of the broken",
+        "The saviour of the broken, the beaten and the damned",
         "The one that the truth has spoken",
         "Leading the Sweetest Revenge Ever",
         "Sweetening your dankest dreams",
