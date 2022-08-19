@@ -3,7 +3,7 @@
 *,
 *::before,
 *::after {
-    font-family: 'Urbanist', 'Raleway' sans-serif;
+    font-family: 'Urbanist', 'Raleway', sans-serif;
     list-style: none;
 }
 
