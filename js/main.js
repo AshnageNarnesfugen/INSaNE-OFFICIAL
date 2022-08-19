@@ -40,17 +40,12 @@ jQuery(() => {
     });
 
 
-    const mediaQuery = (x) => {
-        if (x.matches) {
-            $("#esc3").parallaxie({
-                speed: 0.8
-            });
-        }
+    const mediaQuery = window.matchMedia('(min-width: 767px)')
+    if (mediaQuery.matches) {
+        $("#esc3").parallaxie({
+            speed: 0.8
+        });
     }
-
-    const x = window.matchMedia("(max-width: 767px)")
-    mediaQuery(x)
-    x.addEventListener(mediaQuery)
 
     let data = [
         "A Broken Hero",
