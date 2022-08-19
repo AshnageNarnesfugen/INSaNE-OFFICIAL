@@ -124,16 +124,6 @@
     padding-inline-start: 0px !important;
 }
 
-.box {
-    height: 100%;
-    width: 100%;
-    padding: 5%;
-    background-color: #5f0000;
-    -webkit-clip-path: polygon(11px 415px, 881px 367px, 876px 26px, 7px 8px);
-    clip-path: polygon(11px 415px, 881px 367px, 876px 26px, 7px 8px);
-    font-size: 20px;
-}
-
 #esc2 {
     height: 1000px !important;
 }
@@ -281,43 +271,14 @@ body {
     }
 }
 
-#planet {
-    text-align: center;
-    display: flex;
-    align-items: end;
-    justify-content: center;
-    z-index: 2;
-    align-self: initial;
-}
-
-.planet {
-    position: absolute;
-    z-index: 1;
-    top: 65%;
-    animation: rotation 25s linear infinite;
-}
-
 @media (max-width: 767px) {
-    .planet {
-        width: 60%;
-    }
     .row-centered {
         flex-direction: column !important;
     }
 }
 
-@keyframes rotation {
-    0% {
-        transform: rotate(0deg);
-    }
-    100% {
-        transform: rotate(360deg);
-    }
-}
-
 #esc1 {
     background-image: url('img/space-art-minimalist-xq.jpg') !important;
-    /**/
     background-size: cover;
     background-repeat: space;
     background-size: cover;
@@ -454,16 +415,6 @@ a:hover {
     display: -webkit-flex;
     flex-wrap: wrap;
     justify-content: center;
-}
-
-#ytplayer {
-    opacity: 0.5;
-    transition: all 0.5s;
-    flex: 1 0 25%;
-}
-
-#ytplayer:hover {
-    opacity: 1;
 }
 
 #letter {
