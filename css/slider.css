@@ -179,7 +179,7 @@ span {
     place-content: center;
     place-items: center;
     width: 100%;
-    background-image: rgb(65, 65, 65);
+    background-image: #4a534d;
     background-size: cover;
     background-position: center;
     transition: all 0.5s ease-in-out;
