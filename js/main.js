@@ -38,13 +38,10 @@ jQuery(() => {
     $("#esc1").parallaxie({
         speed: 0.8
     });
-    $(window).resize(() => {
-        if (window.innerWidth > 768) {
-            $("#esc3").parallaxie({
-                speed: 0.8
-            });
-        }
-    })
+
+    $("#esc3").parallaxie({
+        speed: 0.8
+    });
 
     let data = [
         "A Broken Hero",
