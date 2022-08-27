@@ -35,10 +35,6 @@ jQuery(() => {
         }, 1000);
     });
 
-    $("#esc1").parallaxie({
-        speed: 0.8
-    });
-
     $("#esc3").parallaxie({
         speed: 0.8
     });

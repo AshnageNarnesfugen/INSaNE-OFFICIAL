@@ -274,6 +274,7 @@ body {
     background-image: url('../img/A9573E5D-F2E2-4A66-B75F-90F1DEBEE216.PNG') !important;
     background-size: contain !important;
     background-position: right !important;
+    background-attachment: fixed;
     background-repeat: no-repeat;
     height: 750px;
     position: relative;
@@ -485,6 +486,9 @@ main.slider {
     }
     .post-form {
         width: 100% !important;
+    }
+    #esc1 {
+        background-size: cover;
     }
 }
 
