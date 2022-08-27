@@ -488,7 +488,7 @@ main.slider {
         width: 100% !important;
     }
     #esc1 {
-        background-size: cover;
+        background-size: cover !important;
     }
 }
 
