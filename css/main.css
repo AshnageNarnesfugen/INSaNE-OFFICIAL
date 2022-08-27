@@ -276,6 +276,7 @@ body {
     background-repeat: space;
     background-size: cover;
     height: 750px;
+    position: relative;
 }
 
 #esc1::before {
