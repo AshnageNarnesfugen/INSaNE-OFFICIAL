@@ -274,8 +274,8 @@ body {
 
 #esc1 {
     background-image: url('../img/A9573E5D-F2E2-4A66-B75F-90F1DEBEE216.PNG') !important;
-    background-size: contain !important;
-    background-position: right !important;
+    background-size: contain;
+    background-position: right;
     background-repeat: no-repeat;
     height: 750px;
     position: relative;
