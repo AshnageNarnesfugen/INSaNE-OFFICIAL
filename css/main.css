@@ -277,6 +277,7 @@ body {
     background-repeat: space;
     height: 750px;
     position: relative;
+    border: solid 2px #000;
 }
 
 #esc1::before {
