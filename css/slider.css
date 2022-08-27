@@ -259,7 +259,7 @@ span {
 
 @media (max-width: 767px) {
     .backsliced-images {
-        display: grid !important;
+        flex-direction: column;
     }
     .slice-img {
         width: 100% !important;
