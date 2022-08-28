@@ -492,6 +492,9 @@ main.slider {
 }
 
 @media (max-width: 767px) {
+    .hidden-mobile {
+        display: none;
+    }
     .form-container {
         place-content: unset !important;
         padding: 0 !important;
