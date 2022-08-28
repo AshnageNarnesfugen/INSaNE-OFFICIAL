@@ -611,3 +611,7 @@ textarea {
     border-right: solid 2px #000;
     transform: rotate(-45deg);
 }
+
+.custom-popup {
+    bottom: 0;
+}
