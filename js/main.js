@@ -36,7 +36,7 @@ jQuery(() => {
     });
 
     var toMail = $("#to-mail");
-    toMail.click((e) => {
+    toMail.click(function(e) {
         e.preventDefault();
         $('body,html').animate({
             scrollTop: $(this.hash).offset().top
