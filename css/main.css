@@ -7,6 +7,14 @@
     list-style: none;
 }
 
+.common-column {
+    width: 50%;
+}
+
+.modification {
+    height: 100%;
+}
+
 ::-moz-selection {
     /* Code for Firefox */
     background: red;
