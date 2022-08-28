@@ -9,10 +9,14 @@
 
 .common-column {
     width: 50%;
+    display: grid;
+    place-content: center;
+    place-items: center;
 }
 
 .modification {
     height: 100%;
+    width: 100%;
 }
 
 ::-moz-selection {
