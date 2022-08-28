@@ -84,5 +84,4 @@ jQuery(() => {
         form.css('display', 'none')
         $('.form-container').append(`<div class="post-form"><h1>Thank you for contacting us.</h1></div>`)
     })
-    AOS.init();
 })
