@@ -8,6 +8,10 @@
     scroll-behavior: unset !important;
 }
 
+.flexy {
+    display: flex;
+}
+
 .solution {
     display: grid;
     place-content: center;
