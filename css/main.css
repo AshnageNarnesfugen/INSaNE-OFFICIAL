@@ -8,6 +8,11 @@
     scroll-behavior: unset !important;
 }
 
+.solution {
+    display: grid;
+    place-content: center;
+}
+
 .common-column {
     width: 50%;
     display: grid;
