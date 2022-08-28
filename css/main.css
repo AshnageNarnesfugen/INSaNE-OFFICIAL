@@ -266,8 +266,6 @@ body {
 
 .title {
     z-index: 2;
-    font-size: 4rem;
-    font-weight: bold;
     display: grid;
     place-content: center;
     place-items: center;
