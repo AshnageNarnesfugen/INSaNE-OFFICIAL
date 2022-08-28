@@ -26,7 +26,22 @@ jQuery(() => {
         $('.hamburger-menu').toggleClass('animate');
     })
 
+    var scrolllink = $('.scroll');
+    scrolllink.click(function(e) {
+        e.preventDefault();
+        $(".menu-wrapper").trigger("click");
+        $('body,html').animate({
+            scrollTop: $(this.hash).offset().top
+        }, 1000);
+    });
 
+    var toMail = $("#to-mail");
+    toMail.click(function(e) {
+        e.preventDefault();
+        $('body,html').animate({
+            scrollTop: $(this.hash).offset().top
+        }, 1000);
+    })
 
     $("#esc3").parallaxie({
         speed: 0.8
