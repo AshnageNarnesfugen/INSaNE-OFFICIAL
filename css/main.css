@@ -283,7 +283,7 @@ body {
     place-items: center;
 }
 
-@media (max-width: 767px) {
+@media (max-width: 979px) {
     .modification {
         flex-direction: column-reverse;
     }
