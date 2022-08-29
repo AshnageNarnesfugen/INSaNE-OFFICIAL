@@ -283,7 +283,13 @@ body {
     place-items: center;
 }
 
-@media (max-width: 676px) {
+@media (max-width: 767px) {
+    .modification {
+        flex-direction: column-reverse;
+    }
+    .common-column {
+        width: 100%;
+    }
     .title {
         display: inline-grid;
     }
