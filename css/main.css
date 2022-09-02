@@ -30,6 +30,10 @@
     scroll-behavior: unset !important;
 }
 
+a:hover {
+    text-decoration: none !important;
+}
+
 body {
     font-family: sharpsans-web, helvetica, arial, sans-serif;
 }
