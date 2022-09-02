@@ -1,11 +1,37 @@
-@import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@font-face {
+    font-display: swap;
+    font-family: sharpsans-web;
+    font-style: normal;
+    font-weight: 400;
+    src: url('./fonts/SharpSans-Medium.woff2') format("woff2"), url(../fonts/SharpSans-Medium.woff) format("woff")
+}
+
+@font-face {
+    font-display: swap;
+    font-family: sharpsans-web;
+    font-style: normal;
+    font-weight: 600;
+    src: url('./fonts/SharpSans-Semibold.woff2') format("woff2"), url(../fonts/SharpSans-Semibold.woff) format("woff")
+}
+
+@font-face {
+    font-display: swap;
+    font-family: sharpsans-web;
+    font-style: normal;
+    font-weight: 800;
+    src: url('./fonts/SharpSans-Bold.woff2') format("woff2"), url(../fonts/SharpSans-Bold.woff) format("woff")
+}
+
 *,
 *::before,
 *::after {
-    font-family: 'Urbanist', 'Raleway', sans-serif;
+    font: inherit;
     list-style: none;
     scroll-behavior: unset !important;
+}
+
+body {
+    font-family: sharpsans-web, helvetica, arial, sans-serif;
 }
 
 .flexy {
