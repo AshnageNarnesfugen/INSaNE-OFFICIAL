@@ -33,6 +33,7 @@
 .link-to,
 .link-to span {
     font-size: 3rem;
+    transition: 0.5s;
 }
 
 .link-to:hover span {
