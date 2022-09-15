@@ -47,6 +47,13 @@
     bottom: 0;
 }
 
+@media (max-width: 997px) {
+    .social-banner {
+        position: relative !important;
+        height: 100%;
+    }
+}
+
 a {
     text-decoration: none !important;
 }
