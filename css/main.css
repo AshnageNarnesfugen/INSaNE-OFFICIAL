@@ -35,6 +35,10 @@
     font-size: 3rem;
 }
 
+.link-to:hover span {
+    color: red;
+}
+
 .social-banner {
     position: absolute;
     width: 100%;
@@ -357,22 +361,6 @@ body {
     position: relative;
     border: solid 2px #000;
 }
-
-
-/*
-#esc1::before {
-    content: "";
-    height: 100%;
-    left: 0px;
-    top: 0px;
-    bottom: 0px;
-    right: 0px;
-    position: absolute;
-    background-image: url('../img/grafico-1-incio.svg');
-    background-size: cover;
-    background-position: right;
-}
-*/
 
 a {
     color: white !important;
