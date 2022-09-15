@@ -139,7 +139,7 @@ span {
     padding: 0px 30px;
 }
 
-.text-content h1 {
+.text-content h2 {
     margin-bottom: 10px;
 }
 
@@ -188,7 +188,7 @@ span {
     height: 100%;
 }
 
-.slide_main_title h1 {
+.slide_main_title h2 {
     text-align: center;
     z-index: 2;
 }
@@ -216,7 +216,7 @@ span {
     position: relative;
 }
 
-.slide_main_title h1 {
+.slide_main_title h2 {
     font-size: 5rem;
 }
 
