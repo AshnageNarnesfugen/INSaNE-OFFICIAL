@@ -37,6 +37,7 @@
 
 .link-to:hover span {
     color: red;
+    font-style: italic;
 }
 
 .social-banner {
