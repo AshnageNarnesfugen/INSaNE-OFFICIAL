@@ -30,12 +30,20 @@
     scroll-behavior: unset !important;
 }
 
+.link-to {
+    font-size: 3rem;
+}
+
 .social-banner {
     position: absolute;
     width: 100%;
     height: 150px;
     background: rgba(0, 0, 0, 1);
     bottom: 0;
+}
+
+a {
+    text-decoration: none !important;
 }
 
 a:hover {
