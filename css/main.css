@@ -30,7 +30,8 @@
     scroll-behavior: unset !important;
 }
 
-.link-to {
+.link-to,
+.link-to span {
     font-size: 3rem;
 }
 
