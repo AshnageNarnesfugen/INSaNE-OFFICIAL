@@ -37,10 +37,11 @@ body {
     width: 100%;
     height: 100%;
     background-color: #feefef;
+    font-family: sharpsans-web, helvetica, arial, sans-serif;
 }
 
 .background {
-    background-image: url('./E58K7FqXIAIZGaj.jpg');
+    background-image: url('../img/E58K7FqXIAIZGaj.jpg');
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
