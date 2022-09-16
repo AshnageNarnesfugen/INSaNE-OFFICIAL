@@ -305,8 +305,6 @@ body {
 }
 
 .space_sec {
-    display: grid;
-    flex-direction: row;
     width: 100%;
     background-position: center center;
     background-size: cover;
