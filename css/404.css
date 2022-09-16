@@ -1,0 +1,79 @@
+@font-face {
+    font-display: swap;
+    font-family: sharpsans-web;
+    font-style: normal;
+    font-weight: 400;
+    src: url('./fonts/SharpSans-Medium.woff2') format("woff2"), url(../fonts/SharpSans-Medium.woff) format("woff")
+}
+
+@font-face {
+    font-display: swap;
+    font-family: sharpsans-web;
+    font-style: normal;
+    font-weight: 600;
+    src: url('./fonts/SharpSans-Semibold.woff2') format("woff2"), url(../fonts/SharpSans-Semibold.woff) format("woff")
+}
+
+@font-face {
+    font-display: swap;
+    font-family: sharpsans-web;
+    font-style: normal;
+    font-weight: 800;
+    src: url('./fonts/SharpSans-Bold.woff2') format("woff2"), url(../fonts/SharpSans-Bold.woff) format("woff")
+}
+
+*,
+*::before,
+*::after {
+    font: inherit;
+    list-style: none;
+    scroll-behavior: unset !important;
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+    background-color: #feefef;
+}
+
+.background {
+    background-image: url('./E58K7FqXIAIZGaj.jpg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 100%;
+    height: 100%;
+    display: grid;
+    place-content: center;
+}
+
+.background::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.background * {
+    color: white;
+    z-index: 1;
+    text-align: center;
+}
+
+.background h1 {
+    font-size: 5rem;
+}
+
+a {
+    color: white;
+    text-decoration: none;
+}
+
+a::hover {
+    color: red !important;
+}
