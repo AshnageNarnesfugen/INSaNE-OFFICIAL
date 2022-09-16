@@ -306,7 +306,6 @@ body {
 
 .space_sec {
     display: grid;
-    place-items: center;
     flex-direction: row;
     width: 100%;
     background-position: center center;
