@@ -103,7 +103,7 @@ jQuery(() => {
     })
 
     const shuffleTitles = () => {
-        var titles = $('.mini-charted')
+        var titles = $('.shuffle')
         $(titles).each(function() {
             $(this).shuffleLetters({
                 "step": 30,
