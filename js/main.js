@@ -103,7 +103,7 @@ jQuery(() => {
     })
 
     const shuffleTitles = (elementClass) => {
-        var titles = $(elementClass)
+        let titles = $(elementClass)
         $(titles).each(function() {
             $(this).shuffleLetters({
                 "step": 30,
