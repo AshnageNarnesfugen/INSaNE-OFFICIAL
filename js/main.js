@@ -46,7 +46,7 @@ jQuery(() => {
     var scrollBtn = $('.scroll-top-button')
     scrollBtn.click(() => {
         $('body,html').animate({
-            scrollTop: $(document).offset().top
+            scrollTop: $('html').offset().top
         }, 1000);
     })
 
