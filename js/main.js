@@ -102,8 +102,8 @@ jQuery(() => {
         $('.form-container').append(`<div class="post-form"><h1>Thank you for contacting us.</h1></div>`)
     })
 
-    const shuffleTitles = () => {
-        var titles = $('.shuffle')
+    const shuffleTitles = (elementClass) => {
+        var titles = $(elementClass)
         $(titles).each(function() {
             $(this).shuffleLetters({
                 "step": 30,
@@ -115,7 +115,7 @@ jQuery(() => {
 
     var observer = new IntersectionObserver(function(entries) {
         if (entries[0].isIntersecting === true)
-            shuffleTitles()
+            shuffleTitles('.shuffle')
     }, { threshold: [1] });
 
     observer.observe($("#quickresume")[0]);
