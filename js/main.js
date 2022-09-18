@@ -43,6 +43,13 @@ jQuery(() => {
         }, 1000);
     })
 
+    var scrollBtn = $('.scroll-top-button')
+    scrollBtn.click(() => {
+        $('body,html').animate({
+            scrollTop: $(document).offset().top
+        }, 1000);
+    })
+
     $("#esc3").parallaxie({
         speed: 0.8
     });
