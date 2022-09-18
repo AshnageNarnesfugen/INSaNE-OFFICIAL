@@ -635,7 +635,7 @@ textarea {
 }
 
 .arrow-btn:hover .arrow-up {
-    border-bottom: solid 2px #fff;
+    border-top: solid 2px #fff;
     border-right: solid 2px #fff;
 }
 
