@@ -102,18 +102,20 @@ jQuery(() => {
         $('.form-container').append(`<div class="post-form"><h1>Thank you for contacting us.</h1></div>`)
     })
 
-    var observer = new IntersectionObserver(function(entries) {
-        if (entries[0].isIntersecting === true) {
-            var titles = $('.content-text mark')
-
-            $(titles).each(() => {
-                $(this).shuffleLetters({
-                    "step": 30,
-                    "fps": 60,
-                    "text": $(this).attr('data-text')
-                })
+    const shuffleTitles = () => {
+        var titles = $('.content-text mark')
+        $(titles).each(() => {
+            $(this).shuffleLetters({
+                "step": 30,
+                "fps": 60,
+                "text": $(this).attr('data-text')
             })
-        }
+        })
+    }
+
+    var observer = new IntersectionObserver(function(entries) {
+        if (entries[0].isIntersecting === true)
+            shuffleTitles()
     }, { threshold: [1] });
 
     observer.observe($("#quickresume")[0]);
