@@ -16,7 +16,7 @@ mark {
 
 .slide {
     display: flex;
-    height: 1200px;
+    height: 1000px;
     width: 100%;
     background: #2B2B2B;
 }
