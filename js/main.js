@@ -103,8 +103,8 @@ jQuery(() => {
     })
 
     const shuffleTitles = () => {
-        var titles = $('.content-text mark')
-        $(titles).each(() => {
+        var titles = $('.mini-charted')
+        $(titles).each(function() {
             $(this).shuffleLetters({
                 "step": 30,
                 "fps": 60,
