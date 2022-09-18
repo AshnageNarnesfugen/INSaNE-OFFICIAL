@@ -104,7 +104,7 @@ jQuery(() => {
 
     var observer = new IntersectionObserver(function(entries) {
         if (entries[0].isIntersecting === true)
-            $('.content-text h2').shuffleLetters()
+            $('.content-text mark').shuffleLetters()
     }, { threshold: [1] });
 
     observer.observe($("#quickresume")[0]);
