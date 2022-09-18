@@ -47,7 +47,7 @@ jQuery(() => {
 
     $(window).scroll(() => {
         var y = $(this).scrollTop();
-        if (y > 800) {
+        if (y > 500) {
             $(scrollBtn).fadeIn().css('z-index', '111111');
         } else {
             $(scrollBtn).fadeOut();
