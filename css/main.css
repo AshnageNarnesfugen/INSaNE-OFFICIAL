@@ -673,6 +673,12 @@ textarea {
     transform: rotate(45deg);
 }
 
+.scroll-top-button {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+}
+
 .custom-popup {
     bottom: 0;
 }
