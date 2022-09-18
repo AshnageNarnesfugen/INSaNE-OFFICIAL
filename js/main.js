@@ -103,8 +103,14 @@ jQuery(() => {
     })
 
     var observer = new IntersectionObserver(function(entries) {
-        if (entries[0].isIntersecting === true)
-            $('.content-text mark').shuffleLetters()
+        if (entries[0].isIntersecting === true) {
+            var titles = $('.content-text mark')
+            titles.shuffleLetters({
+                "step": 30,
+                "fps": 60,
+                "text": $(this).attr('data-text')
+            })
+        }
     }, { threshold: [1] });
 
     observer.observe($("#quickresume")[0]);
