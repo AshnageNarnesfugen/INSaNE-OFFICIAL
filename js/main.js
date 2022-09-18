@@ -107,5 +107,5 @@ jQuery(() => {
             console.log('Element is fully visible in screen');
     }, { threshold: [1] });
 
-    observer.observe($("#quickresume"));
+    observer.observe($("#quickresume")[0]);
 })
