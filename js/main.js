@@ -43,12 +43,20 @@ jQuery(() => {
         }, 1000);
     })
 
-    var scrollBtn = $('.scroll-top-button')
+    var scrollBtn = $('.scroll-top-button');
+
+    var y = $(this).scrollTop();
+    if (y > 800) {
+        $(scrollBtn).fadeIn();
+    } else {
+        $(scrollBtn).fadeOut();
+    }
+
     scrollBtn.click(() => {
         $('body,html').animate({
             scrollTop: $('html').offset().top
         }, 1000);
-    })
+    });
 
     $("#esc3").parallaxie({
         speed: 0.8
