@@ -105,10 +105,12 @@ jQuery(() => {
     var observer = new IntersectionObserver(function(entries) {
         if (entries[0].isIntersecting === true) {
             var titles = $('.content-text mark')
-            titles.shuffleLetters({
-                "step": 30,
-                "fps": 60,
-                "text": $(this).attr('data-text')
+            $(titles).forEach(() => {
+                $(this).shuffleLetters({
+                    "step": 30,
+                    "fps": 60,
+                    "text": $(this).attr('data-text')
+                })
             })
         }
     }, { threshold: [1] });
