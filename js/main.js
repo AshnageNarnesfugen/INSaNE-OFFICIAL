@@ -45,12 +45,14 @@ jQuery(() => {
 
     var scrollBtn = $('.scroll-top-button');
 
-    var y = $(this).scrollTop();
-    if (y > 800) {
-        $(scrollBtn).fadeOut();
-    } else {
-        $(scrollBtn).fadeIn();
-    }
+    $(window).scroll(() => {
+        var y = $(this).scrollTop();
+        if (y > 800) {
+            $(scrollBtn).fadeOut();
+        } else {
+            $(scrollBtn).fadeIn();
+        }
+    });
 
     scrollBtn.click(() => {
         $('body,html').animate({
