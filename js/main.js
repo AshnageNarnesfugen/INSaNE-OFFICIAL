@@ -46,7 +46,7 @@ jQuery(() => {
     var scrollBtn = $('.scroll-top-button');
 
     var y = $(this).scrollTop();
-    if (y > 1200) {
+    if (y > 800) {
         $(scrollBtn).fadeOut();
     } else {
         $(scrollBtn).fadeIn();
