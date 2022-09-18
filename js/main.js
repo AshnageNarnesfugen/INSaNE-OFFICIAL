@@ -101,4 +101,11 @@ jQuery(() => {
         form.css('display', 'none')
         $('.form-container').append(`<div class="post-form"><h1>Thank you for contacting us.</h1></div>`)
     })
+
+    var observer = new IntersectionObserver(function(entries) {
+        if (entries[0].isIntersecting === true)
+            console.log('Element is fully visible in screen');
+    }, { threshold: [1] });
+
+    observer.observe($("#quickresume"));
 })
