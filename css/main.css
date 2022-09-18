@@ -677,6 +677,7 @@ textarea {
     position: fixed;
     bottom: 10px;
     right: 10px;
+    z-index: 11111;
 }
 
 .custom-popup {
