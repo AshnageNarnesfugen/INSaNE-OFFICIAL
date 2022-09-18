@@ -158,6 +158,7 @@ body {
         width: 100% !important;
     }
     #esc1 {
+        height: 74vh !important;
         background-size: cover !important;
         background-position: center !important;
     }
