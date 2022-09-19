@@ -28,6 +28,11 @@
     font: inherit;
     list-style: none;
     scroll-behavior: unset !important;
+    --ash-grey: #292929;
+}
+
+.ash-grey {
+    background-color: var(--ash-grey) !important;
 }
 
 .link-to,
