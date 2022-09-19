@@ -111,7 +111,9 @@ jQuery(() => {
             success: (data) => {
                 Notification.requestPermission().then(perm => {
                     if (perm === "granted") {
-                        new Notification("Your form has been Submitted.");
+                        new Notification("Your form has been Submitted.", {
+                            body: "Congratulations, Soonly our team will be in touch with you."
+                        });
                     }
                 });
                 form.css('display', 'none');
@@ -120,7 +122,9 @@ jQuery(() => {
             error: (err) => {
                 Notification.requestPermission().then(perm => {
                     if (perm === "granted") {
-                        new Notification("Your form couldn't be Submitted.");
+                        new Notification("Your form couldn't be Submitted.", {
+                            body: "An error has occurred, try again :(."
+                        });
                     }
                 });
                 form.css('display', 'none');
