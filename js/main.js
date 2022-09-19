@@ -105,7 +105,7 @@ jQuery(() => {
             accepts: 'application/json',
             data: {
                 name: $('#name').val(),
-                mail: $('#email').val(),
+                mail: $('#mail').val(),
                 message: $('#message').val()
             },
             success: (data) => {
