@@ -96,14 +96,38 @@ jQuery(() => {
     setInterval(interval, 4000)
 
     var form = $('#former-form')
-    form.on('submit', () => {
-        Notification.requestPermission().then(perm => {
-            if (perm === "granted") {
-                new Notification("Your form has been Submitted.");
+    form.on('submit', (e) => {
+        e.preventDefault()
+        $.ajax({
+            method: 'POST',
+            url: 'https://formsubmit.co/ajax/70a19f04e48d9da8774f32b49b924edf',
+            dataType: 'json',
+            accepts: 'application/json',
+            data: {
+                name: $('#name').val(),
+                mail: $('#email').val(),
+                message: $('#message').val()
+            },
+            success: (data) => {
+                Notification.requestPermission().then(perm => {
+                    if (perm === "granted") {
+                        new Notification("Your form has been Submitted.");
+                    }
+                });
+                form.css('display', 'none');
+                $('.form-container').append(`<div class="post-form"><h1>Thank you for contacting us.</h1></div>`);
+            },
+            error: (err) => {
+                Notification.requestPermission().then(perm => {
+                    if (perm === "granted") {
+                        new Notification("Your form couldn't be Submitted.");
+                    }
+                });
+                form.css('display', 'none');
+                $('.form-container').append(`<div class="post-form"><h1>An error has occurred, try again :(.</h1></div>`);
             }
         });
-        form.css('display', 'none');
-        $('.form-container').append(`<div class="post-form"><h1>Thank you for contacting us.</h1></div>`);
+
     })
 
     const shuffleTitles = (elementClass) => {
