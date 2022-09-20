@@ -112,7 +112,8 @@ jQuery(() => {
                 Notification.requestPermission().then(perm => {
                     if (perm === "granted") {
                         new Notification("Your form has been Submitted.", {
-                            body: "Congratulations, Soonly our team will be in touch with you."
+                            body: "Congratulations, Soonly our team will be in touch with you.",
+                            icon: "img/webiconspace-removebg-preview.png"
                         });
                     }
                 });
@@ -123,7 +124,8 @@ jQuery(() => {
                 Notification.requestPermission().then(perm => {
                     if (perm === "granted") {
                         new Notification("Your form couldn't be Submitted.", {
-                            body: "An error has occurred, try again :(."
+                            body: "An error has occurred, try again :(.",
+                            icon: "img/webiconspace-removebg-preview.png"
                         });
                     }
                 });
