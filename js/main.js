@@ -1,4 +1,21 @@
 jQuery(() => {
+
+    window.onload = function() {
+
+        var ln = navigator.language || navigator.userLanguage;
+        /*Validar que no se encuentre en la pagina correspondiente a su idioma*/
+        let pagActual = window.location.pathname;
+
+
+        if (ln == 'en-EN' && !pagActual.includes("indexEn")) {
+            window.location.href = '';
+        } else if (ln == 'es-ES' && !pagActual.includes("indexEs")) {
+            window.location.href = 'es';
+        } else {
+            console.log("Otro idioma");
+        }
+
+    }
     $.fn.clickToggle = function(func1, func2) {
         var funcs = [func1, func2];
         this.data('toggleclicked', 0);
