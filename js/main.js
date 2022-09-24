@@ -1,9 +1,10 @@
 jQuery(() => {
 
-    window.onload = function() {
+    /*
+        window.onload = function() {
 
         var ln = navigator.language || navigator.userLanguage;
-        /*Validar que no se encuentre en la pagina correspondiente a su idioma*/
+        
         let pagActual = window.location.pathname;
 
 
@@ -16,6 +17,7 @@ jQuery(() => {
         }
 
     }
+    */
     $.fn.clickToggle = function(func1, func2) {
         var funcs = [func1, func2];
         this.data('toggleclicked', 0);
