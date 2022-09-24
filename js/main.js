@@ -83,7 +83,8 @@ jQuery(() => {
         speed: 0.8
     });
 
-    let data = $('#letter').data('data-array')
+    let data = $('#letter').data('data-array');
+    console.log(data)
 
     var container = $("#letter")
     var index = 0
