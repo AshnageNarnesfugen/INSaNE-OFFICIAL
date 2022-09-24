@@ -84,6 +84,7 @@ jQuery(() => {
     });
 
     let data = $('#letter').attr('data-array');
+    data = JSON.parse(data)
     console.log(data)
 
     var container = $("#letter")
