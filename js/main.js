@@ -108,6 +108,8 @@ jQuery(() => {
     var form = $('#former-form')
     form.on('submit', (e) => {
         e.preventDefault()
+        let tymsg = $(this).attr('data-tymsg')
+        let errmsg = $(this).attr('data-errmsg')
         $.ajax({
             method: 'POST',
             url: 'https://formsubmit.co/ajax/70a19f04e48d9da8774f32b49b924edf',
@@ -128,7 +130,7 @@ jQuery(() => {
                     }
                 });
                 form.css('display', 'none');
-                $('.form-container').append(`<div class="post-form"><h1>Thank you for contacting us.</h1></div>`);
+                $('.form-container').append(`${tymsg}`);
             },
             error: (err) => {
                 Notification.requestPermission().then(perm => {
@@ -140,7 +142,7 @@ jQuery(() => {
                     }
                 });
                 form.css('display', 'none');
-                $('.form-container').append(`<div class="post-form"><h1>An error has occurred, try again :(.</h1></div>`);
+                $('.form-container').append(`${errmsg}`);
             }
         });
 
