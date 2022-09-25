@@ -106,7 +106,7 @@ jQuery(() => {
     setInterval(interval, 4000)
 
     var form = $('#former-form')
-    form.on('submit', (e) => {
+    form.on('submit', function(e) {
         e.preventDefault()
         let tymsg = $(this).attr('data-tymsg')
         let errmsg = $(this).attr('data-errmsg')
@@ -131,7 +131,7 @@ jQuery(() => {
                     }
                 });
                 form.css('display', 'none');
-                $('.form-container').append(`${tymsg}`);
+                $('.form-container').append(tymsg);
             },
             error: (err) => {
                 Notification.requestPermission().then(perm => {
@@ -143,7 +143,7 @@ jQuery(() => {
                     }
                 });
                 form.css('display', 'none');
-                $('.form-container').append(`${errmsg}`);
+                $('.form-container').append(errmsg);
             }
         });
 
