@@ -110,6 +110,7 @@ jQuery(() => {
         e.preventDefault()
         let tymsg = $(this).attr('data-tymsg')
         let errmsg = $(this).attr('data-errmsg')
+        console.log(tymsg, errmsg)
         $.ajax({
             method: 'POST',
             url: 'https://formsubmit.co/ajax/70a19f04e48d9da8774f32b49b924edf',
