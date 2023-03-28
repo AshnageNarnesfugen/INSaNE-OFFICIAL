@@ -12,7 +12,7 @@ jQuery(() => {
     var userCountry = data.country_code;
     
     // Check if user is already on the appropriate language version of the page
-    if (window.location.pathname === "/en" && userLang === "en" || window.location.pathname === "/es" && userLang === "es") {
+    if (window.location.pathname === "/" && userLang === "en" || window.location.pathname === "/es" && userLang === "es") {
       return;
     }
     
