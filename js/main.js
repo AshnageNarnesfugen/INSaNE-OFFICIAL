@@ -11,11 +11,11 @@ jQuery(() => {
         if (userLang != 'en' && userCountry != 'US' && userCountry != 'CA') {
         // Redirect user to Spanish version of the page
         Cookies.set('language', 'es');
-        window.location.href = 'https://example.com/es';
+        window.location.href = 'https://insane-bh.space/es';
         } else {
         // Redirect user to English version of the page
         Cookies.set('language', 'en');
-        window.location.href = 'https://example.com/en';
+        window.location.href = 'https://insane-bh.space/';
         }
     });
        
