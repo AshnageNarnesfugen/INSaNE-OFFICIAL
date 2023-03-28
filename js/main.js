@@ -1,23 +1,24 @@
 jQuery(() => {
 
-    /*
-        window.onload = function() {
-
-        var ln = navigator.language || navigator.userLanguage;
+    //with jquery and cookie.js generate a language and country detector that redirects the website to it's respective website language
+    var userLang = navigator.language || navigator.userLanguage;
+    
+    // Get user's location using IP geolocation
+    $.getJSON('https://ipapi.co/json/', function(data) {
+        var userCountry = data.country_code;
         
-        let pagActual = window.location.pathname;
-
-
-        if (ln == 'en-EN' && !pagActual.includes("indexEn")) {
-            window.location.href = '';
-        } else if (ln == 'es-ES' && !pagActual.includes("indexEs")) {
-            window.location.href = 'es';
+        // Check if user's language is not English and country is not the US or Canada
+        if (userLang != 'en' && userCountry != 'US' && userCountry != 'CA') {
+        // Redirect user to Spanish version of the page
+        Cookies.set('language', 'es');
+        window.location.href = 'https://example.com/es';
         } else {
-            console.log("Otro idioma");
+        // Redirect user to English version of the page
+        Cookies.set('language', 'en');
+        window.location.href = 'https://example.com/en';
         }
-
-    }
-    */
+    });
+       
     $.fn.clickToggle = function(func1, func2) {
         var funcs = [func1, func2];
         this.data('toggleclicked', 0);
