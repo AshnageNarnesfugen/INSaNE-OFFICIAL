@@ -32,6 +32,17 @@ jQuery(() => {
         });
     }
 
+    if (Cookies.get('cookie-consent') === 'true') {
+        // User has given consent, enable cookie functionality
+        handleCookies();
+      } else if (Cookies.get('cookie-consent') === 'false') {
+        // User has rejected cookies, disable cookie functionality
+        handleCookies(false);
+      } else {
+        // User has not yet given consent, show cookie banner
+        showCookieBanner();
+      }
+
     function handleCookies(allowCookies = true) {
         if (allowCookies) {
             // Cookies are allowed, continue with normal cookie logic
@@ -70,6 +81,26 @@ jQuery(() => {
         }
     }
 
+    function showCookieBanner() {
+        // Find the banner in the HTML
+        const banner = $('#cookie-consent');
+      
+        // Show the banner
+        banner.show();
+      
+        // Set up event listeners for buttons
+        const acceptButton = banner.find('#accept-cookies');
+        acceptButton.on('click', function() {
+          handleCookies(true);
+          banner.hide();
+        });
+      
+        const rejectButton = banner.find('#reject-cookies');
+        rejectButton.on('click', function() {
+          handleCookies(false);
+          banner.hide();
+        });
+      }
 
 
     $.fn.clickToggle = function(func1, func2) {
