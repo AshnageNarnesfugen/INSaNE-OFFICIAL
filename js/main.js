@@ -41,7 +41,7 @@ jQuery(() => {
 
         function showCookieBanner() {
         // Show cookie consent banner
-        $('#cookie-banner').show();
+        $('#cookie-consent').show();
 
         // Handle user's consent choice
         $('#accept-cookies').click(function() {
@@ -51,7 +51,7 @@ jQuery(() => {
             });
 
             // Hide cookie consent banner
-            $('#cookie-banner').hide();
+            $('#cookie-consent').hide();
 
             // Continue with normal cookie logic
             handleCookies();
@@ -59,7 +59,7 @@ jQuery(() => {
 
         $('#reject-cookies').click(function() {
             // Hide cookie consent banner
-            $('#cookie-banner').hide();
+            $('#cookie-consent').hide();
 
             // Continue with normal cookie logic without setting any cookies
             handleCookies(false);
