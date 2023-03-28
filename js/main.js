@@ -1,7 +1,7 @@
 jQuery(() => {
     
         // Cookies are allowed, continue with normal cookie logic
-            /*
+
             var language = Cookies.get('language');
             if (language) {
                 // Redirect user to the appropriate language version of the page
@@ -30,82 +30,8 @@ jQuery(() => {
                     }
                 });
             }
-            */
-            var cookieConsent = Cookies.get('cookie-consent');
-            var cookieRejected = Cookies.get('cookie-rejected');
 
-            if (cookieConsent || cookieRejected) {
-                // User has given cookie consent or rejected cookies, continue with normal cookie logic
-                handleCookies();
-            } else {
-                // Show cookie consent banner
-                $('#cookie-consent').show();
-
-                // Handle user's consent choice
-                $('#accept-cookies').click(function() {
-                    // Set cookie consent
-                    Cookies.set('cookie-consent', 'true', {
-                        expires: 365
-                    });
-
-                    // Hide cookie consent banner
-                    $('#cookie-consent').hide();
-
-                    // Continue with normal cookie logic
-                    handleCookies();
-                });
-
-                $('#reject-cookies').click(function() {
-                    // Set cookie rejection
-                    Cookies.set('cookie-rejected', 'true', {
-                        expires: 365
-                    });
-
-                    // Hide cookie consent banner
-                    $('#cookie-consent').hide();
-
-                    // Continue with normal cookie logic without setting any cookies
-                    handleCookies(false);
-                });
-            }
-
-            function handleCookies(allowCookies = true) {
-                if (allowCookies) {
-                    // Cookies are allowed, continue with normal cookie logic
-                    var language = Cookies.get('language');
-                    if (language) {
-                        // Redirect user to the appropriate language version of the page
-                        if (language === 'es' && window.location.pathname !== '/es') {
-                            window.location.href = 'https://insane-bh.space/es';
-                        } else if (language === 'en' && window.location.pathname !== '/') {
-                            window.location.href = 'https://insane-bh.space';
-                        }
-                    } else {
-                        // Get user's language from browser preferences
-                        var userLang = navigator.language || navigator.userLanguage;
-
-                        // Get user's location using IP geolocation
-                        $.getJSON('https://ipapi.co/json/', function(data) {
-                            var userCountry = data.country_code;
-
-                            // Check if user's language is not English and country is not the US or Canada
-                            if (userLang != 'en' && userCountry != 'US' && userCountry != 'CA') {
-                                // Redirect user to Spanish version of the page
-                                Cookies.set('language', 'es');
-                                window.location.href = 'https://insane-bh.space/es';
-                            } else {
-                                // Redirect user to English version of the page
-                                Cookies.set('language', 'en');
-                                window.location.href = 'https://insane-bh.space';
-                            }
-                        });
-                    }
-                } else {
-                    // Cookies are not allowed, disable cookie functionality
-                    Cookies.defaults.expires = -1; // Set all cookies to expire immediately
-                    // ...
-                }
-            }
+            
 
     $.fn.clickToggle = function(func1, func2) {
         var funcs = [func1, func2];
