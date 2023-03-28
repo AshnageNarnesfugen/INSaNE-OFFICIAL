@@ -32,7 +32,7 @@ jQuery(() => {
             }
             */
            handleCookies()
-            function handleCookies(allowCookies = true) {
+            function handleCookies(allowCookies = false) {
                 var cookieConsent = Cookies.get('cookie-consent');
             
                 if (allowCookies && cookieConsent) {
