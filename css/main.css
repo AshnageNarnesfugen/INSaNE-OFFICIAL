@@ -689,3 +689,46 @@ textarea {
 .custom-popup {
     bottom: 0;
 }
+
+#cookie-consent {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #fff;
+    padding: 10px;
+    border-top: 1px solid #ccc;
+    box-shadow: 0 -2px 4px rgba(0,0,0,0.3);
+    z-index: 1000;
+  }
+  
+  #cookie-consent p {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  
+  #cookie-consent a {
+    color: #2196f3;
+    text-decoration: none;
+    border-bottom: 1px dotted #2196f3;
+  }
+  
+  #cookie-consent div {
+    margin-top: 10px;
+  }
+  
+  #cookie-consent button {
+    background-color: #2196f3;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    margin-right: 10px;
+  }
+  
+  #cookie-consent button:hover {
+    background-color: #1976d2;
+  }

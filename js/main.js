@@ -1,5 +1,44 @@
 jQuery(() => {
 
+
+    var cookieConsent = Cookies.get('cookie-consent');
+    if (cookieConsent) {
+        // User has given cookie consent, continue with normal cookie logic
+        handleCookies();
+    } else {
+        // Show cookie consent banner
+        $('#cookie-consent').show();
+
+        // Handle user's consent choice
+        $('#accept-cookies').click(function() {
+            // Set cookie consent
+            Cookies.set('cookie-consent', 'true', { expires: 365 });
+
+            // Hide cookie consent banner
+            $('#cookie-consent').hide();
+
+            // Continue with normal cookie logic
+            handleCookies();
+        });
+
+        $('#reject-cookies').click(function() {
+            // Hide cookie consent banner
+            $('#cookie-consent').hide();
+
+            // Continue with normal cookie logic without setting any cookies
+            handleCookies(false);
+        });
+    }
+    function handleCookies(allowCookies = true) {
+        if (allowCookies) {
+          // Cookies are allowed, continue with normal cookie logic
+          // ...
+        } else {
+          // Cookies are not allowed, disable cookie functionality
+          Cookies.defaults.expires = -1; // Set all cookies to expire immediately
+          // ...
+        }
+      }
     //with jquery and cookie.js generate a language and country detector that redirects the website to it's respective website language
     var language = Cookies.get('language');
     if (language) {
