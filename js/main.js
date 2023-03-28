@@ -1,32 +1,34 @@
 jQuery(() => {
 
     //with jquery and cookie.js generate a language and country detector that redirects the website to it's respective website language
-    var userLang = navigator.language || navigator.userLanguage;
-    
-    // Get user's location using IP geolocation
-    // Get user's language from browser preferences
-  var userLang = navigator.language || navigator.userLanguage;
-  
-  // Get user's location using IP geolocation
-  $.getJSON('https://ipapi.co/json/', function(data) {
-    var userCountry = data.country_code;
-    
-    // Check if user is already on the appropriate language version of the page
-    if (window.location.pathname === "/" && userLang === "en" || window.location.pathname === "/es" && userLang === "es") {
-      return;
-    }
-    
-    // Check if user's language is not English and country is not the US or Canada
-    if (userLang != 'en' && userCountry != 'US' && userCountry != 'CA') {
-      // Redirect user to Spanish version of the page
-      Cookies.set('language', 'es');
-      window.location.href = 'https://insane-bh.space/es';
+    var language = Cookies.get('language');
+    if (language) {
+        // Redirect user to the appropriate language version of the page
+        if (language === 'es' && window.location.pathname !== '/es') {
+        window.location.href = 'https://insane-bh.space/es';
+        } else if (language === 'en' && window.location.pathname !== '/') {
+        window.location.href = 'https://insane-bh.space';
+        }
     } else {
-      // Redirect user to English version of the page
-      Cookies.set('language', 'en');
-      window.location.href = 'https://insane-bh.space';
+        // Get user's language from browser preferences
+        var userLang = navigator.language || navigator.userLanguage;
+
+        // Get user's location using IP geolocation
+        $.getJSON('https://ipapi.co/json/', function(data) {
+        var userCountry = data.country_code;
+
+        // Check if user's language is not English and country is not the US or Canada
+        if (userLang != 'en' && userCountry != 'US' && userCountry != 'CA') {
+            // Redirect user to Spanish version of the page
+            Cookies.set('language', 'es');
+            window.location.href = 'https://insane-bh.space/es';
+        } else {
+            // Redirect user to English version of the page
+            Cookies.set('language', 'en');
+            window.location.href = 'https://insane-bh.space';
+        }
+        });
     }
-  });
        
     $.fn.clickToggle = function(func1, func2) {
         var funcs = [func1, func2];
