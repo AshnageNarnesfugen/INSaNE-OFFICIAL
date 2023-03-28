@@ -31,6 +31,7 @@ jQuery(() => {
                 });
             }
             */
+           handleCookies()
             function handleCookies(allowCookies = true) {
                 var cookieConsent = Cookies.get('cookie-consent');
             
