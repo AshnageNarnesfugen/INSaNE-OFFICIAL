@@ -12,20 +12,32 @@ jQuery(() => {
         var modal = $('<div class="modal">' +
         '<div class="modal-dialog">' +
         '<div class="modal-content">' +
-        '<span class="close">&times;</span>' +
-        '<img class="img-fluid" src="' + src + '">' +
+        '<img class="modal-img" src="' + src + '">' +
         '</div>' +
         '</div>' +
         '</div>');
         modal.appendTo('body');
 
-        // Show the modal and display the clicked image in it
-        modal.css('display', 'block');
-        modal.find('.modal-content').attr('src', src);
+        // Create an overlay div and append it to the body
+        var overlay = $('<div class="modal-overlay"></div>');
+        overlay.appendTo('body');
 
-        // Add a click event listener to the close button to remove the modal from the body
-        modal.find('.close').click(function() {
+        // Show the modal and overlay
+        modal.show();
+        overlay.show();
+
+        // Add a click event listener to the close button and overlay to remove the modal and overlay from the body
+        modal.find('.modal-close').click(function() {
+        modal.hide();
+        overlay.hide();
         modal.remove();
+        overlay.remove();
+        });
+        overlay.click(function() {
+        modal.hide();
+        overlay.hide();
+        modal.remove();
+        overlay.remove();
         });
     });
 
