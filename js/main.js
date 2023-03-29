@@ -1,5 +1,30 @@
 jQuery(() => {
     
+    // Get all the image elements on the page
+    var images = $('img');
+
+    // Add click event listeners to all the images
+    images.click(function() {
+        // Get the source of the clicked image
+        var src = $(this).attr('src');
+
+        // Create a new modal and append it to the body
+        var modal = $('<div class="modal">' +
+        '<span class="close">&times;</span>' +
+        '<img class="modal-content">' +
+        '</div>');
+        modal.appendTo('body');
+
+        // Show the modal and display the clicked image in it
+        modal.css('display', 'block');
+        modal.find('.modal-content').attr('src', src);
+
+        // Add a click event listener to the close button to remove the modal from the body
+        modal.find('.close').click(function() {
+        modal.remove();
+        });
+    });
+
 
             var language = Cookies.get('language');
                 if (language) {

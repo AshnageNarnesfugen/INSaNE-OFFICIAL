@@ -690,52 +690,46 @@ textarea {
     bottom: 0;
 }
 
-#cookie-consent {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    padding: 20px;
-    background-color: #f7f7f7;
-    border-top: 1px solid #ddd;
-    font-size: 14px;
-    text-align: center;
-    z-index: 10;
-  }
-  
-  #cookie-consent p {
-    margin: 0;
-    line-height: 1.4;
-  }
-  
-  #cookie-accept, #cookie-reject {
-    display: inline-block;
-    margin: 0 10px;
-    padding: 8px 20px;
-    border: none;
-    border-radius: 20px;
-    background-color: #007bff;
-    color: #fff;
-    font-size: 14px;
-    cursor: pointer;
-  }
-  
-  #cookie-accept:hover, #cookie-reject:hover {
-    background-color: #0069d9;
-  }
-  
-  @media screen and (max-width: 480px) {
-    #cookie-consent {
-      padding: 10px;
-      font-size: 12px;
-    }
-  
-    #cookie-accept, #cookie-reject {
-      padding: 6px 12px;
-      font-size: 12px;
-    }
-  }
 
-  .bg-darkgrey{
+
+.bg-darkgrey{
     background-color: #adadad;
+}
+  
+  /* Style the modals */
+  .modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 50px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0, 0, 0, 0.9); /* Black w/ opacity */
+  }
+  
+  /* Style the modal content */
+  .modal-content {
+    margin: auto;
+    display: block;
+    max-width: 800px;
+    max-height: 600px;
+  }
+  
+  /* Style the close button */
+  .close {
+    color: #fff;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    margin-right: 10px;
+  }
+  
+  .close:hover,
+  .close:focus {
+    color: #fff;
+    text-decoration: none;
+    cursor: pointer;
   }
