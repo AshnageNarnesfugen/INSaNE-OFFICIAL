@@ -709,6 +709,13 @@ textarea {
     overflow: auto; /* Enable scroll if needed */
     background-color: rgba(0, 0, 0, 0.9); /* Black w/ opacity */
   }
+
+  .modal-img {
+    max-width: 100%;
+    max-height: 100%;
+    margin: 0 auto;
+    display: block;
+  }
   
   /* Style the modal content */
   .modal-dialog {
