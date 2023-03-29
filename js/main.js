@@ -20,16 +20,14 @@ jQuery(() => {
 
         // Show the modal and overlay
         modal.show();
-
+        $('body').css('overflow', 'hidden')
         // Add a click event listener to the close button and overlay to remove the modal and overlay from the body
-        modal.find('.modal-close').click(function() {
-        modal.hide();
-        modal.remove();
-        });
         modal.click(function() {
-        modal.hide();
-        modal.remove();
+            modal.hide();
+            modal.remove();
+            $('body').css('overflow', 'visible')
         });
+        
     });
 
 
