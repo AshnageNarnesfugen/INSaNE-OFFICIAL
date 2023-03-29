@@ -1,6 +1,6 @@
 jQuery(() => {
     
-        /*
+
             var language = Cookies.get('language');
                 if (language) {
                     // Redirect user to the appropriate language version of the page
@@ -29,102 +29,7 @@ jQuery(() => {
                         }
                     });
                 }
-        */
-                
-                    // Check if the user has already given consent or rejected cookies
-                    if (getCookie('cookie-consent') === 'true') {
-                      // Execute your cookie-related code here
-                      console.log('Cookies accepted');
-                      var language = Cookies.get('language');
-                        if (language) {
-                            // Redirect user to the appropriate language version of the page
-                            if (language === 'es' && window.location.pathname !== '/es') {
-                                window.location.href = 'https://insane-bh.space/es';
-                            } else if (language === 'en' && window.location.pathname !== '/') {
-                                window.location.href = 'https://insane-bh.space';
-                            }
-                        } else {
-                            // Get user's language from browser preferences
-                            var userLang = navigator.language || navigator.userLanguage;
-
-                            // Get user's location using IP geolocation
-                            $.getJSON('https://ipapi.co/json/', function(data) {
-                                var userCountry = data.country_code;
-
-                                // Check if user's language is not English and country is not the US or Canada
-                                if (userLang != 'en' && userCountry != 'US' && userCountry != 'CA') {
-                                    // Redirect user to Spanish version of the page
-                                    Cookies.set('language', 'es');
-                                    window.location.href = 'https://insane-bh.space/es';
-                                } else {
-                                    // Redirect user to English version of the page
-                                    Cookies.set('language', 'en');
-                                    window.location.href = 'https://insane-bh.space';
-                                }
-                            });
-                        }
-                      // Hide the cookie consent message
-                      $('#cookie-consent').hide();
-                    } else if (getCookie('cookie-consent') === 'false') {
-                      // Hide the cookie consent message
-                      $('#cookie-consent').hide();
-                    }
                     
-                    // When the user clicks the accept button, set a cookie and hide the consent message
-                    $('#cookie-accept').click(function() {
-                      setCookie('cookie-consent', 'true', 365);
-                      $('#cookie-consent').hide();
-                    });
-                    
-                    // When the user clicks the reject button, set a cookie and hide the consent message
-                    $('#cookie-reject').click(function() {
-                      setCookie('cookie-consent', 'false', 365);
-                      $('#cookie-consent').hide();
-                    });
-                    
-                    // If the user is on a language variation site, check if they have already given consent or rejected cookies
-                    var languageVariation = window.location.hostname.split('.')[0];
-                    if (languageVariation !== 'www' && languageVariation !== '') {
-                      if (getCookie('cookie-consent') === 'true' || getCookie('cookie-consent') === 'false') {
-                        // Redirect to the main site with the same consent/rejection status
-                        var newUrl = 'https://insane-bh.space/?cookie-consent=' + getCookie('cookie-consent');
-                        if (window.location.href !== newUrl) {
-                          window.location.href = newUrl;
-                        }
-                      }
-                    }
-                    
-                    // If the user has already given consent or rejected cookies on the main site, set the same status on language variation sites
-                    if (getCookie('cookie-consent') === 'true' || getCookie('cookie-consent') === 'false') {
-                      var languageVariation = window.location.hostname.split('.')[0];
-                      if (languageVariation !== 'www' && languageVariation !== '') {
-                        setCookie('cookie-consent', getCookie('cookie-consent'), 365);
-                      }
-                    }
-                  
-                  
-                  // Function to set a cookie
-                  function setCookie(name, value, days) {
-                    var expires = '';
-                    if (days) {
-                      var date = new Date();
-                      date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-                      expires = '; expires=' + date.toUTCString();
-                    }
-                    document.cookie = name + '=' + value + expires + '; path=/';
-                  }
-                  
-                  // Function to get a cookie value
-                  function getCookie(name) {
-                    var nameEQ = name + '=';
-                    var ca = document.cookie.split(';');
-                    for (var i = 0; i < ca.length; i++) {
-                      var c = ca[i];
-                      while (c.charAt(0) == ' ') c = c.substring(1, c.length);
-                      if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
-                    }
-                    return null;
-                  }
 
     $.fn.clickToggle = function(func1, func2) {
         var funcs = [func1, func2];
