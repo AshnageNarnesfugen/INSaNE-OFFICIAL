@@ -695,7 +695,11 @@ textarea {
 .bg-darkgrey{
     background-color: #adadad;
 }
-  
+
+img {
+    cursor: pointer;
+}
+
 /* Style the modals */
 .modal {
     display: none; /* Hidden by default */
