@@ -30,35 +30,105 @@ jQuery(() => {
         
     });
 
-
+    window.cookieconsent.initialise({
+        "palette": {
+          "popup": {
+            "background": "#252e39",
+            "text": "#ffffff"
+          },
+          "button": {
+            "background": "#14a7d0",
+            "text": "#ffffff"
+          }
+        },
+        "content": {
+          "message": "This website uses cookies to ensure you get the best experience on our website.",
+          "dismiss": "Got it!",
+          "link": "Learn More",
+          "href": "https://www.example.com/cookies"
+        },
+        "position": "bottom-right",
+        "onInitialise": function(status) {
+          if (status === 'deny') {
+            // User has denied cookies, do something here
+          }
+        },
+        "onStatusChange": function(status) {
+          if (status === 'deny') {
+            // User has denied cookies, do something here
+          }
+        },
+        "law": {
+          "regionalLaw": true
+        },
+        "type": "opt-in",
+        "revokable": true,
+        "revokeBtn": '<div class="cc-revoke {{classes}}">{{buttonText}}</div>'
+      });
+      // Check if user has already given consent
+        if (Cookies.get('cookie-consent') === 'true') {
+            // User has given consent, so enable cookie functionality
+            enableCookies();
+        } else {
+            // User has not given consent, so show cookie consent banner
+            showCookieBanner();
+        }
+        
+        // Handle click event on cookie consent button
+        $('#cookie-consent').on('click', function() {
+            // Set cookie to indicate user has given consent
+            Cookies.set('cookie-consent', 'true', { expires: 365 });
+            
+            // Hide cookie consent banner
+            hideCookieBanner();
+            
+            // Enable cookie functionality
+            enableCookies();
+        });
+        
+        function showCookieBanner() {
+            // Show cookie consent banner
+            $('body').prepend('<div id="cookie-banner">This website uses cookies. <button id="cookie-consent">Accept</button></div>');
+        }
+        
+        function hideCookieBanner() {
+            // Hide cookie consent banner
+            $('#cookie-banner').remove();
+        }
+        
+        function enableCookies() {
+            // Add code here to enable cookie functionality, such as tracking user preferences or analytics data
             var language = Cookies.get('language');
-                if (language) {
-                    // Redirect user to the appropriate language version of the page
-                    if (language === 'es' && window.location.pathname !== '/es') {
+            if (language) {
+                // Redirect user to the appropriate language version of the page
+                if (language === 'es' && window.location.pathname !== '/es') {
+                    window.location.href = 'https://insane-bh.space/es';
+                } else if (language === 'en' && window.location.pathname !== '/') {
+                    window.location.href = 'https://insane-bh.space';
+                }
+            } else {
+                // Get user's language from browser preferences
+                var userLang = navigator.language || navigator.userLanguage;
+
+                // Get user's location using IP geolocation
+                $.getJSON('https://ipapi.co/json/', function(data) {
+                    var userCountry = data.country_code;
+
+                    // Check if user's language is not English and country is not the US or Canada
+                    if (userLang != 'en' && userCountry != 'US' && userCountry != 'CA') {
+                        // Redirect user to Spanish version of the page
+                        Cookies.set('language', 'es');
                         window.location.href = 'https://insane-bh.space/es';
-                    } else if (language === 'en' && window.location.pathname !== '/') {
+                    } else {
+                        // Redirect user to English version of the page
+                        Cookies.set('language', 'en');
                         window.location.href = 'https://insane-bh.space';
                     }
-                } else {
-                    // Get user's language from browser preferences
-                    var userLang = navigator.language || navigator.userLanguage;
+                });
+            }
+        }
 
-                    // Get user's location using IP geolocation
-                    $.getJSON('https://ipapi.co/json/', function(data) {
-                        var userCountry = data.country_code;
-
-                        // Check if user's language is not English and country is not the US or Canada
-                        if (userLang != 'en' && userCountry != 'US' && userCountry != 'CA') {
-                            // Redirect user to Spanish version of the page
-                            Cookies.set('language', 'es');
-                            window.location.href = 'https://insane-bh.space/es';
-                        } else {
-                            // Redirect user to English version of the page
-                            Cookies.set('language', 'en');
-                            window.location.href = 'https://insane-bh.space';
-                        }
-                    });
-                }
+           
                     
 
     $.fn.clickToggle = function(func1, func2) {
