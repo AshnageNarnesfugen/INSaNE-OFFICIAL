@@ -18,26 +18,17 @@ jQuery(() => {
         '</div>');
         modal.appendTo('body');
 
-        // Create an overlay div and append it to the body
-        var overlay = $('<div class="modal-overlay"></div>');
-        overlay.appendTo('body');
-
         // Show the modal and overlay
         modal.show();
-        overlay.show();
 
         // Add a click event listener to the close button and overlay to remove the modal and overlay from the body
         modal.find('.modal-close').click(function() {
         modal.hide();
-        overlay.hide();
         modal.remove();
-        overlay.remove();
         });
-        overlay.click(function() {
+        modal.click(function() {
         modal.hide();
-        overlay.hide();
         modal.remove();
-        overlay.remove();
         });
     });
 
