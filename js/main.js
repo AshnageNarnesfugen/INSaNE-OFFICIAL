@@ -65,38 +65,8 @@ jQuery(() => {
         "revokable": true,
         "revokeBtn": '<div class="cc-revoke {{classes}}">{{buttonText}}</div>'
       });
-      // Check if user has already given consent
-        if (Cookies.get('cookie-consent') === 'true') {
-            // User has given consent, so enable cookie functionality
-            enableCookies();
-        } else {
-            // User has not given consent, so show cookie consent banner
-            showCookieBanner();
-        }
-        
-        // Handle click event on cookie consent button
-        $('#cookie-consent').on('click', function() {
-            // Set cookie to indicate user has given consent
-            Cookies.set('cookie-consent', 'true', { expires: 365 });
-            
-            // Hide cookie consent banner
-            hideCookieBanner();
-            
-            // Enable cookie functionality
-            enableCookies();
-        });
-        
-        function showCookieBanner() {
-            // Show cookie consent banner
-            $('body').prepend('<div id="cookie-banner">This website uses cookies. <button id="cookie-consent">Accept</button></div>');
-        }
-        
-        function hideCookieBanner() {
-            // Hide cookie consent banner
-            $('#cookie-banner').remove();
-        }
-        
-        function enableCookies() {
+
+       
             // Add code here to enable cookie functionality, such as tracking user preferences or analytics data
             var language = Cookies.get('language');
             if (language) {
@@ -126,7 +96,6 @@ jQuery(() => {
                     }
                 });
             }
-        }
 
            
                     
