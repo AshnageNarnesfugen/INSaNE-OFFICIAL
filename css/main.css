@@ -700,7 +700,7 @@ textarea {
 .modal {
     display: none; /* Hidden by default */
     position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
+    z-index: 100000; /* Sit on top */
     padding-top: 50px; /* Location of the box */
     left: 0;
     top: 0;
@@ -712,7 +712,7 @@ textarea {
 
   .modal-img {
     max-width: 100%;
-    max-height: calc(100vh - 200px);
+    max-height: calc(86vh - 200px);
     margin: 0 auto;
     display: block;
   }
