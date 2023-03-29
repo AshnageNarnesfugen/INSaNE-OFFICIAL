@@ -2,6 +2,10 @@ jQuery(() => {
     
         // Cookies are allowed, continue with normal cookie logic
 
+        // Check if the user has already given consent or rejected cookies
+        if ($.cookie('cookie-consent') === 'true') {
+            // Execute your cookie-related code here
+            console.log('Cookies accepted');
             var language = Cookies.get('language');
             if (language) {
                 // Redirect user to the appropriate language version of the page
@@ -30,6 +34,40 @@ jQuery(() => {
                     }
                 });
             }
+            // Hide the cookie consent message
+            $('#cookie-consent').hide();
+        } else if ($.cookie('cookie-consent') === 'false') {
+            // Hide the cookie consent message
+            $('#cookie-consent').hide();
+        }
+        
+        // When the user clicks the accept button, set a cookie and hide the consent message
+        $('#cookie-accept').click(function() {
+            $.cookie('cookie-consent', 'true', { expires: 365, path: '/' });
+            $('#cookie-consent').hide();
+        });
+        
+        // When the user clicks the reject button, set a cookie and hide the consent message
+        $('#cookie-reject').click(function() {
+            $.cookie('cookie-consent', 'false', { expires: 365, path: '/' });
+            $('#cookie-consent').hide();
+        });
+        
+        // If the user is on a language variation site, check if they have already given consent or rejected cookies
+        var languageVariation = window.location.hostname.split('.')[0];
+        if (languageVariation !== 'www' && languageVariation !== '') {
+            if ($.cookie('cookie-consent') === 'true' || $.cookie('cookie-consent') === 'false') {
+            // Redirect to the main site with the same consent/rejection status
+            window.location.href = 'https://www.example.com/?cookie-consent=' + $.cookie('cookie-consent');
+            }
+        }
+        
+        // If the user has already given consent or rejected cookies on the main site, set the same status on language variation sites
+        if ($.cookie('cookie-consent') === 'true' || $.cookie('cookie-consent') === 'false') {
+            $.cookie('cookie-consent', $.cookie('cookie-consent'), { expires: 365, path: '/' });
+        }
+
+            
 
             
 
