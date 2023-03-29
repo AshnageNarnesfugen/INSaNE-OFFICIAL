@@ -30,43 +30,54 @@ jQuery(() => {
         
     });
 
-    window.cookieconsent.initialise({
-        "palette": {
-          "popup": {
-            "background": "#252e39",
-            "text": "#ffffff"
+    window.addEventListener("load", function(){
+        cookieconsent.initialise({
+          "palette": {
+            "popup": {
+              "background": "#ffffff",
+              "text": "#000000"
+            },
+            "button": {
+              "background": "#1d8a8a"
+            }
           },
-          "button": {
-            "background": "#14a7d0",
-            "text": "#ffffff"
-          }
-        },
-        "content": {
-          "message": "This website uses cookies to ensure you get the best experience on our website.",
-          "dismiss": "Got it!",
-          "link": "Learn More",
-          "href": "https://www.example.com/cookies"
-        },
-        "position": "bottom-right",
-        "onInitialise": function(status) {
-          if (status === 'deny') {
-            // User has denied cookies, do something here
-          }
-        },
-        "onStatusChange": function(status) {
-          if (status === 'deny') {
-            // User has denied cookies, do something here
-          }
-        },
-        "law": {
-          "regionalLaw": true
-        },
-        "type": "opt-in",
-        "revokable": true,
-        "revokeBtn": '<div class="cc-revoke {{classes}}">{{buttonText}}</div>'
-      });
-
-       
+          "theme": "edgeless",
+          "type": "opt-in",
+          "content": {
+            "message": "This website uses cookies to ensure you get the best experience on our website.",
+            "dismiss": "Got it!",
+            "allow": "Allow cookies",
+            "deny": "Decline",
+            "link": "Learn more",
+            "href": "https://example.com/privacy-policy"
+          },
+          "onInitialise": function(status) {
+            var consent = Cookies.get('cookieconsent_status');
+            if (consent && consent == 'allow') {
+              // Your code that uses cookies functionality goes here
+              console.log('Cookies are allowed!');
+            }
+          },
+          "onStatusChange": function(status, chosenBefore) {
+            if (status == 'allow') {
+              // Your code that uses cookies functionality goes here
+              console.log('Cookies are allowed!');
+            } else {
+              // Your code that uses cookies functionality goes here
+              console.log('Cookies are not allowed!');
+            }
+          },
+          "onRevokeChoice": function() {
+            // Your code that handles cookie revocation goes here
+            console.log('Cookies consent has been revoked!');
+          },
+          "onNoCookieLaw": function() {
+            // Your code that handles situations when there is no cookie law goes here
+            console.log('No cookie law is applied!');
+          },
+          "onAccept": function() {
+            // Your code that should run after accepting cookies goes here
+            console.log('Cookies have been accepted!');
             // Add code here to enable cookie functionality, such as tracking user preferences or analytics data
             var language = Cookies.get('language');
             if (language) {
@@ -96,6 +107,12 @@ jQuery(() => {
                     }
                 });
             }
+          }
+        });
+      });
+
+       
+            
 
            
                     
