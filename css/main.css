@@ -696,8 +696,8 @@ textarea {
     background-color: #adadad;
 }
   
-  /* Style the modals */
-  .modal {
+/* Style the modals */
+.modal {
     display: none; /* Hidden by default */
     position: fixed; /* Stay in place */
     z-index: 1; /* Sit on top */
@@ -711,9 +711,8 @@ textarea {
   }
   
   /* Style the modal content */
-  .modal-content {
+  .modal-dialog {
     margin: auto;
-    display: block;
     max-width: 800px;
     max-height: 600px;
   }
@@ -732,4 +731,10 @@ textarea {
     color: #fff;
     text-decoration: none;
     cursor: pointer;
+  }
+  
+  /* Style the image in the modal */
+  .modal-content {
+    width: 100%;
+    height: auto;
   }

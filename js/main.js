@@ -10,8 +10,12 @@ jQuery(() => {
 
         // Create a new modal and append it to the body
         var modal = $('<div class="modal">' +
+        '<div class="modal-dialog">' +
+        '<div class="modal-content">' +
         '<span class="close">&times;</span>' +
-        '<img class="modal-content">' +
+        '<img class="img-fluid" src="' + src + '">' +
+        '</div>' +
+        '</div>' +
         '</div>');
         modal.appendTo('body');
 
