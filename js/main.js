@@ -48,13 +48,41 @@ jQuery(() => {
 				"link": "Learn More",
 				"href": "https://www.example.com/cookies"
 			},
-			"position": "bottom-right",
+			"position": "bottom-left",
 			"type": "opt-in",
 			"onInitialise": function(status) {
 				var consent = Cookies.get('cookieconsent_status');
 				if (consent && consent == 'allow') {
 					// Your code that uses cookies functionality goes here
 					console.log('Cookies are allowed!');
+                    var language = Cookies.get('language');
+                    if (language) {
+                        // Redirect user to the appropriate language version of the page
+                        if (language === 'es' && window.location.pathname !== '/es') {
+                            window.location.href = 'https://insane-bh.space/es';
+                        } else if (language === 'en' && window.location.pathname !== '/') {
+                            window.location.href = 'https://insane-bh.space';
+                        }
+                    } else {
+                        // Get user's language from browser preferences
+                        var userLang = navigator.language || navigator.userLanguage;
+
+                        // Get user's location using IP geolocation
+                        $.getJSON('https://ipapi.co/json/', function(data) {
+                            var userCountry = data.country_code;
+
+                            // Check if user's language is not English and country is not the US or Canada
+                            if (userLang != 'en' && userCountry != 'US' && userCountry != 'CA') {
+                                // Redirect user to Spanish version of the page
+                                Cookies.set('language', 'es');
+                                window.location.href = 'https://insane-bh.space/es';
+                            } else {
+                                // Redirect user to English version of the page
+                                Cookies.set('language', 'en');
+                                window.location.href = 'https://insane-bh.space';
+                            }
+                        });
+                    }
 				}
 			},
 			"onStatusChange": function(status, chosenBefore) {
