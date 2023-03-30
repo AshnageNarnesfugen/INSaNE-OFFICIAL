@@ -55,34 +55,7 @@ jQuery(() => {
 				if (consent && consent == 'allow') {
 					// Your code that uses cookies functionality goes here
 					console.log('Cookies are allowed!');
-                    var language = Cookies.get('language');
-                    if (language) {
-                        // Redirect user to the appropriate language version of the page
-                        if (language === 'es' && window.location.pathname !== '/es') {
-                            window.location.href = 'https://insane-bh.space/es';
-                        } else if (language === 'en' && window.location.pathname !== '/') {
-                            window.location.href = 'https://insane-bh.space';
-                        }
-                    } else {
-                        // Get user's language from browser preferences
-                        var userLang = navigator.language || navigator.userLanguage;
-
-                        // Get user's location using IP geolocation
-                        $.getJSON('https://ipapi.co/json/', function(data) {
-                            var userCountry = data.country_code;
-
-                            // Check if user's language is not English and country is not the US or Canada
-                            if (userLang != 'en' && userCountry != 'US' && userCountry != 'CA') {
-                                // Redirect user to Spanish version of the page
-                                Cookies.set('language', 'es');
-                                window.location.href = 'https://insane-bh.space/es';
-                            } else {
-                                // Redirect user to English version of the page
-                                Cookies.set('language', 'en');
-                                window.location.href = 'https://insane-bh.space';
-                            }
-                        });
-                    }
+                    acceptedFunctionalityCookie()
 				}
 			},
 			"onStatusChange": function(status, chosenBefore) {
@@ -106,7 +79,14 @@ jQuery(() => {
 				// Your code that should run after accepting cookies goes here
 				console.log('Cookies have been accepted!');
 				// Add code here to enable cookie functionality, such as tracking user preferences or analytics data
-				var language = Cookies.get('language');
+				acceptedFunctionalityCookie()
+			}
+		});
+	});
+
+    const acceptedFunctionalityCookie = () => {
+        // Your code that should run after accepting cookies goes here
+        var language = Cookies.get('language');
 				if (language) {
 					// Redirect user to the appropriate language version of the page
 					if (language === 'es' && window.location.pathname !== '/es') {
@@ -134,11 +114,7 @@ jQuery(() => {
 						}
 					});
 				}
-			}
-		});
-	});
-
-
+    }
 
 
 
