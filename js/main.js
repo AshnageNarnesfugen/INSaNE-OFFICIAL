@@ -50,14 +50,6 @@ jQuery(() => {
               },
             "position": "bottom-right",
           "type": "opt-in",
-          "content": {
-            "message": "This website uses cookies to ensure you get the best experience on our website.",
-            "dismiss": "Got it!",
-            "allow": "Allow cookies",
-            "deny": "Decline",
-            "link": "Learn more",
-            "href": "https://example.com/privacy-policy"
-          },
           "onInitialise": function(status) {
             var consent = Cookies.get('cookieconsent_status');
             if (consent && consent == 'allow') {
