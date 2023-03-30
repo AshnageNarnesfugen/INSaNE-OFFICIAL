@@ -32,16 +32,23 @@ jQuery(() => {
 
     window.addEventListener("load", function(){
         cookieconsent.initialise({
-          "palette": {
-            "popup": {
-              "background": "#ffffff",
-              "text": "#000000"
-            },
-            "button": {
-              "background": "#1d8a8a"
-            }
-          },
-          "theme": "edgeless",
+            "palette": {
+                "popup": {
+                  "background": "#252e39",
+                  "text": "#ffffff"
+                },
+                "button": {
+                  "background": "#14a7d0",
+                  "text": "#ffffff"
+                }
+              },
+              "content": {
+                "message": "This website uses cookies to ensure you get the best experience on our website.",
+                "dismiss": "Got it!",
+                "link": "Learn More",
+                "href": "https://www.example.com/cookies"
+              },
+            "position": "bottom-right",
           "type": "opt-in",
           "content": {
             "message": "This website uses cookies to ensure you get the best experience on our website.",
