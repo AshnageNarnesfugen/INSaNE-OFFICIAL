@@ -10,15 +10,44 @@ jQuery(() => {
 		// Fetch the video in chunks and load it into the buffer
 		const chunkSize = 1024 * 1024; // 1MB chunk size
 		let offset = 0;
-		while (true) {
-		  const data = await fetchVideoChunk(videoUrl, offset, chunkSize);
-		  if (data.byteLength === 0) {
-			// Video fully loaded
-			break;
-		  }
-		  videoBuffer.push(data);
-		  offset += chunkSize;
+	  
+		function fetchVideoChunk(videoUrl, offset, chunkSize) {
+		  return new Promise((resolve, reject) => {
+			const xhr = new XMLHttpRequest();
+			xhr.open('GET', videoUrl, true);
+			xhr.responseType = 'arraybuffer';
+			xhr.setRequestHeader('Range', `bytes=${offset}-${offset + chunkSize - 1}`);
+			xhr.onload = () => {
+			  if (xhr.status >= 200 && xhr.status < 300) {
+				resolve(xhr.response);
+			  } else {
+				reject(new Error(`HTTP error! status: ${xhr.status}`));
+			  }
+			};
+			xhr.onerror = () => {
+			  reject(new Error('Network error'));
+			};
+			xhr.send();
+		  });
 		}
+	  
+		function loadVideoChunk() {
+		  fetchVideoChunk(videoUrl, offset, chunkSize)
+			.then((data) => {
+			  if (data.byteLength === 0) {
+				// Video fully loaded
+				return;
+			  }
+			  videoBuffer.push(data);
+			  offset += chunkSize;
+			  loadVideoChunk();
+			})
+			.catch((error) => {
+			  console.error(error);
+			});
+		}
+	  
+		loadVideoChunk();
 	  
 		// Play the video from the buffer
 		let bufferIndex = 0;
@@ -55,19 +84,6 @@ jQuery(() => {
 	  
 		$(videoElement).on('timeupdate', playVideoFromBuffer);
 	  });
-	  
-	  async function fetchVideoChunk(videoUrl, offset, chunkSize) {
-		const response = await fetch(videoUrl, {
-		  headers: {
-			Range: `bytes=${offset}-${offset + chunkSize - 1}`,
-		  },
-		});
-		if (!response.ok) {
-		  throw new Error(`HTTP error! status: ${response.status}`);
-		}
-		const data = await response.arrayBuffer();
-		return data;
-	  }
 
 	// Get all the image elements on the page
 	var images = $('img');
