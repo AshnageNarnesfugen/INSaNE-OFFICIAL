@@ -762,3 +762,8 @@ img {
     background-color: rgba(0, 0, 0, 0.5);
     cursor: pointer;
   }
+
+  .video {
+    max-width: 100%;
+    height: auto;
+  }
