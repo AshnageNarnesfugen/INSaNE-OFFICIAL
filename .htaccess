@@ -1,0 +1,30 @@
+# Turn on the RewriteEngine
+RewriteEngine On
+
+# Redirect non-www URLs to www
+RewriteCond %{HTTP_HOST} !^www\.
+RewriteRule ^(.*)$ http://www.%{HTTP_HOST}/$1 [R=301,L]
+
+# Redirect HTTP requests to HTTPS
+RewriteCond %{HTTPS} off
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# Set default file to index.html
+DirectoryIndex index.html
+
+# Block access to sensitive files and directories
+<FilesMatch "(^\.|\.html|\.htm$)">
+  Order Deny,Allow
+  Deny from all
+</FilesMatch>
+
+# Set headers for video files to avoid error 416
+<FilesMatch "\.(mp4|mov|webm)$">
+  RewriteEngine On
+  RewriteCond %{HTTP:Range} !=""
+  RewriteRule .* - [E=HTTP_RANGE:%{HTTP:Range}]
+  SetEnvIfNoCase Request_URI "\.(mp4|mov|webm)$" Video
+  Header always set Accept-Ranges bytes env=Video
+  Header always set Content-Range "bytes %{ENV:HTTP_RANGE}" env=HTTP_RANGE
+  Header always set Content-Length %{ENV:HTTP_RANGE} env=HTTP_RANGE
+</FilesMatch>
