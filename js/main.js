@@ -21,7 +21,8 @@ jQuery(() => {
 		// Add the popup to the document body
 		$('body').append(popup);
 	  });
-
+	  $(window).on('load', function() {
+		if ($('video').length) {
 		$('video').each(function() {
 			var videoElement = $(this)[0];
 			var videoURL = $(this).attr('src');
@@ -40,6 +41,11 @@ jQuery(() => {
 				console.error('Failed to fetch video:', error);
 			  });
 		  });
+		} else {
+			console.log('There are no video elements in the DOM.');
+		}
+	  })
+		
 
 	// Get all the image elements on the page
 	var images = $('img');
