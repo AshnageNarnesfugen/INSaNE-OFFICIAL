@@ -61,11 +61,22 @@
 
 a {
     text-decoration: none !important;
+    font-size: 16px;
+    font-weight: 400;
 }
 
 a:hover {
     text-decoration: none !important;
 }
+
+/* Default style for all <a> tags */
+ 
+  /* Style for <a> tags on mobile devices */
+  @media only screen and (max-width: 600px) {
+    a {
+      font-size: 14px;
+    }
+  }
 
 body {
     font-family: sharpsans-web, helvetica, arial, sans-serif;
