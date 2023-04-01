@@ -74,7 +74,7 @@ a:hover {
   /* Style for <a> tags on mobile devices */
   @media only screen and (max-width: 600px) {
     a {
-      font-size: 14px;
+      font-size: 21px;
     }
   }
 
