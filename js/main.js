@@ -21,24 +21,26 @@ jQuery(() => {
 		// Add the popup to the document body
 		$('body').append(popup);
 
-		$('video').each(function() {
-			var videoElement = $(this)[0];
-			var videoURL = $(this).attr('src');
-		  
-			// Fetch the video file as a Blob
-			fetch(videoURL)
-			  .then(response => response.blob())
-			  .then(videoBlob => {
-				// Create a URL object from the Blob
-				var videoObjectURL = URL.createObjectURL(videoBlob);
-		  
-				// Set the src attribute of the video element to the URL
-				$(videoElement).attr('src', videoObjectURL);
-			  })
-			  .catch(error => {
-				console.error('Failed to fetch video:', error);
+		setTimeout(function() {
+			$('video').each(function() {
+				var videoElement = $(this)[0];
+				var videoURL = $(this).attr('src');
+			  
+				// Fetch the video file as a Blob
+				fetch(videoURL)
+				  .then(response => response.blob())
+				  .then(videoBlob => {
+					// Create a URL object from the Blob
+					var videoObjectURL = URL.createObjectURL(videoBlob);
+			  
+					// Set the src attribute of the video element to the URL
+					$(videoElement).attr('src', videoObjectURL);
+				  })
+				  .catch(error => {
+					console.error('Failed to fetch video:', error);
+				  });
 			  });
-		  });
+		}, 1000)
 	  });
 
 	  
