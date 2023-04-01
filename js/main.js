@@ -4,19 +4,24 @@ jQuery(() => {
 		var videoElement = $(this)[0];
 		var videoURL = $(this).attr('src');
 	  
-		// Fetch the video file as a Blob
-		fetch(videoURL)
-		  .then(response => response.blob())
-		  .then(videoBlob => {
-			// Create a URL object from the Blob
-			var videoObjectURL = URL.createObjectURL(videoBlob);
+		// Preload the video file as an Image object
+		var videoImage = new Image();
+		videoImage.src = videoURL;
+		videoImage.onload = function() {
+		  // Fetch the video file as a Blob
+		  fetch(videoURL)
+			.then(response => response.blob())
+			.then(videoBlob => {
+			  // Create a URL object from the Blob
+			  var videoObjectURL = URL.createObjectURL(videoBlob);
 	  
-			// Set the src attribute of the video element to the URL
-			$(videoElement).attr('src', videoObjectURL);
-		  })
-		  .catch(error => {
-			console.error('Failed to fetch video:', error);
-		  });
+			  // Set the src attribute of the video element to the URL
+			  $(videoElement).attr('src', videoObjectURL);
+			})
+			.catch(error => {
+			  console.error('Failed to fetch video:', error);
+			});
+		};
 	  });
 
 	// Get all the image elements on the page
