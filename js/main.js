@@ -8,7 +8,7 @@ jQuery(() => {
 		const videoBuffer = [];
 	  
 		// Fetch the video in chunks and load it into the buffer
-		const chunkSize = 1024 * 1024; // 1MB chunk size
+		const chunkSize = 512 * 512; // 1MB chunk size
 		let offset = 0;
 	  
 		function fetchVideoChunk(videoUrl, offset, chunkSize) {
