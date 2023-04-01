@@ -22,7 +22,6 @@ jQuery(() => {
 		$('body').append(popup);
 	  });
 
-	  if ($('video').length){
 		$('video').each(function() {
 			var videoElement = $(this)[0];
 			var videoURL = $(this).attr('src');
@@ -41,9 +40,6 @@ jQuery(() => {
 				console.error('Failed to fetch video:', error);
 			  });
 		  });
-	  } else {
-		console.log("No Videos")
-	  }
 
 	// Get all the image elements on the page
 	var images = $('img');
