@@ -27,13 +27,13 @@ jQuery(() => {
 		var src = $(this).attr('src');
 
 		// Create a new modal and append it to the body
-		var modal = $('<div class="modal">' +
-			'<div class="modal-dialog">' +
-			'<div class="modal-content">' +
-			'<img class="modal-img" src="' + src + '">' +
-			'</div>' +
-			'</div>' +
-			'</div>');
+		var modal = $(`<div class="modal">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<img class="modal-img" src="${src}">
+			</div>
+		</div>
+	</div>`);
 		modal.appendTo('body');
 
 		// Show the modal and overlay
