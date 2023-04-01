@@ -1,37 +1,6 @@
 jQuery(() => {
 
-	$('video').each(function() {
-		var videoElement = $(this)[0];
-		var videoURL = $(this).attr('src');
-		
-		// Fetch the video file as a Blob
-		$.ajax({
-		  url: videoURL,
-		  method: 'GET',
-		  xhrFields: {
-			responseType: 'blob'
-		  },
-		  success: function(videoBlob) {
-			// Create a URL object from the Blob
-			var videoObjectURL = URL.createObjectURL(videoBlob);
-	  
-			// Set the src attribute of the video element to the URL
-			videoElement.src = videoObjectURL;
-	  
-			// Load the video element
-			videoElement.load();
-	  
-			// Set the src attribute of the video element to the URL again after the load event is fired
-			$(videoElement).on('loadedmetadata', function() {
-			  $(videoElement).attr('src', videoObjectURL);
-			});
-		  },
-		  error: function(error) {
-			console.error('Failed to fetch video:', error);
-		  }
-		});
-	  });
-	/*
+	
 	$('video').each(function() {
 		var videoElement = $(this)[0];
 		var videoURL = $(this).attr('src');
@@ -50,7 +19,7 @@ jQuery(() => {
 			console.error('Failed to fetch video:', error);
 		  });
 	  });
-	*/
+
 	
 
 	// Get all the image elements on the page
