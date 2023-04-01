@@ -28,7 +28,3 @@ DirectoryIndex index.html
   Header always set Content-Range "bytes %{ENV:HTTP_RANGE}" env=HTTP_RANGE
   Header always set Content-Length %{ENV:HTTP_RANGE} env=HTTP_RANGE
 </FilesMatch>
-
-Header set Accept-Ranges none Request
-
-Header unset Range
