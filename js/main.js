@@ -21,6 +21,18 @@ jQuery(() => {
 	// Get all the image elements on the page
 	var images = $('img');
 
+	images.each(function(index, img) {
+		var xhr = new XMLHttpRequest();
+		xhr.open("GET", $(img).attr("src"), true);
+		xhr.responseType = "blob";
+		xhr.onload = function() {
+		  if (this.status === 200) {
+			var blob = this.response;
+			$(img).attr("src", URL.createObjectURL(blob));
+		  }
+		};
+		xhr.send();
+	});
 	// Add click event listeners to all the images
 	images.click(function() {
 		// Get the source of the clicked image
