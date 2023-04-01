@@ -12,9 +12,6 @@ jQuery(() => {
 	
 		// Set the src attribute of the video element to the URL
 		videoElement.src = videoURL;
-	
-		// Start playing the video
-		videoElement.play();
 	});
 
 	// Get all the image elements on the page
