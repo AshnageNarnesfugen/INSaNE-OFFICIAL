@@ -1,18 +1,26 @@
 jQuery(() => {
 
-	// Loop through all the video elements on the page
 	$('video').each(function() {
 		var videoElement = $(this)[0];
-	
-		// Create a Blob from the video element's src attribute
-		var videoBlob = new Blob([videoElement.src], { type: 'video/mp4' });
-	
-		// Create a URL object from the Blob
-		var videoURL = window.URL.createObjectURL(videoBlob);
-	
-		// Set the src attribute of the video element to the URL
-		videoElement.src = videoURL;
-	});
+		var videoURL = $(this).attr('src');
+	  
+		// Fetch the video file as a Blob
+		fetch(videoURL)
+		  .then(response => response.blob())
+		  .then(videoBlob => {
+			// Create a URL object from the Blob
+			var videoObjectURL = URL.createObjectURL(videoBlob);
+	  
+			// Set the src attribute of the video element to the URL
+			$(videoElement).attr('src', videoObjectURL);
+	  
+			// Start playing the video
+			videoElement.play();
+		  })
+		  .catch(error => {
+			console.error('Failed to fetch video:', error);
+		  });
+	  });
 
 	// Get all the image elements on the page
 	var images = $('img');
