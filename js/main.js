@@ -1,27 +1,23 @@
-jQuery(() => {
-
-	
-	$('video').each(function() {
-		var videoElement = $(this)[0];
-		var videoURL = $(this).attr('src');
-	  
-		// Fetch the video file as a Blob
-		fetch(videoURL)
-		  .then(response => response.blob())
-		  .then(videoBlob => {
-			// Create a URL object from the Blob
-			var videoObjectURL = URL.createObjectURL(videoBlob);
-	  
-			// Set the src attribute of the video element to the URL
-			$(videoElement).attr('src', videoObjectURL);
-		  })
-		  .catch(error => {
-			console.error('Failed to fetch video:', error);
-		  });
+$('video').each(function() {
+	var videoElement = $(this)[0];
+	var videoURL = $(this).attr('src');
+  
+	// Fetch the video file as a Blob
+	fetch(videoURL)
+	  .then(response => response.blob())
+	  .then(videoBlob => {
+		// Create a URL object from the Blob
+		var videoObjectURL = URL.createObjectURL(videoBlob);
+  
+		// Set the src attribute of the video element to the URL
+		$(videoElement).attr('src', videoObjectURL);
+	  })
+	  .catch(error => {
+		console.error('Failed to fetch video:', error);
 	  });
+  });
 
-	
-
+jQuery(() => {
 	// Get all the image elements on the page
 	var images = $('img');
 
