@@ -1,50 +1,23 @@
 jQuery(() => {
 
-	$('.thumbnail').click(function(e) {
-		e.preventDefault()
-		// Get the URL of the video file from the data-src attribute of the clicked thumbnail
-		var videoURL = $(this).data('data-thumbnail');
+	$('video').each(function() {
+		var videoElement = $(this)[0];
+		var videoURL = $(this).attr('src');
 	  
-		// Create a video element and set its attributes
-		var videoElement = $('<video>').attr({
-		  'controls': true,
-		  'autoplay': true,
-		  'src': videoURL
-		});
+		// Fetch the video file as a Blob
+		fetch(videoURL)
+		  .then(response => response.blob())
+		  .then(videoBlob => {
+			// Create a URL object from the Blob
+			var videoObjectURL = URL.createObjectURL(videoBlob);
 	  
-		// Create a div element to hold the video element
-		var videoContainer = $('<div>').addClass('video-container').append(videoElement);
-	  
-		// Create a div element for the popup module and append the video container
-		var popup = $('<div>').addClass('popup').append(videoContainer);
-	  
-		// Add the popup to the document body
-		$('body').append(popup);
-
-		setTimeout(function() {
-			$('video').each(function() {
-				var videoElement = $(this)[0];
-				var videoURL = $(this).attr('src');
-			  
-				// Fetch the video file as a Blob
-				fetch(videoURL)
-				  .then(response => response.blob())
-				  .then(videoBlob => {
-					// Create a URL object from the Blob
-					var videoObjectURL = URL.createObjectURL(videoBlob);
-			  
-					// Set the src attribute of the video element to the URL
-					$(videoElement).attr('src', videoObjectURL);
-				  })
-				  .catch(error => {
-					console.error('Failed to fetch video:', error);
-				  });
-			  });
-		}, 5000)
+			// Set the src attribute of the video element to the URL
+			$(videoElement).attr('src', videoObjectURL);
+		  })
+		  .catch(error => {
+			console.error('Failed to fetch video:', error);
+		  });
 	  });
-
-	  
-	
 
 	// Get all the image elements on the page
 	var images = $('img');
