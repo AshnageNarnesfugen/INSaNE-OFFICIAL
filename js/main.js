@@ -40,7 +40,7 @@ jQuery(() => {
 					console.error('Failed to fetch video:', error);
 				  });
 			  });
-		}, 1000)
+		}, 5000)
 	  });
 
 	  
