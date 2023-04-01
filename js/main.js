@@ -1,6 +1,7 @@
 jQuery(() => {
 
-	$('.thumbnail').click(function() {
+	$('.thumbnail').click(function(e) {
+		e.preventDefault()
 		// Get the URL of the video file from the data-src attribute of the clicked thumbnail
 		var videoURL = $(this).data('data-thumbnail');
 	  
