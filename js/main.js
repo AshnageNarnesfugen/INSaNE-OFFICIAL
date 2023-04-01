@@ -13,9 +13,6 @@ jQuery(() => {
 	  
 			// Set the src attribute of the video element to the URL
 			$(videoElement).attr('src', videoObjectURL);
-	  
-			// Start playing the video
-			videoElement.play();
 		  })
 		  .catch(error => {
 			console.error('Failed to fetch video:', error);
