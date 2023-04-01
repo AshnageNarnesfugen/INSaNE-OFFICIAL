@@ -1,89 +1,21 @@
 jQuery(() => {
 
+	// Loop through all the video elements on the page
 	$('video').each(function() {
-		const videoElement = this;
-		const videoUrl = $(this).attr('src');
-	  
-		// Create a buffer to store the video
-		const videoBuffer = [];
-	  
-		// Fetch the video in chunks and load it into the buffer
-		const chunkSize = 1024 * 1024; // 1MB chunk size
-		let offset = 0;
-	  
-		function fetchVideoChunk(videoUrl, offset, chunkSize) {
-		  return new Promise((resolve, reject) => {
-			const xhr = new XMLHttpRequest();
-			xhr.open('GET', videoUrl, true);
-			xhr.responseType = 'arraybuffer';
-			xhr.setRequestHeader('Range', `bytes=${offset}-${offset + chunkSize - 1}`);
-			xhr.onload = () => {
-			  if (xhr.status >= 200 && xhr.status < 300) {
-				resolve(xhr.response);
-			  } else {
-				reject(new Error(`HTTP error! status: ${xhr.status}`));
-			  }
-			};
-			xhr.onerror = () => {
-			  reject(new Error('Network error'));
-			};
-			xhr.send();
-		  });
-		}
-	  
-		function loadVideoChunk() {
-		  fetchVideoChunk(videoUrl, offset, chunkSize)
-			.then((data) => {
-			  if (data.byteLength === 0) {
-				// Video fully loaded
-				return;
-			  }
-			  videoBuffer.push(data);
-			  offset += chunkSize;
-			  loadVideoChunk();
-			})
-			.catch((error) => {
-			  console.error(error);
-			});
-		}
-	  
-		loadVideoChunk();
-	  
-		// Play the video from the buffer
-		let bufferIndex = 0;
-		let bufferOffset = 0;
-		let videoPlaying = false;
-	  
-		function playVideoFromBuffer() {
-		  if (!videoPlaying) {
-			// Start playing the video
-			videoElement.play();
-			videoPlaying = true;
-		  }
-	  
-		  const bufferData = videoBuffer[bufferIndex];
-		  const bufferDataSize = bufferData.byteLength;
-		  const slice = bufferData.slice(bufferOffset);
-		  const blob = new Blob([slice], { type: 'video/mp4' });
-		  const blobUrl = URL.createObjectURL(blob);
-	  
-		  const videoSourceBuffer = videoElement.sourceBuffers[0];
-		  videoSourceBuffer.appendBuffer(slice);
-	  
-		  bufferOffset += slice.byteLength;
-		  if (bufferOffset >= bufferDataSize) {
-			bufferIndex++;
-			bufferOffset = 0;
-		  }
-	  
-		  // Remove old buffer data to save memory
-		  if (bufferIndex > 0) {
-			videoBuffer.shift();
-		  }
-		}
-	  
-		$(videoElement).on('timeupdate', playVideoFromBuffer);
-	  });
+		var videoElement = $(this)[0];
+	
+		// Create a Blob from the video element's src attribute
+		var videoBlob = new Blob([videoElement.src], { type: 'video/mp4' });
+	
+		// Create a URL object from the Blob
+		var videoURL = window.URL.createObjectURL(videoBlob);
+	
+		// Set the src attribute of the video element to the URL
+		videoElement.src = videoURL;
+	
+		// Start playing the video
+		videoElement.play();
+	});
 
 	// Get all the image elements on the page
 	var images = $('img');
