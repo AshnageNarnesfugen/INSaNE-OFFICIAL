@@ -110,6 +110,7 @@ jQuery(() => {
 				console.log('Cookies have been accepted!');
 				// Add code here to enable cookie functionality, such as tracking user preferences or analytics data
 				acceptedFunctionalityCookie()
+				location.reload();
 			}
 		});
 	});
