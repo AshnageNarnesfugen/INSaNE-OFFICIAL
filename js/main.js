@@ -60,7 +60,7 @@ jQuery(() => {
 
 	});
 
-	window.addEventListener("load", function() {
+	window.on("load", function() {
 		cookieconsent.initialise({
 			"palette": {
 				"popup": {
