@@ -799,25 +799,25 @@ img {
   @media (max-width: 280px) {
     /* Set a base font size and line height for better legibility */
     body {
-      font-size: 14px;
+      font-size: 14px !important;
       line-height: 1.5;
     }
   
     /* Adjust font sizes for different elements */
     h1 {
-      font-size: 24px;
+      font-size: 24px !important;
     }
   
     h2 {
-      font-size: 20px;
+      font-size: 20px !important;
     }
   
     h3 {
-      font-size: 18px;
+      font-size: 18px !important;
     }
   
     p {
-      font-size: 14px;
+      font-size: 14px !important;
     }
   
     /* Limit the width of the content to prevent horizontal scrolling */
