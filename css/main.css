@@ -132,6 +132,10 @@ body {
     border-bottom: solid 2px #000;
 }
 
+.blur-load {
+    height: inherit !important;
+}
+
 .left-col p {
     margin-block-start: 0 !important;
     margin-block-end: 0 !important;
