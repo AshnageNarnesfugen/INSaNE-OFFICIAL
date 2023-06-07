@@ -77,23 +77,27 @@ jQuery(() => {
 		let langMSG = {}
 		if (window.location.href == 'https://insane-bh.space') {
 			langMSG = {
+				"header": "Cookies used on the website!",
 				"message": "This website uses cookies to ensure you get the best experience on our website.",
 				"dismiss": "Got it!",
 				"allow": "Allow cookies",
 				"deny": "Decline",
 				"link": "Learn More",
 				"href": "https://www.example.com/cookies",
-				"close": '&#x274c;'
+				"close": "&#x274c;",
+				"policy": "Cookie Policy"
 			}
 		} else if (window.location.href == 'https://insane-bh.space/es') {
 			langMSG = {
+				"header": "¡Cookies usadas en el sitio web!",
 				"message": "Este sitio web utiliza cookies para garantizar que obtenga la mejor experiencia en nuestro sitio web.",
 				"dismiss": "¡Entiendo!",
 				"allow": "Permitir cookies",
 				"deny": "Rechazar",
 				"link": "Saber más",
 				"href": "https://www.example.com/cookies",
-				"close": '&#x274c;'
+				"close": "&#x274c;",
+				"policy": "Politica de Cookies"
 			}
 		}
 		cookieconsent.initialise({
