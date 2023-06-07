@@ -74,6 +74,22 @@ jQuery(() => {
 	});
 
 	$(window).on("load", function() {
+		let langMSG = {}
+		if (window.location.href = 'https://insane-bh.space') {
+			langMSG = {
+				"message": "This website uses cookies to ensure you get the best experience on our website.",
+				"dismiss": "Got it!",
+				"link": "Learn More",
+				"href": "https://www.example.com/cookies"
+			}
+		} else if (window.location.href = 'https://insane-bh.space/es') {
+			langMSG = {
+				"message": "Este sitio web utiliza cookies para garantizar que obtenga la mejor experiencia en nuestro sitio web.",
+				"dismiss": "¡Entiendo!",
+				"link": "Saber más",
+				"href": "https://www.example.com/cookies"
+			}
+		}
 		cookieconsent.initialise({
 			"palette": {
 				"popup": {
@@ -85,12 +101,7 @@ jQuery(() => {
 					"text": "#ffffff"
 				}
 			},
-			"content": {
-				"message": "This website uses cookies to ensure you get the best experience on our website.",
-				"dismiss": "Got it!",
-				"link": "Learn More",
-				"href": "https://www.example.com/cookies"
-			},
+			"content": langMSG,
 			"position": "bottom-left",
 			"type": "opt-in",
 			"onInitialise": function(status) {
