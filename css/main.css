@@ -168,10 +168,6 @@ body {
     background-position: center;
 }
 
-.blur-load.loaded {
-    background: none !important;
-}
-
 .blur-load.loaded > img {
     opacity: 1;
 }
