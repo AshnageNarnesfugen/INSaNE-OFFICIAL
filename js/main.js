@@ -285,17 +285,17 @@ jQuery(() => {
 		let langMSG = {}
 		if (window.location.href == 'https://insane-bh.space') {
 			langMSG = {
-				notiMSGAccepted = "Your form has been Submitted.",
-				bodyMSGAccepted = "Congratulations, Soonly our team will be in touch with you.",
-				notiMSGRejected = "Your form couldn't be Submitted.",
-				bodyMSGRejected = "An error has occurred, try again :(."
+				notiMSGAccepted: "Your form has been Submitted.",
+				bodyMSGAccepted: "Congratulations, Soonly our team will be in touch with you.",
+				notiMSGRejected: "Your form couldn't be Submitted.",
+				bodyMSGRejected: "An error has occurred, try again :(."
 			}
 		} else if (window.location.href == 'https://insane-bh.space/es') {
 			langMSG = {
-				notiMSGAccepted = "Su solicitud ha sido enviada.",
-				bodyMSGAccepted = "Enhorabuena, pronto nuestro equipo se pondrá en contacto con usted.",
-				notiMSGRejected = "No se pudo enviar su formulario.",
-				bodyMSGRejected = "Ha ocurrido un error, inténtelo de nuevo :(."
+				notiMSGAccepted: "Su solicitud ha sido enviada.",
+				bodyMSGAccepted: "Enhorabuena, pronto nuestro equipo se pondrá en contacto con usted.",
+				notiMSGRejected: "No se pudo enviar su formulario.",
+				bodyMSGRejected: "Ha ocurrido un error, inténtelo de nuevo :(."
 			}
 		}
 		let tymsg = $(this).attr('data-tymsg')
