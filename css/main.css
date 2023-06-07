@@ -795,3 +795,55 @@ img {
     max-height: 90%;
     overflow: hidden;
   }
+
+  @media (max-width: 280px) {
+    /* Set a base font size and line height for better legibility */
+    body {
+      font-size: 14px;
+      line-height: 1.5;
+    }
+  
+    /* Adjust font sizes for different elements */
+    h1 {
+      font-size: 24px;
+    }
+  
+    h2 {
+      font-size: 20px;
+    }
+  
+    h3 {
+      font-size: 18px;
+    }
+  
+    p {
+      font-size: 14px;
+    }
+  
+    /* Limit the width of the content to prevent horizontal scrolling */
+    .container {
+      max-width: 280px;
+      margin: 0 auto;
+    }
+  
+    /* Increase the spacing between paragraphs for better readability */
+    p {
+      margin-bottom: 10px;
+    }
+  
+    /* Increase the line height for better readability */
+    p, h1, h2, h3 {
+      line-height: 1.6;
+    }
+  
+    /* Increase the font weight for headings */
+    h1, h2, h3 {
+      font-weight: bold;
+    }
+  
+    /* Adjust margins for headings to provide better visual hierarchy */
+    h1, h2, h3 {
+      margin-top: 20px;
+      margin-bottom: 10px;
+    }
+  }
