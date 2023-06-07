@@ -60,6 +60,19 @@ jQuery(() => {
 
 	});
 
+	const blurDivs = $(".blur-load");
+	blurDivs.each(function() {
+		const img = $(this).find("img");
+		const loaded = () => {
+			$(this).addClass('loaded');
+		};
+		if (img[0].complete) {
+			loaded();
+		} else {
+			img.on('load', loaded);
+		}
+	});
+
 	window.on("load", function() {
 		cookieconsent.initialise({
 			"palette": {
