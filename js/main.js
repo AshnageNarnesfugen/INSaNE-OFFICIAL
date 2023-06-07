@@ -73,7 +73,7 @@ jQuery(() => {
 		}
 	});
 
-	window.on("load", function() {
+	$(window).on("load", function() {
 		cookieconsent.initialise({
 			"palette": {
 				"popup": {
