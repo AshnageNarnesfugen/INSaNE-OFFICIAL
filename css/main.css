@@ -411,11 +411,21 @@ body {
     }
 }
 
+.static-banner {
+    position: absolute;
+    inset: 0;
+    width: inherit;
+    height: inherit;
+}
+
+.blur-load.static-banner > img{
+    object-fit: cover;
+    object-position: center;
+    width: inherit;
+    height: inherit;
+}
+
 #esc1 {
-    background-image: url('../img/A9573E5D-F2E2-4A66-B75F-90F1DEBEE216.PNG') !important;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
     height: 80vh;
     position: relative;
     border: solid 2px #000;
