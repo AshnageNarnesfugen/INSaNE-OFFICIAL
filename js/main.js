@@ -282,6 +282,22 @@ jQuery(() => {
 	var form = $('#former-form')
 	form.on('submit', function(e) {
 		e.preventDefault()
+		let langMSG = {}
+		if (window.location.href == 'https://insane-bh.space') {
+			langMSG = {
+				notiMSGAccepted = "Your form has been Submitted.",
+				bodyMSGAccepted = "Congratulations, Soonly our team will be in touch with you.",
+				notiMSGRejected = "Your form couldn't be Submitted.",
+				bodyMSGRejected = "An error has occurred, try again :(."
+			}
+		} else if (window.location.href == 'https://insane-bh.space/es') {
+			langMSG = {
+				notiMSGAccepted = "Su solicitud ha sido enviada.",
+				bodyMSGAccepted = "Enhorabuena, pronto nuestro equipo se pondrá en contacto con usted.",
+				notiMSGRejected = "No se pudo enviar su formulario.",
+				bodyMSGRejected = "Ha ocurrido un error, inténtelo de nuevo :(."
+			}
+		}
 		let tymsg = $(this).attr('data-tymsg')
 		let errmsg = $(this).attr('data-errmsg')
 		console.log(tymsg, errmsg)
@@ -298,8 +314,8 @@ jQuery(() => {
 			success: (data) => {
 				Notification.requestPermission().then(perm => {
 					if (perm === "granted") {
-						new Notification("Your form has been Submitted.", {
-							body: "Congratulations, Soonly our team will be in touch with you.",
+						new Notification(langMSG.notiMSGAccepted, {
+							body: langMSG.bodyMSGAccepted,
 							icon: "img/webiconspace-removebg-preview.png"
 						});
 					}
@@ -310,8 +326,8 @@ jQuery(() => {
 			error: (err) => {
 				Notification.requestPermission().then(perm => {
 					if (perm === "granted") {
-						new Notification("Your form couldn't be Submitted.", {
-							body: "An error has occurred, try again :(.",
+						new Notification(langMSG.notiMSGRejected, {
+							body: langMSG.bodyMSGRejected,
 							icon: "img/webiconspace-removebg-preview.png"
 						});
 					}
