@@ -1,7 +1,7 @@
 .main {
     position: relative;
     overflow: hidden;
-    height: 100vh;
+    height: 1080px;
 }
 
 mark {
@@ -16,7 +16,7 @@ mark {
 
 .slide {
     display: flex;
-    height: 100vh;
+    height: 1080px;
     width: 100%;
     background: #2B2B2B;
 }
