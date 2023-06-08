@@ -17,6 +17,22 @@ $('video').each(function() {
 	  });
   });
 
+  var videos = $("video[data-altsrc]");
+
+  videos.each(function() {
+    var video = $(this);
+    var altSrc = video.attr("data-altsrc");
+
+    // Verificar si el navegador es Safari
+    if (navigator.vendor && navigator.vendor.indexOf('Apple') > -1 &&
+      navigator.userAgent &&
+      !navigator.userAgent.match('CriOS')
+    ) {
+      // Safari no es compatible con WebM, cambiar el origen del video al formato alternativo
+      video.attr("src", altSrc);
+    }
+  });
+
 jQuery(() => {
 	// Get all the image elements on the page
 	var images = $('img');
