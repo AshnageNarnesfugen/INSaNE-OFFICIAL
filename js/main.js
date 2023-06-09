@@ -14,7 +14,7 @@ jQuery(() => {
 					navigator.userAgent &&
 					!navigator.userAgent.match('CriOS')) {
 					// Safari no es compatible con WebM, cambiar el origen del video al formato alternativo
-					videoElement.attr("src", altSrc);
+					$(videoElement).attr("src", altSrc);
 				}
 			}
 			// Create a URL object from the Blob
