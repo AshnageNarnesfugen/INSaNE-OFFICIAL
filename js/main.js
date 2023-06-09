@@ -1,39 +1,32 @@
-$('video').each(function() {
-	var videoElement = $(this)[0];
-	var videoURL = $(this).attr('src');
-  
-	// Fetch the video file as a Blob
-	fetch(videoURL)
-	  .then(response => response.blob())
-	  .then(videoBlob => {
-		// Create a URL object from the Blob
-		var videoObjectURL = URL.createObjectURL(videoBlob);
-  
-		// Set the src attribute of the video element to the URL
-		$(videoElement).attr('src', videoObjectURL);
-	  })
-	  .catch(error => {
-		console.error('Failed to fetch video:', error);
-	  });
-  });
-
-  var videos = $("video[data-altsrc]");
-
-  videos.each(function() {
-    var video = $(this);
-    var altSrc = video.attr("data-altsrc");
-
-    // Verificar si el navegador es Safari
-    if (navigator.vendor && navigator.vendor.indexOf('Apple') > -1 &&
-      navigator.userAgent &&
-      !navigator.userAgent.match('CriOS')
-    ) {
-      // Safari no es compatible con WebM, cambiar el origen del video al formato alternativo
-      video.attr("src", altSrc);
-    }
-  });
-
 jQuery(() => {
+	$('video').each(function() {
+		var videoElement = $(this)[0];
+		var videoURL = $(this).attr('src');
+		var altSrc = $(this).attr("data-altsrc");
+		
+		if($(this).attr('data-altsrc')) {
+			// Verificar si el navegador es Safari
+			if (navigator.vendor && navigator.vendor.indexOf('Apple') > -1 &&
+				navigator.userAgent &&
+				!navigator.userAgent.match('CriOS')) {
+				// Safari no es compatible con WebM, cambiar el origen del video al formato alternativo
+				video.attr("src", altSrc);
+			}
+		}
+		// Fetch the video file as a Blob
+		fetch(videoURL)
+		  .then(response => response.blob())
+		  .then(videoBlob => {
+			// Create a URL object from the Blob
+			var videoObjectURL = URL.createObjectURL(videoBlob);
+	  
+			// Set the src attribute of the video element to the URL
+			$(videoElement).attr('src', videoObjectURL);
+		  })
+		  .catch(error => {
+			console.error('Failed to fetch video:', error);
+		  });
+	  });
 	// Get all the image elements on the page
 	var images = $('img');
 
