@@ -2,9 +2,10 @@ jQuery(() => {
 	$('video').each(function() {
 		var videoElement = $(this)[0];
 		var videoURL = $(this).attr('src');
-		var altSrc = $(this).attr("data-altsrc");
+		
 		
 		if($(this).attr('data-altsrc')) {
+			var altSrc = $(this).attr("data-altsrc");
 			// Verificar si el navegador es Safari
 			if (navigator.vendor && navigator.vendor.indexOf('Apple') > -1 &&
 				navigator.userAgent &&
