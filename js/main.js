@@ -334,7 +334,7 @@ jQuery(() => {
 					}
 				});
 				form.css('display', 'none');
-				$('.form-container').append(tymsg);
+				$('.form-container').html(tymsg);
 			},
 			error: (err) => {
 				Notification.requestPermission().then(perm => {
@@ -346,7 +346,7 @@ jQuery(() => {
 					}
 				});
 				form.css('display', 'none');
-				$('.form-container').append(errmsg);
+				$('.form-container').html(errmsg);
 			}
 		});
 
