@@ -2,23 +2,21 @@ jQuery(() => {
 	$('video').each(function() {
 		var videoElement = $(this)[0];
 		var videoURL = $(this).attr('src');
-		
-		
-		if($(this).attr('data-altsrc')) {
-			var altSrc = $(this).attr("data-altsrc");
-			// Verificar si el navegador es Safari
-			if (navigator.vendor && navigator.vendor.indexOf('Apple') > -1 &&
-				navigator.userAgent &&
-				!navigator.userAgent.match('CriOS')) {
-				// Safari no es compatible con WebM, cambiar el origen del video al formato alternativo
-				videoElement.attr("src", altSrc);
-			}
-		}
-		
+
 		// Fetch the video file as a Blob
 		fetch(videoURL)
 		  .then(response => response.blob())
 		  .then(videoBlob => {
+			if($(this).attr('data-altsrc')) {
+				var altSrc = $(this).attr("data-altsrc");
+				// Verificar si el navegador es Safari
+				if (navigator.vendor && navigator.vendor.indexOf('Apple') > -1 &&
+					navigator.userAgent &&
+					!navigator.userAgent.match('CriOS')) {
+					// Safari no es compatible con WebM, cambiar el origen del video al formato alternativo
+					videoElement.attr("src", altSrc);
+				}
+			}
 			// Create a URL object from the Blob
 			var videoObjectURL = URL.createObjectURL(videoBlob);
 	  
