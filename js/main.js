@@ -206,10 +206,6 @@ jQuery(() => {
 				}
     }
 
-
-
-
-
 	$.fn.clickToggle = function(func1, func2) {
 		var funcs = [func1, func2];
 		this.data('toggleclicked', 0);
