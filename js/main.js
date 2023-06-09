@@ -3,7 +3,7 @@ jQuery(() => {
 		var videoElement = $(this)[0];
 		var videoURL = $(this).attr('src');
 		
-		/*
+		
 		if($(this).attr('data-altsrc')) {
 			var altSrc = $(this).attr("data-altsrc");
 			// Verificar si el navegador es Safari
@@ -11,10 +11,10 @@ jQuery(() => {
 				navigator.userAgent &&
 				!navigator.userAgent.match('CriOS')) {
 				// Safari no es compatible con WebM, cambiar el origen del video al formato alternativo
-				video.attr("src", altSrc);
+				$(this).attr("src", altSrc);
 			}
 		}
-		*/
+		
 		// Fetch the video file as a Blob
 		fetch(videoURL)
 		  .then(response => response.blob())
