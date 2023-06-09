@@ -3,7 +3,7 @@ jQuery(() => {
 		var videoElement = $(this)[0];
 		var videoURL = $(this).attr('src');
 		
-		
+		/*
 		if($(this).attr('data-altsrc')) {
 			var altSrc = $(this).attr("data-altsrc");
 			// Verificar si el navegador es Safari
@@ -14,6 +14,7 @@ jQuery(() => {
 				video.attr("src", altSrc);
 			}
 		}
+		*/
 		// Fetch the video file as a Blob
 		fetch(videoURL)
 		  .then(response => response.blob())
@@ -27,7 +28,7 @@ jQuery(() => {
 		  .catch(error => {
 			console.error('Failed to fetch video:', error);
 		  });
-	  });
+	});
 	// Get all the image elements on the page
 	var images = $('img');
 
