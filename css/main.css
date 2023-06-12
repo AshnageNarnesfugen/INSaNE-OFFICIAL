@@ -552,11 +552,11 @@ a:hover {
 }
 
 #letter {
-    margin: 1%;
     color: black !important;
     word-break: break-word;
     position: relative;
     padding: 5px;
+    max-width: 300px;
 }
 
 #letter::after {
