@@ -556,7 +556,7 @@ a:hover {
     word-break: break-word;
     position: relative;
     padding: 5px;
-    max-width: 300px;
+    max-width: 500px;
 }
 
 #letter::after {
