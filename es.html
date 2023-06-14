@@ -22,22 +22,25 @@
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:image:alt" content="insane-banner" />
     <title>INSaNE | Un héroe roto</title>
-    <script src="js/jquery.js"></script>
-    <script src="js/cookie.js"></script>
-    <script src="js/cookieconsent.js"></script>
-    <script src="js/smoothscroll.js"></script>
+    <script src="js/jquery.js" defer></script>
+    <script src="js/cookie.js" defer></script>
+    <script src="js/cookieconsent.js" defer></script>
+    <script src="js/smoothscroll.js" defer></script>
     <script>
         SmoothScroll({
             animationTime: 1000,
             stepSize: 200
         });
     </script>
-    <script src="js/owlcarousel.js"></script>
-    <script src="js/parallaxie.js"></script>
-    <script src="js/shuffle.js"></script>
-    <script defer src="js/main.js"></script>
-    <script defer src="js/slider.js"></script>
-    <link rel="stylesheet" href="css/bootstrap.css">
+    <script src="js/owlcarousel.js" defer></script>
+    <script src="js/parallaxie.js" defer></script>
+    <script src="js/shuffle.js" defer></script>
+    <script defer src="js/main.js" defer></script>
+    <script defer src="js/slider.js" defer></script>
+    <link rel="preload" href="css/bootstrap.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript>
+        <link rel="stylesheet" type="text/css" href="css/bootstrap.min">
+    </noscript>
     <link rel="stylesheet" href="css/cookieconcent.css">
     <link rel="stylesheet" href="css/main.css">
     <link rel="manifest" href="manifest.json">
