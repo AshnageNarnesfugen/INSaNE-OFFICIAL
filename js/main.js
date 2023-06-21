@@ -14,7 +14,7 @@ jQuery(() => {
 			}
 		}
 
-		$(videoElement).on('load', function() {
+		$(videoElement).ready(function() {
 			// Fetch the video file as a Blob
 			setTimeout(function() {
 				fetch(videoURL)
