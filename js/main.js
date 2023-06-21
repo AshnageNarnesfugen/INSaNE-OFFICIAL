@@ -16,7 +16,6 @@ jQuery(() => {
 
 		$(videoElement).ready(function() {
 			// Fetch the video file as a Blob
-			setTimeout(function() {
 				fetch(videoURL)
 					.then(response => response.blob())
 					.then(videoBlob => {
@@ -28,7 +27,6 @@ jQuery(() => {
 					.catch(error => {
 						console.error('Failed to fetch video:', error);
 					});
-			}, 1000)
 		})
 	});
 	// Get all the image elements on the page
