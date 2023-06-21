@@ -3,33 +3,18 @@ jQuery(() => {
 		var videoElement = $(this)[0];
 		var videoURL = $(this).attr('src');
 
-		function Blobber() {
-			fetch(videoURL)
-					.then(response => response.blob())
-					.then(videoBlob => {
-						// Create a URL object from the Blob
-						var videoObjectURL = URL.createObjectURL(videoBlob);
-						// Set the src attribute of the video element to the URL
-						$(videoElement).attr('src', videoObjectURL);
-					})
-					.catch(error => {
-						console.error('Failed to fetch video:', error);
-					});
-		}
-
-		if($(this).attr('data-altsrc')) {
-			var altSrc = $(this).attr("data-altsrc");
-			// Verificar si el navegador es Safari
-			if (navigator.vendor && navigator.vendor.indexOf('Apple') > -1 &&
-				navigator.userAgent &&
-				!navigator.userAgent.match('CriOS')) {
-				// Safari no es compatible con WebM, cambiar el origen del video al formato alternativo
-				$(videoElement).attr("src", altSrc);
-				Blobber()
-			} else {
-				Blobber()
-			}
-		}
+		fetch(videoURL)
+			.then(response => response.blob())
+			.then(videoBlob => {
+				// Create a URL object from the Blob
+				var videoObjectURL = URL.createObjectURL(videoBlob);
+				// Set the src attribute of the video element to the URL
+				$(videoElement).attr('src', videoObjectURL);
+			})
+			.catch(error => {
+				console.error('Failed to fetch video:', error);
+			});
+		
 	});
 	// Get all the image elements on the page
 	var images = $('img');
