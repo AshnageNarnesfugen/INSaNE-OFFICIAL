@@ -1,7 +1,7 @@
 jQuery(() => {
 	$('video').each(function() {
 		var videoElement = $(this)[0];
-		var videoURL = $(this).find('source').attr('src');
+		var videoURL = $(this).attr('src');
 
 		fetch(videoURL)
 			.then(response => response.blob())
