@@ -3,20 +3,7 @@ jQuery(() => {
 		var videoElement = $(this)[0];
 		var videoURL = $(this).attr('src');
 
-		if($(this).attr('data-altsrc')) {
-			var altSrc = $(this).attr("data-altsrc");
-			// Verificar si el navegador es Safari
-			Blobber()
-			if (navigator.vendor && navigator.vendor.indexOf('Apple') > -1 &&
-				navigator.userAgent &&
-				!navigator.userAgent.match('CriOS')) {
-				// Safari no es compatible con WebM, cambiar el origen del video al formato alternativo
-				$(videoElement).attr("src", altSrc);
-				Blobber()
-			}
-		}
-
-		const Blobber = () => {
+		function Blobber() {
 			fetch(videoURL)
 					.then(response => response.blob())
 					.then(videoBlob => {
@@ -28,6 +15,19 @@ jQuery(() => {
 					.catch(error => {
 						console.error('Failed to fetch video:', error);
 					});
+		}
+
+		if($(this).attr('data-altsrc')) {
+			var altSrc = $(this).attr("data-altsrc");
+			// Verificar si el navegador es Safari
+			Blobber()
+			if (navigator.vendor && navigator.vendor.indexOf('Apple') > -1 &&
+				navigator.userAgent &&
+				!navigator.userAgent.match('CriOS')) {
+				// Safari no es compatible con WebM, cambiar el origen del video al formato alternativo
+				$(videoElement).attr("src", altSrc);
+				Blobber()
+			}
 		}
 	});
 	// Get all the image elements on the page
