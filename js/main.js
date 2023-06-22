@@ -1,4 +1,5 @@
 jQuery(() => {
+	/*
 	$('video').each(function() {
 		var videoElement = $(this)[0];
 		var videoURL = $(this).attr('src');
@@ -14,6 +15,29 @@ jQuery(() => {
 			.catch(error => {
 				console.error('Failed to fetch video:', error);
 			});
+	});
+	*/
+	$('video').each(function() {
+		var videoElement = $(this)[0];
+		
+		$(this).find('source').each(function() {
+			var sourceElement = $(this)[0];
+			var videoURL = $(this).attr('src');
+			
+			fetch(videoURL)
+				.then(response => response.blob())
+				.then(videoBlob => {
+					// Create a URL object from the Blob
+					var videoObjectURL = URL.createObjectURL(videoBlob);
+					// Set the src attribute of the source element to the URL
+					$(sourceElement).attr('src', videoObjectURL);
+					// Call the load method on the video element to update the sources
+					videoElement.load();
+				})
+				.catch(error => {
+					console.error('Failed to fetch video:', error);
+				});
+		});
 	});
 	
 	// Get all the image elements on the page
