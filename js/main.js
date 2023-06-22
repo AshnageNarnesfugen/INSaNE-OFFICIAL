@@ -1,5 +1,4 @@
 jQuery(() => {
-	/*
 		$('video').each(function() {
 		var videoElement = $(this)[0];
 		var videoURL = $(this).attr('src');
@@ -16,7 +15,6 @@ jQuery(() => {
 				console.error('Failed to fetch video:', error);
 			});
 	});
-	*/
 	
 	// Get all the image elements on the page
 	var images = $('img');
