@@ -1,6 +1,9 @@
 jQuery(() => {
 	$('video').each(function() {
 		var videoElement = $(this)[0];
+		var isBlobLoaded = false; // Flag to track if blob is loaded
+		
+		$(videoElement).prop('controls', false); // Disable video controls initially
 		
 		$(this).find('source').each(function() {
 			var sourceElement = $(this)[0];
@@ -9,12 +12,17 @@ jQuery(() => {
 			fetch(videoURL)
 				.then(response => response.blob())
 				.then(videoBlob => {
-					// Create a URL object from the Blob
 					var videoObjectURL = URL.createObjectURL(videoBlob);
+					
 					// Set the src attribute of the source element to the URL
 					$(sourceElement).attr('src', videoObjectURL);
-					// Call the load method on the video element to update the sources
-					videoElement.load();
+					
+					if (!isBlobLoaded) {
+						// Call the load method on the video element to update the sources
+						videoElement.load();
+						isBlobLoaded = true; // Update the flag
+						$(videoElement).prop('controls', true); // Enable video controls
+					}
 				})
 				.catch(error => {
 					console.error('Failed to fetch video:', error);
