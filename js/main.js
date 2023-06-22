@@ -1,5 +1,5 @@
 jQuery(() => {
-		$('video').each(function() {
+	$('video').each(function() {
 		var videoElement = $(this)[0];
 		var videoURL = $(this).attr('src');
 
