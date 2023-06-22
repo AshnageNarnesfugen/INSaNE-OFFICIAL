@@ -2,8 +2,10 @@ jQuery(() => {
 	$('video').each(function() {
 		var videoElement = $(this)[0];
 		var isBlobLoaded = false; // Flag to track if blob is loaded
+		var $overlay = $('<div class="video-overlay">Loading...</div>'); // Create a loading overlay
 		
 		$(videoElement).prop('controls', false); // Disable video controls initially
+		$(this).parent().append($overlay);
 		
 		$(this).find('source').each(function() {
 			var sourceElement = $(this)[0];
@@ -22,6 +24,7 @@ jQuery(() => {
 						videoElement.load();
 						isBlobLoaded = true; // Update the flag
 						$(videoElement).prop('controls', true); // Enable video controls
+						$overlay.remove(); // Remove the loading overlay
 					}
 				})
 				.catch(error => {
