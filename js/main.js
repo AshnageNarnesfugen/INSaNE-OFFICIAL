@@ -114,7 +114,7 @@ jQuery(() => {
 				"close": "❌",
 				"policy": "Politica de Cookies"
 			}
-		} else if (window.location.href == 'https://insane-bh.space/jp'){
+		} else if (window.location.href == 'https://insane-bh.space/ja'){
 			langMSG = {
 				"header": "ウェブサイトでのクッキーの使用について",
 				"message": "当ウェブサイトでは、最良の体験を提供するためにクッキーを使用しています。",
@@ -185,8 +185,8 @@ jQuery(() => {
 						window.location.href = 'https://insane-bh.space/es';
 					} else if (language === 'en' && window.location.pathname !== '/') {
 						window.location.href = 'https://insane-bh.space';
-					} else if (language === 'jp' && window.location.pathname !== '/jp') {
-						window.location.href = 'https://insane-bh.space/jp';
+					} else if (language === 'ja' && window.location.pathname !== '/ja') {
+						window.location.href = 'https://insane-bh.space/ja';
 					}
 				} else {
 					// Get user's language from browser preferences
@@ -197,8 +197,28 @@ jQuery(() => {
 						var userCountry = data.country_code;
 
 						// Check if user's language is not English and country is not the US or Canada
-						if (userLang != 'en' && userCountry != 'US' && userCountry != 'CA' && userCountry !== 'GB' && userCountry !== 'AU' && userCountry !== 'NZ' && userCountry !== 'IE' && userCountry !== 'ZA' && userCountry !== 'IN' && userCountry !== 'SG') {
+						if (userLang === 'en' && (userCountry === 'US' || userCountry === 'CA' || userCountry === 'GB' || userCountry === 'AU' || userCountry === 'NZ' || userCountry === 'IE' || userCountry === 'ZA' || userCountry === 'IN' || userCountry === 'SG')) {
 							// Redirect user to Spanish version of the page
+							Cookies.set('language', 'en', {
+								expires: 1,
+								path: '/',
+								domain: 'insane-bh.space',
+								secure: true,
+								sameSite: 'Strict'
+							});
+							window.location.href = 'https://insane-bh.space/es';
+						} else if (userLang === 'ja' && userCountry === 'JA') {
+							// Redirect users to Japanese version of the page
+							Cookies.set('language', 'ja', {
+								expires: 1,
+								path: '/ja',
+								domain: 'insane-bh.space',
+								secure: true,
+								sameSite: 'Strict'
+							});
+							window.location.href = 'https://insane-bh.space/ja';
+						} else if (userLang === 'es' && (userCountry === 'ES' || userCountry === 'MX' || userCountry === 'AR' || userCountry === 'CO' || userCountry === 'PE' || userCountry === 'VE' || userCountry === 'CL' || userCountry === 'EC' || userCountry === 'GT' || userCountry === 'CU')) {
+							// Redirect user to English version of the page
 							Cookies.set('language', 'es', {
 								expires: 1,
 								path: '/es',
@@ -207,26 +227,6 @@ jQuery(() => {
 								sameSite: 'Strict'
 							});
 							window.location.href = 'https://insane-bh.space/es';
-						} else if (userLang != 'jp' && userCountry != 'JP') {
-							// Redirect users to Japanese version of the page
-							Cookies.set('language', 'jp', {
-								expires: 1,
-								path: '/jp',
-								domain: 'insane-bh.space',
-								secure: true,
-								sameSite: 'Strict'
-							});
-							window.location.href = 'https://insane-bh.space/jp';
-						} else {
-							// Redirect user to English version of the page
-							Cookies.set('language', 'en', {
-								expires: 1,
-								path: '/',
-								domain: 'insane-bh.space',
-								secure: true,
-								sameSite: 'Strict'
-							});
-							window.location.href = 'https://insane-bh.space';
 						}
 					});
 				}
@@ -336,7 +336,7 @@ jQuery(() => {
 				notiMSGRejected: "No se pudo enviar su formulario.",
 				bodyMSGRejected: "Ha ocurrido un error, inténtelo de nuevo :(."
 			}
-		} else if (window.location.href == 'https://insane-bh.space/jp') {
+		} else if (window.location.href == 'https://insane-bh.space/ja') {
 			langMSG = {
 				notiMSGAccepted: "フォームを送信しました",
 				bodyMSGAccepted: "おめでとうございます。あな",
