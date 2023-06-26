@@ -190,13 +190,10 @@ jQuery(() => {
 						window.location.href = 'https://insane-bh.space/ja';
 					}
 				} else {
-					// Get user's language from browser preferences
-					var userLang = navigator.language || navigator.userLanguage;
-					
 					// Get user's location using IP geolocation
 					$.getJSON('https://ipapi.co/json/', function(data) {
 						var userCountry = data.country_code;
-						console.log(userCountry, userLang)
+						console.log(userCountry)
 
 						// Check if user's language is not English and country is not the US or Canada
 						if (userCountry == 'US' && userCountry == 'CA' && userCountry == 'GB' && userCountry == 'AU' && userCountry == 'NZ' && userCountry == 'IE' && userCountry == 'ZA' && userCountry == 'IN' && userCountry == 'SG') {
