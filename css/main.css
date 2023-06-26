@@ -863,6 +863,8 @@ img {
     top: 10px;
     right: 10px;
     z-index: 1000;
+    background: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(10px);
   }
   
   #language-menu ul {
@@ -873,6 +875,7 @@ img {
   
   #language-menu li {
     display: inline;
+    margin-left: 10px;
     margin-right: 10px;
   }
   
