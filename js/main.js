@@ -114,7 +114,7 @@ jQuery(() => {
 				"close": "❌",
 				"policy": "Politica de Cookies"
 			}
-		} else if (window.location.href == 'https://insane-bh.space/jp'){
+		} else if (window.location.href == 'https://insane-bh.space/ja'){
 			langMSG = {
 				"header": "ウェブサイトでのクッキーの使用について",
 				"message": "当ウェブサイトでは、最良の体験を提供するためにクッキーを使用しています。",
@@ -185,8 +185,8 @@ jQuery(() => {
 						window.location.href = 'https://insane-bh.space/es';
 					} else if (language === 'en' && window.location.pathname !== '/') {
 						window.location.href = 'https://insane-bh.space';
-					} else if (language === 'jp' && window.location.pathname !== '/jp') {
-						window.location.href = 'https://insane-bh.space/jp';
+					} else if (language === 'jp' && window.location.pathname !== '/ja') {
+						window.location.href = 'https://insane-bh.space/ja';
 					}
 				} else {
 					// Get user's language from browser preferences
@@ -207,16 +207,16 @@ jQuery(() => {
 								sameSite: 'Strict'
 							});
 							window.location.href = 'https://insane-bh.space/es';
-						} else if (userLang != 'jp' && userCountry != 'JP') {
+						} else if (userLang != 'ja' && userCountry != 'JP') {
 							// Redirect users to Japanese version of the page
-							Cookies.set('language', 'jp', {
+							Cookies.set('language', 'ja', {
 								expires: 1,
-								path: '/jp',
+								path: '/ja',
 								domain: 'insane-bh.space',
 								secure: true,
 								sameSite: 'Strict'
 							});
-							window.location.href = 'https://insane-bh.space/jp';
+							window.location.href = 'https://insane-bh.space/ja';
 						} else {
 							// Redirect user to English version of the page
 							Cookies.set('language', 'en', {
@@ -336,7 +336,7 @@ jQuery(() => {
 				notiMSGRejected: "No se pudo enviar su formulario.",
 				bodyMSGRejected: "Ha ocurrido un error, inténtelo de nuevo :(."
 			}
-		} else if (window.location.href == 'https://insane-bh.space/jp') {
+		} else if (window.location.href == 'https://insane-bh.space/ja') {
 			langMSG = {
 				notiMSGAccepted: "フォームを送信しました",
 				bodyMSGAccepted: "おめでとうございます。あな",
