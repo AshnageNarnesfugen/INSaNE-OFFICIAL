@@ -180,6 +180,10 @@ jQuery(() => {
 							});
 							window.location.href = `https://insane-bh.space/es?country=${userCountry}`;
 							break;
+						default:
+							Cookies.remove('language');
+							window.location.href = `https://insane-bh.space`;
+							break;
 					}
 				});
 				break;
