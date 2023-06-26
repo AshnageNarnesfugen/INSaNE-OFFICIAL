@@ -99,7 +99,7 @@ jQuery(() => {
 				"deny": "Decline",
 				"link": "Learn More",
 				"href": "https://www.example.com/cookies",
-				"close": "&#x274c;",
+				"close": "❌",
 				"policy": "Cookie Policy"
 			}
 		} else if (window.location.href == 'https://insane-bh.space/es') {
@@ -111,8 +111,20 @@ jQuery(() => {
 				"deny": "Rechazar",
 				"link": "Saber más",
 				"href": "https://www.example.com/cookies",
-				"close": "&#x274c;",
+				"close": "❌",
 				"policy": "Politica de Cookies"
+			}
+		} else if (window.location.href == 'https://insane-bh.space/jp'){
+			langMSG = {
+				"header": "ウェブサイトでのクッキーの使用について",
+				"message": "当ウェブサイトでは、最良の体験を提供するためにクッキーを使用しています。",
+				"dismiss": "了解しました！",
+				"allow": "クッキーを許可する",
+				"deny": "拒否する",
+				"link": "詳細を知る",
+				"href": "https://www.example.com/cookies",
+				"close": "❌",
+				"policy": "クッキーポリシー"
 			}
 		}
 		cookieconsent.initialise({
@@ -173,6 +185,8 @@ jQuery(() => {
 						window.location.href = 'https://insane-bh.space/es';
 					} else if (language === 'en' && window.location.pathname !== '/') {
 						window.location.href = 'https://insane-bh.space';
+					} else if (language === 'jp' && window.location.pathname !== '/jp') {
+						window.location.href = 'https://insane-bh.space/jp';
 					}
 				} else {
 					// Get user's language from browser preferences
@@ -193,6 +207,16 @@ jQuery(() => {
 								sameSite: 'Strict'
 							});
 							window.location.href = 'https://insane-bh.space/es';
+						} else if (userLang != 'jp' && userCountry != 'JP') {
+							// Redirect users to Japanese version of the page
+							Cookies.set('language', 'jp', {
+								expires: 1,
+								path: '/jp',
+								domain: 'insane-bh.space',
+								secure: true,
+								sameSite: 'Strict'
+							});
+							window.location.href = 'https://insane-bh.space/jp';
 						} else {
 							// Redirect user to English version of the page
 							Cookies.set('language', 'en', {
@@ -311,6 +335,13 @@ jQuery(() => {
 				bodyMSGAccepted: "Enhorabuena, pronto nuestro equipo se pondrá en contacto con usted.",
 				notiMSGRejected: "No se pudo enviar su formulario.",
 				bodyMSGRejected: "Ha ocurrido un error, inténtelo de nuevo :(."
+			}
+		} else if (window.location.href == 'https://insane-bh.space/jp') {
+			langMSG = {
+				notiMSGAccepted: "フォームを送信しました",
+				bodyMSGAccepted: "おめでとうございます。あな",
+				notiMSGRejected: "フォームの送信に失敗しました",
+				bodyMSGRejected: "エラーが発生しました。もう一度やり"
 			}
 		}
 		let tymsg = $(this).attr('data-tymsg')
