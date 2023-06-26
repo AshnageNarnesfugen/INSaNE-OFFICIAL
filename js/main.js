@@ -175,60 +175,7 @@ jQuery(() => {
 			}
 		});
 	});
-
-	// Function to check if a cookie is set
-	function isCookieSet(cookieName) {
-		return Cookies.get(cookieName) === '1';
-	}
-	
-	// Function to set a cookie
-	function setCookie(cookieName) {
-		Cookies.set(cookieName, '1', { expires: 1 });
-	}
-
-	// Function to redirect to the appropriate language variant
-	function acceptedFunctionalityCookie() {
-		// Check if the cookie is already set
-		if (!isCookieSet('languageRedirected')) {
-		// Make an API call to retrieve the user's location
-		$.getJSON('https://ipapi.co/json/', function(data) {
-			var languageCode = data.languages.split(',')[0]; // Get the first language code
-			var countryCode = data.country_code; // Get the country code
-	
-			// Define the language variants and their corresponding language codes and country codes
-			var languageVariants = {
-			'/': {
-				language: 'en',
-				countryCodes: ['US', 'GB', 'AU'] // English language variants for United States, United Kingdom, and Australia
-			},
-			'/es': {
-				language: 'es',
-				countryCodes: ['MX', 'AR', 'ES'] // Spanish language variants for Mexico, Argentina, and Spain
-			},
-			'/ja': {
-				language: 'ja',
-				countryCodes: ['JP'] // Japanese language variant for Japan
-			},
-			// Add more language variants here for different languages and their respective countries
-			};
-	
-			// Check if the user's language is supported for their country
-			if (languageVariants.hasOwnProperty('/' + languageCode) && languageVariants['/' + languageCode].countryCodes.includes(countryCode)) {
-			// Construct the URL for the language variant
-			var languageVariantUrl = window.location.protocol + '//' + window.location.hostname + '/' + languageCode;
-	
-			// Redirect to the language variant
-			window.location.href = languageVariantUrl;
-	
-			// Set the cookie to prevent redirection loop
-			setCookie('languageRedirected');
-			}
-		});
-		}
-	}
   
-
-    /*
 		const acceptedFunctionalityCookie = () => {
         // Your code that should run after accepting cookies goes here
         var language = Cookies.get('language');
@@ -250,17 +197,17 @@ jQuery(() => {
 						var userCountry = data.country_code;
 
 						// Check if user's language is not English and country is not the US or Canada
-						if (userLang != 'en' && userCountry != 'US' && userCountry != 'CA') {
+						if (userLang === 'en' && userCountry === 'US' && userCountry === 'CA' && userCountry === 'GB' && userCountry === 'AU' && userCountry === 'NZ' && userCountry === 'IE' && userCountry === 'ZA' && userCountry === 'IN' && userCountry === 'SG') {
 							// Redirect user to Spanish version of the page
-							Cookies.set('language', 'es', {
+							Cookies.set('language', 'en', {
 								expires: 1,
-								path: '/es',
+								path: '/',
 								domain: 'insane-bh.space',
 								secure: true,
 								sameSite: 'Strict'
 							});
-							window.location.href = 'https://insane-bh.space/es';
-						} else if (userLang != 'ja' && userCountry != 'JP') {
+							window.location.href = 'https://insane-bh.space/en';
+						} else if (userLang === 'ja' && userCountry === 'JP') {
 							// Redirect users to Japanese version of the page
 							Cookies.set('language', 'ja', {
 								expires: 1,
@@ -270,21 +217,20 @@ jQuery(() => {
 								sameSite: 'Strict'
 							});
 							window.location.href = 'https://insane-bh.space/ja';
-						} else {
+						} else if (userLang === 'es' && userCountry === 'ES' && userCountry === 'MX' && userCountry === 'AR' && userCountry === 'CO' && userCountry === 'PE' && userCountry === 'VE' && userCountry === 'CL' && userCountry === 'EC' && userCountry === 'GT' && userCountry === 'CU') {
 							// Redirect user to English version of the page
-							Cookies.set('language', 'en', {
+							Cookies.set('language', 'es', {
 								expires: 1,
-								path: '/',
+								path: '/es',
 								domain: 'insane-bh.space',
 								secure: true,
 								sameSite: 'Strict'
 							});
-							window.location.href = 'https://insane-bh.space';
+							window.location.href = 'https://insane-bh.space/es';
 						}
 					});
 				}
     }
-	*/
 
 	$.fn.clickToggle = function(func1, func2) {
 		var funcs = [func1, func2];
