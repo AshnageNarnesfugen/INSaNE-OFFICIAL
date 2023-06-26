@@ -199,7 +199,7 @@ jQuery(() => {
 						if (userCountry == 'US' && userCountry == 'CA' && userCountry == 'GB' && userCountry == 'AU' && userCountry == 'NZ' && userCountry == 'IE' && userCountry == 'ZA' && userCountry == 'IN' && userCountry == 'SG') {
 							// Redirect user to Spanish version of the page
 							Cookies.set('language', 'en', {
-								expires: 1,
+								expires: 365,
 								path: '/',
 								domain: 'insane-bh.space',
 								secure: true,
@@ -209,7 +209,7 @@ jQuery(() => {
 						} else if (userCountry == 'JP') {
 							// Redirect users to Japanese version of the page
 							Cookies.set('language', 'ja', {
-								expires: 1,
+								expires: 365,
 								path: '/ja',
 								domain: 'insane-bh.space',
 								secure: true,
@@ -219,7 +219,7 @@ jQuery(() => {
 						} else if (userCountry == 'ES' && userCountry == 'MX' && userCountry == 'AR' && userCountry == 'CO' && userCountry == 'PE' && userCountry == 'VE' && userCountry == 'CL' && userCountry == 'EC' && userCountry == 'GT' && userCountry == 'CU') {
 							// Redirect user to English version of the page
 							Cookies.set('language', 'es', {
-								expires: 1,
+								expires: 365,
 								path: '/es',
 								domain: 'insane-bh.space',
 								secure: true,
