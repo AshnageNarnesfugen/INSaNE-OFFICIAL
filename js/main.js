@@ -176,7 +176,50 @@ jQuery(() => {
 		});
 	});
 
-    const acceptedFunctionalityCookie = () => {
+	// Function to redirect to the appropriate language variant
+	function acceptedFunctionalityCookie() {
+		// Check if the cookie is already set
+		if (!isCookieSet('languageRedirected')) {
+		// Make an API call to retrieve the user's location
+		$.getJSON('https://ipapi.co/json/', function(data) {
+			var languageCode = data.languages.split(',')[0]; // Get the first language code
+			var countryCode = data.country_code; // Get the country code
+	
+			// Define the language variants and their corresponding language codes and country codes
+			var languageVariants = {
+			'/': {
+				language: 'en',
+				countryCodes: ['US', 'GB', 'AU'] // English language variants for United States, United Kingdom, and Australia
+			},
+			'/es': {
+				language: 'es',
+				countryCodes: ['MX', 'AR', 'ES'] // Spanish language variants for Mexico, Argentina, and Spain
+			},
+			'/ja': {
+				language: 'ja',
+				countryCodes: ['JP'] // Japanese language variant for Japan
+			},
+			// Add more language variants here for different languages and their respective countries
+			};
+	
+			// Check if the user's language is supported for their country
+			if (languageVariants.hasOwnProperty('/' + languageCode) && languageVariants['/' + languageCode].countryCodes.includes(countryCode)) {
+			// Construct the URL for the language variant
+			var languageVariantUrl = window.location.protocol + '//' + window.location.hostname + '/' + languageCode;
+	
+			// Redirect to the language variant
+			window.location.href = languageVariantUrl;
+	
+			// Set the cookie to prevent redirection loop
+			setCookie('languageRedirected');
+			}
+		});
+		}
+	}
+  
+
+    /*
+		const acceptedFunctionalityCookie = () => {
         // Your code that should run after accepting cookies goes here
         var language = Cookies.get('language');
 				if (language) {
@@ -231,6 +274,7 @@ jQuery(() => {
 					});
 				}
     }
+	*/
 
 	$.fn.clickToggle = function(func1, func2) {
 		var funcs = [func1, func2];
