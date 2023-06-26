@@ -198,15 +198,15 @@ jQuery(() => {
 
 						// Check if user's language is English and country is one of the specified countries
 						if (userLang.startsWith('en') && ['US', 'CA', 'GB', 'AU', 'NZ', 'IE', 'ZA', 'IN', 'SG'].includes(userCountry)) {
-							// Redirect user to Spanish version of the page
-							Cookies.set('language', 'es', {
+							// Redirect user to English version of the page
+							Cookies.set('language', 'en', {
 								expires: 1,
-								path: '/es',
+								path: '/',
 								domain: 'insane-bh.space',
 								secure: true,
 								sameSite: 'Strict'
 							});
-							window.location.href = 'https://insane-bh.space/es';
+							window.location.href = 'https://insane-bh.space';
 						} else if (userLang.startsWith('ja') && userCountry === 'JP') {
 							// Redirect users to Japanese version of the page
 							Cookies.set('language', 'ja', {
@@ -218,7 +218,17 @@ jQuery(() => {
 							});
 							window.location.href = 'https://insane-bh.space/ja';
 						} else if (userLang.startsWith('es') && ['ES', 'MX', 'AR', 'CO', 'PE', 'VE', 'CL', 'EC', 'GT', 'CU'].includes(userCountry)) {
-							// Redirect user to English version of the page
+							// Redirect user to Spanish version of the page
+							Cookies.set('language', 'es', {
+								expires: 1,
+								path: '/es',
+								domain: 'insane-bh.space',
+								secure: true,
+								sameSite: 'Strict'
+							});
+							window.location.href = 'https://insane-bh.space/es';
+						} else {
+							// Redirect user to default version of the page
 							Cookies.set('language', 'en', {
 								expires: 1,
 								path: '/',
