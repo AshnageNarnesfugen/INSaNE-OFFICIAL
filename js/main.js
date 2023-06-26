@@ -196,6 +196,7 @@ jQuery(() => {
 					// Get user's location using IP geolocation
 					$.getJSON('https://ipapi.co/json/', function(data) {
 						var userCountry = data.country_code;
+						console.log(userCountry, userLang)
 
 						// Check if user's language is not English and country is not the US or Canada
 						if (userLang == 'en' && userCountry == 'US' && userCountry == 'CA' && userCountry == 'GB' && userCountry == 'AU' && userCountry == 'NZ' && userCountry == 'IE' && userCountry == 'ZA' && userCountry == 'IN' && userCountry == 'SG') {
