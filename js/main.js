@@ -177,20 +177,23 @@ jQuery(() => {
 	});
 
     const acceptedFunctionalityCookie = () => {
+		// Your code that should run after accepting cookies goes here
 		const language = Cookies.get('language');
-	  
+		
 		if (language) {
 		  // Redirect user to the appropriate language version of the page
-		  if (language === 'es' && !window.location.pathname.startsWith('/es')) {
+		  if (language === 'es' && window.location.pathname !== '/es') {
 			window.location.href = 'https://insane-bh.space/es';
-		  } else if (language === 'ja' && !window.location.pathname.startsWith('/ja')) {
+		  } else if (language === 'en' && window.location.pathname !== '/') {
+			window.location.href = 'https://insane-bh.space';
+		  } else if (language === 'ja' && window.location.pathname !== '/ja') {
 			window.location.href = 'https://insane-bh.space/ja';
 		  }
-		  // By default, if the language is 'en' or no matching condition is found,
-		  // it will stay on the current page, as the English version is the default.
 		} else {
+		  // Get user's language from browser preferences
 		  const userLang = navigator.language || navigator.userLanguage;
 	  
+		  // Get user's location using IP geolocation
 		  fetch('https://ipapi.co/json/')
 			.then(response => response.json())
 			.then(data => {
@@ -199,8 +202,10 @@ jQuery(() => {
 			  console.log('User Language:', userLang);
 			  console.log('User Country:', userCountry);
 	  
-			  if (userLang.startsWith('en') && ['US', 'CA', 'GB', 'AU', 'NZ', 'IE', 'ZA', 'IN', 'SG'].includes(userCountry)) {
+			  // Check if user's language is English and country is one of the specified countries
+			  if (userLang === 'en' && userCountry === ['US', 'CA', 'GB', 'AU', 'NZ', 'IE', 'ZA', 'IN', 'SG']) {
 				console.log('Redirecting to English version...');
+				// Redirect user to English version of the page
 				Cookies.set('language', 'en', {
 				  expires: 1,
 				  path: '/',
@@ -208,8 +213,10 @@ jQuery(() => {
 				  secure: true,
 				  sameSite: 'Strict'
 				});
+				window.location.href = 'https://insane-bh.space';
 			  } else if (userLang.startsWith('ja') && userCountry === 'JP') {
 				console.log('Redirecting to Japanese version...');
+				// Redirect users to Japanese version of the page
 				Cookies.set('language', 'ja', {
 				  expires: 1,
 				  path: '/ja',
@@ -217,8 +224,10 @@ jQuery(() => {
 				  secure: true,
 				  sameSite: 'Strict'
 				});
-			  } else if (userLang.startsWith('es') && ['ES', 'MX', 'AR', 'CO', 'PE', 'VE', 'CL', 'EC', 'GT', 'CU'].includes(userCountry)) {
+				window.location.href = 'https://insane-bh.space/ja';
+			  } else if (userLang === 'es' && userCountry === ['ES', 'MX', 'AR', 'CO', 'PE', 'VE', 'CL', 'EC', 'GT', 'CU']) {
 				console.log('Redirecting to Spanish version...');
+				// Redirect user to Spanish version of the page
 				Cookies.set('language', 'es', {
 				  expires: 1,
 				  path: '/es',
@@ -226,8 +235,10 @@ jQuery(() => {
 				  secure: true,
 				  sameSite: 'Strict'
 				});
+				window.location.href = 'https://insane-bh.space/es';
 			  } else {
-				console.log('No matching condition found. Setting language to English...');
+				console.log('No matching condition found. Redirecting to default version...');
+				// Redirect user to default version of the page
 				Cookies.set('language', 'en', {
 				  expires: 1,
 				  path: '/',
@@ -235,17 +246,15 @@ jQuery(() => {
 				  secure: true,
 				  sameSite: 'Strict'
 				});
+				window.location.href = 'https://insane-bh.space';
 			  }
-	  
-			  window.location.reload(); // Reload the page to apply the language redirection
 			})
 			.catch(error => {
 			  console.error('Error retrieving geolocation:', error);
 			  // Handle error condition here
 			});
 		}
-	  };
-	  
+	  }
 
 	$.fn.clickToggle = function(func1, func2) {
 		var funcs = [func1, func2];
