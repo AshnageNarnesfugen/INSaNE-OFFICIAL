@@ -191,22 +191,22 @@ jQuery(() => {
 				} else {
 					// Get user's language from browser preferences
 					var userLang = navigator.language || navigator.userLanguage;
-					
+
 					// Get user's location using IP geolocation
 					$.getJSON('https://ipapi.co/json/', function(data) {
 						var userCountry = data.country_code;
 
 						// Check if user's language is not English and country is not the US or Canada
-						if (userLang === 'en' && userCountry === 'US' || userCountry === 'CA' || userCountry === 'GB' || userCountry === 'AU' || userCountry === 'NZ' || userCountry === 'IE' || userCountry === 'ZA' || userCountry === 'IN' || userCountry === 'SG') {
+						if ((userLang !== 'en') && (userCountry !== 'US' && userCountry !== 'CA' && userCountry !== 'GB' && userCountry !== 'AU' && userCountry !== 'NZ' && userCountry !== 'IE' && userCountry !== 'ZA' && userCountry !== 'IN' && userCountry !== 'SG')) {
 							// Redirect user to Spanish version of the page
-							Cookies.set('language', 'en', {
+							Cookies.set('language', 'es', {
 								expires: 1,
-								path: '/',
+								path: '/es',
 								domain: 'insane-bh.space',
 								secure: true,
 								sameSite: 'Strict'
 							});
-							window.location.href = 'https://insane-bh.space';
+							window.location.href = 'https://insane-bh.space/es';
 						} else if (userLang === 'ja' && userCountry === 'JP') {
 							// Redirect users to Japanese version of the page
 							Cookies.set('language', 'ja', {
@@ -217,16 +217,16 @@ jQuery(() => {
 								sameSite: 'Strict'
 							});
 							window.location.href = 'https://insane-bh.space/ja';
-						} else if (userLang === 'es' && userCountry === 'ES' || userCountry === 'MX' || userCountry === 'AR' || userCountry === 'CO' || userCountry === 'PE' || userCountry === 'VE' || userCountry === 'CL' || userCountry === 'EC' || userCountry === 'GT' || userCountry === 'CU') {
+						} else {
 							// Redirect user to English version of the page
-							Cookies.set('language', 'es', {
+							Cookies.set('language', 'en', {
 								expires: 1,
-								path: '/es',
+								path: '/',
 								domain: 'insane-bh.space',
 								secure: true,
 								sameSite: 'Strict'
 							});
-							window.location.href = 'https://insane-bh.space/es';
+							window.location.href = 'https://insane-bh.space';
 						}
 					});
 				}
