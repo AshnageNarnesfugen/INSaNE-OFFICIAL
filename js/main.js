@@ -182,15 +182,16 @@ jQuery(() => {
 		
 		if (language) {
 		  // Redirect user to the appropriate language version of the page
-		  if (language === 'es' && window.location.pathname !== '/es') {
+		  if (language === 'ES' && window.location.pathname !== '/es') {
 			window.location.href = 'https://insane-bh.space/es';
-		  } else if (language === 'en' && window.location.pathname !== '/') {
+		  } else if (language === 'MX' && window.location.pathname !== '/') {
 			window.location.href = 'https://insane-bh.space';
-		  } else if (language === 'ja' && window.location.pathname !== '/ja') {
+		  } else if (language === 'JA' && window.location.pathname !== '/ja') {
 			window.location.href = 'https://insane-bh.space/ja';
 		  }
 		} else {
-		  // Get user's language from browser preferences
+		  /*
+			// Get user's language from browser preferences
 		  const userLang = navigator.language || navigator.userLanguage;
 	  
 		  // Get user's location using IP geolocation
@@ -253,6 +254,31 @@ jQuery(() => {
 			  console.error('Error retrieving geolocation:', error);
 			  // Handle error condition here
 			});
+		  */
+			$.get("https://ipapi.co/json/", function(data) {
+				var languageCode = data.languages.split(",")[0].trim();
+		
+				// Define website variants based on language code
+				var variants = {
+				  "en": "https://insane-bh.space",
+				  "es": "https://insane-bh.space/es",
+				  "jp": "https://insane-bh.space/jp",
+				  // Add more language code variants as needed
+				};
+		
+				// Redirect to the appropriate website variant
+				if (variants.hasOwnProperty(languageCode)) {
+					Cookies.set('language', variants[languageCode], {
+						expires: 1,
+						secure: true,
+						sameSite: 'Strict'
+					});
+					window.location.href = variants[languageCode];
+				} else {
+				  // Fallback redirect if language code is not found in variants
+				  window.location.href = "https://insane-bh.space";
+				}
+			  });
 		}
 	  }
 
