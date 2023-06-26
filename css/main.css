@@ -871,6 +871,7 @@ img {
   
   #language-menu ul {
     list-style: none;
+    line-height: 30px !important;
     padding: 0;
     margin: 0;
   }
