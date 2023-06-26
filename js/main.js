@@ -89,59 +89,86 @@ jQuery(() => {
 	});
 
 	function acceptedFunctionalityCookie() {
-			// Your code that should run after accepting cookies goes here
-			var language = Cookies.get('language');
-			console.log(language)
-			if (language) {
-				// Redirect user to the appropriate language version of the page
-				if (language == 'es' && window.location.pathname != '/es') {
+		// Your code that should run after accepting cookies goes here
+		var language = Cookies.get('language');
+		console.log(language);
+	
+		switch (language) {
+			case 'es':
+				if (window.location.pathname != '/es') {
 					window.location.href = 'https://insane-bh.space/es';
-				} else if (language == 'en' && window.location.pathname != '/') {
+				}
+				break;
+			case 'en':
+				if (window.location.pathname != '/') {
 					window.location.href = 'https://insane-bh.space';
-				} else if (language == 'ja' && window.location.pathname != '/ja') {
+				}
+				break;
+			case 'ja':
+				if (window.location.pathname != '/ja') {
 					window.location.href = 'https://insane-bh.space/ja';
 				}
-			} else {
+				break;
+			default:
 				// Get user's location using IP geolocation
 				$.getJSON('https://ipapi.co/json/', function(data) {
 					var userCountry = data.country_code;
-					console.log(userCountry)
-
-					// Check if user's language is not English and country is not the US or Canada
-					if (userCountry == 'US' && userCountry == 'CA' && userCountry == 'GB' && userCountry == 'AU' && userCountry == 'NZ' && userCountry == 'IE' && userCountry == 'ZA' && userCountry == 'IN' && userCountry == 'SG') {
-						// Redirect user to Spanish version of the page
-						Cookies.set('language', 'en', {
-							expires: 365,
-							path: '/',
-							domain: 'insane-bh.space',
-							secure: true,
-							sameSite: 'Strict'
-						});
-						window.location.href = 'https://insane-bh.space';
-					} else if (userCountry == 'JP') {
-						// Redirect users to Japanese version of the page
-						Cookies.set('language', 'ja', {
-							expires: 365,
-							path: '/ja',
-							domain: 'insane-bh.space',
-							secure: true,
-							sameSite: 'Strict'
-						});
-						window.location.href = 'https://insane-bh.space/ja';
-					} else if (userCountry == 'ES' && userCountry == 'MX' && userCountry == 'AR' && userCountry == 'CO' && userCountry == 'PE' && userCountry == 'VE' && userCountry == 'CL' && userCountry == 'EC' && userCountry == 'GT' && userCountry == 'CU') {
-						// Redirect user to English version of the page
-						Cookies.set('language', 'es', {
-							expires: 365,
-							path: '/es',
-							domain: 'insane-bh.space',
-							secure: true,
-							sameSite: 'Strict'
-						});
-						window.location.href = 'https://insane-bh.space/es';
+					console.log(userCountry);
+	
+					switch (userCountry) {
+						case 'US':
+						case 'CA':
+						case 'GB':
+						case 'AU':
+						case 'NZ':
+						case 'IE':
+						case 'ZA':
+						case 'IN':
+						case 'SG':
+							Cookies.set('language', 'en', {
+								expires: 365,
+								path: '/',
+								domain: 'insane-bh.space',
+								secure: true,
+								sameSite: 'Strict'
+							});
+							window.location.href = 'https://insane-bh.space';
+							break;
+						case 'JP':
+							Cookies.set('language', 'ja', {
+								expires: 365,
+								path: '/ja',
+								domain: 'insane-bh.space',
+								secure: true,
+								sameSite: 'Strict'
+							});
+							window.location.href = 'https://insane-bh.space/ja';
+							break;
+						case 'ES':
+						case 'MX':
+						case 'AR':
+						case 'CO':
+						case 'PE':
+						case 'VE':
+						case 'CL':
+						case 'EC':
+						case 'GT':
+						case 'CU':
+							Cookies.set('language', 'es', {
+								expires: 365,
+								path: '/es',
+								domain: 'insane-bh.space',
+								secure: true,
+								sameSite: 'Strict'
+							});
+							window.location.href = 'https://insane-bh.space/es';
+							break;
 					}
 				});
-			}
+				break;
+		}
 	}
+	
 
 	$(window).on("load", function() {
 		let langMSG = {}
