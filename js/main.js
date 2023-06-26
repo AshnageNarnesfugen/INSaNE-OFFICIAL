@@ -197,7 +197,7 @@ jQuery(() => {
 						var userCountry = data.country_code;
 
 						// Check if user's language is not English and country is not the US or Canada
-						if (userLang != 'en' && userCountry != 'US' && userCountry != 'CA') {
+						if (userLang != 'en' && userCountry != 'US' && userCountry != 'CA' && userCountry !== 'GB' && userCountry !== 'AU' && userCountry !== 'NZ' && userCountry !== 'IE' && userCountry !== 'ZA' && userCountry !== 'IN' && userCountry !== 'SG') {
 							// Redirect user to Spanish version of the page
 							Cookies.set('language', 'es', {
 								expires: 1,
