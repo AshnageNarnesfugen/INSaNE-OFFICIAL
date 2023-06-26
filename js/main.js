@@ -182,11 +182,11 @@ jQuery(() => {
 		
 		if (language) {
 		  // Redirect user to the appropriate language version of the page
-		  if (language === 'ES' && window.location.pathname !== '/es') {
+		  if (language === 'es' && window.location.pathname !== '/es') {
 			window.location.href = 'https://insane-bh.space/es';
-		  } else if (language === 'MX' && window.location.pathname !== '/') {
+		  } else if (language === 'en' && window.location.pathname !== '/') {
 			window.location.href = 'https://insane-bh.space';
-		  } else if (language === 'JA' && window.location.pathname !== '/ja') {
+		  } else if (language === 'ja' && window.location.pathname !== '/ja') {
 			window.location.href = 'https://insane-bh.space/ja';
 		  }
 		} else {
