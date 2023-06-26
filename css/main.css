@@ -876,3 +876,12 @@ img {
   #language-menu a {
     text-decoration: none;
   }
+
+  dl, ol, ul {
+    margin-top: 0;
+    margin-bottom: 0rem !important;
+}
+
+ol, ul {
+    padding-left: 0rem !important;
+}
