@@ -178,7 +178,7 @@ jQuery(() => {
 
     const acceptedFunctionalityCookie = () => {
 		const language = Cookies.get('language');
-		console.log(language);
+
 		if (language) {
 		  // Redirect user to the appropriate language version of the page
 		  if (language === 'es' && window.location.pathname !== '/es') {
@@ -198,9 +198,9 @@ jQuery(() => {
 	  
 			  // Check if user's language is English and country is one of the specified countries
 			  const englishCountries = ['US', 'CA', 'GB', 'AU', 'NZ', 'IE', 'ZA', 'IN', 'SG'];
-			  if (userLang === 'en' && englishCountries.includes(userCountry)) {
+			  if (userLang.startsWith('en') && englishCountries.includes(userCountry)) {
 				console.log('Redirecting to English version...');
-				// Redirect user to English version of the page
+				// Redirect user to the English version of the page
 				Cookies.set('language', 'en', {
 				  expires: 1,
 				  path: '/',
@@ -209,9 +209,9 @@ jQuery(() => {
 				  sameSite: 'Strict'
 				});
 				window.location.href = 'https://insane-bh.space';
-			  } else if (userLang === 'ja' && userCountry === 'JP') {
+			  } else if (userLang.startsWith('ja') && userCountry === 'JP') {
 				console.log('Redirecting to Japanese version...');
-				// Redirect users to Japanese version of the page
+				// Redirect user to the Japanese version of the page
 				Cookies.set('language', 'ja', {
 				  expires: 1,
 				  path: '/ja',
@@ -220,31 +220,25 @@ jQuery(() => {
 				  sameSite: 'Strict'
 				});
 				window.location.href = 'https://insane-bh.space/ja';
-			  } else {
-				const spanishCountries = ['ES', 'MX', 'AR', 'CO', 'PE', 'VE', 'CL', 'EC', 'GT', 'CU'];
-				if (userLang === 'es' && spanishCountries.includes(userCountry)) {
-				  console.log('Redirecting to Spanish version...');
-				  // Redirect user to Spanish version of the page
-				  Cookies.set('language', 'es', {
-					expires: 1,
-					path: '/es',
-					domain: 'insane-bh.space',
-					secure: true,
-					sameSite: 'Strict'
-				  });
-				  window.location.href = 'https://insane-bh.space/es';
-				} else {
-				  console.log('No language or country match found. Default behavior...');
-				  // Handle default behavior here
-				}
+			  } else if (userLang.startsWith('es') && userCountry === 'ES') {
+				console.log('Redirecting to Spanish version...');
+				// Redirect user to the Spanish version of the page
+				Cookies.set('language', 'es', {
+				  expires: 1,
+				  path: '/es',
+				  domain: 'insane-bh.space',
+				  secure: true,
+				  sameSite: 'Strict'
+				});
+				window.location.href = 'https://insane-bh.space/es';
 			  }
 			})
 			.catch(error => {
 			  console.error('Error retrieving geolocation:', error);
 			  // Handle error condition here
 			});
-		}
-	  };
+		}	
+	};
 	  
 
 	$.fn.clickToggle = function(func1, func2) {
