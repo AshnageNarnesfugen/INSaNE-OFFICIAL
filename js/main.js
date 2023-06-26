@@ -179,6 +179,7 @@ jQuery(() => {
 		const acceptedFunctionalityCookie = () => {
         		// Your code that should run after accepting cookies goes here
         		var language = Cookies.get('language');
+				console.log(language)
 				if (language) {
 					// Redirect user to the appropriate language version of the page
 					if (language === 'es' && window.location.pathname !== '/es') {
