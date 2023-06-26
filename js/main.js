@@ -190,18 +190,12 @@ jQuery(() => {
 			window.location.href = 'https://insane-bh.space/ja';
 		  }
 		} else {
-		  
-		// Get user's language from browser preferences
-		  const userLang = navigator.language || navigator.userLanguage;
-	  
 		  // Get user's location using IP geolocation
 		  fetch('https://ipapi.co/json/')
 			.then(response => response.json())
 			.then(data => {
-			  const userCountry = data.country_code;
-	  
-			  console.log('User Language:', userLang);
-			  console.log('User Country:', userCountry);
+				const userLang = navigator.language || navigator.userLanguage;
+				const userCountry = data.country_code;
 	  
 			  // Check if user's language is English and country is one of the specified countries
 			  if (userLang === 'en' && userCountry === 'US' && userCountry === 'CA' && userCountry === 'GB' && userCountry === 'AU' && userCountry === 'NZ' && userCountry === 'IE' && userCountry === 'ZA' && userCountry === 'IN' && userCountry === 'SG') {
@@ -237,9 +231,6 @@ jQuery(() => {
 				  sameSite: 'Strict'
 				});
 				window.location.href = 'https://insane-bh.space/es';
-			  } else {
-				console.log('No matching condition found. Redirecting to default version... Please');
-				window.location.href = 'https://insane-bh.space';
 			  }
 			})
 			.catch(error => {
