@@ -196,8 +196,12 @@ jQuery(() => {
 					$.getJSON('https://ipapi.co/json/', function(data) {
 						var userCountry = data.country_code;
 
+						console.log('User Language:', userLang);
+						console.log('User Country:', userCountry);
+
 						// Check if user's language is English and country is one of the specified countries
 						if (userLang.startsWith('en') && ['US', 'CA', 'GB', 'AU', 'NZ', 'IE', 'ZA', 'IN', 'SG'].includes(userCountry)) {
+							console.log('Redirecting to English version...');
 							// Redirect user to English version of the page
 							Cookies.set('language', 'en', {
 								expires: 1,
@@ -208,6 +212,7 @@ jQuery(() => {
 							});
 							window.location.href = 'https://insane-bh.space';
 						} else if (userLang.startsWith('ja') && userCountry === 'JP') {
+							console.log('Redirecting to Japanese version...');
 							// Redirect users to Japanese version of the page
 							Cookies.set('language', 'ja', {
 								expires: 1,
@@ -218,6 +223,7 @@ jQuery(() => {
 							});
 							window.location.href = 'https://insane-bh.space/ja';
 						} else if (userLang.startsWith('es') && ['ES', 'MX', 'AR', 'CO', 'PE', 'VE', 'CL', 'EC', 'GT', 'CU'].includes(userCountry)) {
+							console.log('Redirecting to Spanish version...');
 							// Redirect user to Spanish version of the page
 							Cookies.set('language', 'es', {
 								expires: 1,
@@ -228,6 +234,7 @@ jQuery(() => {
 							});
 							window.location.href = 'https://insane-bh.space/es';
 						} else {
+							console.log('No matching condition found. Redirecting to default version...');
 							// Redirect user to default version of the page
 							Cookies.set('language', 'en', {
 								expires: 1,
