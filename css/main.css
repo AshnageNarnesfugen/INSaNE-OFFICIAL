@@ -869,13 +869,6 @@ img {
     padding-right: 10px;
   }
   
-  #language-menu ul li {
-    list-style: none;
-    line-height: 30px !important;
-    padding: 0;
-    margin: 0;
-  }
-  
   #language-menu li {
     display: inline;
   }
