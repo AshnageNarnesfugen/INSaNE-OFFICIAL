@@ -203,7 +203,7 @@ jQuery(() => {
 			  console.log('User Country:', userCountry);
 	  
 			  // Check if user's language is English and country is one of the specified countries
-			  if (userLang === 'en' && userCountry === ['US', 'CA', 'GB', 'AU', 'NZ', 'IE', 'ZA', 'IN', 'SG']) {
+			  if (userLang === 'en' && userCountry === 'US' && userCountry === 'CA' && userCountry === 'GB' && userCountry === 'AU' && userCountry === 'NZ' && userCountry === 'IE' && userCountry === 'ZA' && userCountry === 'IN' && userCountry === 'SG') {
 				console.log('Redirecting to English version...');
 				// Redirect user to English version of the page
 				Cookies.set('language', 'en', {
@@ -225,7 +225,7 @@ jQuery(() => {
 				  sameSite: 'Strict'
 				});
 				window.location.href = 'https://insane-bh.space/ja';
-			  } else if (userLang === 'es' && userCountry === ['ES', 'MX', 'AR', 'CO', 'PE', 'VE', 'CL', 'EC', 'GT', 'CU']) {
+			  } else if (userLang === 'es' && userCountry === 'ES' && userCountry === 'MX' && userCountry === 'AR' && userCountry === 'CO' && userCountry === 'PE' && userCountry === 'VE' && userCountry === 'CL' && userCountry === 'EC' && userCountry === 'GT' && userCountry === 'CU') {
 				console.log('Redirecting to Spanish version...');
 				// Redirect user to Spanish version of the page
 				Cookies.set('language', 'es', {
