@@ -869,7 +869,7 @@ img {
     padding-right: 10px;
   }
   
-  #language-menu, ul, li {
+  #language-menu ul li {
     list-style: none;
     line-height: 30px !important;
     padding: 0;
