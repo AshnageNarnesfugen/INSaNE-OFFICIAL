@@ -214,7 +214,7 @@ jQuery(() => {
 				  sameSite: 'Strict'
 				});
 				window.location.href = 'https://insane-bh.space';
-			  } else if (userLang.startsWith('ja') && userCountry === 'JP') {
+			  } else if (userLang === 'ja' && userCountry === 'JP') {
 				console.log('Redirecting to Japanese version...');
 				// Redirect users to Japanese version of the page
 				Cookies.set('language', 'ja', {
