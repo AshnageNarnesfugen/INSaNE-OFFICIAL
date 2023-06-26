@@ -176,6 +176,16 @@ jQuery(() => {
 		});
 	});
 
+	// Function to check if a cookie is set
+	function isCookieSet(cookieName) {
+		return Cookies.get(cookieName) === '1';
+	}
+	
+	// Function to set a cookie
+	function setCookie(cookieName) {
+		Cookies.set(cookieName, '1', { expires: 1 });
+	}
+
 	// Function to redirect to the appropriate language variant
 	function acceptedFunctionalityCookie() {
 		// Check if the cookie is already set
