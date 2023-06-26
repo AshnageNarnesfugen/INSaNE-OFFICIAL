@@ -238,7 +238,7 @@ jQuery(() => {
 				});
 				window.location.href = 'https://insane-bh.space/es';
 			  } else {
-				console.log('No matching condition found. Redirecting to default version...');
+				console.log('No matching condition found. Redirecting to default version... Please');
 				window.location.href = 'https://insane-bh.space';
 			  }
 			})
