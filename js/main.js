@@ -176,7 +176,7 @@ jQuery(() => {
 		});
 	});
   
-		const acceptedFunctionalityCookie = () => {
+	const acceptedFunctionalityCookie = () => {
         		// Your code that should run after accepting cookies goes here
         		var language = Cookies.get('language');
 				console.log(language)
