@@ -105,7 +105,7 @@ jQuery(() => {
 			case 'GT':
 			case 'CU':
 				if (window.location.pathname != '/es') {
-					window.location.href = `https://insane-bh.space/es?${language}`;
+					window.location.href = `https://insane-bh.space/es?country=${language}`;
 				}
 				break;
 			case 'US':
@@ -118,12 +118,12 @@ jQuery(() => {
 			case 'IN':
 			case 'SG':
 				if (window.location.pathname != '/') {
-					window.location.href = `https://insane-bh.space/?${language}`;
+					window.location.href = `https://insane-bh.space/?country=${language}`;
 				}
 				break;
 			case 'JP':
 				if (window.location.pathname != '/ja') {
-					window.location.href = `https://insane-bh.space/ja?${language}`;
+					window.location.href = `https://insane-bh.space/ja?country=${language}`;
 				}
 				break;
 			default:
@@ -149,7 +149,7 @@ jQuery(() => {
 								secure: true,
 								sameSite: 'Strict'
 							});
-							window.location.href = `https://insane-bh.space/?${userCountry}`;
+							window.location.href = `https://insane-bh.space/?country=${userCountry}`;
 							break;
 						case 'JP':
 							Cookies.set('language', userCountry, {
@@ -159,7 +159,7 @@ jQuery(() => {
 								secure: true,
 								sameSite: 'Strict'
 							});
-							window.location.href = `https://insane-bh.space/ja?${userCountry}`;
+							window.location.href = `https://insane-bh.space/ja?country=${userCountry}`;
 							break;
 						case 'ES':
 						case 'MX':
@@ -178,7 +178,7 @@ jQuery(() => {
 								secure: true,
 								sameSite: 'Strict'
 							});
-							window.location.href = `https://insane-bh.space/es?${userCountry}`;
+							window.location.href = `https://insane-bh.space/es?country=${userCountry}`;
 							break;
 					}
 				});
