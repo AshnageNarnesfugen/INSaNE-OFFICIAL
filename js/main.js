@@ -182,11 +182,11 @@ jQuery(() => {
 				console.log(language)
 				if (language) {
 					// Redirect user to the appropriate language version of the page
-					if (language === 'es' && window.location.pathname !== '/es') {
+					if (language == 'es' && window.location.pathname !== '/es') {
 						window.location.href = 'https://insane-bh.space/es';
-					} else if (language === 'en' && window.location.pathname !== '/') {
+					} else if (language == 'en' && window.location.pathname !== '/') {
 						window.location.href = 'https://insane-bh.space';
-					} else if (language === 'ja' && window.location.pathname !== '/ja') {
+					} else if (language == 'ja' && window.location.pathname !== '/ja') {
 						window.location.href = 'https://insane-bh.space/ja';
 					}
 				} else {
@@ -198,7 +198,7 @@ jQuery(() => {
 						var userCountry = data.country_code;
 
 						// Check if user's language is not English and country is not the US or Canada
-						if (userLang === 'en' && userCountry === 'US' && userCountry === 'CA' && userCountry === 'GB' && userCountry === 'AU' && userCountry === 'NZ' && userCountry === 'IE' && userCountry === 'ZA' && userCountry === 'IN' && userCountry === 'SG') {
+						if (userLang == 'en' && userCountry == 'US' && userCountry == 'CA' && userCountry == 'GB' && userCountry == 'AU' && userCountry == 'NZ' && userCountry == 'IE' && userCountry == 'ZA' && userCountry == 'IN' && userCountry == 'SG') {
 							// Redirect user to Spanish version of the page
 							Cookies.set('language', 'en', {
 								expires: 1,
@@ -208,7 +208,7 @@ jQuery(() => {
 								sameSite: 'Strict'
 							});
 							window.location.href = 'https://insane-bh.space/en';
-						} else if (userLang === 'ja' && userCountry === 'JP') {
+						} else if (userLang == 'ja' && userCountry == 'JP') {
 							// Redirect users to Japanese version of the page
 							Cookies.set('language', 'ja', {
 								expires: 1,
@@ -218,7 +218,7 @@ jQuery(() => {
 								sameSite: 'Strict'
 							});
 							window.location.href = 'https://insane-bh.space/ja';
-						} else if (userLang === 'es' && userCountry === 'ES' && userCountry === 'MX' && userCountry === 'AR' && userCountry === 'CO' && userCountry === 'PE' && userCountry === 'VE' && userCountry === 'CL' && userCountry === 'EC' && userCountry === 'GT' && userCountry === 'CU') {
+						} else if (userLang == 'es' && userCountry == 'ES' && userCountry == 'MX' && userCountry == 'AR' && userCountry == 'CO' && userCountry == 'PE' && userCountry == 'VE' && userCountry == 'CL' && userCountry == 'EC' && userCountry == 'GT' && userCountry == 'CU') {
 							// Redirect user to English version of the page
 							Cookies.set('language', 'es', {
 								expires: 1,
