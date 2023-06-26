@@ -94,19 +94,36 @@ jQuery(() => {
 		console.log(language);
 	
 		switch (language) {
-			case 'es':
+			case 'ES':
+			case 'MX':
+			case 'AR':
+			case 'CO':
+			case 'PE':
+			case 'VE':
+			case 'CL':
+			case 'EC':
+			case 'GT':
+			case 'CU':
 				if (window.location.pathname != '/es') {
-					window.location.href = 'https://insane-bh.space/es';
+					window.location.href = `https://insane-bh.space/es?${language}`;
 				}
 				break;
-			case 'en':
+			case 'US':
+			case 'CA':
+			case 'GB':
+			case 'AU':
+			case 'NZ':
+			case 'IE':
+			case 'ZA':
+			case 'IN':
+			case 'SG':
 				if (window.location.pathname != '/') {
-					window.location.href = 'https://insane-bh.space';
+					window.location.href = `https://insane-bh.space/?${language}`;
 				}
 				break;
-			case 'ja':
+			case 'JP':
 				if (window.location.pathname != '/ja') {
-					window.location.href = 'https://insane-bh.space/ja';
+					window.location.href = `https://insane-bh.space/ja?${language}`;
 				}
 				break;
 			default:
@@ -125,24 +142,24 @@ jQuery(() => {
 						case 'ZA':
 						case 'IN':
 						case 'SG':
-							Cookies.set('language', 'en', {
+							Cookies.set('language', userCountry, {
 								expires: 365,
 								path: '/',
 								domain: 'insane-bh.space',
 								secure: true,
 								sameSite: 'Strict'
 							});
-							window.location.href = 'https://insane-bh.space';
+							window.location.href = `https://insane-bh.space/?${userCountry}`;
 							break;
 						case 'JP':
-							Cookies.set('language', 'ja', {
+							Cookies.set('language', userCountry, {
 								expires: 365,
 								path: '/ja',
 								domain: 'insane-bh.space',
 								secure: true,
 								sameSite: 'Strict'
 							});
-							window.location.href = 'https://insane-bh.space/ja';
+							window.location.href = `https://insane-bh.space/ja?${userCountry}`;
 							break;
 						case 'ES':
 						case 'MX':
@@ -154,14 +171,14 @@ jQuery(() => {
 						case 'EC':
 						case 'GT':
 						case 'CU':
-							Cookies.set('language', 'es', {
+							Cookies.set('language', userCountry, {
 								expires: 365,
 								path: '/es',
 								domain: 'insane-bh.space',
 								secure: true,
 								sameSite: 'Strict'
 							});
-							window.location.href = 'https://insane-bh.space/es';
+							window.location.href = `https://insane-bh.space/es?${userCountry}`;
 							break;
 					}
 				});
