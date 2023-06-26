@@ -185,7 +185,7 @@ jQuery(() => {
 						window.location.href = 'https://insane-bh.space/es';
 					} else if (language === 'en' && window.location.pathname !== '/') {
 						window.location.href = 'https://insane-bh.space';
-					} else if (language === 'jp' && window.location.pathname !== '/ja') {
+					} else if (language === 'ja' && window.location.pathname !== '/ja') {
 						window.location.href = 'https://insane-bh.space/ja';
 					}
 				} else {
