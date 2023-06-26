@@ -126,6 +126,19 @@ jQuery(() => {
 					window.location.href = `https://insane-bh.space/ja?country=${language}`;
 				}
 				break;
+			case 'PT':
+			case 'BR':
+			case 'AO':
+			case 'MZ':
+			case 'CV':
+			case 'GW':
+			case 'ST':
+			case 'GQ':
+			case 'TL':
+				if (window.location.pathname != '/pt') {
+					window.location.href = `https://insane-bh.space/pt?country=${language}`;
+				}
+				break;
 			default:
 				// Get user's location using IP geolocation
 				$.getJSON('https://ipapi.co/json/', function(data) {
@@ -180,6 +193,24 @@ jQuery(() => {
 							});
 							window.location.href = `https://insane-bh.space/es?country=${userCountry}`;
 							break;
+						case 'PT':
+						case 'BR':
+						case 'AO':
+						case 'MZ':
+						case 'CV':
+						case 'GW':
+						case 'ST':
+						case 'GQ':
+						case 'TL':
+							Cookies.set('language', userCountry, {
+								expires: 365,
+								path: '/pt',
+								domain: 'insane-bh.space',
+								secure: true,
+								sameSite: 'Strict'
+							});
+							window.location.href = `https://insane-bh.space/pt?country=${userCountry}`;
+							break;
 						default:
 							Cookies.remove('language');
 							window.location.href = `https://insane-bh.space`;
@@ -228,6 +259,19 @@ jQuery(() => {
 				"href": "https://www.example.com/cookies",
 				"close": "❌",
 				"policy": "クッキーポリシー"
+			}
+		} else if (window.location.href == 'https://insane-bh.space/pt') {
+			//portugues
+			langMSG = {
+				"header": "Usando cookies no site da Web!",
+				"message": "O meu website usa cookies para fornecer uma experiência ótima.",
+				"dismiss": "Entendi!",
+				"allow": "Aceitar",
+				"deny": "Negar",
+				"link": "Saiba mais",
+				"href": "https://www.example.com/cookies",
+				"close": "❌",
+				"policy": "Política de cookies",
 			}
 		}
 		cookieconsent.initialise({
@@ -390,7 +434,15 @@ jQuery(() => {
 				notiMSGRejected: "フォームの送信に失敗しました",
 				bodyMSGRejected: "エラーが発生しました。もう一度やり"
 			}
+		} else if (window.location.href == 'https://insane-bh.space/pt') {
+			langMSG = {
+				notiMSGAccepted: "Sua mensagem foi envado.",
+				bodyMSGAccepted: "Parabéns! Somos capde entrar em contato com você!",
+				notiMSGRejected: "Nãose pode enviar sua mensagem.",
+				bodyMSGRejected: "Ocorreuum erro, tente novamente :("
+			}
 		}
+
 		let tymsg = $(this).attr('data-tymsg')
 		let errmsg = $(this).attr('data-errmsg')
 		console.log(tymsg, errmsg)
