@@ -3,7 +3,7 @@
     font-family: sharpsans-web;
     font-style: normal;
     font-weight: 400;
-    src: url('./fonts/SharpSans-Medium.woff2') format("woff2"), url(../fonts/SharpSans-Medium.woff) format("woff")
+    src: url('./fonts/SharpSans-Medium.woff2') format("woff2"), url(../fonts/SharpSans-Medium.woff) format("woff2")
 }
 
 @font-face {
@@ -11,7 +11,7 @@
     font-family: sharpsans-web;
     font-style: normal;
     font-weight: 600;
-    src: url('./fonts/SharpSans-Semibold.woff2') format("woff2"), url(../fonts/SharpSans-Semibold.woff) format("woff")
+    src: url('./fonts/SharpSans-Semibold.woff2') format("woff2"), url(../fonts/SharpSans-Semibold.woff) format("woff2")
 }
 
 @font-face {
@@ -19,7 +19,15 @@
     font-family: sharpsans-web;
     font-style: normal;
     font-weight: 800;
-    src: url('./fonts/SharpSans-Bold.woff2') format("woff2"), url(../fonts/SharpSans-Bold.woff) format("woff")
+    src: url('./fonts/SharpSans-Bold.woff2') format("woff2"), url(../fonts/SharpSans-Bold.woff) format("woff2")
+}
+
+@font-face {
+    font-display: swap;
+    font-family: architects-daughter;
+    font-style: normal;
+    font-weight: 100;
+    src: url('./fonts/ArchitectsDaughter-Regular.ttf') format("ttf");
 }
 
 *,
@@ -394,6 +402,7 @@ body {
     padding-top: 0;
     padding-bottom: 0;
     text-align: center;
+    font-family: architects-daughter, sans-serif !important;
     font-size: 60px;
     font-weight: 600;
 }
