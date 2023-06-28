@@ -3,7 +3,7 @@
     font-family: sharpsans-web;
     font-style: normal;
     font-weight: 400;
-    src: url('./fonts/SharpSans-Medium.woff2') format("woff2"), url(../fonts/SharpSans-Medium.woff) format("woff")
+    src: url('./fonts/SharpSans-Medium.woff2') format("woff2");
 }
 
 @font-face {
@@ -11,7 +11,7 @@
     font-family: sharpsans-web;
     font-style: normal;
     font-weight: 600;
-    src: url('./fonts/SharpSans-Semibold.woff2') format("woff2"), url(../fonts/SharpSans-Semibold.woff) format("woff")
+    src: url('./fonts/SharpSans-Semibold.woff2') format("woff2");
 }
 
 @font-face {
@@ -19,7 +19,7 @@
     font-family: sharpsans-web;
     font-style: normal;
     font-weight: 800;
-    src: url('./fonts/SharpSans-Bold.woff2') format("woff2"), url(../fonts/SharpSans-Bold.woff) format("woff")
+    src: url('./fonts/SharpSans-Bold.woff2') format("woff2");
 }
 
 @font-face {
@@ -334,7 +334,8 @@ body {
     height: 300px;
     z-index: -1;
     transition: all 0.5s;
-    display: flex;
+    display: grid;
+    place-content: center;
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border: solid 2px #000;
@@ -488,7 +489,6 @@ a:hover {
 }
 
 .menu-nav {
-    margin: auto;
     width: fit-content;
     color: white;
     font-size: 40px;
