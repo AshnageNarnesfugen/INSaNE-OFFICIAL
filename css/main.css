@@ -144,7 +144,9 @@ body {
 }
 
 .punch {
-    height: 500px;
+    min-height: 250px;
+    max-height: 500px;
+    height: 100%;
     width: inherit;
     object-fit: contain;
     object-position: center;
