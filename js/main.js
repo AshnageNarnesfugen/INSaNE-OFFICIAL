@@ -8,36 +8,39 @@ jQuery(() => {
 		$(this).parent().append($overlay);
 	
 		var sources = $(this).find('source');
-		var numSources = sources.length;
-		var loadedSources = 0;
+		var promises = [];
 	
 		sources.each(function() {
 			var sourceElement = $(this)[0];
 			var videoURL = $(this).attr('src');
 	
-			fetch(videoURL)
+			var promise = fetch(videoURL)
 				.then(response => response.blob())
 				.then(videoBlob => {
 					var videoObjectURL = URL.createObjectURL(videoBlob);
 	
 					// Set the src attribute of the source element to the URL
 					$(sourceElement).attr('src', videoObjectURL);
-	
-					loadedSources++;
-	
-					if (!isBlobLoaded && loadedSources === numSources) {
-						// Call the load method on the video element to update the sources
-						videoElement.load();
-						isBlobLoaded = true; // Update the flag
-						$(videoElement).prop('controls', true); // Enable video controls
-						$overlay.remove(); // Remove the loading overlay
-					}
 				})
 				.catch(error => {
 					console.error('Failed to fetch video:', error);
 				});
+	
+			promises.push(promise);
 		});
-	});	
+	
+		Promise.all(promises)
+			.then(() => {
+				if (!isBlobLoaded) {
+					// Call the load method on the video element to update the sources
+					videoElement.load();
+					isBlobLoaded = true; // Update the flag
+					$(videoElement).prop('controls', true); // Enable video controls
+					$overlay.remove(); // Remove the loading overlay
+				}
+			});
+	});
+	
 	
 	// Get all the image elements on the page
 	var images = $('img');
