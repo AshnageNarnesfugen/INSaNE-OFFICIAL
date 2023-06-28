@@ -385,7 +385,8 @@ jQuery(() => {
 	});
 
 	$("#esc3").parallaxie({
-		speed: 0.8
+		speed: 0.8,
+		disableMobile: true
 	});
 
 	let data = $('#letter').attr('data-array');

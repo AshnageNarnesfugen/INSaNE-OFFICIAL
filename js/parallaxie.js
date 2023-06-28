@@ -17,6 +17,7 @@
             size: 'cover',
             pos_x: 'center',
             offset: 0,
+            disableMobile: true // Added property to disable on mobile devices
         }, options );
 
         this.each(function(){
@@ -41,13 +42,16 @@
                     'background-position': local_options.pos_x + ' ' + pos_y + 'px',
                 });
 
-
                 // Call by default for the first time on initialization.
-                parallax_scroll( $el, local_options );
-
-                // Call by whenever the scroll event occurs.
-                $(window).scroll( function(){
+                if (!local_options.disableMobile || !isMobileDevice()) {
                     parallax_scroll( $el, local_options );
+                }
+
+                // Call whenever the scroll event occurs.
+                $(window).scroll( function(){
+                    if (!local_options.disableMobile || !isMobileDevice()) {
+                        parallax_scroll( $el, local_options );
+                    }
                 });
 
             }
@@ -61,6 +65,10 @@
         var pos_y =  local_options.offset + ($el.offset().top - $(window).scrollTop()) * (1 - local_options.speed );
         $el.data( 'pos_y', pos_y );
         $el.css( 'background-position', local_options.pos_x + ' ' + pos_y + 'px' );
+    }
+    
+    function isMobileDevice() {
+        return (typeof window.orientation !== "undefined") || (navigator.userAgent.indexOf('IEMobile') !== -1);
     }
 
 }( jQuery ));
