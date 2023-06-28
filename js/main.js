@@ -435,6 +435,11 @@ jQuery(() => {
 		$('.hamburger-menu').toggleClass('animate');
 	})
 
+	$('#letter').css({
+		'position': 'absolute',
+		'top': $('.mark').outerHeight() + 20
+	});
+
 	var scrolllink = $('.scroll');
 	scrolllink.click(function(e) {
 		e.preventDefault();
