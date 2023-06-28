@@ -604,7 +604,6 @@ a:hover {
 #letter {
     color: black !important;
     word-break: break-word;
-    position: relative;
     padding: 5px;
     max-width: 500px;
     font-family: 'architects-daughter', 'hiragino-mincho-pro', sharpsans-web;
