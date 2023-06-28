@@ -1,4 +1,5 @@
 jQuery(() => {
+	/*
 	$('video').each(function() {
 		var videoElement = $(this)[0];
 		var isBlobLoaded = false; // Flag to track if blob is loaded
@@ -40,8 +41,80 @@ jQuery(() => {
 				}
 			});
 	});
-	
-	
+	*/
+	class LazyVideoLoader {
+		constructor() {
+		  this.options = {
+			root: null, // Use the viewport as the root
+			rootMargin: '0px', // No margin
+			threshold: 0.1 // Trigger when 10% of the video is visible
+		  };
+	  
+		  this.observer = new IntersectionObserver(this.handleIntersection.bind(this), this.options);
+		}
+	  
+		loadVideos() {
+		  $('video').each((index, videoElement) => {
+			this.observer.observe(videoElement);
+		  });
+		}
+	  
+		handleIntersection(entries, observer) {
+		  entries.forEach(entry => {
+			if (entry.isIntersecting) {
+			  const videoElement = entry.target;
+			  this.lazyLoadVideo(videoElement);
+			  observer.unobserve(videoElement);
+			}
+		  });
+		}
+	  
+		lazyLoadVideo(videoElement) {
+		  let isBlobLoaded = false; // Flag to track if blob is loaded
+		  const $overlay = $('<div class="video-overlay">Loading...</div>'); // Create a loading overlay
+	  
+		  $(videoElement).prop('controls', false); // Disable video controls initially
+		  $(videoElement).parent().append($overlay);
+	  
+		  const sources = $(videoElement).find('source');
+		  const promises = [];
+	  
+		  sources.each(function () {
+			const sourceElement = $(this)[0];
+			const videoURL = $(this).attr('data-src'); // Use data-src attribute to store video URL instead of src
+	  
+			const promise = fetch(videoURL)
+			  .then(response => response.blob())
+			  .then(videoBlob => {
+				const videoObjectURL = URL.createObjectURL(videoBlob);
+	  
+				// Set the src attribute of the source element to the URL
+				$(sourceElement).attr('src', videoObjectURL);
+			  })
+			  .catch(error => {
+				console.error('Failed to fetch video:', error);
+			  });
+	  
+			promises.push(promise);
+		  });
+	  
+		  Promise.all(promises)
+			.then(() => {
+			  if (!isBlobLoaded) {
+				// Call the load method on the video element to update the sources
+				videoElement.load();
+				isBlobLoaded = true; // Update the flag
+				$(videoElement).prop('controls', true); // Enable video controls
+				$overlay.remove(); // Remove the loading overlay
+			  }
+			});
+		}
+	  }
+	  
+	  // Usage:
+	  const lazyVideoLoader = new LazyVideoLoader();
+	  lazyVideoLoader.loadVideos();
+	  
 	// Get all the image elements on the page
 	var images = $('img');
 
