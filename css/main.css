@@ -143,17 +143,11 @@ body {
     width: inherit;
 }
 
-.height {
-    height: 610px;
-}
-
 .punch {
-    width: 100%;
+    width: 500px;
     height: inherit;
     object-fit: contain;
     object-position: center;
-    border-top: solid 2px #000;
-    border-bottom: solid 2px #000;
 }
 
 .blur-load::before {
@@ -229,6 +223,8 @@ body {
 .right-col {
     background: #ffffff;
     position: relative;
+    border-top: solid 2px #000;
+    border-bottom: solid 2px #000;
 }
 
 @media (max-width: 979px) {
