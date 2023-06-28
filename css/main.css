@@ -447,7 +447,10 @@ body {
         flex-direction: column-reverse;
     }
     .common-column {
-        width: 100%;
+        width: 100%;   
+    }
+    .common-column:first-child {
+        height: 100%;
     }
     .title {
         display: inline-grid;
