@@ -435,10 +435,16 @@ jQuery(() => {
 		$('.hamburger-menu').toggleClass('animate');
 	})
 
-	$('#letter').css({
-		'position': 'absolute',
-		'top': $('.mark').outerHeight() + 20
-	});
+	function positionSecondDiv() {
+		var topPosition = $('.mark').outerHeight() + 20;
+		$('#letter').css('top', topPosition);
+	  }
+	
+	  positionSecondDiv(); // Initial positioning
+	
+	  $(window).on('resize scroll', function() {
+		positionSecondDiv(); // Update positioning on resize and scroll
+	  });
 
 	var scrolllink = $('.scroll');
 	scrolllink.click(function(e) {
