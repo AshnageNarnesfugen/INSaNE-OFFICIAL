@@ -1,47 +1,4 @@
 jQuery(() => {
-	/*
-	$('video').each(function() {
-		var videoElement = $(this)[0];
-		var isBlobLoaded = false; // Flag to track if blob is loaded
-		var $overlay = $('<div class="video-overlay">Loading...</div>'); // Create a loading overlay
-	
-		$(videoElement).prop('controls', false); // Disable video controls initially
-		$(this).parent().append($overlay);
-	
-		var sources = $(this).find('source');
-		var promises = [];
-	
-		sources.each(function() {
-			var sourceElement = $(this)[0];
-			var videoURL = $(this).attr('src');
-	
-			var promise = fetch(videoURL)
-				.then(response => response.blob())
-				.then(videoBlob => {
-					var videoObjectURL = URL.createObjectURL(videoBlob);
-	
-					// Set the src attribute of the source element to the URL
-					$(sourceElement).attr('src', videoObjectURL);
-				})
-				.catch(error => {
-					console.error('Failed to fetch video:', error);
-				});
-	
-			promises.push(promise);
-		});
-	
-		Promise.all(promises)
-			.then(() => {
-				if (!isBlobLoaded) {
-					// Call the load method on the video element to update the sources
-					videoElement.load();
-					isBlobLoaded = true; // Update the flag
-					$(videoElement).prop('controls', true); // Enable video controls
-					$overlay.remove(); // Remove the loading overlay
-				}
-			});
-	});
-	*/
 	class LazyVideoLoader {
 		constructor() {
 		  this.options = {
