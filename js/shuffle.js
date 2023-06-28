@@ -104,8 +104,6 @@ function randomChar(type) {
 }
 */
 
-
-
 $.fn.shuffleLetters = function(prop) {
     var options = $.extend({
         "step": 20, // How many times should the letters be changed
