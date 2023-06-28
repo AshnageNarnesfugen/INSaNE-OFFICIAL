@@ -227,7 +227,7 @@ body {
     border-bottom: solid 2px #000;
 }
 
-@media (max-width: 979px) {
+@media (max-width: 1012px) {
     .height,
     .row-content {
         height: unset !important;
