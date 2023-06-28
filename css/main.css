@@ -395,6 +395,7 @@ body {
 }
 
 .mark {
+    width: 300px;
     display: grid;
     background-color: red !important;
     color: black;
