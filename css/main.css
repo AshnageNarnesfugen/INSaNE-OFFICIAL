@@ -405,7 +405,7 @@ body {
     padding-top: 0;
     padding-bottom: 0;
     text-align: center;
-    font-family: 'architects-daughter', sans-serif !important;
+    font-family: 'architects-daughter', 'hiragino-mincho-pro' !important;
 }
 
 .mark .first-headline, .mark .second-headline {
