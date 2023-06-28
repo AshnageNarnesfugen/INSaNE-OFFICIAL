@@ -20,51 +20,68 @@
             disableMobile: true // Added property to disable on mobile devices
         }, options );
 
-        this.each(function(){
+        var $elements = this; // Store the elements
 
-            var $el = $(this);
-            var local_options = $el.data('parallaxie');
-            if( typeof local_options !== 'object' ) local_options = {};
-            local_options = $.extend( {}, options, local_options );
+        function initializeParallax() {
+            $elements.each(function(){
+                var $el = $(this);
+                var local_options = $el.data('parallaxie');
+                if( typeof local_options !== 'object' ) local_options = {};
+                local_options = $.extend( {}, options, local_options );
 
-            var image_url = $el.data('image');
-            if( typeof image_url === 'undefined' ){
-                image_url = $el.css('background-image');
-                if( !image_url ) return;
+                var image_url = $el.data('image');
+                if( typeof image_url === 'undefined' ){
+                    image_url = $el.css('background-image');
+                    if( !image_url ) return;
 
-                // APPLY DEFAULT CSS
-                var pos_y =  local_options.offset + ($el.offset().top - $(window).scrollTop()) * (1 - local_options.speed );
-                $el.css({
-                    'background-image': image_url,
-                    'background-size': local_options.size,
-                    'background-repeat': local_options.repeat,
-                    'background-attachment': 'fixed',
-                    'background-position': local_options.pos_x + ' ' + pos_y + 'px',
-                });
+                    // APPLY DEFAULT CSS
+                    var pos_y =  local_options.offset + ($el.offset().top - $(window).scrollTop()) * (1 - local_options.speed );
+                    $el.css({
+                        'background-image': image_url,
+                        'background-size': local_options.size,
+                        'background-repeat': local_options.repeat,
+                        'background-attachment': 'fixed',
+                        'background-position': local_options.pos_x + ' ' + pos_y + 'px',
+                    });
 
-                // Call by default for the first time on initialization.
-                if (!local_options.disableMobile || !isMobileDevice()) {
-                    parallax_scroll( $el, local_options );
-                }
-
-                // Call whenever the scroll event occurs.
-                $(window).scroll( function(){
+                    // Call by default for the first time on initialization.
                     if (!local_options.disableMobile || !isMobileDevice()) {
                         parallax_scroll( $el, local_options );
                     }
-                });
+                }
+            });
+        }
 
+        function handleResize() {
+            if (!isMobileDevice()) {
+                initializeParallax();
+            }
+        }
+
+        // Initialize parallax on page load
+        $(document).ready(initializeParallax);
+
+        // Call whenever the scroll event occurs.
+        $(window).scroll(function(){
+            if (!isMobileDevice()) {
+                parallax_scroll($elements, options);
             }
         });
+
+        // Call whenever the window is resized.
+        $(window).resize(handleResize);
 
         return this;
     };
 
 
     function parallax_scroll( $el, local_options ){
-        var pos_y =  local_options.offset + ($el.offset().top - $(window).scrollTop()) * (1 - local_options.speed );
-        $el.data( 'pos_y', pos_y );
-        $el.css( 'background-position', local_options.pos_x + ' ' + pos_y + 'px' );
+        $el.each(function(){
+            var $this = $(this);
+            var pos_y =  local_options.offset + ($this.offset().top - $(window).scrollTop()) * (1 - local_options.speed );
+            $this.data( 'pos_y', pos_y );
+            $this.css( 'background-position', local_options.pos_x + ' ' + pos_y + 'px' );
+        });
     }
     
     function isMobileDevice() {
