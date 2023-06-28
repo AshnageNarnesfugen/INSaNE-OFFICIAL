@@ -6,7 +6,6 @@
  *
  * Requires: jQuery 1.9+
  */
-
 (function( $ ){
 
     $.fn.parallaxie = function( options ){
@@ -45,7 +44,7 @@
                     });
 
                     // Call by default for the first time on initialization.
-                    if (!local_options.disableMobile || !isMobileDevice()) {
+                    if ((!local_options.disableMobile || !isMobileDevice()) && !isSmallScreen()) {
                         parallax_scroll( $el, local_options );
                     }
                 }
@@ -53,7 +52,7 @@
         }
 
         function handleResize() {
-            if (!isMobileDevice()) {
+            if (!isMobileDevice() && !isSmallScreen()) {
                 initializeParallax();
             }
         }
@@ -63,7 +62,7 @@
 
         // Call whenever the scroll event occurs.
         $(window).scroll(function(){
-            if (!isMobileDevice()) {
+            if (!isMobileDevice() && !isSmallScreen()) {
                 parallax_scroll($elements, options);
             }
         });
@@ -86,6 +85,10 @@
     
     function isMobileDevice() {
         return (typeof window.orientation !== "undefined") || (navigator.userAgent.indexOf('IEMobile') !== -1);
+    }
+
+    function isSmallScreen() {
+        return window.matchMedia("(max-width: 767px)").matches;
     }
 
 }( jQuery ));
