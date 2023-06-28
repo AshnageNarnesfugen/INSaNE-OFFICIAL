@@ -362,12 +362,12 @@ jQuery(() => {
 		cookieconsent.initialise({
 			"palette": {
 				"popup": {
-					"background": "#252e39",
+					"background": "#292929",
 					"text": "#ffffff"
 				},
 				"button": {
-					"background": "#14a7d0",
-					"text": "#ffffff"
+					"background": "red",
+					"text": "#000000"
 				}
 			},
 			"content": langMSG,
