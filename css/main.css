@@ -483,7 +483,7 @@ a {
 }
 
 a:hover {
-    color: red !important;
+    color: red;
     text-decoration: none !important;
 }
 
