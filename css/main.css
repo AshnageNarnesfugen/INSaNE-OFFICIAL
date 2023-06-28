@@ -144,12 +144,18 @@ body {
 }
 
 .punch {
-    min-height: 250px;
     max-height: 500px;
-    height: 100%;
+    max-width: 500px;
     width: inherit;
     object-fit: contain;
     object-position: center;
+}
+
+@media (max-width: 510px) {
+    .punch {
+        max-height: 250px !important;
+        max-width: 250px !important;
+    }
 }
 
 .blur-load::before {
