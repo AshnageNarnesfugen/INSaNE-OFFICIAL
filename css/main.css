@@ -605,9 +605,9 @@ a:hover {
     color: black !important;
     word-break: break-word;
     position: absolute;
-    top: 75%;
+    top: 65%;
     left: 50%;
-    transform: translate(-50%, -25%);
+    transform: translate(-50%, -35%);
     padding: 5px;
     max-width: 500px;
     font-family: 'architects-daughter', 'hiragino-mincho-pro', sharpsans-web;
