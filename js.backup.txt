@@ -41,3 +41,58 @@
 			});
 	});
 	*/
+
+	// Get all the image elements on the page
+	var images = $('img');
+
+	images.each(function(index, img) {
+		var xhr = new XMLHttpRequest();
+		xhr.open("GET", $(img).attr("src"), true);
+		xhr.responseType = "blob";
+		xhr.onload = function() {
+		  if (this.status === 200) {
+			var blob = this.response;
+			$(img).attr("src", URL.createObjectURL(blob));
+		  }
+		};
+		xhr.send();
+	});
+	// Add click event listeners to all the images
+	images.click(function() {
+		// Get the source of the clicked image
+		var src = $(this).attr('src');
+
+		// Create a new modal and append it to the body
+		var modal = $(`<div class="modal">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<img class="modal-img" src="${src}">
+			</div>
+		</div>
+	</div>`);
+		modal.appendTo('body');
+
+		// Show the modal and overlay
+		modal.show();
+		$('body').css('overflow', 'hidden')
+		// Add a click event listener to the close button and overlay to remove the modal and overlay from the body
+		modal.click(function() {
+			modal.hide();
+			modal.remove();
+			$('body').css('overflow', 'visible')
+		});
+
+	});
+
+	const blurDivs = $(".blur-load");
+	blurDivs.each(function() {
+		const img = $(this).find("img");
+		const loaded = () => {
+			$(this).addClass('loaded');
+		};
+		if (img[0].complete) {
+			loaded();
+		} else {
+			img.on('load', loaded);
+		}
+	});
