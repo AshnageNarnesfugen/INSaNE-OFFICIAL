@@ -436,8 +436,8 @@ jQuery(() => {
 	})
 
 	function positionSecondDiv() {
-		var topPosition = $('.mark').outerHeight() + 20;
-		$('#letter').css('top', `${topPosition}px`);
+		var topPosition = $('.mark').outerHeight();
+		$('#letter').css('bottom', `${topPosition}px`);
 	  }
 	
 	  positionSecondDiv(); // Initial positioning
