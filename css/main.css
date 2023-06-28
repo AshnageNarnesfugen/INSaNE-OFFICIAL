@@ -880,6 +880,7 @@ img {
   .video {
     max-width: 100%;
     height: auto;
+    width: -webkit-fill-available;
   }
 
   .popup {
