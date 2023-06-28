@@ -478,7 +478,7 @@ body {
 }
 
 a {
-    color: white !important;
+    color: white;
     transition: all 0.2s;
 }
 
