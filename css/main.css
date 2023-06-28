@@ -27,6 +27,12 @@
     src: url('./fonts/ArchitectsDaughter-Regular.ttf') format('truetype');
 }
 
+@font-face {
+    font-display: swap;
+    font-family: 'hiragino-mincho-pro';
+    src: url('./fonts/hiragino-mincho-pro-w3.otf') format('opentype');
+}
+
 *,
 *::before,
 *::after {
@@ -82,7 +88,7 @@ a:hover {
   }
 
 body {
-    font-family: sharpsans-web, helvetica, arial, sans-serif;
+    font-family: sharpsans-web, 'hiragino-mincho-pro', helvetica, arial, sans-serif;
 }
 
 .video-overlay {
