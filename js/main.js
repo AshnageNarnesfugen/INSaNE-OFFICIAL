@@ -191,19 +191,28 @@ jQuery(() => {
 		  const imagePromises = [];
 	  
 		  images.each((index, img) => {
-			const promise = new Promise((resolve, reject) => {
-			  this.observer.observe(img);
+			if (img.complete) {
+			  // If the image is already loaded, add the 'loaded' class immediately
+			  const parentDiv = $(img).parent();
+			  parentDiv.addClass('loaded');
+			} else {
+			  // If the image is not yet loaded, observe it with the intersection observer
+			  const promise = new Promise((resolve, reject) => {
+				this.observer.observe(img);
 	  
-			  img.onload = function () {
-				resolve();
-			  };
+				img.onload = function () {
+				  const parentDiv = $(img).parent();
+				  parentDiv.addClass('loaded');
+				  resolve();
+				};
 	  
-			  img.onerror = function () {
-				reject(new Error(`Failed to load image: ${img.src}`));
-			  };
-			});
+				img.onerror = function () {
+				  reject(new Error(`Failed to load image: ${img.src}`));
+				};
+			  });
 	  
-			imagePromises.push(promise);
+			  imagePromises.push(promise);
+			}
 		  });
 	  
 		  const blurDivs = $(".blur-load");
@@ -276,6 +285,8 @@ jQuery(() => {
 			  if (this.status === 200) {
 				const blob = this.response;
 				$(imgElement).attr('src', URL.createObjectURL(blob));
+				const parentDiv = $(imgElement).parent();
+				parentDiv.addClass('loaded');
 				resolve();
 			  } else {
 				reject(new Error(`Failed to load image: ${src}`));
@@ -288,10 +299,6 @@ jQuery(() => {
 		  });
 	  
 		  promise
-			.then(() => {
-			  const parentDiv = $(imgElement).parent();
-			  parentDiv.addClass('loaded');
-			})
 			.catch(error => {
 			  console.error(error);
 			});
