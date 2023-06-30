@@ -1198,3 +1198,102 @@ span {
         font-size: 35px;
     }
 }
+
+:root {
+    --transition-speed: 0.5s;
+  }
+  
+  .speaker-box {
+    width: 200px;
+    height: 250px;
+    background: rgb(20, 20, 24);
+    background-image: linear-gradient(
+      0deg,
+      rgba(20, 20, 24, 1) 0%,
+      rgba(35, 35, 46, 1) 100%
+    );
+    border-radius: 10px;
+    margin: 0 auto;
+    transition: background 0.5s, transform 0.5s ease-out;
+    background-size: 100% 300%;
+    transform: perspective(600px) rotateX(15deg);
+    cursor: pointer;
+  }
+  
+  .speaker-box:hover {
+    transform: perspective(600px) rotateX(0deg);
+    background-size: 200% 100%;
+  }
+  
+  .speaker-box:hover .speaker-image {
+    transform: translateY(-100px) scale(0.6);
+    transition: var(--transition-speed);
+    border-radius: 50%;
+  }
+  
+  .user-name p {
+    color: white;
+  }
+  
+  .user-name {
+    transition: var(--transition-speed);
+  }
+  
+  .speaker-box:hover .user-name {
+    opacity: 0;
+  }
+  
+  .text-box {
+    font-size: 14px;
+    font-style: italic;
+    opacity: 0;
+    transition: visibility 0s, opacity var(--transition-speed) linear;
+    z-index: 5;
+    display: table;
+    transform: translateY(-130px);
+    background: var(--bg-primary);
+    border-radius: 15px;
+    color: white !important;
+  }
+  
+  .speaker-box:hover .text-box {
+    transition: visibility 0s, opacity var(--transition-speed) linear;
+    visibility: visible;
+    opacity: 1;
+  }
+  
+  .speaker-image {
+    transition: var(--transition-speed);
+    border-radius: 15px;
+    transform: translateY(0px) scale(0.8);
+    z-index: 2;
+  }
+  
+  @media (max-width: 767px) {
+    .speaker-box {
+      transform: perspective(600px) rotateX(0deg);
+    }
+  
+    .speaker-box .text-box {
+      transform: translateY(-170px);
+      visibility: visible;
+      opacity: 1;
+    }
+  
+    .speaker-box .user-name {
+      visibility: visible;
+      opacity: 1;
+    }
+  
+    .speaker-box:hover .user-name {
+      visibility: visible;
+      opacity: 1;
+    }
+  
+    .speaker-box .speaker-image {
+      transform: translateY(-100px) scale(0.6);
+      transition: var(--transition-speed);
+      border-radius: 50%;
+    }
+  }
+  
