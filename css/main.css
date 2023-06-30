@@ -1214,7 +1214,7 @@ span {
     );
     border-radius: 10px;
     margin: 0 auto;
-    transition: all 0.5s ease-out;
+    transition: all var(--transition-speed) ease-out;
     background-size: 100% 300%;
     transform: perspective(600px) rotateX(15deg);
     cursor: pointer;
