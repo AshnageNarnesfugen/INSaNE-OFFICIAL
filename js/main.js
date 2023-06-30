@@ -192,34 +192,25 @@ jQuery(() => {
 	  
 		  images.each((index, img) => {
 			const dataSrc = $(img).attr('data-src');
-			
+	  
 			if (!dataSrc) {
 			  // Skip images without data-src property
 			  return;
 			}
 	  
-			if (img.complete) {
-			  // If the image is already loaded, add the 'loaded' class immediately
-			  const parentDiv = $(img).parent();
-			  parentDiv.addClass('loaded');
-			} else {
-			  // If the image is not yet loaded, observe it with the intersection observer
-			  const promise = new Promise((resolve, reject) => {
-				this.observer.observe(img);
+			const promise = new Promise((resolve, reject) => {
+			  this.observer.observe(img);
 	  
-				img.onload = function () {
-				  const parentDiv = $(img).parent();
-				  parentDiv.addClass('loaded');
-				  resolve();
-				};
+			  img.onload = function () {
+				resolve();
+			  };
 	  
-				img.onerror = function () {
-				  reject(new Error(`Failed to load image: ${img.src}`));
-				};
-			  });
+			  img.onerror = function () {
+				reject(new Error(`Failed to load image: ${img.src}`));
+			  };
+			});
 	  
-			  imagePromises.push(promise);
-			}
+			imagePromises.push(promise);
 		  });
 	  
 		  const blurDivs = $(".blur-load");
@@ -277,13 +268,12 @@ jQuery(() => {
 		  const src = $(imgElement).attr('data-src'); // Use data-src attribute instead of src
 	  
 		  // Skip the XHR request if the src attribute already contains a valid image URL
-		  /*
-			if (src && (src.startsWith('data:') || src.startsWith('http://') || src.startsWith('https://'))) {
-				const parentDiv = $(imgElement).parent();
-				parentDiv.addClass('loaded');
-				return Promise.resolve();
-			}
-		  */
+		  if (src && (src.startsWith('data:') || src.startsWith('http://') || src.startsWith('https://'))) {
+			const parentDiv = $(imgElement).parent();
+			parentDiv.addClass('loaded');
+			return Promise.resolve();
+		  }
+	  
 		  const xhr = new XMLHttpRequest();
 	  
 		  const promise = new Promise((resolve, reject) => {
@@ -293,8 +283,6 @@ jQuery(() => {
 			  if (this.status === 200) {
 				const blob = this.response;
 				$(imgElement).attr('src', URL.createObjectURL(blob));
-				const parentDiv = $(imgElement).parent();
-				parentDiv.addClass('loaded');
 				resolve();
 			  } else {
 				reject(new Error(`Failed to load image: ${src}`));
@@ -306,9 +294,14 @@ jQuery(() => {
 			xhr.send();
 		  });
 	  
-		  promise.catch(error => {
-			console.error(error);
-		  });
+		  promise
+			.then(() => {
+			  const parentDiv = $(imgElement).parent();
+			  parentDiv.addClass('loaded');
+			})
+			.catch(error => {
+			  console.error(error);
+			});
 	  
 		  return promise;
 		}
