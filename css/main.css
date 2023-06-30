@@ -97,6 +97,9 @@ body {
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(10px);
+    /*Navigator polyfill for backfrop filter*/
+    -webkit-backdrop-filter: blur(10px);
     color: #fff;
     display: flex;
     justify-content: center;
