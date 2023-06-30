@@ -878,6 +878,9 @@ img {
     max-width: 100%;
     height: auto;
     width: -webkit-fill-available;
+    /*Navigator polyfill for width: -webkit-fill-available;*/
+    object-fit: cover;
+    object-position: center;
   }
 
   .popup {
