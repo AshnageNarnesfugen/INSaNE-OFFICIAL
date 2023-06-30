@@ -259,34 +259,19 @@ jQuery(() => {
 	  
 		lazyLoadImage(imgElement) {
 		  const src = $(imgElement).attr('data-src'); // Use data-src attribute instead of src
-		  const xhr = new XMLHttpRequest();
 	  
-		  const promise = new Promise((resolve, reject) => {
-			xhr.open('GET', src, true);
-			xhr.responseType = 'blob';
-			xhr.onload = function () {
-			  if (this.status === 200) {
-				const blob = this.response;
-				$(imgElement).attr('src', URL.createObjectURL(blob));
-				resolve();
-			  } else {
-				reject(new Error('Failed to load image'));
-			  }
-			};
-			xhr.onerror = function () {
-			  reject(new Error('Failed to load image'));
-			};
-			xhr.send();
+		  $.ajax({
+			url: src,
+			method: 'GET',
+			dataType: 'blob',
+			success: function (data) {
+			  const blob = data;
+			  $(imgElement).attr('src', URL.createObjectURL(blob));
+			},
+			error: function () {
+			  console.error('Failed to load image');
+			}
 		  });
-	  
-		  promise
-			.then(() => {
-			  const parentDiv = $(imgElement).parent();
-			  parentDiv.addClass('loaded');
-			})
-			.catch(error => {
-			  console.error(error);
-			});
 		}
 	  }
 	  
