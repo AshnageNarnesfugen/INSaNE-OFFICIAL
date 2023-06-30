@@ -1221,6 +1221,8 @@ span {
   }
   
   .speaker-box:hover {
+    width: 200px;
+    height: 450px;
     transform: perspective(600px) rotateX(0deg);
     background-size: 200% 100%;
   }
@@ -1271,6 +1273,7 @@ span {
   
   @media (max-width: 767px) {
     .speaker-box {
+      height: 450px;
       transform: perspective(600px) rotateX(0deg);
     }
   
