@@ -449,9 +449,6 @@ body {
     .common-column:first-child {
         height: 100%;
     }
-    .title {
-        display: inline-grid;
-    }
 }
 
 @media (max-width: 767px) {
