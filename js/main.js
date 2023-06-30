@@ -72,7 +72,8 @@ jQuery(() => {
 	  const lazyVideoLoader = new LazyVideoLoader();
 	  lazyVideoLoader.loadVideos();
 	  
-	  class LazyImageLoader {
+	  /*
+	 	class LazyImageLoader {
 		constructor() {
 		  this.options = {
 			root: null, // Use the viewport as the root
@@ -171,7 +172,112 @@ jQuery(() => {
 	  }
 
 	const lazyImageLoader = new LazyImageLoader();
-  	lazyImageLoader.loadImages();
+  	lazyImageLoader.loadImages(); 
+	  */
+
+	  class LazyImageLoader {
+		constructor() {
+		  this.options = {
+			root: null, // Use the viewport as the root
+			rootMargin: '0px', // No margin
+			threshold: 0.1 // Trigger when 10% of the image is visible
+		  };
+	  
+		  this.observer = new IntersectionObserver(this.handleIntersection.bind(this), this.options);
+		}
+	  
+		loadImages() {
+		  const images = $('img');
+	  
+		  images.each((index, img) => {
+			this.observer.observe(img);
+		  });
+	  
+		  const blurDivs = $(".blur-load");
+	  
+		  blurDivs.each(function () {
+			const img = $(this).find("img");
+	  
+			const loaded = () => {
+			  $(this).addClass('loaded');
+			};
+	  
+			if (img[0].complete) {
+			  loaded();
+			} else {
+			  img.on('load', loaded);
+			}
+		  });
+	  
+		  images.click(function () {
+			const src = $(this).attr('src');
+			const modal = $(`<div class="modal">
+			  <div class="modal-dialog">
+				<div class="modal-content">
+				  <img class="modal-img" src="${src}">
+				</div>
+			  </div>
+			</div>`);
+	  
+			modal.appendTo('body');
+	  
+			modal.show();
+			$('body').css('overflow', 'hidden');
+	  
+			modal.click(function () {
+			  modal.hide();
+			  modal.remove();
+			  $('body').css('overflow', 'visible');
+			});
+		  });
+		}
+	  
+		handleIntersection(entries, observer) {
+		  entries.forEach(entry => {
+			if (entry.isIntersecting) {
+			  const imgElement = entry.target;
+			  this.lazyLoadImage(imgElement);
+			  observer.unobserve(imgElement);
+			}
+		  });
+		}
+	  
+		lazyLoadImage(imgElement) {
+		  const src = $(imgElement).attr('data-src'); // Use data-src attribute instead of src
+		  const xhr = new XMLHttpRequest();
+	  
+		  const promise = new Promise((resolve, reject) => {
+			xhr.open('GET', src, true);
+			xhr.responseType = 'blob';
+			xhr.onload = function () {
+			  if (this.status === 200) {
+				const blob = this.response;
+				$(imgElement).attr('src', URL.createObjectURL(blob));
+				resolve();
+			  } else {
+				reject(new Error('Failed to load image'));
+			  }
+			};
+			xhr.onerror = function () {
+			  reject(new Error('Failed to load image'));
+			};
+			xhr.send();
+		  });
+	  
+		  promise
+			.then(() => {
+			  const parentDiv = $(imgElement).parent();
+			  parentDiv.addClass('loaded');
+			})
+			.catch(error => {
+			  console.error(error);
+			});
+		}
+	  }
+	  
+	  const lazyImageLoader = new LazyImageLoader();
+	  lazyImageLoader.loadImages();
+	  
 
 	function acceptedFunctionalityCookie() {
 		// Your code that should run after accepting cookies goes here
