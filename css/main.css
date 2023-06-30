@@ -437,9 +437,6 @@ body {
 .title {
     font-size: 40px;
     z-index: 2;
-    display: grid;
-    place-content: center;
-    place-items: center;
 }
 
 @media (max-width: 979px) {
