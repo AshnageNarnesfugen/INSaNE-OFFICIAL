@@ -191,6 +191,13 @@ jQuery(() => {
 		  const imagePromises = [];
 	  
 		  images.each((index, img) => {
+			const dataSrc = $(img).attr('data-src');
+			
+			if (!dataSrc) {
+			  // Skip images without data-src property
+			  return;
+			}
+	  
 			if (img.complete) {
 			  // If the image is already loaded, add the 'loaded' class immediately
 			  const parentDiv = $(img).parent();
@@ -270,12 +277,13 @@ jQuery(() => {
 		  const src = $(imgElement).attr('data-src'); // Use data-src attribute instead of src
 	  
 		  // Skip the XHR request if the src attribute already contains a valid image URL
-		  if (src && (src.startsWith('data:') || src.startsWith('http://') || src.startsWith('https://'))) {
-			const parentDiv = $(imgElement).parent();
-			parentDiv.addClass('loaded');
-			return Promise.resolve();
-		  }
-	  
+		  /*
+			if (src && (src.startsWith('data:') || src.startsWith('http://') || src.startsWith('https://'))) {
+				const parentDiv = $(imgElement).parent();
+				parentDiv.addClass('loaded');
+				return Promise.resolve();
+			}
+		  */
 		  const xhr = new XMLHttpRequest();
 	  
 		  const promise = new Promise((resolve, reject) => {
@@ -298,10 +306,9 @@ jQuery(() => {
 			xhr.send();
 		  });
 	  
-		  promise
-			.catch(error => {
-			  console.error(error);
-			});
+		  promise.catch(error => {
+			console.error(error);
+		  });
 	  
 		  return promise;
 		}
