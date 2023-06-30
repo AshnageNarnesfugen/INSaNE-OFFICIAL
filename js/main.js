@@ -259,6 +259,14 @@ jQuery(() => {
 	  
 		lazyLoadImage(imgElement) {
 		  const src = $(imgElement).attr('data-src'); // Use data-src attribute instead of src
+	  
+		  // Skip the XHR request if the src attribute already contains a valid image URL
+		  if (src && (src.startsWith('data:') || src.startsWith('http://') || src.startsWith('https://'))) {
+			const parentDiv = $(imgElement).parent();
+			parentDiv.addClass('loaded');
+			return Promise.resolve();
+		  }
+	  
 		  const xhr = new XMLHttpRequest();
 	  
 		  const promise = new Promise((resolve, reject) => {
@@ -287,6 +295,8 @@ jQuery(() => {
 			.catch(error => {
 			  console.error(error);
 			});
+	  
+		  return promise;
 		}
 	  }
 	  
