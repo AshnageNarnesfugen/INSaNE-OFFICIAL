@@ -188,9 +188,22 @@ jQuery(() => {
 	  
 		loadImages() {
 		  const images = $('img');
+		  const imagePromises = [];
 	  
 		  images.each((index, img) => {
-			this.observer.observe(img);
+			const promise = new Promise((resolve, reject) => {
+			  this.observer.observe(img);
+	  
+			  img.onload = function () {
+				resolve();
+			  };
+	  
+			  img.onerror = function () {
+				reject(new Error('Failed to load image'));
+			  };
+			});
+	  
+			imagePromises.push(promise);
 		  });
 	  
 		  const blurDivs = $(".blur-load");
@@ -230,6 +243,8 @@ jQuery(() => {
 			  $('body').css('overflow', 'visible');
 			});
 		  });
+	  
+		  return imagePromises;
 		}
 	  
 		handleIntersection(entries, observer) {
@@ -276,7 +291,16 @@ jQuery(() => {
 	  }
 	  
 	  const lazyImageLoader = new LazyImageLoader();
-	  lazyImageLoader.loadImages();
+	  const imagePromises = lazyImageLoader.loadImages();
+	  
+	  Promise.all(imagePromises)
+		.then(() => {
+		  console.log('All images loaded successfully');
+		})
+		.catch(error => {
+		  console.error('Failed to load images:', error);
+		});
+	  
 	  
 
 	function acceptedFunctionalityCookie() {
