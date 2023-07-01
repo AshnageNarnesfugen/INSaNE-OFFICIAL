@@ -1271,6 +1271,7 @@ span {
   
   @media (max-width: 767px) {
     .speaker-box {
+      height: 365px;
       transform: perspective(600px) rotateX(0deg);
     }
   
@@ -1281,7 +1282,7 @@ span {
     }
   
     .speaker-box .user-name {
-      transform: translateY(200px);
+      transform: translateY(37px);
       visibility: visible;
       opacity: 1;
     }
