@@ -1282,7 +1282,7 @@ span {
     }
   
     .speaker-box .user-name {
-      transform: translateY(37px);
+      transform: translateY(-155px);
       visibility: visible;
       opacity: 1;
     }
