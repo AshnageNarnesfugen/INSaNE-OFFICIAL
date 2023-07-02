@@ -1250,7 +1250,7 @@ span {
     transition: visibility 0s, opacity var(--transition-speed) linear;
     z-index: 5;
     display: table;
-    transform: translateY(-130px);
+    transform: translateY(-180px);
     background: var(--bg-primary);
     border-radius: 15px;
     color: white !important;
