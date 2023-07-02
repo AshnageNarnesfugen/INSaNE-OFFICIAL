@@ -1272,6 +1272,7 @@ span {
   @media (max-width: 767px) {
     .speaker-box {
       height: 410px;
+      width: auto;
       transform: perspective(600px) rotateX(0deg);
     }
   
