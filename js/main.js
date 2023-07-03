@@ -1,5 +1,6 @@
 jQuery(() => {
-	class LazyVideoLoader {
+	/*
+		class LazyVideoLoader {
 		constructor() {
 		  this.options = {
 			root: null, // Use the viewport as the root
@@ -66,11 +67,116 @@ jQuery(() => {
 			  }
 			});
 		}
+	}
+
+	// Usage:
+	const lazyVideoLoader = new LazyVideoLoader();
+	lazyVideoLoader.loadVideos();
+	*/
+	  
+	class LazyVideoLoader {
+		constructor() {
+		  this.options = {
+			root: null,
+			rootMargin: '0px',
+			threshold: 0.1
+		  };
+	  
+		  this.observer = new IntersectionObserver(this.handleIntersection.bind(this), this.options);
+		}
+	  
+		loadVideos() {
+		  $('video').each((index, videoElement) => {
+			this.observer.observe(videoElement);
+		  });
+		}
+	  
+		handleIntersection(entries, observer) {
+		  entries.forEach(entry => {
+			if (entry.isIntersecting) {
+			  const videoElement = entry.target;
+			  this.lazyLoadVideo(videoElement);
+			  observer.unobserve(videoElement);
+			}
+		  });
+		}
+	  
+		lazyLoadVideo(videoElement) {
+		  let isBlobLoaded = false;
+		  const $overlay = $('<div class="video-overlay">Loading...</div>');
+	  
+		  $(videoElement).prop('controls', false);
+		  $(videoElement).parent().append($overlay);
+	  
+		  const sources = $(videoElement).find('source');
+		  const promises = [];
+	  
+		  sources.each(function() {
+			const sourceElement = $(this)[0];
+			const videoURL = $(this).attr('data-src');
+	  
+			const promise = fetch(videoURL)
+			  .then(response => response.blob())
+			  .then(videoBlob => {
+				const videoObjectURL = URL.createObjectURL(videoBlob);
+				$(sourceElement).attr('src', videoObjectURL);
+			  })
+			  .catch(error => {
+				console.error('Failed to fetch video:', error);
+			  });
+	  
+			promises.push(promise);
+		  });
+	  
+		  Promise.all(promises).then(() => {
+			if (!isBlobLoaded) {
+			  videoElement.load();
+			  isBlobLoaded = true;
+			  $(videoElement).prop('controls', true);
+			  $overlay.remove();
+	  
+			  if ('MediaSource' in window && MediaSource.isTypeSupported('video/mp4; codecs="avc1.42E01E, mp4a.40.2"')) {
+				const mediaSource = new MediaSource();
+				videoElement.src = URL.createObjectURL(mediaSource);
+	  
+				mediaSource.addEventListener('sourceopen', () => {
+				  const sourceBuffer = mediaSource.addSourceBuffer('video/mp4; codecs="avc1.42E01E, mp4a.40.2"');
+				  const videoChunks = []; // Store video chunks
+	  
+				  sources.each(function() {
+					const sourceElement = $(this)[0];
+					const videoURL = $(this).attr('data-src');
+	  
+					fetch(videoURL)
+					  .then(response => response.arrayBuffer())
+					  .then(arrayBuffer => {
+						videoChunks.push(arrayBuffer);
+						if (videoChunks.length === sources.length) {
+						  const concatenatedBuffer = new Uint8Array(videoChunks.reduce((acc, curr) => acc + curr.byteLength, 0));
+						  let offset = 0;
+						  videoChunks.forEach(chunk => {
+							concatenatedBuffer.set(new Uint8Array(chunk), offset);
+							offset += chunk.byteLength;
+						  });
+						  sourceBuffer.appendBuffer(concatenatedBuffer);
+						}
+					  })
+					  .catch(error => {
+						console.error('Failed to fetch video:', error);
+					  });
+				  });
+				});
+			  }
+			}
+		  });
+		}
 	  }
 	  
 	  // Usage:
 	  const lazyVideoLoader = new LazyVideoLoader();
 	  lazyVideoLoader.loadVideos();
+	  
+	  
 
 	  class LazyImageLoader {
 		constructor() {
