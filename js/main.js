@@ -110,9 +110,9 @@ jQuery(() => {
 		  const sources = $(videoElement).find('source');
 		  const promises = [];
 	  
-		  sources.each(function() {
-			const sourceElement = $(this)[0];
-			const videoURL = $(this).attr('data-src');
+		  sources.each((index, source) => {
+			const sourceElement = $(source)[0];
+			const videoURL = $(source).attr('data-src');
 	  
 			const promise = fetch(videoURL)
 			  .then(response => response.blob())
@@ -120,7 +120,7 @@ jQuery(() => {
 				const videoObjectURL = URL.createObjectURL(videoBlob);
 	  
 				$(sourceElement).attr('src', videoObjectURL);
-				this.createMediaSource(videoElement);
+				return this.createMediaSource(videoElement); // Return the promise chain
 			  })
 			  .catch(error => {
 				console.error('Failed to fetch video:', error);
@@ -186,7 +186,6 @@ jQuery(() => {
 	  // Usage:
 	  const lazyVideoLoader = new LazyVideoLoader();
 	  lazyVideoLoader.loadVideos();
-	  
 	  
 
 	  class LazyImageLoader {
