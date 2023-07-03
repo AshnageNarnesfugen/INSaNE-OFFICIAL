@@ -102,7 +102,6 @@ jQuery(() => {
 		}
 	  
 		lazyLoadVideo(videoElement) {
-		  let isBlobLoaded = false;
 		  const $overlay = $('<div class="video-overlay">Loading...</div>');
 	  
 		  $(videoElement).prop('controls', false);
@@ -119,7 +118,9 @@ jQuery(() => {
 			  .then(response => response.blob())
 			  .then(videoBlob => {
 				const videoObjectURL = URL.createObjectURL(videoBlob);
+	  
 				$(sourceElement).attr('src', videoObjectURL);
+				this.createMediaSource(videoElement);
 			  })
 			  .catch(error => {
 				console.error('Failed to fetch video:', error);
@@ -129,46 +130,56 @@ jQuery(() => {
 		  });
 	  
 		  Promise.all(promises).then(() => {
-			if (!isBlobLoaded) {
-			  videoElement.load();
-			  isBlobLoaded = true;
-			  $(videoElement).prop('controls', true);
-			  $overlay.remove();
-	  
-			  if ('MediaSource' in window && MediaSource.isTypeSupported('video/mp4; codecs="avc1.42E01E, mp4a.40.2"')) {
-				const mediaSource = new MediaSource();
-				videoElement.src = URL.createObjectURL(mediaSource);
-	  
-				mediaSource.addEventListener('sourceopen', () => {
-				  const sourceBuffer = mediaSource.addSourceBuffer('video/mp4; codecs="avc1.42E01E, mp4a.40.2"');
-				  const videoChunks = []; // Store video chunks
-	  
-				  sources.each(function() {
-					const sourceElement = $(this)[0];
-					const videoURL = $(this).attr('data-src');
-	  
-					fetch(videoURL)
-					  .then(response => response.arrayBuffer())
-					  .then(arrayBuffer => {
-						videoChunks.push(arrayBuffer);
-						if (videoChunks.length === sources.length) {
-						  const concatenatedBuffer = new Uint8Array(videoChunks.reduce((acc, curr) => acc + curr.byteLength, 0));
-						  let offset = 0;
-						  videoChunks.forEach(chunk => {
-							concatenatedBuffer.set(new Uint8Array(chunk), offset);
-							offset += chunk.byteLength;
-						  });
-						  sourceBuffer.appendBuffer(concatenatedBuffer);
-						}
-					  })
-					  .catch(error => {
-						console.error('Failed to fetch video:', error);
-					  });
-				  });
-				});
-			  }
-			}
+			$(videoElement).prop('controls', true);
+			$overlay.remove();
 		  });
+		}
+	  
+		createMediaSource(videoElement) {
+		  if ('MediaSource' in window && MediaSource.isTypeSupported('video/mp4')) {
+			const mediaSource = new MediaSource();
+			const sourceBuffers = {};
+	  
+			videoElement.src = URL.createObjectURL(mediaSource);
+	  
+			mediaSource.addEventListener('sourceopen', () => {
+			  const mimeCodec = 'video/mp4; codecs="avc1.42E01E"';
+			  const sourceBuffer = mediaSource.addSourceBuffer(mimeCodec);
+			  sourceBuffers[mimeCodec] = sourceBuffer;
+	  
+			  this.fetchVideoSegments(videoElement.src)
+				.then(segments => {
+				  segments.forEach(segment => {
+					sourceBuffer.appendBuffer(segment);
+				  });
+				})
+				.catch(error => {
+				  console.error('Failed to fetch video segments:', error);
+				});
+			});
+	  
+			mediaSource.addEventListener('sourceended', () => {
+			  mediaSource.endOfStream();
+			});
+		  } else {
+			console.error('MediaSource API or video/mp4 format is not supported.');
+		  }
+		}
+	  
+		fetchVideoSegments(videoURL) {
+		  // Fetch video segments based on the available qualities and network conditions
+		  return fetch(videoURL)
+			.then(response => response.arrayBuffer())
+			.then(arrayBuffer => {
+			  // Split the video into segments based on the chosen streaming protocol (e.g., DASH, HLS)
+			  // Each segment corresponds to a different quality level
+			  const segments = []; // Array of ArrayBuffer segments
+	  
+			  // Process the arrayBuffer and split it into segments
+			  // Add each segment to the 'segments' array
+	  
+			  return segments;
+			});
 		}
 	  }
 	  
