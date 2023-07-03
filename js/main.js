@@ -1,192 +1,77 @@
 jQuery(() => {
-	/*
 		class LazyVideoLoader {
-		constructor() {
-		  this.options = {
-			root: null, // Use the viewport as the root
-			rootMargin: '0px', // No margin
-			threshold: 0.1 // Trigger when 10% of the video is visible
-		  };
-	  
-		  this.observer = new IntersectionObserver(this.handleIntersection.bind(this), this.options);
-		}
-	  
-		loadVideos() {
-		  $('video').each((index, videoElement) => {
-			this.observer.observe(videoElement);
-		  });
-		}
-	  
-		handleIntersection(entries, observer) {
-		  entries.forEach(entry => {
-			if (entry.isIntersecting) {
-			  const videoElement = entry.target;
-			  this.lazyLoadVideo(videoElement);
-			  observer.unobserve(videoElement);
+			constructor() {
+			this.options = {
+				root: null, // Use the viewport as the root
+				rootMargin: '0px', // No margin
+				threshold: 0.1 // Trigger when 10% of the video is visible
+			};
+		
+			this.observer = new IntersectionObserver(this.handleIntersection.bind(this), this.options);
 			}
-		  });
-		}
-	  
-		lazyLoadVideo(videoElement) {
-		  let isBlobLoaded = false; // Flag to track if blob is loaded
-		  const $overlay = $('<div class="video-overlay">Loading...</div>'); // Create a loading overlay
-	  
-		  $(videoElement).prop('controls', false); // Disable video controls initially
-		  $(videoElement).parent().append($overlay);
-	  
-		  const sources = $(videoElement).find('source');
-		  const promises = [];
-	  
-		  sources.each(function () {
-			const sourceElement = $(this)[0];
-			const videoURL = $(this).attr('data-src'); // Use data-src attribute to store video URL instead of src
-	  
-			const promise = fetch(videoURL)
-			  .then(response => response.blob())
-			  .then(videoBlob => {
-				const videoObjectURL = URL.createObjectURL(videoBlob);
-	  
-				// Set the src attribute of the source element to the URL
-				$(sourceElement).attr('src', videoObjectURL);
-			  })
-			  .catch(error => {
-				console.error('Failed to fetch video:', error);
-			  });
-	  
-			promises.push(promise);
-		  });
-	  
-		  Promise.all(promises)
-			.then(() => {
-			  if (!isBlobLoaded) {
-				// Call the load method on the video element to update the sources
-				videoElement.load();
-				isBlobLoaded = true; // Update the flag
-				$(videoElement).prop('controls', true); // Enable video controls
-				$overlay.remove(); // Remove the loading overlay
-			  }
+		
+			loadVideos() {
+			$('video').each((index, videoElement) => {
+				this.observer.observe(videoElement);
 			});
-		}
-	}
-
-	// Usage:
-	const lazyVideoLoader = new LazyVideoLoader();
-	lazyVideoLoader.loadVideos();
-	*/
-	  
-	class LazyVideoLoader {
-		constructor() {
-		  this.options = {
-			root: null,
-			rootMargin: '0px',
-			threshold: 0.1
-		  };
-	  
-		  this.observer = new IntersectionObserver(this.handleIntersection.bind(this), this.options);
-		}
-	  
-		loadVideos() {
-		  $('video').each((index, videoElement) => {
-			this.observer.observe(videoElement);
-		  });
-		}
-	  
-		handleIntersection(entries, observer) {
-		  entries.forEach(entry => {
-			if (entry.isIntersecting) {
-			  const videoElement = entry.target;
-			  this.lazyLoadVideo(videoElement);
-			  observer.unobserve(videoElement);
 			}
-		  });
-		}
-	  
-		lazyLoadVideo(videoElement) {
-		  const $overlay = $('<div class="video-overlay">Loading...</div>');
-	  
-		  $(videoElement).prop('controls', false);
-		  $(videoElement).parent().append($overlay);
-	  
-		  const sources = $(videoElement).find('source');
-		  const promises = [];
-	  
-		  sources.each((index, source) => {
-			const sourceElement = $(source)[0];
-			const videoURL = $(source).attr('data-src');
-	  
-			const promise = fetch(videoURL)
-			  .then(response => response.blob())
-			  .then(videoBlob => {
-				const videoObjectURL = URL.createObjectURL(videoBlob);
-	  
-				$(sourceElement).attr('src', videoObjectURL);
-				return this.createMediaSource(videoElement); // Return the promise chain
-			  })
-			  .catch(error => {
-				console.error('Failed to fetch video:', error);
-			  });
-	  
-			promises.push(promise);
-		  });
-	  
-		  Promise.all(promises).then(() => {
-			$(videoElement).prop('controls', true);
-			$overlay.remove();
-		  });
-		}
-	  
-		createMediaSource(videoElement) {
-		  if ('MediaSource' in window && MediaSource.isTypeSupported('video/mp4')) {
-			const mediaSource = new MediaSource();
-			const sourceBuffers = {};
-	  
-			videoElement.src = URL.createObjectURL(mediaSource);
-	  
-			mediaSource.addEventListener('sourceopen', () => {
-			  const mimeCodec = 'video/mp4; codecs="avc1.42E01E"';
-			  const sourceBuffer = mediaSource.addSourceBuffer(mimeCodec);
-			  sourceBuffers[mimeCodec] = sourceBuffer;
-	  
-			  this.fetchVideoSegments(videoElement.src)
-				.then(segments => {
-				  segments.forEach(segment => {
-					sourceBuffer.appendBuffer(segment);
-				  });
+		
+			handleIntersection(entries, observer) {
+			entries.forEach(entry => {
+				if (entry.isIntersecting) {
+				const videoElement = entry.target;
+				this.lazyLoadVideo(videoElement);
+				observer.unobserve(videoElement);
+				}
+			});
+			}
+		
+			lazyLoadVideo(videoElement) {
+			let isBlobLoaded = false; // Flag to track if blob is loaded
+			const $overlay = $('<div class="video-overlay">Loading...</div>'); // Create a loading overlay
+		
+			$(videoElement).prop('controls', false); // Disable video controls initially
+			$(videoElement).parent().append($overlay);
+		
+			const sources = $(videoElement).find('source');
+			const promises = [];
+		
+			sources.each(function () {
+				const sourceElement = $(this)[0];
+				const videoURL = $(this).attr('data-src'); // Use data-src attribute to store video URL instead of src
+		
+				const promise = fetch(videoURL)
+				.then(response => response.blob())
+				.then(videoBlob => {
+					const videoObjectURL = URL.createObjectURL(videoBlob);
+		
+					// Set the src attribute of the source element to the URL
+					$(sourceElement).attr('src', videoObjectURL);
 				})
 				.catch(error => {
-				  console.error('Failed to fetch video segments:', error);
+					console.error('Failed to fetch video:', error);
 				});
+		
+				promises.push(promise);
 			});
-	  
-			mediaSource.addEventListener('sourceended', () => {
-			  mediaSource.endOfStream();
-			});
-		  } else {
-			console.error('MediaSource API or video/mp4 format is not supported.');
-		  }
+		
+			Promise.all(promises)
+				.then(() => {
+				if (!isBlobLoaded) {
+					// Call the load method on the video element to update the sources
+					videoElement.load();
+					isBlobLoaded = true; // Update the flag
+					$(videoElement).prop('controls', true); // Enable video controls
+					$overlay.remove(); // Remove the loading overlay
+				}
+				});
+			}
 		}
-	  
-		fetchVideoSegments(videoURL) {
-		  // Fetch video segments based on the available qualities and network conditions
-		  return fetch(videoURL)
-			.then(response => response.arrayBuffer())
-			.then(arrayBuffer => {
-			  // Split the video into segments based on the chosen streaming protocol (e.g., DASH, HLS)
-			  // Each segment corresponds to a different quality level
-			  const segments = []; // Array of ArrayBuffer segments
-	  
-			  // Process the arrayBuffer and split it into segments
-			  // Add each segment to the 'segments' array
-	  
-			  return segments;
-			});
-		}
-	  }
-	  
-	  // Usage:
-	  const lazyVideoLoader = new LazyVideoLoader();
-	  lazyVideoLoader.loadVideos();
-	  
+
+		// Usage:
+		const lazyVideoLoader = new LazyVideoLoader();
+		lazyVideoLoader.loadVideos();
+	
 
 	  class LazyImageLoader {
 		constructor() {
