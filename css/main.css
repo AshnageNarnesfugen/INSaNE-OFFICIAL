@@ -811,6 +811,10 @@ img {
     cursor: pointer;
 }
 
+.bold {
+    font-weight: bold !important;
+}
+
 /* Style the modals */
 .modal {
     display: none; /* Hidden by default */
