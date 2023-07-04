@@ -1,8 +1,5 @@
 jQuery(() => {
-    
-
-	/*
-	class LazyVideoLoader {
+    class LazyVideoLoader {
         constructor() {
             this.options = {
                 root: null, // Use the viewport as the root
@@ -74,104 +71,11 @@ jQuery(() => {
     // Usage:
     const lazyVideoLoader = new LazyVideoLoader();
     lazyVideoLoader.loadVideos();
+
+	/*
+	
 	*/
-	class LazyVideoLoader {
-		constructor() {
-		  this.options = {
-			root: null,
-			rootMargin: '0px',
-			threshold: 0.1
-		  };
-	  
-		  this.observer = new IntersectionObserver(this.handleIntersection.bind(this), this.options);
-		}
-	  
-		loadVideos() {
-		  $('video').each((index, videoElement) => {
-			this.observer.observe(videoElement);
-		  });
-		}
-	  
-		handleIntersection(entries, observer) {
-		  entries.forEach(entry => {
-			if (entry.isIntersecting) {
-			  const videoElement = entry.target;
-			  this.lazyLoadVideo(videoElement);
-			  observer.unobserve(videoElement);
-			}
-		  });
-		}
-	  
-		lazyLoadVideo(videoElement) {
-		  let isBlobLoaded = false;
-		  const $overlay = $('<div class="video-overlay">Loading...</div>');
-		  const sources = $(videoElement).find('source');
-		  const videoURLs = sources.map((index, sourceElement) => $(sourceElement).attr('data-src')).get();
-	  
-		  $(videoElement).prop('controls', false);
-		  $(videoElement).parent().append($overlay);
-	  
-		  const loadNextChunk = () => {
-			if (videoURLs.length === 0) {
-			  if (!isBlobLoaded) {
-				videoElement.load();
-				isBlobLoaded = true;
-				$(videoElement).prop('controls', true);
-				$overlay.remove();
-			  }
-			  return;
-			}
-	  
-			const videoURL = videoURLs.shift();
-			const chunkSize = 1024 * 1024; // 1MB
-	  
-			fetch(videoURL)
-			  .then(response => response.blob())
-			  .then(videoBlob => {
-				const reader = new FileReader();
-				const loadNext = () => loadNextChunk();
-	  
-				reader.onloadend = () => {
-				  if (reader.error) {
-					console.error('Failed to read video chunk:', reader.error);
-					loadNext();
-				  } else {
-					const chunkArrayBuffer = reader.result;
-					const chunkBlob = new Blob([chunkArrayBuffer]);
-					const videoObjectURL = URL.createObjectURL(chunkBlob);
-	  
-					sources.each((index, sourceElement) => {
-					  const type = $(sourceElement).attr('type');
-					  const chunkSourceURL = videoURL + `#t=${index * chunkSize},${(index + 1) * chunkSize}`;
-					  $(sourceElement).attr('src', chunkSourceURL);
-					  $(sourceElement).attr('type', type);
-					});
-	  
-					$(videoElement).on('loadeddata', () => {
-					  URL.revokeObjectURL(videoObjectURL);
-					  loadNext();
-					});
-	  
-					videoElement.load();
-				  }
-				};
-	  
-				reader.readAsArrayBuffer(videoBlob.slice(0, chunkSize));
-			  })
-			  .catch(error => {
-				console.error('Failed to fetch video:', error);
-				loadNext();
-			  });
-		  };
-	  
-		  loadNextChunk();
-		}
-	  }
-	  
-	  // Usage:
-	  const lazyVideoLoader = new LazyVideoLoader();
-	  lazyVideoLoader.loadVideos();
-	  
+
 
     class LazyImageLoader {
         constructor() {
