@@ -834,7 +834,7 @@ img {
   .modal-dialog {
     display: grid;
     place-content: center;
-    height: 100%;
+    height: -webkit-fill-available;
   }
   
   /* Style the close button */
