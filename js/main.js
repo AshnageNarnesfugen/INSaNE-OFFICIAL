@@ -353,57 +353,76 @@ jQuery(() => {
 	
 
 	$(window).on("load", function() {
-		let langMSG = {}
-		if (window.location.href == 'https://insane-bh.space') {
+		let langMSG = {};
+		switch (window.location.origin) {
+		case 'https://insane-bh.space':
 			langMSG = {
-				"header": "Cookies used on the website!",
-				"message": "This website uses cookies to ensure you get the best experience on our website.",
-				"dismiss": "Got it!",
-				"allow": "Allow cookies",
-				"deny": "Decline",
-				"link": "Learn More",
-				"href": "https://www.example.com/cookies",
-				"close": "❌",
-				"policy": "Cookie Policy"
-			}
-		} else if (window.location.href == 'https://insane-bh.space/es') {
+			"header": "Cookies used on the website!",
+			"message": "This website uses cookies to ensure you get the best experience on our website.",
+			"dismiss": "Got it!",
+			"allow": "Allow cookies",
+			"deny": "Decline",
+			"link": "Learn More",
+			"href": "https://www.example.com/cookies",
+			"close": "❌",
+			"policy": "Cookie Policy"
+			};
+			break;
+		case 'https://insane-bh.space/es':
 			langMSG = {
-				"header": "¡Cookies usadas en el sitio web!",
-				"message": "Este sitio web utiliza cookies para garantizar que obtenga la mejor experiencia en nuestro sitio web.",
-				"dismiss": "¡Entiendo!",
-				"allow": "Permitir cookies",
-				"deny": "Rechazar",
-				"link": "Saber más",
-				"href": "https://www.example.com/cookies",
-				"close": "❌",
-				"policy": "Politica de Cookies"
-			}
-		} else if (window.location.href == 'https://insane-bh.space/ja'){
+			"header": "¡Cookies usadas en el sitio web!",
+			"message": "Este sitio web utiliza cookies para garantizar que obtenga la mejor experiencia en nuestro sitio web.",
+			"dismiss": "¡Entiendo!",
+			"allow": "Permitir cookies",
+			"deny": "Rechazar",
+			"link": "Saber más",
+			"href": "https://www.example.com/cookies",
+			"close": "❌",
+			"policy": "Política de Cookies"
+			};
+			break;
+		case 'https://insane-bh.space/ja':
 			langMSG = {
-				"header": "ウェブサイトでのクッキーの使用について",
-				"message": "当ウェブサイトでは、最良の体験を提供するためにクッキーを使用しています。",
-				"dismiss": "了解しました！",
-				"allow": "クッキーを許可する",
-				"deny": "拒否する",
-				"link": "詳細を知る",
-				"href": "https://www.example.com/cookies",
-				"close": "❌",
-				"policy": "クッキーポリシー"
-			}
-		} else if (window.location.href == 'https://insane-bh.space/pt') {
-			//portugues
+			"header": "ウェブサイトでのクッキーの使用について",
+			"message": "当ウェブサイトでは、最良の体験を提供するためにクッキーを使用しています。",
+			"dismiss": "了解しました！",
+			"allow": "クッキーを許可する",
+			"deny": "拒否する",
+			"link": "詳細を知る",
+			"href": "https://www.example.com/cookies",
+			"close": "❌",
+			"policy": "クッキーポリシー"
+			};
+			break;
+		case 'https://insane-bh.space/pt':
 			langMSG = {
-				"header": "Usando cookies no site da Web!",
-				"message": "O meu website usa cookies para fornecer uma experiência ótima.",
-				"dismiss": "Entendi!",
-				"allow": "Aceitar",
-				"deny": "Negar",
-				"link": "Saiba mais",
-				"href": "https://www.example.com/cookies",
-				"close": "❌",
-				"policy": "Política de cookies",
-			}
+			"header": "Usando cookies no site da Web!",
+			"message": "O meu website usa cookies para fornecer uma experiência ótima.",
+			"dismiss": "Entendi!",
+			"allow": "Aceitar",
+			"deny": "Negar",
+			"link": "Saiba mais",
+			"href": "https://www.example.com/cookies",
+			"close": "❌",
+			"policy": "Política de cookies"
+			};
+			break;
+		default:
+			// Handle any other URLs
+			langMSG = {
+			"header": "Cookies used on the website!",
+			"message": "This website uses cookies to ensure you get the best experience on our website.",
+			"dismiss": "Got it!",
+			"allow": "Allow cookies",
+			"deny": "Decline",
+			"link": "Learn More",
+			"href": "https://www.example.com/cookies",
+			"close": "❌",
+			"policy": "Cookie Policy"
+			};
+			break;
 		}
+
 		cookieconsent.initialise({
 			"palette": {
 				"popup": {
@@ -544,35 +563,49 @@ jQuery(() => {
 	form.on('submit', function(e) {
 		e.preventDefault()
 		let langMSG = {}
-		if (window.location.href == 'https://insane-bh.space') {
-			langMSG = {
-				notiMSGAccepted: "Your form has been Submitted.",
-				bodyMSGAccepted: "Congratulations, Soonly our team will be in touch with you.",
-				notiMSGRejected: "Your form couldn't be Submitted.",
-				bodyMSGRejected: "An error has occurred, try again :(."
-			}
-		} else if (window.location.href == 'https://insane-bh.space/es') {
-			langMSG = {
-				notiMSGAccepted: "Su solicitud ha sido enviada.",
-				bodyMSGAccepted: "Enhorabuena, pronto nuestro equipo se pondrá en contacto con usted.",
+		switch (window.location.origin) {
+			case 'https://insane-bh.space':
+			  langMSG = {
+				notiMSGAccepted: "Your form has been submitted.",
+				bodyMSGAccepted: "Congratulations! Our team will be in touch with you soon.",
+				notiMSGRejected: "Your form couldn't be submitted.",
+				bodyMSGRejected: "An error has occurred. Please try again."
+			  };
+			  break;
+			case 'https://insane-bh.space/es':
+			  langMSG = {
+				notiMSGAccepted: "Su formulario ha sido enviado.",
+				bodyMSGAccepted: "¡Enhorabuena! Nuestro equipo se pondrá en contacto con usted pronto.",
 				notiMSGRejected: "No se pudo enviar su formulario.",
-				bodyMSGRejected: "Ha ocurrido un error, inténtelo de nuevo :(."
-			}
-		} else if (window.location.href == 'https://insane-bh.space/ja') {
-			langMSG = {
-				notiMSGAccepted: "フォームを送信しました",
-				bodyMSGAccepted: "おめでとうございます。あな",
-				notiMSGRejected: "フォームの送信に失敗しました",
-				bodyMSGRejected: "エラーが発生しました。もう一度やり"
-			}
-		} else if (window.location.href == 'https://insane-bh.space/pt') {
-			langMSG = {
-				notiMSGAccepted: "Sua mensagem foi envado.",
-				bodyMSGAccepted: "Parabéns! Somos capde entrar em contato com você!",
-				notiMSGRejected: "Nãose pode enviar sua mensagem.",
-				bodyMSGRejected: "Ocorreuum erro, tente novamente :("
-			}
-		}
+				bodyMSGRejected: "Ha ocurrido un error. Por favor, inténtelo de nuevo."
+			  };
+			  break;
+			case 'https://insane-bh.space/ja':
+			  langMSG = {
+				notiMSGAccepted: "フォームが送信されました。",
+				bodyMSGAccepted: "おめでとうございます。弊社チームがお客様に近日中に連絡いたします。",
+				notiMSGRejected: "フォームの送信に失敗しました。",
+				bodyMSGRejected: "エラーが発生しました。もう一度お試しください。"
+			  };
+			  break;
+			case 'https://insane-bh.space/pt':
+			  langMSG = {
+				notiMSGAccepted: "Sua mensagem foi enviada.",
+				bodyMSGAccepted: "Parabéns! Em breve, nossa equipe entrará em contato com você.",
+				notiMSGRejected: "Não foi possível enviar sua mensagem.",
+				bodyMSGRejected: "Ocorreu um erro. Por favor, tente novamente."
+			  };
+			  break;
+			default:
+			  // Handle any other URLs
+			  langMSG = {
+				notiMSGAccepted: "Unknown form submission.",
+				bodyMSGAccepted: "Thank you for your submission.",
+				notiMSGRejected: "Form submission error.",
+				bodyMSGRejected: "An unexpected error occurred. Please try again."
+			  };
+			  break;
+		  }
 
 		let tymsg = $(this).attr('data-tymsg')
 		let errmsg = $(this).attr('data-errmsg')
