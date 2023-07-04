@@ -834,11 +834,8 @@ img {
   /* Style the modal content */
   .modal-dialog {
     position: absolute;
-    top: 0%;
     left: 50%;
     transform: translate(-50%, -0%);
-    max-width: 800px;
-    max-height: 600px;
   }
   
   /* Style the close button */
