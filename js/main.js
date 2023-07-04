@@ -563,7 +563,7 @@ jQuery(() => {
 	form.on('submit', function(e) {
 		e.preventDefault()
 		let langMSG = {}
-		switch (window.location.origin) {
+		switch (window.location.href) {
 			case 'https://insane-bh.space':
 			  langMSG = {
 				notiMSGAccepted: "Your form has been submitted.",
