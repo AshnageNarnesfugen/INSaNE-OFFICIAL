@@ -828,6 +828,7 @@ img {
   .modal-img {
     margin: 0 auto;
     display: block;
+    height: inherit;
   }
   
   /* Style the modal content */
