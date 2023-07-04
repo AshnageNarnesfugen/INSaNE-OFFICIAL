@@ -354,7 +354,7 @@ jQuery(() => {
 
 	$(window).on("load", function() {
 		let langMSG = {};
-		switch (window.location.origin) {
+		switch (window.location.href) {
 		case 'https://insane-bh.space':
 			langMSG = {
 			"header": "Cookies used on the website!",
