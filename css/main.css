@@ -832,10 +832,9 @@ img {
   
   /* Style the modal content */
   .modal-dialog {
-    position: absolute;
-    left: 50%;
-    transform: translate(-50%, -0%);
     height: 100vh;
+    display: grid;
+    place-content: center;
   }
   
   /* Style the close button */
