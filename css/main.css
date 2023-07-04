@@ -828,14 +828,13 @@ img {
   .modal-img {
     margin: 0 auto;
     display: block;
-    height: inherit;
   }
-  
+
   /* Style the modal content */
   .modal-dialog {
-    height: 100vh;
     display: grid;
     place-content: center;
+    height: 100%;
   }
   
   /* Style the close button */
@@ -852,8 +851,13 @@ img {
   .modal-content {
     text-align: center;
     margin: 0 auto;
+    height: 90vh;
   }
   
+  .inherit {
+    height: inherit;
+  }
+
   /* Style the background overlay */
   .modal-overlay {
     position: fixed;
