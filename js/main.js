@@ -354,7 +354,7 @@ jQuery(() => {
 
 	$(window).on("load", function() {
 		let langMSG = {};
-		switch (window.location.protocol + '//' + window.location.host) {
+		switch (window.location.href) {
 		case 'https://insane-bh.space':
 			langMSG = {
 			"header": "Cookies used on the website!",
@@ -563,7 +563,7 @@ jQuery(() => {
 	form.on('submit', function(e) {
 		e.preventDefault()
 		let langMSG = {}
-		switch (window.location.protocol + '//' + window.location.host) {
+		switch (window.location.href) {
 			case 'https://insane-bh.space':
 			  langMSG = {
 				notiMSGAccepted: "Your form has been submitted.",
