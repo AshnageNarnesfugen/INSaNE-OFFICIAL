@@ -827,8 +827,6 @@ img {
   }
 
   .modal-img {
-    max-width: 100%;
-    max-height: calc(86vh - 200px);
     margin: 0 auto;
     display: block;
   }
@@ -836,9 +834,9 @@ img {
   /* Style the modal content */
   .modal-dialog {
     position: absolute;
-    top: 50%;
+    top: 0%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -0%);
     max-width: 800px;
     max-height: 600px;
   }
@@ -857,9 +855,6 @@ img {
   .modal-content {
     text-align: center;
     margin: 0 auto;
-    max-width: 100%;
-    max-height: calc(100% - 60px);
-    overflow: auto;
   }
   
   /* Style the background overlay */

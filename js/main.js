@@ -132,7 +132,7 @@ jQuery(() => {
 			const modal = $(`<div class="modal">
 			  <div class="modal-dialog">
 				<div class="modal-content">
-				  <img class="modal-img" src="${src}">
+				  <img class="modal-img img-fluid" src="${src}">
 				</div>
 			  </div>
 			</div>`);
