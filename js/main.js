@@ -666,26 +666,33 @@ jQuery(() => {
 
     })
 
-    
-        const shuffleTitles = (elementClass) => {
-        let titles = $(elementClass)
+    const shuffleTitles = (elementClass) => {
+        let titles = $(elementClass);
         $(titles).each(function() {
-            $(this).shuffleLetters({
-                "step": 30,
-                "fps": 60,
-                "text": $(this).attr('data-text')
-            })
-        })
-    }
-
-    var observer = new IntersectionObserver(function(entries) {
-        if (entries[0].isIntersecting === true)
-            shuffleTitles('.shuffle')
-    }, {
+          $(this).shuffleLetters({
+            "step": 30,
+            "fps": 60,
+            "text": $(this).attr('data-text')
+          });
+        });
+      };
+      
+      var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          const section = entry.target;
+          const elementsWithDataText = $(section).find('[data-text]');
+          if (elementsWithDataText.length > 0 && entry.isIntersecting) {
+            shuffleTitles($(section).find('.shuffle'));
+          }
+        });
+      }, {
         threshold: [1]
-    });
-
-    observer.observe($("#quickresume")[0]);
+      });
+      
+      var sectionElements = $("section");
+      sectionElements.each(function(index, sectionElement) {
+        observer.observe(sectionElement);
+      });
        
     var owl = $('.owl-carousel')
     owl.owlCarousel({
