@@ -666,35 +666,46 @@ jQuery(() => {
 
     })
 
-    const shuffleTitles = (elementClass) => {
-        let titles = $(elementClass);
-        $(titles).each(function() {
-          $(this).shuffleLetters({
-            "step": 30,
-            "fps": 60,
-            "text": $(this).attr('data-text')
+    class SectionShuffler {
+        constructor() {
+          this.observerConfig = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.5
+          };
+          this.observer = new IntersectionObserver(this.handleIntersection.bind(this), this.observerConfig);
+          this.sections = $('section');
+        }
+      
+        init() {
+          this.sections.each((index, element) => {
+            const section = $(element);
+            if (section.find('[data-text]').length > 0) {
+              this.observer.observe(section[0]);
+            }
           });
-        });
-      };
+        }
       
-      var observer = new IntersectionObserver(function(entries) {
-        entries.forEach(function(entry) {
-          const section = entry.target;
-          const elementsWithDataText = $(section).find('[data-text]');
-          if (elementsWithDataText.length > 0 && entry.isIntersecting) {
-            const affectedElement = $(section).find('.shuffle');
-            console.log('Element affected:', affectedElement);
-            shuffleTitles(affectedElement);
-          }
-        });
-      }, {
-        threshold: [1]
-      });
+        handleIntersection(entries, observer) {
+          entries.forEach(entry => {
+            const section = $(entry.target);
+            if (entry.isIntersecting) {
+              const titles = section.find('[data-text]');
+              titles.each((index, element) => {
+                $(element).shuffleLetters({
+                  step: 30,
+                  fps: 60,
+                  text: $(element).attr('data-text')
+                });
+              });
+            }
+          });
+        }
+      }
       
-      var sectionElements = $("section");
-      sectionElements.each(function(index, sectionElement) {
-        observer.observe(sectionElement);
-      });      
+      // Usage:
+      const shuffler = new SectionShuffler();
+      shuffler.init();            
        
     var owl = $('.owl-carousel')
     owl.owlCarousel({
