@@ -666,6 +666,7 @@ jQuery(() => {
 
     })
 
+    /*
     class SectionShuffler {
         constructor() {
           this.observerConfig = {
@@ -705,7 +706,50 @@ jQuery(() => {
       
       // Usage:
       const shuffler = new SectionShuffler();
-      shuffler.init();            
+      shuffler.init(); 
+    */
+
+      class ElementShuffler {
+        constructor(elements) {
+          this.observerConfig = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.5
+          };
+          this.observer = new IntersectionObserver(this.handleIntersection.bind(this), this.observerConfig);
+          this.elements = elements;
+        }
+      
+        init() {
+          this.elements.each((index, element) => {
+            const container = $(element);
+            if (container.find('[data-text]').length > 0) {
+              this.observer.observe(element);
+            }
+          });
+        }
+      
+        handleIntersection(entries) {
+          entries.forEach(entry => {
+            const container = $(entry.target);
+            if (entry.isIntersecting) {
+              const titles = container.find('[data-text]');
+              titles.each((index, element) => {
+                $(element).shuffleLetters({
+                  step: 30,
+                  fps: 60,
+                  text: $(element).attr('data-text')
+                });
+              });
+            }
+          });
+        }
+      }
+      
+      // Usage:
+      const elementsToObserve = $('div, span, section, article, main');
+      const shuffler = new ElementShuffler(elementsToObserve);
+      shuffler.init();       
        
     var owl = $('.owl-carousel')
     owl.owlCarousel({
