@@ -699,4 +699,25 @@ jQuery(() => {
     $('.cuztomized')
         .on('dragstart', (e) => e.stopPropagation().preventDefault())
         .on('drop', (e) => e.stopPropagation().preventDefault())
+
+        $(document).keydown(function(event) {
+            switch (event.keyCode) {
+                case 123: // Prevent F12
+                case 74: // Prevent Ctrl+Shift+J (Windows/Linux)
+                case 75: // Prevent Cmd+Option+J (Mac)
+                    return false;
+                case 73: // Prevent Ctrl+Shift+I and Ctrl+Shift+C
+                    if (event.ctrlKey && event.shiftKey) {
+                        return false;
+                    }
+                    break;
+                case 85: // Prevent Ctrl+U
+                case 83: // Prevent Ctrl+Shift+S (Windows/Linux)
+                case 74: // Prevent Cmd+Shift+C (Mac)
+                    if (event.ctrlKey) {
+                        return false;
+                    }
+                    break;
+            }
+        });        
 })
