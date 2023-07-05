@@ -820,13 +820,29 @@ img {
     display: none; /* Hidden by default */
     position: fixed; /* Stay in place */
     z-index: 100000; /* Sit on top */
-    left: 0;
-    top: 0;
+    inset: 0;
     width: 100%; /* Full width */
     height: 100%; /* Full height */
     overflow: auto; /* Enable scroll if needed */
     background-color: rgba(0, 0, 0, 0.9); /* Black w/ opacity */
     backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px); /* Safari 9+ */
+  }
+
+  .modal::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.9);
+    z-index: -1;
+    filter: blur(10px); /* Apply blur effect */
+  }
+
+  /* Browser-specific conditions */
+ @supports not ((backdrop-filter: blur(10px)) or (-webkit-backdrop-filter: blur(10px))) {
+    .modal::before {
+      content: none !important; /* Hide the polyfill in browsers that support backdrop-filter */
+    }
   }
 
   .modal-img {
