@@ -346,8 +346,14 @@ jQuery(() => {
                             window.location.href = `https://insane-bh.space/pt?country=${userCountry}`;
                             break;
                         default:
-                            Cookies.remove('language');
-                            window.location.href = `https://insane-bh.space`;
+                            Cookies.set('language', userCountry, {
+                                expires: 365,
+                                path: '/',
+                                domain: 'insane-bh.space',
+                                secure: true,
+                                sameSite: 'Strict'
+                            });
+                            window.location.href = `https://insane-bh.space/?country=${userCountry}`;
                             break;
                     }
                 });
