@@ -674,7 +674,7 @@ jQuery(() => {
             threshold: 0.5
           };
           this.observer = new IntersectionObserver(this.handleIntersection.bind(this), this.observerConfig);
-          this.sections = $('section');
+          this.sections = $('.shuffle-section');
         }
       
         init() {
@@ -706,7 +706,7 @@ jQuery(() => {
       // Usage:
       const shuffler = new SectionShuffler();
       shuffler.init(); 
-      
+
     var owl = $('.owl-carousel')
     owl.owlCarousel({
         items: 1,
