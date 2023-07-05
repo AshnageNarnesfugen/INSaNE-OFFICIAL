@@ -829,22 +829,6 @@ img {
     -webkit-backdrop-filter: blur(10px); /* Safari 9+ */
   }
 
-  .modal::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background-color: rgba(0, 0, 0, 0.9);
-    z-index: -1;
-    filter: blur(10px); /* Apply blur effect */
-  }
-
-  /* Browser-specific conditions */
- @supports not ((backdrop-filter: blur(10px)) or (-webkit-backdrop-filter: blur(10px))) {
-    .modal::before {
-      content: none !important; /* Hide the polyfill in browsers that support backdrop-filter */
-    }
-  }
-
   .modal-img {
     margin: 0 auto;
     display: block;
