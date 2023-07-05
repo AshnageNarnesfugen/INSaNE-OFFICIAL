@@ -747,9 +747,9 @@ jQuery(() => {
       }
       
       // Usage:
-      const elementsToObserve = $('div, span, section, article, main');
+      const elementsToObserve = $('div, span, section, article, main, header, footer, nav, aside, figure');
       const shuffler = new ElementShuffler(elementsToObserve);
-      shuffler.init();       
+      shuffler.init();      
        
     var owl = $('.owl-carousel')
     owl.owlCarousel({
