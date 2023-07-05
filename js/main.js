@@ -682,7 +682,9 @@ jQuery(() => {
           const section = entry.target;
           const elementsWithDataText = $(section).find('[data-text]');
           if (elementsWithDataText.length > 0 && entry.isIntersecting) {
-            shuffleTitles($(section).find('.shuffle'));
+            const affectedElement = $(section).find('.shuffle');
+            console.log('Element affected:', affectedElement);
+            shuffleTitles(affectedElement);
           }
         });
       }, {
@@ -692,7 +694,7 @@ jQuery(() => {
       var sectionElements = $("section");
       sectionElements.each(function(index, sectionElement) {
         observer.observe(sectionElement);
-      });
+      });      
        
     var owl = $('.owl-carousel')
     owl.owlCarousel({
