@@ -667,7 +667,6 @@ jQuery(() => {
     })
 
     
-    /*
         const shuffleTitles = (elementClass) => {
         let titles = $(elementClass)
         $(titles).each(function() {
@@ -687,35 +686,7 @@ jQuery(() => {
     });
 
     observer.observe($("#quickresume")[0]);
-    */
-
-    const shuffleTitles = (elementClass) => {
-        $(elementClass).each(function() {
-          $(this).shuffleLetters({
-            "step": 30,
-            "fps": 60,
-            "text": $(this).attr('data-text')
-          });
-        });
-      };
-      
-      var observer = new IntersectionObserver(function(entries) {
-        entries.forEach(function(entry) {
-          if (entry.isIntersecting) {
-            let section = $(entry.target);
-            let elementClass = section.find('.shuffle');
-            shuffleTitles(elementClass);
-          }
-        });
-      }, {
-        threshold: [1]
-      });
-      
-      $("section").each(function() {
-        observer.observe(this);
-      });  
-      
-
+       
     var owl = $('.owl-carousel')
     owl.owlCarousel({
         items: 1,
