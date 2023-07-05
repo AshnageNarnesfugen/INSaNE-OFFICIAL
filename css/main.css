@@ -167,6 +167,7 @@ body {
     inset: 0;
     animation: pulse 2.5s infinite;
     backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     transition: backdrop-filter 200ms ease-in-out;
 }
 
@@ -659,6 +660,7 @@ main.slider {
     background: rgba(26, 26, 26, 0.5);
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' viewBox='0 0 4 4'%3E%3Cpath fill='%239C92AC' fill-opacity='0.4' d='M1 3h1v1H1V3zm2-2h1v1H3V1z'%3E%3C/path%3E%3C/svg%3E");
     backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     padding: 40px;
     border-radius: 0px;
     border: solid 2px #000;
@@ -915,6 +917,7 @@ img {
     z-index: 1000;
     background: rgba(100, 100, 100, 0.5);
     backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     padding-left: 10px;
     padding-right: 10px;
   }
@@ -1147,6 +1150,7 @@ span {
     left: 0;
     background-color: rgba(10, 10, 10, 1);
     backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     transition: all 0.5s ease-in-out;
     z-index: 1;
 }
