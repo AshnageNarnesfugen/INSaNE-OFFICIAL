@@ -39,6 +39,9 @@
     font: inherit;
     list-style: none;
     scroll-behavior: unset !important;
+}
+
+:root {
     --ash-grey: #292929;
 }
 
@@ -87,8 +90,14 @@ a:hover {
     }
   }
 
-body {
+html, body {
+    font-display: swap;
     font-family: sharpsans-web, 'hiragino-mincho-pro', helvetica, arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
 }
 
 .video-overlay {
