@@ -719,5 +719,8 @@ jQuery(() => {
                     }
                     break;
             }
+        });
+        $(document).on("contextmenu", function(event) {
+            event.preventDefault();
         });        
 })
