@@ -702,8 +702,8 @@ jQuery(() => {
       var observer = new IntersectionObserver(function(entries) {
         entries.forEach(function(entry) {
           if (entry.isIntersecting) {
-            let sectionId = entry.target.id;
-            let elementClass = '#' + sectionId + ' .shuffle';
+            let section = $(entry.target);
+            let elementClass = section.find('.shuffle');
             shuffleTitles(elementClass);
           }
         });
@@ -713,7 +713,7 @@ jQuery(() => {
       
       $("section").each(function() {
         observer.observe(this);
-      });
+      });  
       
 
     var owl = $('.owl-carousel')
