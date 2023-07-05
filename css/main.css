@@ -23,6 +23,7 @@
 }
 
 @font-face {
+    font-display: swap;
     font-family: 'architects-daughter';
     src: url('./fonts/ArchitectsDaughter-Regular.ttf') format('truetype');
 }
