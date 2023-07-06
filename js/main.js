@@ -327,8 +327,16 @@ jQuery(() => {
                                 }
                                 break;
                             default:
-                                console.log('Browser language not supported');
-                                // You can display an error message to the user or redirect to a default URL
+                                if (language !== 'US') {
+                                    Cookies.set('language', 'US', {
+                                        expires: 365,
+                                        path: '/',
+                                        domain: 'insane-bh.space',
+                                        secure: true,
+                                        sameSite: 'Strict',
+                                    });
+                                    window.location.href = `https://insane-bh.space/?country=US`;
+                                }
                                 break;
                         }
                     } else {
