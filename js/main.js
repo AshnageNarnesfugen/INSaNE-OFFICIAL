@@ -72,11 +72,6 @@ jQuery(() => {
     const lazyVideoLoader = new LazyVideoLoader();
     lazyVideoLoader.loadVideos();
 
-	/*
-	
-	*/
-
-
     class LazyImageLoader {
         constructor() {
             this.options = {
@@ -221,154 +216,154 @@ jQuery(() => {
         });
 
 
-        function acceptedFunctionalityCookie() {
-            // Your code that should run after accepting cookies goes here
-            var language = Cookies.get('language');
-            console.log(language);
-          
-            switch (language) {
-              case 'ES':
-              case 'MX':
-              case 'AR':
-              case 'CO':
-              case 'PE':
-              case 'VE':
-              case 'CL':
-              case 'EC':
-              case 'GT':
-              case 'CU':
+    function acceptedFunctionalityCookie() {
+        // Your code that should run after accepting cookies goes here
+        var language = Cookies.get('language');
+        console.log(language);
+
+        switch (language) {
+            case 'ES':
+            case 'MX':
+            case 'AR':
+            case 'CO':
+            case 'PE':
+            case 'VE':
+            case 'CL':
+            case 'EC':
+            case 'GT':
+            case 'CU':
                 if (window.location.pathname != '/es') {
-                  window.location.href = `https://insane-bh.space/es?country=${language}`;
+                    window.location.href = `https://insane-bh.space/es?country=${language}`;
                 }
                 break;
-              case 'US':
-              case 'CA':
-              case 'GB':
-              case 'AU':
-              case 'NZ':
-              case 'IE':
-              case 'ZA':
-              case 'IN':
-              case 'SG':
+            case 'US':
+            case 'CA':
+            case 'GB':
+            case 'AU':
+            case 'NZ':
+            case 'IE':
+            case 'ZA':
+            case 'IN':
+            case 'SG':
                 if (window.location.pathname != '/') {
-                  window.location.href = `https://insane-bh.space/?country=${language}`;
+                    window.location.href = `https://insane-bh.space/?country=${language}`;
                 }
                 break;
-              case 'JP':
+            case 'JP':
                 if (window.location.pathname != '/ja') {
-                  window.location.href = `https://insane-bh.space/ja?country=${language}`;
+                    window.location.href = `https://insane-bh.space/ja?country=${language}`;
                 }
                 break;
-              case 'PT':
-              case 'BR':
-              case 'AO':
-              case 'MZ':
-              case 'CV':
-              case 'GW':
-              case 'ST':
-              case 'GQ':
-              case 'TL':
+            case 'PT':
+            case 'BR':
+            case 'AO':
+            case 'MZ':
+            case 'CV':
+            case 'GW':
+            case 'ST':
+            case 'GQ':
+            case 'TL':
                 if (window.location.pathname != '/pt') {
-                  window.location.href = `https://insane-bh.space/pt?country=${language}`;
+                    window.location.href = `https://insane-bh.space/pt?country=${language}`;
                 }
                 break;
-              default:
+            default:
                 var hasDefaultCaseExecuted = false; // Flag to track if default case has executed
-          
+
                 // Get user's location using IP geolocation
-                $.getJSON('https://ipapi.co/json/', function (data) {
-                  var userCountry = data.country_code;
-                  console.log(userCountry);
-          
-                  switch (userCountry) {
-                    case 'US':
-                    case 'CA':
-                    case 'GB':
-                    case 'AU':
-                    case 'NZ':
-                    case 'IE':
-                    case 'ZA':
-                    case 'IN':
-                    case 'SG':
-                      Cookies.set('language', userCountry, {
-                        expires: 365,
-                        path: '/',
-                        domain: 'insane-bh.space',
-                        secure: true,
-                        sameSite: 'Strict',
-                      });
-                      window.location.href = `https://insane-bh.space/?country=${userCountry}`;
-                      break;
-                    case 'JP':
-                      Cookies.set('language', userCountry, {
-                        expires: 365,
-                        path: '/ja',
-                        domain: 'insane-bh.space',
-                        secure: true,
-                        sameSite: 'Strict',
-                      });
-                      window.location.href = `https://insane-bh.space/ja?country=${userCountry}`;
-                      break;
-                    case 'ES':
-                    case 'MX':
-                    case 'AR':
-                    case 'CO':
-                    case 'PE':
-                    case 'VE':
-                    case 'CL':
-                    case 'EC':
-                    case 'GT':
-                    case 'CU':
-                      Cookies.set('language', userCountry, {
-                        expires: 365,
-                        path: '/es',
-                        domain: 'insane-bh.space',
-                        secure: true,
-                        sameSite: 'Strict',
-                      });
-                      window.location.href = `https://insane-bh.space/es?country=${userCountry}`;
-                      break;
-                    case 'PT':
-                    case 'BR':
-                    case 'AO':
-                    case 'MZ':
-                    case 'CV':
-                    case 'GW':
-                    case 'ST':
-                    case 'GQ':
-                    case 'TL':
-                      Cookies.set('language', userCountry, {
-                        expires: 365,
-                        path: '/pt',
-                        domain: 'insane-bh.space',
-                        secure: true,
-                        sameSite: 'Strict',
-                      });
-                      window.location.href = `https://insane-bh.space/pt?country=${userCountry}`;
-                      break;
-                    default:
-                      if (hasDefaultCaseExecuted) {
-                        // Default case already executed once, handle the situation accordingly
-                        console.log('Country code not supported');
-                        // You can display an error message to the user or redirect to a default URL
-                      } else {
-                        hasDefaultCaseExecuted = true; // Set the flag to indicate that the default case has executed
-                        // Perform the redirection again
-                        Cookies.set('language', userCountry, {
-                          expires: 365,
-                          path: '/',
-                          domain: 'insane-bh.space',
-                          secure: true,
-                          sameSite: 'Strict',
-                        });
-                        window.location.href = `https://insane-bh.space/?country=${userCountry}`;
-                      }
-                      break;
-                  }
+                $.getJSON('https://ipapi.co/json/', function(data) {
+                    var userCountry = data.country_code;
+                    console.log(userCountry);
+
+                    switch (userCountry) {
+                        case 'US':
+                        case 'CA':
+                        case 'GB':
+                        case 'AU':
+                        case 'NZ':
+                        case 'IE':
+                        case 'ZA':
+                        case 'IN':
+                        case 'SG':
+                            Cookies.set('language', userCountry, {
+                                expires: 365,
+                                path: '/',
+                                domain: 'insane-bh.space',
+                                secure: true,
+                                sameSite: 'Strict',
+                            });
+                            window.location.href = `https://insane-bh.space/?country=${userCountry}`;
+                            break;
+                        case 'JP':
+                            Cookies.set('language', userCountry, {
+                                expires: 365,
+                                path: '/ja',
+                                domain: 'insane-bh.space',
+                                secure: true,
+                                sameSite: 'Strict',
+                            });
+                            window.location.href = `https://insane-bh.space/ja?country=${userCountry}`;
+                            break;
+                        case 'ES':
+                        case 'MX':
+                        case 'AR':
+                        case 'CO':
+                        case 'PE':
+                        case 'VE':
+                        case 'CL':
+                        case 'EC':
+                        case 'GT':
+                        case 'CU':
+                            Cookies.set('language', userCountry, {
+                                expires: 365,
+                                path: '/es',
+                                domain: 'insane-bh.space',
+                                secure: true,
+                                sameSite: 'Strict',
+                            });
+                            window.location.href = `https://insane-bh.space/es?country=${userCountry}`;
+                            break;
+                        case 'PT':
+                        case 'BR':
+                        case 'AO':
+                        case 'MZ':
+                        case 'CV':
+                        case 'GW':
+                        case 'ST':
+                        case 'GQ':
+                        case 'TL':
+                            Cookies.set('language', userCountry, {
+                                expires: 365,
+                                path: '/pt',
+                                domain: 'insane-bh.space',
+                                secure: true,
+                                sameSite: 'Strict',
+                            });
+                            window.location.href = `https://insane-bh.space/pt?country=${userCountry}`;
+                            break;
+                        default:
+                            if (hasDefaultCaseExecuted) {
+                                // Default case already executed once, handle the situation accordingly
+                                console.log('Country code not supported');
+                                // You can display an error message to the user or redirect to a default URL
+                            } else {
+                                hasDefaultCaseExecuted = true; // Set the flag to indicate that the default case has executed
+                                // Perform the redirection again
+                                Cookies.set('language', userCountry, {
+                                    expires: 365,
+                                    path: '/',
+                                    domain: 'insane-bh.space',
+                                    secure: true,
+                                    sameSite: 'Strict',
+                                });
+                                window.location.href = `https://insane-bh.space/?country=${userCountry}`;
+                            }
+                            break;
+                    }
                 });
                 break;
-            }
-          }
+        }
+    }
 
     $(window).on("load", function() {
         let langMSG = {};
@@ -668,44 +663,44 @@ jQuery(() => {
 
     class SectionShuffler {
         constructor() {
-          this.observerConfig = {
-            root: null,
-            rootMargin: '0px',
-            threshold: 0.5
-          };
-          this.observer = new IntersectionObserver(this.handleIntersection.bind(this), this.observerConfig);
-          this.sections = $('.shuffle-section');
+            this.observerConfig = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.5
+            };
+            this.observer = new IntersectionObserver(this.handleIntersection.bind(this), this.observerConfig);
+            this.sections = $('.shuffle-section');
         }
-      
+
         init() {
-          this.sections.each((index, element) => {
-            const section = $(element);
-            if (section.find('[data-text]').length > 0) {
-              this.observer.observe(section[0]);
-            }
-          });
+            this.sections.each((index, element) => {
+                const section = $(element);
+                if (section.find('[data-text]').length > 0) {
+                    this.observer.observe(section[0]);
+                }
+            });
         }
-      
+
         handleIntersection(entries, observer) {
-          entries.forEach(entry => {
-            const section = $(entry.target);
-            if (entry.isIntersecting) {
-              const titles = section.find('[data-text]');
-              titles.each((index, element) => {
-                $(element).shuffleLetters({
-                  step: 30,
-                  fps: 60,
-                  text: $(element).attr('data-text')
-                });
-              });
-            }
-          });
+            entries.forEach(entry => {
+                const section = $(entry.target);
+                if (entry.isIntersecting) {
+                    const titles = section.find('[data-text]');
+                    titles.each((index, element) => {
+                        $(element).shuffleLetters({
+                            step: 30,
+                            fps: 60,
+                            text: $(element).attr('data-text')
+                        });
+                    });
+                }
+            });
         }
-      }
-      
-      // Usage:
-      const shuffler = new SectionShuffler();
-      shuffler.init(); 
+    }
+
+    // Usage:
+    const shuffler = new SectionShuffler();
+    shuffler.init();
 
     var owl = $('.owl-carousel')
     owl.owlCarousel({
@@ -722,27 +717,27 @@ jQuery(() => {
         .on('dragstart', (e) => e.stopPropagation().preventDefault())
         .on('drop', (e) => e.stopPropagation().preventDefault())
 
-        $(document).keydown(function(event) {
-            switch (event.keyCode) {
-                case 123: // Prevent F12
-                case 74: // Prevent Ctrl+Shift+J (Windows/Linux)
-                case 75: // Prevent Cmd+Option+J (Mac)
+    $(document).keydown(function(event) {
+        switch (event.keyCode) {
+            case 123: // Prevent F12
+            case 74: // Prevent Ctrl+Shift+J (Windows/Linux)
+            case 75: // Prevent Cmd+Option+J (Mac)
+                return false;
+            case 73: // Prevent Ctrl+Shift+I and Ctrl+Shift+C
+                if (event.ctrlKey && event.shiftKey) {
                     return false;
-                case 73: // Prevent Ctrl+Shift+I and Ctrl+Shift+C
-                    if (event.ctrlKey && event.shiftKey) {
-                        return false;
-                    }
-                    break;
-                case 85: // Prevent Ctrl+U
-                case 83: // Prevent Ctrl+Shift+S (Windows/Linux)
-                case 74: // Prevent Cmd+Shift+C (Mac)
-                    if (event.ctrlKey) {
-                        return false;
-                    }
-                    break;
-            }
-        });
-        $(document).on("contextmenu", function(event) {
-            event.preventDefault();
-        });        
+                }
+                break;
+            case 85: // Prevent Ctrl+U
+            case 83: // Prevent Ctrl+Shift+S (Windows/Linux)
+            case 74: // Prevent Cmd+Shift+C (Mac)
+                if (event.ctrlKey) {
+                    return false;
+                }
+                break;
+        }
+    });
+    $(document).on("contextmenu", function(event) {
+        event.preventDefault();
+    });
 })
