@@ -287,7 +287,7 @@ jQuery(() => {
                                         secure: true,
                                         sameSite: 'Strict',
                                     });
-                                    window.location.href = `https://insane-bh.space/es?browser-lang=${browserLanguage}`;
+                                    window.location.href = `https://insane-bh.space/es?country=ES`;
                                 }
                                 break;
                             case 'en':
@@ -299,7 +299,7 @@ jQuery(() => {
                                         secure: true,
                                         sameSite: 'Strict',
                                     });
-                                    window.location.href = `https://insane-bh.space/?browser-lang=${browserLanguage}`;
+                                    window.location.href = `https://insane-bh.space/?country=US`;
                                 }
                                 break;
                             case 'ja':
@@ -311,7 +311,7 @@ jQuery(() => {
                                         secure: true,
                                         sameSite: 'Strict',
                                     });
-                                    window.location.href = `https://insane-bh.space/ja?browser-lang=${browserLanguage}`;
+                                    window.location.href = `https://insane-bh.space/ja?country=JP`;
                                 }
                                 break;
                             case 'pt':
@@ -323,7 +323,7 @@ jQuery(() => {
                                         secure: true,
                                         sameSite: 'Strict',
                                     });
-                                    window.location.href = `https://insane-bh.space/pt?browser-lang=${browserLanguage}`;
+                                    window.location.href = `https://insane-bh.space/pt?country=PT`;
                                 }
                                 break;
                             default:
