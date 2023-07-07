@@ -485,7 +485,7 @@ body {
 }
 
 #esc1 {
-    height: 750px;
+    height: 80vh;
     position: relative;
     border: solid 2px #000;
 }
