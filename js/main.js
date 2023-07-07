@@ -825,6 +825,6 @@ jQuery(() => {
     $(window).on('load', function() {
       var endTime = new Date().getTime();
       var loadTime = endTime - startTime;
-      console.log('Load Time: ' + loadTime + ' ms');
+      console.log(`Load Time: ${loadTime}ms`);
     });
 })
