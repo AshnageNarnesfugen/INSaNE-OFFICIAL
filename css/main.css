@@ -690,10 +690,6 @@ main.slider {
     .post-form {
         width: 100% !important;
     }
-    #letter {
-        left: 10% !important;
-        transform: translate(-6%, -30%) !important;
-    }
 }
 
 input {
