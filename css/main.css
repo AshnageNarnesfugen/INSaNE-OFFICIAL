@@ -691,8 +691,8 @@ main.slider {
         width: 100% !important;
     }
     #letter {
-        top: 70%;
-        left: 16%;
+        left: 10% !important;
+        transform: translate(-6%, -30%) !important;
     }
 }
 
