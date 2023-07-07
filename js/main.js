@@ -818,4 +818,13 @@ jQuery(() => {
     $(document).on("contextmenu", function(event) {
         event.preventDefault();
     });
+    // Al inicio del DOM ready
+    var startTime = new Date().getTime();
+
+    // Al final del DOM ready
+    $(window).on('load', function() {
+      var endTime = new Date().getTime();
+      var loadTime = endTime - startTime;
+      console.log('Load Time: ' + loadTime + ' ms');
+    });
 })
