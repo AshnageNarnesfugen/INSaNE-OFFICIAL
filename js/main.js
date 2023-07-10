@@ -631,7 +631,10 @@ jQuery(() => {
 
     $("#speakers").parallaxie({
         speed: 0.2,
-        disableMobile: true
+        disableMobile: true,
+        size: 'contain',
+        pos_x: 'center',
+        repeat: 'repeat',
     })
 
     let data = $('#letter').attr('data-array');
