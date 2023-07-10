@@ -629,6 +629,11 @@ jQuery(() => {
         disableMobile: true
     });
 
+    $("#speakers").parallaxie({
+        speed: 0.2,
+        disableMobile: true
+    })
+
     let data = $('#letter').attr('data-array');
     data = JSON.parse(data)
 
