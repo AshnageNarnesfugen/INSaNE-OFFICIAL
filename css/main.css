@@ -477,7 +477,7 @@ body {
     height: inherit;
 }
 
-.static-banner > img{
+.first-image-intro {
     object-fit: cover;
     object-position: center;
     width: inherit;
