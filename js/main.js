@@ -194,7 +194,7 @@ jQuery(() => {
         lazyLoadImage(imgElement) {
           const src = $(imgElement).attr('data-src'); // Use data-src attribute instead of src
       
-          // Skip the XHR request if the src attribute already contains a valid image URL
+          // Skip the AJAX request if the src attribute already contains a valid image URL
           if (src && (src.startsWith('data:') || src.startsWith('http://') || src.startsWith('https://'))) {
             const parentDiv = $(imgElement).parent();
             parentDiv.addClass('loaded');
@@ -206,9 +206,17 @@ jQuery(() => {
               url: src,
               method: 'GET',
               responseType: 'blob',
-              success: function(blob) {
-                $(imgElement).attr('src', URL.createObjectURL(blob));
-                resolve();
+              success: function(responseData, _, xhr) {
+                const contentType = xhr.getResponseHeader('Content-Type');
+                const reader = new FileReader();
+                reader.onloadend = function() {
+                  $(imgElement).attr('src', reader.result);
+                  resolve();
+                };
+                reader.onerror = function() {
+                  reject(new Error(`Failed to load image: ${src}`));
+                };
+                reader.readAsDataURL(new Blob([responseData], { type: contentType }));
               },
               error: function() {
                 reject(new Error(`Failed to load image: ${src}`));
@@ -239,6 +247,7 @@ jQuery(() => {
         .catch(error => {
           console.error('Failed to load images:', error);
         });
+      
       
 
     /*
