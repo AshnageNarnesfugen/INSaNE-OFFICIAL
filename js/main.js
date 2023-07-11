@@ -205,9 +205,11 @@ jQuery(() => {
             $.ajax({
               url: src,
               method: 'GET',
-              responseType: 'blob',
-              success: function(responseData, _, xhr) {
-                const contentType = xhr.getResponseHeader('Content-Type');
+              responseType: 'arraybuffer',
+              success: function(responseData) {
+                const uint8Array = new Uint8Array(responseData);
+                const blob = new Blob([uint8Array], { type: 'application/octet-stream' });
+      
                 const reader = new FileReader();
                 reader.onloadend = function() {
                   $(imgElement).attr('src', reader.result);
@@ -216,7 +218,7 @@ jQuery(() => {
                 reader.onerror = function() {
                   reject(new Error(`Failed to load image: ${src}`));
                 };
-                reader.readAsDataURL(new Blob([responseData], { type: contentType }));
+                reader.readAsDataURL(blob);
               },
               error: function() {
                 reject(new Error(`Failed to load image: ${src}`));
@@ -247,7 +249,6 @@ jQuery(() => {
         .catch(error => {
           console.error('Failed to load images:', error);
         });
-      
       
 
     /*
