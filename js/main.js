@@ -87,9 +87,12 @@ jQuery(() => {
             const images = $('img');
             const imagePromises = [];
 
+            let dataSrc;
+            let dataModule;
+
             images.each((index, img) => {
-                const dataSrc = $(img).attr('data-src');
-                const dataModule = $(img).attr('data-module');
+                dataSrc = $(img).attr('data-src');
+                dataModule = $(img).attr('data-module');
 
                 if (!dataSrc || (dataModule && dataModule !== 'true')) {
                     // Skip images without data-src property
