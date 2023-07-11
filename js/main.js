@@ -138,7 +138,7 @@ jQuery(() => {
                         <div class="modal">
                             <div class="modal-dialog">
                                 <div class="modal-content">
-                                <img class="modal-img img-fluid inherit" src="${src}">
+                                <img class="modal-img img-fluid inherit" src="${src}" ondragstart="return false;">
                                 <a class="download-btn" href="${src}" download>${downloadMSN}</a>
                                 </div>
                             </div>
