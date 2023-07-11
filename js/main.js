@@ -648,14 +648,6 @@ jQuery(() => {
         }, 1000);
     });
 
-    var toMail = $("#to-mail");
-    toMail.click(function(e) {
-        e.preventDefault();
-        $('body,html').animate({
-            scrollTop: $(this.hash).offset().top
-        }, 1000);
-    })
-
     var scrollBtn = $('.scroll-top-button');
 
     $(window).scroll(() => {
