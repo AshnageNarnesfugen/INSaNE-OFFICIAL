@@ -828,6 +828,13 @@ img {
     font-weight: bold !important;
 }
 
+.social-sharing {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+}
+
 .download-btn {
     position: absolute;
     bottom: 0;

@@ -1,4 +1,24 @@
 jQuery(() => {
+
+    // Attach click event to share buttons
+    $('.share-btn').on('click', function() {
+        var platform = $(this).data('platform');
+        var url = window.location.href; // Get current page URL
+
+        // Generate the sharing URL based on the platform
+        var shareUrl = '';
+        if (platform === 'facebook') {
+        shareUrl = 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(url);
+        } else if (platform === 'twitter') {
+        shareUrl = 'https://twitter.com/intent/tweet?url=' + encodeURIComponent(url);
+        } else if (platform === 'linkedin') {
+        shareUrl = 'https://www.linkedin.com/shareArticle?url=' + encodeURIComponent(url);
+        }
+
+        // Open the sharing URL in a new window
+        window.open(shareUrl, '_blank');
+    });
+
     class LazyVideoLoader {
         constructor() {
             this.options = {
