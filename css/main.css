@@ -842,7 +842,7 @@ img {
 .modal {
     display: none; /* Hidden by default */
     position: fixed; /* Stay in place */
-    z-index: 100000; /* Sit on top */
+    z-index: 222222; /* Sit on top */
     inset: 0;
     width: 100%; /* Full width */
     height: 100%; /* Full height */
