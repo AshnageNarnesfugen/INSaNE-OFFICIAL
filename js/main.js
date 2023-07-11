@@ -96,6 +96,10 @@ jQuery(() => {
                     return;
                 }
 
+                $(img).on('dragstart', function() {
+                    return false;
+                })
+
                 const promise = new Promise((resolve, reject) => {
                     this.observer.observe(img);
 
