@@ -803,13 +803,6 @@ jQuery(() => {
         .on('dragstart', (e) => e.stopPropagation().preventDefault())
         .on('drop', (e) => e.stopPropagation().preventDefault())
     
-    $('.image-carousel').owlCarousel({
-        loop: true,
-        nav: true,
-        dots: true,
-        items: 1
-    });
-    
     $(document).keydown(function(event) {
         switch (event.keyCode) {
             case 123: // Prevent F12
