@@ -135,10 +135,10 @@ jQuery(() => {
                     downloadMSN = 'Descarga'
                     break;
                 case 'https://insane-bh.space/ja':
-                    downloadMSN = 'Baixar'
+                    downloadMSN = 'ダウンロード'
                     break;
                 case 'https://insane-bh.space/pt':
-                    downloadMSN = 'ダウンロード'
+                    downloadMSN = 'Baixar'
                     break;
                 default:
                     downloadMSN = 'Download'
