@@ -126,12 +126,32 @@ jQuery(() => {
                 }
             });
 
+            let downloadMSN;
+            switch (window.location.href.split("?")[0]) {
+                case 'https://insane-bh.space':
+                    downloadMSN = 'Download'
+                    break;
+                case 'https://insane-bh.space/es':
+                    downloadMSN = 'Descarga'
+                    break;
+                case 'https://insane-bh.space/ja':
+                    downloadMSN = 'Baixar'
+                    break;
+                case 'https://insane-bh.space/pt':
+                    downloadMSN = 'ダウンロード'
+                    break;
+                default:
+                    downloadMSN = 'Download'
+                    break;
+            }
+
             images.click(function() {
                 const src = $(this).attr('src');
                 const modal = $(`<div class="modal">
 			  <div class="modal-dialog">
 				<div class="modal-content">
 				  <img class="modal-img img-fluid inherit" src="${src}">
+                  <a href="${src}" download>${downloadMSN}</a>
 				</div>
 			  </div>
 			</div>`);
