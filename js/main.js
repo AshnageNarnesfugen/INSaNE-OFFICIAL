@@ -91,7 +91,7 @@ jQuery(() => {
                 const dataSrc = $(img).attr('data-src');
                 const dataModule = $(img).attr('data-module');
 
-                if (!dataSrc || (dataModule && dataModule !== 'true')) {
+                if (!dataSrc || (!dataModule && dataModule !== 'true')) {
                     // Skip images without data-src property
                     return;
                 }
