@@ -1038,18 +1038,6 @@ span {
     color: whitesmoke;
 }
 
-.custom-grey {
-    background: rgba(127, 140, 146, 255);
-}
-
-.custom-clear {
-    background: rgba(148, 128, 137, 255);
-}
-
-.custom-orange {
-    background: rgba(175, 138, 119, 255);
-}
-
 .middle-size {
     height: auto;
     width: 100%;
