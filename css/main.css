@@ -834,6 +834,7 @@ img {
     right: 0;
     transform: translateY(-50%);
     display: grid;
+    z-index: 1;
 }
 
 .download-btn {
