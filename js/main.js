@@ -87,12 +87,9 @@ jQuery(() => {
             const images = $('img');
             const imagePromises = [];
 
-            let dataSrc;
-            let dataModule;
-
             images.each((index, img) => {
-                dataSrc = $(img).attr('data-src');
-                dataModule = $(img).attr('data-module');
+                const dataSrc = $(img).attr('data-src');
+                const dataModule = $(img).attr('data-module');
 
                 if (!dataSrc || (dataModule && dataModule !== 'true')) {
                     // Skip images without data-src property
@@ -110,6 +107,52 @@ jQuery(() => {
                         reject(new Error(`Failed to load image: ${img.src}`));
                     };
                 });
+
+                let downloadMSN;
+                switch (window.location.href.split("?")[0]) {
+                    case 'https://insane-bh.space':
+                        downloadMSN = 'Download'
+                        break;
+                    case 'https://insane-bh.space/es':
+                        downloadMSN = 'Descarga'
+                        break;
+                    case 'https://insane-bh.space/ja':
+                        downloadMSN = 'ダウンロード'
+                        break;
+                    case 'https://insane-bh.space/pt':
+                        downloadMSN = 'Baixar'
+                        break;
+                    default:
+                        downloadMSN = 'Download'
+                        break;
+                }
+
+                if (dataModule === 'true') {
+                    $(img).click(function() {
+                        const src = $(this).attr('src');
+                        const modal = $(`
+                        <div class="modal">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                <img class="modal-img img-fluid inherit" src="${src}">
+                                <a class="download-btn" href="${src}" download>${downloadMSN}</a>
+                                </div>
+                            </div>
+                        </div>
+                        `);
+
+                        modal.appendTo('body');
+
+                        modal.show();
+                        $('body').css('overflow', 'hidden');
+
+                        modal.click(function() {
+                            modal.hide();
+                            modal.remove();
+                            $('body').css('overflow', 'visible');
+                        });
+                    });
+                }
 
                 imagePromises.push(promise);
             });
@@ -129,50 +172,6 @@ jQuery(() => {
                     img.on('load', loaded);
                 }
             });
-
-            let downloadMSN;
-            switch (window.location.href.split("?")[0]) {
-                case 'https://insane-bh.space':
-                    downloadMSN = 'Download'
-                    break;
-                case 'https://insane-bh.space/es':
-                    downloadMSN = 'Descarga'
-                    break;
-                case 'https://insane-bh.space/ja':
-                    downloadMSN = 'ダウンロード'
-                    break;
-                case 'https://insane-bh.space/pt':
-                    downloadMSN = 'Baixar'
-                    break;
-                default:
-                    downloadMSN = 'Download'
-                    break;
-            }
-
-            if (dataModule === 'true') {
-                images.click(function() {
-                    const src = $(this).attr('src');
-                    const modal = $(`<div class="modal">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                    <img class="modal-img img-fluid inherit" src="${src}">
-                    <a class="download-btn" href="${src}" download>${downloadMSN}</a>
-                    </div>
-                </div>
-                </div>`);
-
-                    modal.appendTo('body');
-
-                    modal.show();
-                    $('body').css('overflow', 'hidden');
-
-                    modal.click(function() {
-                        modal.hide();
-                        modal.remove();
-                        $('body').css('overflow', 'visible');
-                    });
-                });
-            }
 
             return imagePromises;
         }
