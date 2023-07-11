@@ -866,6 +866,10 @@ img {
   
   /* Style the image in the modal */
   .modal-content {
+    background-color: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(10px);
+    /*Navigator polyfill for backfrop filter*/
+    -webkit-backdrop-filter: blur(10px);
     text-align: center;
     margin: 0 auto;
   }
