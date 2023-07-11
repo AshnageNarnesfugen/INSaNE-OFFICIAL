@@ -828,6 +828,15 @@ img {
     font-weight: bold !important;
 }
 
+.download-btn {
+    position: absolute;
+    bottom: 0;
+    background: rgba(100, 100, 100, 0.5);
+    backdrop-filter: blur(10px);
+    padding: 5px;
+    width: 100%;
+}
+
 /* Style the modals */
 .modal {
     display: none; /* Hidden by default */
