@@ -110,6 +110,7 @@ jQuery(() => {
             images.each((index, img) => {
                 const dataSrc = $(img).attr('data-src');
                 const dataModule = $(img).attr('data-module');
+                const dataBlur = $(img).attr('data-blur');
 
                 if (!dataSrc || (!dataModule && dataModule !== 'true')) {
                     // Skip images without data-src property
@@ -121,7 +122,8 @@ jQuery(() => {
                 })
 
                 // Check if the image is already wrapped
-                if (!$(img).parent().hasClass('blur-load')) {
+                // Check if data-blur is set to true
+                if (dataBlur === 'true' && !$(img).parent().hasClass('blur-load')) {
                     // Wrap the img tag inside a div with the class 'blur-load'
                     $(img).wrap('<div class="blur-load"></div>');
                 }
