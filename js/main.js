@@ -89,6 +89,7 @@ jQuery(() => {
 
             images.each((index, img) => {
                 const dataSrc = $(img).attr('data-src');
+                const dataModule = $(img).attr('data-module');
 
                 if (!dataSrc) {
                     // Skip images without data-src property
@@ -145,28 +146,30 @@ jQuery(() => {
                     break;
             }
 
-            images.click(function() {
-                const src = $(this).attr('src');
-                const modal = $(`<div class="modal">
-			  <div class="modal-dialog">
-				<div class="modal-content">
-				  <img class="modal-img img-fluid inherit" src="${src}">
-                  <a class="download-btn" href="${src}" download>${downloadMSN}</a>
-				</div>
-			  </div>
-			</div>`);
+            if (dataModule === 'true') {
+                images.click(function() {
+                    const src = $(this).attr('src');
+                    const modal = $(`<div class="modal">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                    <img class="modal-img img-fluid inherit" src="${src}">
+                    <a class="download-btn" href="${src}" download>${downloadMSN}</a>
+                    </div>
+                </div>
+                </div>`);
 
-                modal.appendTo('body');
+                    modal.appendTo('body');
 
-                modal.show();
-                $('body').css('overflow', 'hidden');
+                    modal.show();
+                    $('body').css('overflow', 'hidden');
 
-                modal.click(function() {
-                    modal.hide();
-                    modal.remove();
-                    $('body').css('overflow', 'visible');
+                    modal.click(function() {
+                        modal.hide();
+                        modal.remove();
+                        $('body').css('overflow', 'visible');
+                    });
                 });
-            });
+            }
 
             return imagePromises;
         }
