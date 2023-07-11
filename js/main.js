@@ -74,6 +74,176 @@ jQuery(() => {
 
     class LazyImageLoader {
         constructor() {
+          this.options = {
+            root: null, // Use the viewport as the root
+            rootMargin: '0px', // No margin
+            threshold: 0.1 // Trigger when 10% of the image is visible
+          };
+      
+          this.observer = new IntersectionObserver(this.handleIntersection.bind(this), this.options);
+        }
+      
+        loadImages() {
+          const images = $('img');
+          const imagePromises = [];
+      
+          images.each((index, img) => {
+            const dataSrc = $(img).attr('data-src');
+            const dataModule = $(img).attr('data-module');
+      
+            if (!dataSrc || (!dataModule && dataModule !== 'true')) {
+              // Skip images without data-src property
+              return;
+            }
+      
+            $(img).on('dragstart', function() {
+              return false;
+            });
+      
+            const promise = new Promise((resolve, reject) => {
+              this.observer.observe(img);
+      
+              img.onload = function() {
+                resolve();
+              };
+      
+              img.onerror = function() {
+                reject(new Error(`Failed to load image: ${img.src}`));
+              };
+            });
+      
+            let downloadMSN;
+            const baseUrl = window.location.href.split("?")[0];
+            switch (baseUrl) {
+              case 'https://insane-bh.space':
+                downloadMSN = 'Download';
+                break;
+              case 'https://insane-bh.space/es':
+                downloadMSN = 'Descarga';
+                break;
+              case 'https://insane-bh.space/ja':
+                downloadMSN = 'ダウンロード';
+                break;
+              case 'https://insane-bh.space/pt':
+                downloadMSN = 'Baixar';
+                break;
+              default:
+                downloadMSN = 'Download';
+                break;
+            }
+      
+            if (dataModule === 'true') {
+              $(img).click(function() {
+                const src = $(this).attr('src');
+                const modal = $(`
+                  <div class="modal">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <img class="modal-img img-fluid inherit" src="${src}" ondragstart="return false;">
+                        <a class="download-btn" href="${src}" download>${downloadMSN}</a>
+                      </div>
+                    </div>
+                  </div>
+                `);
+      
+                modal.appendTo('body');
+      
+                modal.show();
+                $('body').css('overflow', 'hidden');
+      
+                modal.click(function() {
+                  modal.hide();
+                  modal.remove();
+                  $('body').css('overflow', 'visible');
+                });
+              });
+            }
+      
+            imagePromises.push(promise);
+          });
+      
+          const blurDivs = $(".blur-load");
+      
+          blurDivs.each(function() {
+            const img = $(this).find("img");
+      
+            const loaded = () => {
+              $(this).addClass('loaded');
+            };
+      
+            if (img[0].complete) {
+              loaded();
+            } else {
+              img.on('load', loaded);
+            }
+          });
+      
+          return imagePromises;
+        }
+      
+        handleIntersection(entries, observer) {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              const imgElement = entry.target;
+              this.lazyLoadImage(imgElement);
+              observer.unobserve(imgElement);
+            }
+          });
+        }
+      
+        lazyLoadImage(imgElement) {
+          const src = $(imgElement).attr('data-src'); // Use data-src attribute instead of src
+      
+          // Skip the XHR request if the src attribute already contains a valid image URL
+          if (src && (src.startsWith('data:') || src.startsWith('http://') || src.startsWith('https://'))) {
+            const parentDiv = $(imgElement).parent();
+            parentDiv.addClass('loaded');
+            return Promise.resolve();
+          }
+      
+          const promise = new Promise((resolve, reject) => {
+            $.ajax({
+              url: src,
+              method: 'GET',
+              responseType: 'blob',
+              success: function(blob) {
+                $(imgElement).attr('src', URL.createObjectURL(blob));
+                resolve();
+              },
+              error: function() {
+                reject(new Error(`Failed to load image: ${src}`));
+              }
+            });
+          });
+      
+          promise
+            .then(() => {
+              const parentDiv = $(imgElement).parent();
+              parentDiv.addClass('loaded');
+            })
+            .catch(error => {
+              console.error(error);
+            });
+      
+          return promise;
+        }
+      }
+      
+      const lazyImageLoader = new LazyImageLoader();
+      const imagePromises = lazyImageLoader.loadImages();
+      
+      Promise.all(imagePromises)
+        .then(() => {
+          console.log('All images loaded successfully');
+        })
+        .catch(error => {
+          console.error('Failed to load images:', error);
+        });
+      
+
+    /*
+       class LazyImageLoader {
+        constructor() {
             this.options = {
                 root: null, // Use the viewport as the root
                 rootMargin: '0px', // No margin
@@ -242,7 +412,8 @@ jQuery(() => {
         })
         .catch(error => {
             console.error('Failed to load images:', error);
-        });
+        }); 
+    */
     
     function acceptedFunctionalityCookie() {
         // Your code that should run after accepting cookies goes here
