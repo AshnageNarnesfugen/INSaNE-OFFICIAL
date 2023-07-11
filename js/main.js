@@ -803,12 +803,46 @@ jQuery(() => {
         .on('dragstart', (e) => e.stopPropagation().preventDefault())
         .on('drop', (e) => e.stopPropagation().preventDefault())
 
-    $('.image-carousel').owlCarousel({
-        loop: true,
-        nav: true,
-        dots: true,
-        items: 1
-    });
+    
+
+
+    /*
+    <div class="section img-download shuffle-section" id="image-download">
+            <div class="container">
+                <div class="row gx-0">
+                    <h2 class="mini-charted text-dark" data-text="Download Images">Download Images</h2>
+                </div>
+                <div class="row gx-0">
+                    <div class="image-carousel">
+                        <div class="slice-img">
+                          <div class="blur-load">
+                            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1MDAiIGhlaWdodD0iNTAwIiB2aWV3Qm94PSIwIDAgNTAwIDUwMCI+DQogIDxyZWN0IGZpbGw9InRyYW5zcGFyZW50IiB3aWR0aD0iNTAwIiBoZWlnaHQ9IjUwMCIvPg0KICA8dGV4dCBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDI1NS41KSIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMzAiIGR5PSIxMC41IiBmb250LXdlaWdodD0iYm9sZCIgeD0iNTAlIiB5PSI1MCUiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkxvYWRpbmcuLi48L3RleHQ+DQo8L3N2Zz4=" data-src="./img/SEO_IMAGES/Ashnage-Birthday-min.webp" alt="Ash Party" loading="lazy">
+                          </div>
+                          <a href="./img/SEO_IMAGES/Ashnage-Birthday-min.webp" download>Download</a>
+                        </div>
+                        <div class="slice-img">
+                          <div class="blur-load">
+                            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1MDAiIGhlaWdodD0iNTAwIiB2aWV3Qm94PSIwIDAgNTAwIDUwMCI+DQogIDxyZWN0IGZpbGw9InRyYW5zcGFyZW50IiB3aWR0aD0iNTAwIiBoZWlnaHQ9IjUwMCIvPg0KICA8dGV4dCBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDI1NS41KSIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMzAiIGR5PSIxMC41IiBmb250LXdlaWdodD0iYm9sZCIgeD0iNTAlIiB5PSI1MCUiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkxvYWRpbmcuLi48L3RleHQ+DQo8L3N2Zz4=" data-src="./img/SEO_IMAGES/chibi-min.webp" alt="Chibi" loading="lazy">
+                          </div>
+                          <a href="./img/SEO_IMAGES/chibi-min.webp" download>Download</a>
+                        </div>
+                        <div class="slice-img">
+                          <div class="blur-load">
+                            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1MDAiIGhlaWdodD0iNTAwIiB2aWV3Qm94PSIwIDAgNTAwIDUwMCI+DQogIDxyZWN0IGZpbGw9InRyYW5zcGFyZW50IiB3aWR0aD0iNTAwIiBoZWlnaHQ9IjUwMCIvPg0KICA8dGV4dCBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDI1NS41KSIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMzAiIGR5PSIxMC41IiBmb250LXdlaWdodD0iYm9sZCIgeD0iNTAlIiB5PSI1MCUiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkxvYWRpbmcuLi48L3RleHQ+DQo8L3N2Zz4=" data-src="./img/SEO_IMAGES/insane banner-min.webp" alt="The Squad" loading="lazy">
+                          </div>
+                          <a href="./img/SEO_IMAGES/insane banner-min.webp" download>Download</a>
+                        </div>
+                      </div>
+                </div>
+            </div>
+        </div>
+        $('.image-carousel').owlCarousel({
+            loop: true,
+            nav: true,
+            dots: true,
+            items: 1
+        });
+    */
     
     $(document).keydown(function(event) {
         switch (event.keyCode) {
