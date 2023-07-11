@@ -151,14 +151,10 @@ jQuery(() => {
 			  <div class="modal-dialog">
 				<div class="modal-content">
 				  <img class="modal-img img-fluid inherit" src="${src}">
-                  <a class="download-btn" href="${src}" onClick="cancelClose()" download>${downloadMSN}</a>
+                  <a class="download-btn" href="${src}" download>${downloadMSN}</a>
 				</div>
 			  </div>
 			</div>`);
-
-                const cancelClose = (event) => {
-                    event.stopPropagation()
-                }
 
                 modal.appendTo('body');
 
