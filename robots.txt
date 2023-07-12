@@ -1,0 +1,11 @@
+User-agent: *
+Disallow: /private/
+Disallow: /admin/
+
+User-agent: Googlebot
+Disallow: /temp/
+
+Sitemap: https://insane-bh.space/sitemap.xml
+Sitemap: https://insane-bh.space/es/sitemap.xml
+Sitemap: https://insane-bh.space/pt/sitemap.xml
+Sitemap: https://insane-bh.space/ja/sitemap.xml
