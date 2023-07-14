@@ -851,8 +851,8 @@ jQuery(() => {
     $('.owl-prev').click(() => owl.trigger('prev.owl.carousel'))
     $('.owl-next').click(() => owl.trigger('next.owl.carousel'))
     $('.cuztomized')
-        .on('dragstart', (e) => e.stopPropagation().preventDefault())
-        .on('drop', (e) => e.stopPropagation().preventDefault())
+        .on('dragstart', (e) => e.stopPropagation().preventDefault(), {passive: true})
+        .on('drop', (e) => e.stopPropagation().preventDefault(), {passive: true})
     
     $(document).keydown(function(event) {
         switch (event.keyCode) {
