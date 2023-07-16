@@ -824,9 +824,9 @@ img {
 
 .social-sharing {
     position: fixed;
-    top: 25%;
+    top: 50%;
     right: 10px;
-    transform: translateY(-75%);
+    transform: translateY(-50%);
     display: grid;
     z-index: 100000;
 }
