@@ -178,31 +178,16 @@ jQuery(() => {
                             $overlay.remove(); // Remove the loading overlay
                             $(videoElement).prop('controls', true); // Enable video controls
                             videoElement.play(); // Play the video
-                            if (videoElement[0].requestFullscreen) {
-                                // Go fullscreen when playing
-                                videoElement[0].requestFullscreen().catch(error => {
-                                    console.error('Error attempting to enable fullscreen:', error);
-                                });
-                            }
+                            videoElement.requestFullscreen(); // Go fullscreen when playing
                         });
-    
-                        // Function to exit fullscreen mode
-                        function exitFullscreen() {
-                            if (document.exitFullscreen) {
-                                document.exitFullscreen().catch(error => {
-                                    console.error('Error attempting to exit fullscreen:', error);
-                                });
-                            }
-                        }
     
                         // Add event listener to detect when the video playback ends
                         $(videoElement).on('ended', () => {
-                            exitFullscreen(); // Exit fullscreen mode
                             // Reset the overlay with the play button to allow replay
                             $(videoElement).parent().append($overlay);
                             $overlay.html(playButtonTemplate);
                             $(videoElement).prop('controls', false); // Hide video controls
-    
+                            videoElement.exitFullscreen()
                             // Add click event to the replay button to play the video again
                             $overlay.find('.play-button').on('click', () => {
                                 $overlay.remove(); // Remove the loading overlay
@@ -210,26 +195,6 @@ jQuery(() => {
                                 videoElement.currentTime = 0; // Reset video to the beginning
                                 videoElement.play(); // Play the video
                             });
-                        });
-    
-                        // Store the original size of the video when it starts playing
-                        $(videoElement).on('play', () => {
-                            videoElement.originalWidth = $(videoElement).width();
-                            videoElement.originalHeight = $(videoElement).height();
-                        });
-    
-                        // Function to restore the video's original size
-                        function restoreOriginalSize() {
-                            $(videoElement).width(videoElement.originalWidth);
-                            $(videoElement).height(videoElement.originalHeight);
-                        }
-    
-                        // Event listener for when the video exits fullscreen
-                        $(document).on('fullscreenchange', () => {
-                            if (!document.fullscreenElement) {
-                                // Restore original size when exiting fullscreen
-                                restoreOriginalSize();
-                            }
                         });
                     }
                 });
@@ -239,7 +204,6 @@ jQuery(() => {
     // Usage:
     const lazyVideoLoader = new LazyVideoLoader();
     lazyVideoLoader.loadVideos();
-    
     
 
     class LazyImageLoader {
