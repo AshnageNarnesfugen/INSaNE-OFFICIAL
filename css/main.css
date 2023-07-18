@@ -253,10 +253,7 @@ html, body {
     .row-content {
         height: unset !important;
     }
-    .left-col,
-    .right-col {
-        width: 100% !important;
-    }
+
     #esc1 {
         background-size: cover !important;
         background-position: center !important;
