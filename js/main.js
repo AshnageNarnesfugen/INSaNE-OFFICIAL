@@ -181,7 +181,7 @@ jQuery(() => {
                         // Add event listener to detect when the video playback ends
                         $(videoElement).on('ended', () => {
                             // Reset the overlay with the play button to allow replay
-                            $(this).parent().append($overlay)
+                            $(videoElement).parent().append($overlay)
                             $overlay.html(playButtonTemplate);
                             $(videoElement).prop('controls', false); // Hide video controls
                         });
