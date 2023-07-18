@@ -603,7 +603,6 @@ jQuery(() => {
                 break;
             default:
                 try {
-                    var hasDefaultCaseExecuted = false; // Flag to track if default case has executed
                     // Get user's location using IP geolocation
                     $.getJSON('https://ipapi.co/json/', function(data) {
                         var userCountry = data.country_code;
@@ -626,6 +625,7 @@ jQuery(() => {
     }
     
     function performRedirection(userCountry, language) {
+        var hasDefaultCaseExecuted = false; // Flag to track if default case has executed
         switch (userCountry) {
             case 'US':
             case 'CA':
