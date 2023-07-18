@@ -178,11 +178,26 @@ jQuery(() => {
                             $overlay.remove(); // Remove the loading overlay
                             $(videoElement).prop('controls', true); // Enable video controls
                             videoElement.play(); // Play the video
-                            videoElement.requestFullscreen(); // Go fullscreen when playing
+                            if (videoElement[0].requestFullscreen) {
+                                // Go fullscreen when playing
+                                videoElement[0].requestFullscreen().catch(error => {
+                                    console.error('Error attempting to enable fullscreen:', error);
+                                });
+                            }
                         });
+    
+                        // Function to exit fullscreen mode
+                        function exitFullscreen() {
+                            if (document.exitFullscreen) {
+                                document.exitFullscreen().catch(error => {
+                                    console.error('Error attempting to exit fullscreen:', error);
+                                });
+                            }
+                        }
     
                         // Add event listener to detect when the video playback ends
                         $(videoElement).on('ended', () => {
+                            exitFullscreen(); // Exit fullscreen mode
                             // Reset the overlay with the play button to allow replay
                             $(videoElement).parent().append($overlay);
                             $overlay.html(playButtonTemplate);
@@ -196,6 +211,26 @@ jQuery(() => {
                                 videoElement.play(); // Play the video
                             });
                         });
+    
+                        // Store the original size of the video when it starts playing
+                        $(videoElement).on('play', () => {
+                            videoElement.originalWidth = $(videoElement).width();
+                            videoElement.originalHeight = $(videoElement).height();
+                        });
+    
+                        // Function to restore the video's original size
+                        function restoreOriginalSize() {
+                            $(videoElement).width(videoElement.originalWidth);
+                            $(videoElement).height(videoElement.originalHeight);
+                        }
+    
+                        // Event listener for when the video exits fullscreen
+                        $(document).on('fullscreenchange', () => {
+                            if (!document.fullscreenElement) {
+                                // Restore original size when exiting fullscreen
+                                restoreOriginalSize();
+                            }
+                        });
                     }
                 });
         }
@@ -204,6 +239,7 @@ jQuery(() => {
     // Usage:
     const lazyVideoLoader = new LazyVideoLoader();
     lazyVideoLoader.loadVideos();
+    
     
 
     class LazyImageLoader {
