@@ -1,6 +1,5 @@
 jQuery(() => {
 
-    // Attach click event to share buttons
     $('.share-btn').on('click', function() {
         var platform = $(this).data('platform');
         var url = window.location.href; // Get current page URL
@@ -19,7 +18,8 @@ jQuery(() => {
             shareUrl = 'https://www.linkedin.com/shareArticle?url=' + encodeURIComponent(url);
             break;
           case 'discord':
-            shareUrl = 'https://discord.com/login?redirect_to=' + encodeURIComponent(url);
+            var message = 'Check out this link: ' + url; // Pre-filled message
+            shareUrl = 'https://discord.com/channels/@me/?chat=' + encodeURIComponent(message);
             break;
           default:
             // If platform is not recognized, do nothing or handle the error here
@@ -28,8 +28,7 @@ jQuery(() => {
       
         // Open the sharing URL in a new window
         window.open(shareUrl, '_blank');
-    });
-      
+    });      
 
     class LazyVideoLoader {
         constructor() {
