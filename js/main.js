@@ -322,7 +322,7 @@ jQuery(() => {
             console.error('Failed to load images:', error);
         }); 
     
-    function acceptedFunctionalityCookie() {
+    /*function acceptedFunctionalityCookie() {
         // Your code that should run after accepting cookies goes here
         var language = Cookies.get('language');
         console.log(language);
@@ -548,7 +548,154 @@ jQuery(() => {
                 }
                 break;
         }
+    }*/
+
+    function acceptedFunctionalityCookie() {
+        // Your code that should run after accepting cookies goes here
+        var language = Cookies.get('language');
+        console.log(language);
+    
+        switch (language) {
+            case 'ES':
+            case 'MX':
+            case 'AR':
+            case 'CO':
+            case 'PE':
+            case 'VE':
+            case 'CL':
+            case 'EC':
+            case 'GT':
+            case 'CU':
+                if (window.location.pathname !== '/es') {
+                    window.location.href = `https://insane-bh.space/es?country=${language}`;
+                }
+                break;
+            case 'US':
+            case 'CA':
+            case 'GB':
+            case 'AU':
+            case 'NZ':
+            case 'IE':
+            case 'ZA':
+            case 'IN':
+            case 'SG':
+                if (window.location.pathname !== '/') {
+                    window.location.href = `https://insane-bh.space/?country=${language}`;
+                }
+                break;
+            case 'JP':
+                if (window.location.pathname !== '/ja') {
+                    window.location.href = `https://insane-bh.space/ja?country=${language}`;
+                }
+                break;
+            case 'PT':
+            case 'BR':
+            case 'AO':
+            case 'MZ':
+            case 'CV':
+            case 'GW':
+            case 'ST':
+            case 'GQ':
+            case 'TL':
+                if (window.location.pathname !== '/pt') {
+                    window.location.href = `https://insane-bh.space/pt?country=${language}`;
+                }
+                break;
+            default:
+                try {
+                    var hasDefaultCaseExecuted = false; // Flag to track if default case has executed
+                    // Get user's location using IP geolocation
+                    $.getJSON('https://ipapi.co/json/', function(data) {
+                        var userCountry = data.country_code;
+                        console.log(userCountry);
+    
+                        // Perform redirection based on user's country
+                        performRedirection(userCountry, language);
+                    });
+                } catch (error) {
+                    // API failed to retrieve country code, fallback to browser language detection
+                    var browserLanguage = navigator.language || navigator.userLanguage;
+                    var browserLangCode = browserLanguage.split('-')[0].toLowerCase();
+                    console.log(browserLangCode);
+    
+                    // Perform redirection based on browser's language
+                    performRedirection(browserLangCode, language);
+                }
+                break;
+        }
     }
+    
+    function performRedirection(userCountry, language) {
+        switch (userCountry) {
+            case 'US':
+            case 'CA':
+            case 'GB':
+            case 'AU':
+            case 'NZ':
+            case 'IE':
+            case 'ZA':
+            case 'IN':
+            case 'SG':
+                if (language !== userCountry) {
+                    redirectToCountry('https://insane-bh.space/?country=', userCountry);
+                }
+                break;
+            case 'JP':
+                if (language !== userCountry) {
+                    redirectToCountry('https://insane-bh.space/ja?country=', userCountry);
+                }
+                break;
+            case 'ES':
+            case 'MX':
+            case 'AR':
+            case 'CO':
+            case 'PE':
+            case 'VE':
+            case 'CL':
+            case 'EC':
+            case 'GT':
+            case 'CU':
+                if (language !== userCountry) {
+                    redirectToCountry('https://insane-bh.space/es?country=', userCountry);
+                }
+                break;
+            case 'PT':
+            case 'BR':
+            case 'AO':
+            case 'MZ':
+            case 'CV':
+            case 'GW':
+            case 'ST':
+            case 'GQ':
+            case 'TL':
+                if (language !== userCountry) {
+                    redirectToCountry('https://insane-bh.space/pt?country=', userCountry);
+                }
+                break;
+            default:
+                if (hasDefaultCaseExecuted) {
+                    // Default case already executed once, handle the situation accordingly
+                    console.log('Country code not supported');
+                    // You can display an error message to the user or redirect to a default URL
+                } else {
+                    hasDefaultCaseExecuted = true; // Set the flag to indicate that the default case has executed
+                    // Perform the redirection again
+                    redirectToCountry('https://insane-bh.space/?country=', userCountry);
+                }
+                break;
+        }
+    }
+    
+    function redirectToCountry(baseUrl, country) {
+        Cookies.set('language', country, {
+            expires: 365,
+            path: '/',
+            domain: 'insane-bh.space',
+            secure: true,
+            sameSite: 'Strict',
+        });
+        window.location.href = baseUrl + country;
+    }    
 
     $(window).on("load", function() {
         let langMSG = {};
