@@ -4,95 +4,32 @@ jQuery(() => {
     $('.share-btn').on('click', function() {
         var platform = $(this).data('platform');
         var url = window.location.href; // Get current page URL
-
+      
         // Generate the sharing URL based on the platform
         var shareUrl = '';
-        if (platform === 'facebook') {
-        shareUrl = 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(url);
-        } else if (platform === 'twitter') {
-        shareUrl = 'https://twitter.com/intent/tweet?url=' + encodeURIComponent(url);
-        } else if (platform === 'linkedin') {
-        shareUrl = 'https://www.linkedin.com/shareArticle?url=' + encodeURIComponent(url);
+      
+        switch (platform) {
+          case 'facebook':
+            shareUrl = 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(url);
+            break;
+          case 'twitter':
+            shareUrl = 'https://twitter.com/intent/tweet?url=' + encodeURIComponent(url);
+            break;
+          case 'linkedin':
+            shareUrl = 'https://www.linkedin.com/shareArticle?url=' + encodeURIComponent(url);
+            break;
+          case 'discord':
+            shareUrl = 'https://discord.com/login?redirect_to=' + encodeURIComponent(url);
+            break;
+          default:
+            // If platform is not recognized, do nothing or handle the error here
+            return;
         }
-
+      
         // Open the sharing URL in a new window
         window.open(shareUrl, '_blank');
     });
-
-    /*
-    class LazyVideoLoader {
-        constructor() {
-            this.options = {
-                root: null, // Use the viewport as the root
-                rootMargin: '0px', // No margin
-                threshold: 0.1 // Trigger when 10% of the video is visible
-            };
-
-            this.observer = new IntersectionObserver(this.handleIntersection.bind(this), this.options);
-        }
-
-        loadVideos() {
-            $('video').each((index, videoElement) => {
-                this.observer.observe(videoElement);
-            });
-        }
-
-        handleIntersection(entries, observer) {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const videoElement = entry.target;
-                    this.lazyLoadVideo(videoElement);
-                    observer.unobserve(videoElement);
-                }
-            });
-        }
-
-        lazyLoadVideo(videoElement) {
-            let isBlobLoaded = false; // Flag to track if blob is loaded
-            const $overlay = $('<div class="video-overlay">Loading...</div>'); // Create a loading overlay
-
-            $(videoElement).prop('controls', false); // Disable video controls initially
-            $(videoElement).parent().append($overlay);
-
-            const sources = $(videoElement).find('source');
-            const promises = [];
-
-            sources.each(function() {
-                const sourceElement = $(this)[0];
-                const videoURL = $(this).attr('data-src'); // Use data-src attribute to store video URL instead of src
-
-                const promise = fetch(videoURL)
-                    .then(response => response.blob())
-                    .then(videoBlob => {
-                        const videoObjectURL = URL.createObjectURL(videoBlob);
-
-                        // Set the src attribute of the source element to the URL
-                        $(sourceElement).attr('src', videoObjectURL);
-                    })
-                    .catch(error => {
-                        console.error('Failed to fetch video:', error);
-                    });
-
-                promises.push(promise);
-            });
-
-            Promise.all(promises)
-                .then(() => {
-                    if (!isBlobLoaded) {
-                        // Call the load method on the video element to update the sources
-                        videoElement.load();
-                        isBlobLoaded = true; // Update the flag
-                        $(videoElement).prop('controls', true); // Enable video controls
-                        $overlay.remove(); // Remove the loading overlay
-                    }
-                });
-        }
-    }
-
-    // Usage:
-    const lazyVideoLoader = new LazyVideoLoader();
-    lazyVideoLoader.loadVideos();
-    */
+      
 
     class LazyVideoLoader {
         constructor() {
