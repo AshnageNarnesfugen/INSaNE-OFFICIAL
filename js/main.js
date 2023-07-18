@@ -177,11 +177,11 @@ jQuery(() => {
 
                         modal.appendTo('body');
 
-                        modal.show();
+                        modal.show("slow");
                         $('body').css('overflow', 'hidden');
 
                         modal.click(function() {
-                            modal.hide();
+                            modal.hide("slow");
                             modal.remove();
                             $('body').css('overflow', 'visible');
                         });
