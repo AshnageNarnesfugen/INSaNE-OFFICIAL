@@ -797,9 +797,9 @@ jQuery(() => {
             default:
                 // Handle any other URLs
                 langMSG = {
-                    notiMSGAccepted: "Unknown form submission.",
-                    bodyMSGAccepted: "Thank you for your submission.",
-                    notiMSGRejected: "Form submission error.",
+                    notiMSGAccepted: "Your form has been submitted.",
+                    bodyMSGAccepted: "Congratulations! Our team will be in touch with you soon.",
+                    notiMSGRejected: "Your form couldn't be submitted.",
                     bodyMSGRejected: "An unexpected error occurred. Please try again."
                 };
                 break;
