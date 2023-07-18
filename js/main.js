@@ -615,7 +615,7 @@ jQuery(() => {
                 } catch (error) {
                     // API failed to retrieve country code, fallback to browser language detection
                     var browserLanguage = navigator.language || navigator.userLanguage;
-                    var browserLangCode = browserLanguage.split('-')[0].toLowerCase();
+                    var browserLangCode = browserLanguage.split('-')[0].toUpperCase();
                     console.log(browserLangCode);
     
                     // Perform redirection based on browser's language
