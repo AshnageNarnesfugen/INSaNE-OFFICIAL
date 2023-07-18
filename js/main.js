@@ -126,7 +126,7 @@ jQuery(() => {
             const $overlay = $('<div class="video-overlay">Loading...</div>'); // Create a loading overlay
     
             $(videoElement).prop('controls', false); // Disable video controls initially
-            $(videoElement).wrap($overlay);
+            $(videoElement).parent().append($overlay);
     
             const sources = $(videoElement).find('source');
             const promises = [];
@@ -164,16 +164,25 @@ jQuery(() => {
                             </div>
                         `;
     
+                        $overlay.html(playButtonTemplate);
+    
+                        // Hide video controls initially
+                        $(videoElement).on('loadedmetadata', () => {
+                            $(videoElement).prop('controls', false);
+                        });
+    
                         // Add click event to the play button to remove overlay and play the video
-                        $(videoElement).on('click', () => {
+                        $overlay.find('.play-button').on('click', () => {
+                            $overlay.remove(); // Remove the loading overlay
                             $(videoElement).prop('controls', true); // Enable video controls
                             videoElement.play(); // Play the video
                         });
     
                         // Add event listener to detect when the video playback ends
                         $(videoElement).on('ended', () => {
-                            // Re-wrap the video with the overlay and play button template to allow replay
-                            $(videoElement).parent('.video-overlay').replaceWith(playButtonTemplate);
+                            // Reset the overlay with the play button to allow replay
+                            $(this).parent().append($overlay)
+                            $overlay.html(playButtonTemplate);
                             $(videoElement).prop('controls', false); // Hide video controls
                         });
                     }
@@ -184,7 +193,6 @@ jQuery(() => {
     // Usage:
     const lazyVideoLoader = new LazyVideoLoader();
     lazyVideoLoader.loadVideos();
-    
 
     class LazyImageLoader {
         constructor() {
