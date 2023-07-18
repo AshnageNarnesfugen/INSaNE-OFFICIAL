@@ -157,30 +157,20 @@ jQuery(() => {
                         videoElement.load();
                         isBlobLoaded = true; // Update the flag
     
-                        // Create a play button using a template string
+                        // Create a play button using a template string and add it to the overlay
                         const playButtonTemplate = `
                             <div class="play-button-overlay">
                                 <button class="play-button">&#9658;</button>
                             </div>
                         `;
     
-                        const $playButton = $(playButtonTemplate);
+                        $overlay.html(playButtonTemplate);
     
                         // Add click event to the play button to remove overlay and play the video
-                        $playButton.find('.play-button').on('click', () => {
+                        $overlay.find('.play-button').on('click', () => {
                             $overlay.remove(); // Remove the loading overlay
                             $(videoElement).prop('controls', true); // Enable video controls
                             videoElement.play(); // Play the video
-                        });
-    
-                        $(videoElement).parent().append($playButton);
-    
-                        // Add event listener to detect when the video playback ends
-                        $(videoElement).on('ended', () => {
-                            // Remove the play button overlay and add it back
-                            $playButton.remove();
-                            $(videoElement).prop('controls', false); // Disable video controls
-                            $(videoElement).parent().append($overlay);
                         });
                     }
                 });
@@ -189,7 +179,8 @@ jQuery(() => {
     
     // Usage:
     const lazyVideoLoader = new LazyVideoLoader();
-    lazyVideoLoader.loadVideos();     
+    lazyVideoLoader.loadVideos();
+      
 
     class LazyImageLoader {
         constructor() {
