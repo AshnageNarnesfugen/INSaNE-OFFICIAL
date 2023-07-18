@@ -178,7 +178,6 @@ jQuery(() => {
                             $overlay.remove(); // Remove the loading overlay
                             $(videoElement).prop('controls', true); // Enable video controls
                             videoElement.play(); // Play the video
-                            videoElement.requestFullscreen(); // Go fullscreen when playing
                         });
     
                         // Add event listener to detect when the video playback ends
@@ -187,7 +186,6 @@ jQuery(() => {
                             $(videoElement).parent().append($overlay);
                             $overlay.html(playButtonTemplate);
                             $(videoElement).prop('controls', false); // Hide video controls
-                            videoElement.exitFullscreen()
                             // Add click event to the replay button to play the video again
                             $overlay.find('.play-button').on('click', () => {
                                 $overlay.remove(); // Remove the loading overlay
