@@ -131,7 +131,7 @@ jQuery(() => {
             const sources = $(videoElement).find('source');
             const promises = [];
     
-            sources.each(function() {
+            sources.each(function () {
                 const sourceElement = $(this)[0];
                 const videoURL = $(this).attr('data-src'); // Use data-src attribute to store video URL instead of src
     
@@ -178,6 +178,7 @@ jQuery(() => {
                             $overlay.remove(); // Remove the loading overlay
                             $(videoElement).prop('controls', true); // Enable video controls
                             videoElement.play(); // Play the video
+                            videoElement.requestFullscreen(); // Go fullscreen when playing
                         });
     
                         // Add event listener to detect when the video playback ends
