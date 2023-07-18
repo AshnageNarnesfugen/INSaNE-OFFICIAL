@@ -101,7 +101,7 @@ jQuery(() => {
                 rootMargin: '0px', // No margin
                 threshold: 0.1 // Trigger when 10% of the video is visible
             };
-    
+        
             this.observer = new IntersectionObserver(this.handleIntersection.bind(this), this.options);
         }
     
@@ -124,39 +124,39 @@ jQuery(() => {
         lazyLoadVideo(videoElement) {
             let isBlobLoaded = false; // Flag to track if blob is loaded
             const $overlay = $('<div class="video-overlay">Loading...</div>'); // Create a loading overlay
-    
+        
             $(videoElement).prop('controls', false); // Disable video controls initially
-            $(videoElement).parent().append($overlay);
-    
+            $(videoElement).wrap($overlay); // Wrap the video element with the overlay
+        
             const sources = $(videoElement).find('source');
             const promises = [];
-    
+        
             sources.each(function() {
                 const sourceElement = $(this)[0];
                 const videoURL = $(this).attr('data-src'); // Use data-src attribute to store video URL instead of src
-    
+        
                 const promise = fetch(videoURL)
                     .then(response => response.blob())
                     .then(videoBlob => {
                         const videoObjectURL = URL.createObjectURL(videoBlob);
-    
+        
                         // Set the src attribute of the source element to the URL
                         $(sourceElement).attr('src', videoObjectURL);
                     })
                     .catch(error => {
                         console.error('Failed to fetch video:', error);
                     });
-    
+        
                 promises.push(promise);
             });
-    
+        
             Promise.all(promises)
                 .then(() => {
                     if (!isBlobLoaded) {
                         // Call the load method on the video element to update the sources
                         videoElement.load();
                         isBlobLoaded = true; // Update the flag
-    
+        
                         // Create a play button using a template string
                         const playButtonTemplate = `
                             <div class="play-button-overlay d-flex align-items-center justify-content-center">
@@ -165,35 +165,28 @@ jQuery(() => {
                                 </button>
                             </div>
                         `;
-    
+        
+                        // Replace the content of the overlay with the play button
                         $overlay.html(playButtonTemplate);
-    
+        
                         // Hide video controls initially
                         $(videoElement).on('loadedmetadata', () => {
                             $(videoElement).prop('controls', false);
                         });
-    
+        
                         // Add click event to the play button to remove overlay and play the video
-                        $overlay.find('.play-button').on('click', () => {
+                        $overlay.on('click', '.btn', () => {
                             $overlay.remove(); // Remove the loading overlay
                             $(videoElement).prop('controls', true); // Enable video controls
                             videoElement.play(); // Play the video
                         });
-    
+        
                         // Add event listener to detect when the video playback ends
                         $(videoElement).on('ended', () => {
                             // Reset the overlay with the play button to allow replay
                             $(videoElement).parent().append($overlay);
                             $overlay.html(playButtonTemplate);
                             $(videoElement).prop('controls', false); // Hide video controls
-    
-                            // Add click event to the replay button to play the video again
-                            $overlay.find('.play-button').on('click', () => {
-                                $overlay.remove(); // Remove the loading overlay
-                                $(videoElement).prop('controls', true); // Enable video controls
-                                videoElement.currentTime = 0; // Reset video to the beginning
-                                videoElement.play(); // Play the video
-                            });
                         });
                     }
                 });
