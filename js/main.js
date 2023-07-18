@@ -181,9 +181,17 @@ jQuery(() => {
                         // Add event listener to detect when the video playback ends
                         $(videoElement).on('ended', () => {
                             // Reset the overlay with the play button to allow replay
-                            $(videoElement).parent().append($overlay)
+                            $(videoElement).parent().append($overlay);
                             $overlay.html(playButtonTemplate);
                             $(videoElement).prop('controls', false); // Hide video controls
+    
+                            // Add click event to the replay button to play the video again
+                            $overlay.find('.play-button').on('click', () => {
+                                $overlay.remove(); // Remove the loading overlay
+                                $(videoElement).prop('controls', true); // Enable video controls
+                                videoElement.currentTime = 0; // Reset video to the beginning
+                                videoElement.play(); // Play the video
+                            });
                         });
                     }
                 });
@@ -193,6 +201,7 @@ jQuery(() => {
     // Usage:
     const lazyVideoLoader = new LazyVideoLoader();
     lazyVideoLoader.loadVideos();
+    
 
     class LazyImageLoader {
         constructor() {
