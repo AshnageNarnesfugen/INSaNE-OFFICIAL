@@ -853,8 +853,6 @@ img {
     background-color: rgba(0, 0, 0, 0.9); /* Black w/ opacity */
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px); /* Safari 9+ */
-    opacity: 0;
-    transition: opacity 500ms linear;
   }
 
   .modal-img {

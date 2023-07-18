@@ -176,20 +176,13 @@ jQuery(() => {
                         `);
 
                         modal.appendTo('body');
-                        setTimeout(function(){
-                            modal.css({
-                                'opacity': 1,
-                            });
-                        }, 500)
+
+                        modal.show("slow");
                         $('body').css('overflow', 'hidden');
 
                         modal.click(function() {
-                            modal.css({
-                                'opacity': 0,
-                            });
-                            setTimeout(function() {
-                                modal.remove();
-                            }, 500)
+                            modal.hide("slow");
+                            modal.remove();
                             $('body').css('overflow', 'visible');
                         });
                     });
