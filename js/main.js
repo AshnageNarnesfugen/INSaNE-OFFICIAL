@@ -157,7 +157,7 @@ jQuery(() => {
                         videoElement.load();
                         isBlobLoaded = true; // Update the flag
     
-                        // Create a play button using a template string and add it to the overlay
+                        // Create a play button using a template string
                         const playButtonTemplate = `
                             <div class="play-button-overlay">
                                 <button class="play-button">&#9658;</button>
@@ -165,6 +165,11 @@ jQuery(() => {
                         `;
     
                         $overlay.html(playButtonTemplate);
+    
+                        // Hide video controls initially
+                        $(videoElement).on('loadedmetadata', () => {
+                            $(videoElement).prop('controls', false);
+                        });
     
                         // Add click event to the play button to remove overlay and play the video
                         $overlay.find('.play-button').on('click', () => {
@@ -175,7 +180,8 @@ jQuery(() => {
     
                         // Add event listener to detect when the video playback ends
                         $(videoElement).on('ended', () => {
-                            $overlay.html(playButtonTemplate); // Restore play button overlay
+                            // Reset the overlay with the play button to allow replay
+                            $overlay.html(playButtonTemplate);
                             $(videoElement).prop('controls', false); // Hide video controls
                         });
                     }
