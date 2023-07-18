@@ -165,7 +165,7 @@ jQuery(() => {
                     $(img).click(function() {
                         const src = $(this).attr('src');
                         const modal = $(`
-                        <div class="modal" style="opacity: 0;">
+                        <div class="modal">
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                 <img class="modal-img img-fluid inherit" src="${src}" ondragstart="return false;">
