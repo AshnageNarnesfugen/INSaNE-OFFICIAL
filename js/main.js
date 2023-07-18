@@ -165,7 +165,7 @@ jQuery(() => {
                     $(img).click(function() {
                         const src = $(this).attr('src');
                         const modal = $(`
-                        <div class="modal">
+                        <div class="modal" style="opacity: 0;">
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                 <img class="modal-img img-fluid inherit" src="${src}" ondragstart="return false;">
@@ -176,13 +176,20 @@ jQuery(() => {
                         `);
 
                         modal.appendTo('body');
-
-                        modal.show("slow");
+                        setTimeout(function(){
+                            modal.css({
+                                'opacity': 1,
+                            });
+                        }, 500)
                         $('body').css('overflow', 'hidden');
 
                         modal.click(function() {
-                            modal.hide("slow");
-                            modal.remove();
+                            modal.css({
+                                'opacity': 0,
+                            });
+                            setTimeout(function() {
+                                modal.remove();
+                            }, 500)
                             $('body').css('overflow', 'visible');
                         });
                     });
