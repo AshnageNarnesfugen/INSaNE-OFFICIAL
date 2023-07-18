@@ -228,7 +228,6 @@ html, body {
 
 .left-col,
 .right-col {
-    width: 50%;
     height: inherit;
     display: grid;
     align-content: center;
@@ -265,6 +264,10 @@ html, body {
     .content-text {
         padding: 40px 0px;
     }
+}
+
+.content-text {
+    color: white;
 }
 
 #container {
