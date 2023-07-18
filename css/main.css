@@ -831,6 +831,10 @@ img {
     z-index: 100000;
 }
 
+.play-button {
+    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+}
+
 .download-btn {
     position: absolute;
     bottom: 0;
