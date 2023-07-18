@@ -172,6 +172,12 @@ jQuery(() => {
                             $(videoElement).prop('controls', true); // Enable video controls
                             videoElement.play(); // Play the video
                         });
+    
+                        // Add event listener to detect when the video playback ends
+                        $(videoElement).on('ended', () => {
+                            $overlay.html(playButtonTemplate); // Restore play button overlay
+                            $(videoElement).prop('controls', false); // Hide video controls
+                        });
                     }
                 });
         }
@@ -180,7 +186,6 @@ jQuery(() => {
     // Usage:
     const lazyVideoLoader = new LazyVideoLoader();
     lazyVideoLoader.loadVideos();
-      
 
     class LazyImageLoader {
         constructor() {
