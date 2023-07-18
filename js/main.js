@@ -17,8 +17,9 @@ jQuery(() => {
           case 'linkedin':
             shareUrl = 'https://www.linkedin.com/shareArticle?url=' + encodeURIComponent(url);
             break;
-          case 'discord':
-            shareUrl = 'https://discord.gg/invite?description=' + encodeURIComponent(url);
+          case 'reddit':
+            var title = 'Check out this webpage!'; // The title of your shared content on Reddit
+            shareUrl = 'https://www.reddit.com/submit?url=' + encodeURIComponent(url) + '&title=' + encodeURIComponent(title);
             break;
           default:
             // If platform is not recognized, do nothing or handle the error here
