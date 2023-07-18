@@ -159,8 +159,10 @@ jQuery(() => {
     
                         // Create a play button using a template string
                         const playButtonTemplate = `
-                            <div class="play-button-overlay">
-                                <button class="play-button">&#9658;</button>
+                            <div class="play-button-overlay d-flex align-items-center justify-content-center">
+                                <button class="btn btn-primary btn-lg" aria-label="Play Button">
+                                    <i class="bi bi-play-fill"></i>
+                                </button>
                             </div>
                         `;
     
