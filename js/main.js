@@ -18,8 +18,7 @@ jQuery(() => {
             shareUrl = 'https://www.linkedin.com/shareArticle?url=' + encodeURIComponent(url);
             break;
           case 'discord':
-            var message = 'Check out this link: ' + url; // Pre-filled message
-            shareUrl = 'https://discord.com/channels/@me/?chat=' + encodeURIComponent(message);
+            shareUrl = 'https://discord.gg/invite?description=' + encodeURIComponent(url);
             break;
           default:
             // If platform is not recognized, do nothing or handle the error here
