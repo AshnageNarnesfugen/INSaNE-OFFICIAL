@@ -176,7 +176,7 @@ jQuery(() => {
                         $(videoElement).parent().append($playButton);
     
                         // Add event listener to detect when the video playback ends
-                        videoElement.addEventListener('ended', () => {
+                        $(videoElement).on('ended', () => {
                             // Remove the play button overlay and add it back
                             $playButton.remove();
                             $(videoElement).prop('controls', false); // Disable video controls
@@ -189,7 +189,7 @@ jQuery(() => {
     
     // Usage:
     const lazyVideoLoader = new LazyVideoLoader();
-    lazyVideoLoader.loadVideos();    
+    lazyVideoLoader.loadVideos();     
 
     class LazyImageLoader {
         constructor() {
