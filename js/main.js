@@ -30,6 +30,29 @@ jQuery(() => {
         window.open(shareUrl, '_blank');
     });      
 
+    // Create a class with a function to set the title property
+    class DynamicTitleHandler {
+        static setTitleForLinks() {
+        // Select all anchor tags with class "dynamic-title"
+        $('a').each(function() {
+            const $this = $(this);
+            const content = $this.text().trim();
+
+            // Check if the content is proper for the title property
+            if (content.length > 0) {
+            // Set the title property to the inner content
+            $this.attr('title', content);
+            } else {
+            // If the content is not suitable for the title property, return and ignore the tag
+            return;
+            }
+        });
+        }
+    }
+
+    // Call the function to set titles for all anchor tags with class "dynamic-title"
+    DynamicTitleHandler.setTitleForLinks();
+
     class LazyVideoLoader {
         constructor() {
             this.options = {
