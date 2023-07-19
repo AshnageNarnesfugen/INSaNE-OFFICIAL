@@ -394,26 +394,6 @@ jQuery(() => {
                         // Perform redirection based on browser's language
                         performRedirection(browserLangCode, language);
                     });
-                /*
-                try {
-                    // Get user's location using IP geolocation
-                    $.getJSON('https://ipapi.co/json/', function(data) {
-                        var userCountry = data.country_code;
-                        console.log(userCountry);
-    
-                        // Perform redirection based on user's country
-                        performRedirection(userCountry, language);
-                    });
-                } catch (error) {
-                    // API failed to retrieve country code, fallback to browser language detection
-                    var browserLanguage = navigator.language || navigator.userLanguage;
-                    var browserLangCode = browserLanguage.split('-')[0].toUpperCase();
-                    console.log(browserLangCode);
-    
-                    // Perform redirection based on browser's language
-                    performRedirection(browserLangCode, language);
-                }
-                */
                 break;
         }
     }
