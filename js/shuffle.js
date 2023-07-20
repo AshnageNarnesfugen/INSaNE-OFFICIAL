@@ -145,7 +145,7 @@ $.fn.shuffleLetters = function(prop) {
             el.text(strCopy.join(""));
 
             setTimeout(function() {
-                requestAnimationFrame(function() { shuffle(start + 1); });
+                shuffle(start + 1);
             }, 1000 / options.fps);
         })(-options.step);
     });
