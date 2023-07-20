@@ -590,8 +590,6 @@ jQuery(() => {
                 break;
         }
 
-        const cookieManager = new CookieManager();
-
         cookieconsent.initialise({
             "palette": {
                 "popup": {
@@ -609,33 +607,29 @@ jQuery(() => {
             "onInitialise": function(status) {
                 var consent = Cookies.get('cookieconsent_status');
                 if (consent && consent == 'allow') {
-                    // Your code that uses cookies functionality goes here
                     console.log('Cookies are allowed!');
+                    const cookieManager = new CookieManager();
                     cookieManager.acceptedFunctionalityCookie();
                 }
             },
             "onStatusChange": function(status, chosenBefore) {
                 if (status == 'allow') {
-                    // Your code that uses cookies functionality goes here
-                    cookieManager.acceptedFunctionalityCookie();
                     console.log('Cookies are allowed!');
+                    const cookieManager = new CookieManager();
+                    cookieManager.acceptedFunctionalityCookie();
                 } else {
-                    // Your code that uses cookies functionality goes here
                     console.log('Cookies are not allowed!');
                 }
             },
             "onRevokeChoice": function() {
-                // Your code that handles cookie revocation goes here
                 console.log('Cookies consent has been revoked!');
             },
             "onNoCookieLaw": function() {
-                // Your code that handles situations when there is no cookie law goes here
                 console.log('No cookie law is applied!');
             },
             "onAccept": function() {
-                // Your code that should run after accepting cookies goes here
                 console.log('Cookies have been accepted!');
-                // Add code here to enable cookie functionality, such as tracking user preferences or analytics data
+                const cookieManager = new CookieManager();
                 cookieManager.acceptedFunctionalityCookie();
             }
         });
