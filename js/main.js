@@ -1,34 +1,42 @@
 jQuery(() => {
 
-    $('.share-btn').on('click', function() {
-        var platform = $(this).data('platform');
-        var url = window.location.href; // Get current page URL
-      
-        // Generate the sharing URL based on the platform
-        var shareUrl = '';
-      
-        switch (platform) {
-          case 'facebook':
-            shareUrl = 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(url);
-            break;
-          case 'twitter':
-            shareUrl = 'https://twitter.com/intent/tweet?url=' + encodeURIComponent(url);
-            break;
-          case 'linkedin':
-            shareUrl = 'https://www.linkedin.com/shareArticle?url=' + encodeURIComponent(url);
-            break;
-          case 'reddit':
-            var title = 'Check out this webpage!'; // The title of your shared content on Reddit
-            shareUrl = 'https://www.reddit.com/submit?url=' + encodeURIComponent(url) + '&title=' + encodeURIComponent(title);
-            break;
-          default:
-            // If platform is not recognized, do nothing or handle the error here
-            return;
+    class ShareButtonHandler {
+        constructor(buttonSelector) {
+            this.buttons = $(buttonSelector);
+            this.buttons.on('click', (e) => this.handleButtonClick(e));
         }
-      
-        // Open the sharing URL in a new window
-        window.open(shareUrl, '_blank');
-    });      
+    
+        getShareUrl(platform, url) {
+            switch (platform) {
+                case 'facebook':
+                    return 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(url);
+                case 'twitter':
+                    return 'https://twitter.com/intent/tweet?url=' + encodeURIComponent(url);
+                case 'linkedin':
+                    return 'https://www.linkedin.com/shareArticle?url=' + encodeURIComponent(url);
+                case 'reddit':
+                    const title = 'Check out this webpage!'; // The title of your shared content on Reddit
+                    return 'https://www.reddit.com/submit?url=' + encodeURIComponent(url) + '&title=' + encodeURIComponent(title);
+                default:
+                    return null;
+            }
+        }
+    
+        handleButtonClick(event) {
+            const platform = $(event.target).data('platform');
+            const url = window.location.href;
+            const shareUrl = this.getShareUrl(platform, url);
+    
+            if (shareUrl) {
+                window.open(shareUrl, '_blank');
+            } else {
+                console.error(`Unrecognized share platform: ${platform}`);
+            }
+        }
+    }
+    
+    // Usage:
+    new ShareButtonHandler('.share-btn');          
 
     // Create a class with a function to set the title property
     class DynamicTitleHandler {
@@ -631,50 +639,6 @@ jQuery(() => {
     
     // Usage
     let formHandler = new FormHandler('#former-form', 'https://formsubmit.co/ajax/70a19f04e48d9da8774f32b49b924edf');
-    
-
-    /*
-    class SectionShuffler {
-        constructor() {
-            this.observerConfig = {
-                root: null,
-                rootMargin: '0px',
-                threshold: 0.5
-            };
-            this.observer = new IntersectionObserver(this.handleIntersection.bind(this), this.observerConfig);
-            this.sections = $('.shuffle-section');
-        }
-
-        init() {
-            this.sections.each((index, element) => {
-                const section = $(element);
-                if (section.find('[data-text]').length > 0) {
-                    this.observer.observe(section[0]);
-                }
-            });
-        }
-
-        handleIntersection(entries, observer) {
-            entries.forEach(entry => {
-                const section = $(entry.target);
-                if (entry.isIntersecting) {
-                    const titles = section.find('[data-text]');
-                    titles.each((index, element) => {
-                        $(element).shuffleLetters({
-                            step: 30,
-                            fps: 60,
-                            text: $(element).attr('data-text')
-                        });
-                    });
-                }
-            });
-        }
-    }
-
-    // Usage:
-    const shuffler = new SectionShuffler();
-    shuffler.init();
-    */
 
     class SectionShuffler {
         constructor() {
