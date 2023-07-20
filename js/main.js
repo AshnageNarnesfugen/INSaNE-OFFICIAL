@@ -290,7 +290,8 @@ jQuery(() => {
             .catch(error => console.error('Failed to load images:', error));
         
 
-    function acceptedFunctionalityCookie() {
+    /*
+        function acceptedFunctionalityCookie() {
         // Your code that should run after accepting cookies goes here
         var language = Cookies.get('language');
         console.log(language);
@@ -437,7 +438,86 @@ jQuery(() => {
             sameSite: 'Strict',
         });
         window.location.href = baseUrl + country;
-    }    
+    } 
+    */   
+
+    class CookieManager {
+        constructor() {
+            this.baseUrl = 'https://insane-bh.space';
+            this.hasDefaultCaseExecuted = false;
+        }
+    
+        acceptedFunctionalityCookie() {
+            var language = Cookies.get('language');
+            console.log(language);
+        
+            const languageCases = {
+                'ES': ['/es', ['MX', 'AR', 'CO', 'PE', 'VE', 'CL', 'EC', 'GT', 'CU']],
+                'US': ['/', ['CA', 'GB', 'AU', 'NZ', 'IE', 'ZA', 'IN', 'SG']],
+                'JP': ['/ja', []],
+                'PT': ['/pt', ['BR', 'AO', 'MZ', 'CV', 'GW', 'ST', 'GQ', 'TL']]
+            };
+    
+            for(let [key, value] of Object.entries(languageCases)) {
+                if(key === language || value[1].includes(language)) {
+                    if(window.location.pathname !== value[0]) {
+                        window.location.href = `${this.baseUrl}${value[0]}?country=${language}`;
+                    }
+                    return;
+                }
+            }
+    
+            // Default Case
+            $.getJSON('https://ipapi.co/json/')
+                .done((data) => this.performRedirection(data.country_code, language))
+                .fail((jqXHR, textStatus, errorThrown) => {
+                    console.error('Failed to retrieve country code:', textStatus, errorThrown);
+                    const browserLanguage = (navigator.language || navigator.userLanguage).split('-')[0].toUpperCase();
+                    console.log(browserLanguage);
+                    this.performRedirection(browserLanguage, language);
+                });
+        }
+        
+        performRedirection(userCountry, language) {
+            const countryCases = {
+                'US': ['/', ['CA', 'GB', 'AU', 'NZ', 'IE', 'ZA', 'IN', 'SG']],
+                'JP': ['/ja', []],
+                'ES': ['/es', ['MX', 'AR', 'CO', 'PE', 'VE', 'CL', 'EC', 'GT', 'CU']],
+                'PT': ['/pt', ['BR', 'AO', 'MZ', 'CV', 'GW', 'ST', 'GQ', 'TL']]
+            };
+    
+            for(let [key, value] of Object.entries(countryCases)) {
+                if(key === userCountry || value[1].includes(userCountry)) {
+                    if(language !== userCountry) {
+                        this.redirectToCountry(`${this.baseUrl}${value[0]}?country=`, userCountry);
+                    }
+                    return;
+                }
+            }
+    
+            // Default Case
+            if (this.hasDefaultCaseExecuted) {
+                console.log('Country code not supported');
+            } else {
+                this.hasDefaultCaseExecuted = true;
+                this.redirectToCountry(`${this.baseUrl}/?country=`, userCountry);
+            }
+        }
+        
+        redirectToCountry(baseUrl, country) {
+            Cookies.set('language', country, {
+                expires: 365,
+                path: '/',
+                domain: 'insane-bh.space',
+                secure: true,
+                sameSite: 'Strict',
+            });
+            window.location.href = baseUrl + country;
+        }
+    }
+    
+    const cookieManager = new CookieManager();
+    cookieManager.acceptedFunctionalityCookie();    
 
     $(window).on("load", function() {
         let langMSG = {};
@@ -510,6 +590,8 @@ jQuery(() => {
                 break;
         }
 
+        const cookieManager = new CookieManager();
+
         cookieconsent.initialise({
             "palette": {
                 "popup": {
@@ -529,13 +611,13 @@ jQuery(() => {
                 if (consent && consent == 'allow') {
                     // Your code that uses cookies functionality goes here
                     console.log('Cookies are allowed!');
-                    acceptedFunctionalityCookie()
+                    cookieManager.acceptedFunctionalityCookie();
                 }
             },
             "onStatusChange": function(status, chosenBefore) {
                 if (status == 'allow') {
                     // Your code that uses cookies functionality goes here
-                    acceptedFunctionalityCookie()
+                    cookieManager.acceptedFunctionalityCookie();
                     console.log('Cookies are allowed!');
                 } else {
                     // Your code that uses cookies functionality goes here
@@ -554,7 +636,7 @@ jQuery(() => {
                 // Your code that should run after accepting cookies goes here
                 console.log('Cookies have been accepted!');
                 // Add code here to enable cookie functionality, such as tracking user preferences or analytics data
-                acceptedFunctionalityCookie()
+                cookieManager.acceptedFunctionalityCookie();
             }
         });
     });
