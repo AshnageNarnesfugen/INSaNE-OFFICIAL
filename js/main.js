@@ -53,7 +53,6 @@ jQuery(() => {
     // Call the function to set titles for all anchor tags with class "dynamic-title"
     DynamicTitleHandler.setTitleForLinks();
 
-    /*
     class LazyVideoLoader {
         constructor() {
             this.options = {
@@ -162,109 +161,7 @@ jQuery(() => {
     // Usage:
     const lazyVideoLoader = new LazyVideoLoader();
     lazyVideoLoader.loadVideos();
-    */
-
-    class LazyVideoLoader {
-        constructor() {
-            this.options = {
-                root: null, // Use the viewport as the root
-                rootMargin: '0px', // No margin
-                threshold: 0.1 // Trigger when 10% of the video is visible
-            };
-    
-            this.observer = new IntersectionObserver(this.handleIntersection.bind(this), this.options);
-        }
-    
-        loadVideos() {
-            $('video').each((index, videoElement) => {
-                this.observer.observe(videoElement);
-            });
-        }
-    
-        handleIntersection(entries, observer) {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const videoElement = entry.target;
-                    this.lazyLoadVideo(videoElement).then(() => {
-                        observer.unobserve(videoElement);
-                        
-                        // Trigger click on play button
-                        $(videoElement).siblings('.video-overlay').find('.play-button').trigger('click');
-                    });
-                }
-            });
-        }
-    
-        lazyLoadVideo(videoElement) {
-            let isBlobLoaded = false; // Flag to track if blob is loaded
-            const $overlay = $('<div class="video-overlay">Loading...</div>'); // Create a loading overlay
-    
-            $(videoElement).prop('controls', false); // Disable video controls initially
-            $(videoElement).parent().append($overlay);
-    
-            const sources = $(videoElement).find('source');
-            const promises = sources.map((index, sourceElement) => {
-                const videoURL = $(sourceElement).attr('data-src'); // Use data-src attribute to store video URL instead of src
-    
-                return fetch(videoURL)
-                    .then(response => response.blob())
-                    .then(videoBlob => {
-                        const videoObjectURL = URL.createObjectURL(videoBlob);
-    
-                        // Set the src attribute of the source element to the URL
-                        $(sourceElement).attr('src', videoObjectURL);
-                    })
-                    .catch(error => {
-                        console.error('Failed to fetch video:', error);
-                    });
-            }).get();
-    
-            return Promise.all(promises)
-                .then(() => {
-                    if (!isBlobLoaded) {
-                        videoElement.load();
-                        isBlobLoaded = true; // Update the flag
-    
-                        const playButtonTemplate = `
-                            <div class="play-button-overlay d-flex align-items-center justify-content-center">
-                                <button class="play-button btn btn-danger btn-lg" aria-label="Play Button">
-                                    <i class="bi bi-play-fill"></i>
-                                </button>
-                            </div>
-                        `;
-    
-                        $overlay.html(playButtonTemplate);
-    
-                        $(videoElement).on('loadedmetadata', () => {
-                            $(videoElement).prop('controls', false);
-                        });
-    
-                        $overlay.find('.play-button').on('click', () => {
-                            $overlay.remove(); // Remove the loading overlay
-                            $(videoElement).prop('controls', true); // Enable video controls
-                            videoElement.play(); // Play the video
-                        });
-    
-                        $(videoElement).on('ended', () => {
-                            $(videoElement).parent().append($overlay);
-                            $overlay.html(playButtonTemplate);
-                            $(videoElement).prop('controls', false); // Hide video controls
-                            $overlay.find('.play-button').on('click', () => {
-                                $overlay.remove(); // Remove the loading overlay
-                                $(videoElement).prop('controls', true); // Enable video controls
-                                videoElement.currentTime = 0; // Reset video to the beginning
-                                videoElement.play(); // Play the video
-                            });
-                        });
-                    }
-                });
-        }
-    }
-    
-    // Usage:
-    const lazyVideoLoader = new LazyVideoLoader();
-    lazyVideoLoader.loadVideos();        
-    
+           
     class LazyImageLoader {
         constructor() {
             this.options = {
