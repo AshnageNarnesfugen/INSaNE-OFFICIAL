@@ -106,6 +106,7 @@ $.fn.shuffleLetters = function(prop) {
     };
 
     function randomChar(type) {
+        if (type === "space") return " ";
         var pool = charPools[type];
         return pool[Math.floor(Math.random() * pool.length)];
     }
@@ -138,7 +139,7 @@ $.fn.shuffleLetters = function(prop) {
             var strCopy = str.slice(0);
 
             for (var i = Math.max(start, 0), len = letters.length; i < len; i++) {
-                strCopy[letters[i]] = i < start + options.step ? randomChar(types[letters[i]]) : "";
+                strCopy[letters[i]] = i < start + options.step && types[letters[i]] !== "space" ? randomChar(types[letters[i]]) : "";
             }
 
             el.text(strCopy.join(""));
