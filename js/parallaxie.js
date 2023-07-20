@@ -149,9 +149,11 @@
         function updateParallax($el) {
             $el.each(function() {
                 var $this = $(this);
-                var pos_y = options.offset + ($this.offset().top - $(window).scrollTop()) * (1 - options.speed);
-                $this.data('pos_y', pos_y);
-                $this.css('background-position', options.pos_x + ' ' + pos_y + 'px');
+                if ($this.length) { // Make sure the element exists
+                    var pos_y = options.offset + ($this.offset().top - $(window).scrollTop()) * (1 - options.speed);
+                    $this.data('pos_y', pos_y);
+                    $this.css('background-position', options.pos_x + ' ' + pos_y + 'px');
+                }
             });
         }
 
