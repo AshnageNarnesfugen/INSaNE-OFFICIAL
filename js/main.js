@@ -1,42 +1,34 @@
 jQuery(() => {
 
-    class ShareButtonHandler {
-        constructor(buttonSelector) {
-            this.buttons = $(buttonSelector);
-            this.buttons.on('click', (e) => this.handleButtonClick(e));
+    $('.share-btn').on('click', function() {
+        var platform = $(this).data('platform');
+        var url = window.location.href; // Get current page URL
+      
+        // Generate the sharing URL based on the platform
+        var shareUrl = '';
+      
+        switch (platform) {
+          case 'facebook':
+            shareUrl = 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(url);
+            break;
+          case 'twitter':
+            shareUrl = 'https://twitter.com/intent/tweet?url=' + encodeURIComponent(url);
+            break;
+          case 'linkedin':
+            shareUrl = 'https://www.linkedin.com/shareArticle?url=' + encodeURIComponent(url);
+            break;
+          case 'reddit':
+            var title = 'Check out this webpage!'; // The title of your shared content on Reddit
+            shareUrl = 'https://www.reddit.com/submit?url=' + encodeURIComponent(url) + '&title=' + encodeURIComponent(title);
+            break;
+          default:
+            // If platform is not recognized, do nothing or handle the error here
+            return;
         }
-    
-        getShareUrl(platform, url) {
-            switch (platform) {
-                case 'facebook':
-                    return 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(url);
-                case 'twitter':
-                    return 'https://twitter.com/intent/tweet?url=' + encodeURIComponent(url);
-                case 'linkedin':
-                    return 'https://www.linkedin.com/shareArticle?url=' + encodeURIComponent(url);
-                case 'reddit':
-                    const title = 'Check out this webpage!'; // The title of your shared content on Reddit
-                    return 'https://www.reddit.com/submit?url=' + encodeURIComponent(url) + '&title=' + encodeURIComponent(title);
-                default:
-                    return null;
-            }
-        }
-    
-        handleButtonClick(event) {
-            const platform = $(event.target).attr('data-platform');
-            const url = window.location.href;
-            const shareUrl = this.getShareUrl(platform, url);
-    
-            if (shareUrl) {
-                window.open(shareUrl, '_blank');
-            } else {
-                console.error(`Unrecognized share platform: ${platform}`);
-            }
-        }
-    }
-    
-    // Usage:
-    new ShareButtonHandler('.share-btn');          
+      
+        // Open the sharing URL in a new window
+        window.open(shareUrl, '_blank');
+    });      
 
     // Create a class with a function to set the title property
     class DynamicTitleHandler {
