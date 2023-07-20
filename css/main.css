@@ -1071,6 +1071,12 @@ span {
   border-radius: 15px;
   transform: translateY(0) scale(0.8);
   z-index: 2;
+  overflow: hidden;
+}
+
+.speaker-image img {
+  object-fit: cover;
+  object-position: center;
 }
 @media (max-width: 767px) {
   .burger_menu {
