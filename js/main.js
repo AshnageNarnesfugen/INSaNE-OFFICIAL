@@ -740,7 +740,7 @@ jQuery(() => {
         handleResponse(type, response) {
             this.sendNotification(type);
             this.form.css('display', 'none');
-            $('.form-container').html(response.message);
+            $('.form-container').html(`<div class="post-form">${response.message}</div>`);
         }
     
         handleSubmit(e) {
