@@ -552,7 +552,7 @@ jQuery(() => {
     var index = 0
     const interval = () => {
         container.shuffleLetters({
-            "step": 30,
+            "step": 15,  // adjusted from 30 to 15
             "fps": 60,
             "text": data[index]
         });
