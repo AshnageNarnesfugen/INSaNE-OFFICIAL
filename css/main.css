@@ -688,7 +688,7 @@ img {
   clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
   width: 100px;
   height: 100px;
-  font-size: 50px;
+  font-size: 25px;
   color: #000;
 }
 .download-btn {
