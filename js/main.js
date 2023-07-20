@@ -566,7 +566,8 @@ jQuery(() => {
 
     setInterval(interval, 4000)
 
-    var form = $('#former-form')
+    /*
+        var form = $('#former-form')
     form.on('submit', function(e) {
         e.preventDefault()
         let langMSG = {}
@@ -654,6 +655,102 @@ jQuery(() => {
         });
 
     })
+    */
+    
+    class FormHandler {
+        constructor(formId, ajaxUrl) {
+            this.form = $(formId);
+            this.ajaxUrl = ajaxUrl;
+            this.langMSG = this.getLanguageMessage(window.location.href.split("?")[0]);
+            this.form.on('submit', (e) => this.handleSubmit(e));
+        }
+    
+        getLanguageMessage(url) {
+            let messages = {
+                'https://insane-bh.space': {
+                    notiMSGAccepted: "Your form has been submitted.",
+                    bodyMSGAccepted: "Congratulations! Our team will be in touch with you soon.",
+                    notiMSGRejected: "Your form couldn't be submitted.",
+                    bodyMSGRejected: "An error has occurred. Please try again."
+                },
+                'https://insane-bh.space/es': {
+                    notiMSGAccepted: "Su formulario ha sido enviado.",
+                    bodyMSGAccepted: "¡Enhorabuena! Nuestro equipo se pondrá en contacto con usted pronto.",
+                    notiMSGRejected: "No se pudo enviar su formulario.",
+                    bodyMSGRejected: "Ha ocurrido un error. Por favor, inténtelo de nuevo."
+                },
+                'https://insane-bh.space/ja': {
+                    notiMSGAccepted: "フォームが送信されました。",
+                    bodyMSGAccepted: "おめでとうございます。弊社チームがお客様に近日中に連絡いたします。",
+                    notiMSGRejected: "フォームの送信に失敗しました。",
+                    bodyMSGRejected: "エラーが発生しました。もう一度お試しください。"
+                },
+                'https://insane-bh.space/pt': {
+                    notiMSGAccepted: "Sua mensagem foi enviada.",
+                    bodyMSGAccepted: "Parabéns! Em breve, nossa equipe entrará em contato com você.",
+                    notiMSGRejected: "Não foi possível enviar sua mensagem.",
+                    bodyMSGRejected: "Ocorreu um erro. Por favor, tente novamente."
+                },
+                'default': {
+                    notiMSGAccepted: "Your form has been submitted.",
+                    bodyMSGAccepted: "Congratulations! Our team will be in touch with you soon.",
+                    notiMSGRejected: "Your form couldn't be submitted.",
+                    bodyMSGRejected: "An unexpected error occurred. Please try again."
+                }
+            };
+            return messages[url] || messages['default'];
+        }
+    
+        sendNotification(type) {
+            let notiTitle = this.langMSG[`notiMSG${type}`];
+            let notiBody = this.langMSG[`bodyMSG${type}`];
+            Notification.requestPermission().then(perm => {
+                if (perm === "granted") {
+                    new Notification(notiTitle, {
+                        body: notiBody,
+                        icon: "img/webiconspace-removebg-preview.png"
+                    });
+                }
+            });
+        }
+    
+        getFormData() {
+            return this.form.serializeArray().reduce((obj, item) => {
+                obj[item.name] = item.value;
+                return obj;
+            }, {});
+        }
+    
+        submitForm() {
+            $.ajax({
+                method: 'POST',
+                url: this.ajaxUrl,
+                dataType: 'json',
+                accepts: 'application/json',
+                data: this.getFormData(),
+                success: (data) => {
+                    this.handleResponse('Accepted', data);
+                },
+                error: (err) => {
+                    this.handleResponse('Rejected', err);
+                }
+            });
+        }
+    
+        handleResponse(type, response) {
+            this.sendNotification(type);
+            this.form.css('display', 'none');
+            $('.form-container').html(response.message);
+        }
+    
+        handleSubmit(e) {
+            e.preventDefault();
+            this.submitForm();
+        }
+    }
+    
+    // Usage
+    let formHandler = new FormHandler('#former-form', 'https://formsubmit.co/ajax/70a19f04e48d9da8774f32b49b924edf');    
 
     class SectionShuffler {
         constructor() {
