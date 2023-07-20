@@ -195,7 +195,7 @@ jQuery(() => {
         lazyLoadVideo(videoElement) {
             let isBlobLoaded = false;
             const $overlay = $('<div class="video-overlay">Loading...</div>');
-            const shouldAutoPlay = $(videoElement).attr('data-autoplay');
+            const shouldAutoPlay = $(videoElement).attr('data-autoplay') === 'true';
     
             $(videoElement).prop('controls', false);
             $(videoElement).parent().append($overlay);
