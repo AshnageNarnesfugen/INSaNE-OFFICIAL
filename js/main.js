@@ -53,7 +53,9 @@ jQuery(() => {
     // Call the function to set titles for all anchor tags with class "dynamic-title"
     DynamicTitleHandler.setTitleForLinks();
 
-    class LazyVideoLoader {
+    
+    /*
+      class LazyVideoLoader {
         constructor() {
             this.options = {
                 root: null, // Use the viewport as the root
@@ -160,9 +162,124 @@ jQuery(() => {
     
     // Usage:
     const lazyVideoLoader = new LazyVideoLoader();
+    lazyVideoLoader.loadVideos();  
+    */
+    
+    class LazyVideoLoader {
+        constructor() {
+            this.options = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+            };
+    
+            this.observer = new IntersectionObserver(this.handleIntersection.bind(this), this.options);
+        }
+    
+        loadVideos() {
+            $('video').each((index, videoElement) => {
+                this.observer.observe(videoElement);
+            });
+        }
+    
+        handleIntersection(entries, observer) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const videoElement = entry.target;
+                    this.lazyLoadVideo(videoElement);
+                    observer.unobserve(videoElement);
+                }
+            });
+        }
+    
+        lazyLoadVideo(videoElement) {
+            let isBlobLoaded = false;
+            const $overlay = $('<div class="video-overlay">Loading...</div>');
+            const shouldAutoPlay = $(videoElement).attr('data-autoplay');
+    
+            $(videoElement).prop('controls', false);
+            $(videoElement).parent().append($overlay);
+    
+            const sources = $(videoElement).find('source');
+            const promises = [];
+    
+            sources.each(function () {
+                const sourceElement = $(this)[0];
+                const videoURL = $(this).attr('data-src');
+    
+                const promise = fetch(videoURL)
+                    .then(response => response.blob())
+                    .then(videoBlob => {
+                        const videoObjectURL = URL.createObjectURL(videoBlob);
+                        $(sourceElement).attr('src', videoObjectURL);
+                    })
+                    .catch(error => {
+                        console.error('Failed to fetch video:', error);
+                        $overlay.html("Error loading video");
+                    });
+    
+                promises.push(promise);
+            });
+    
+            Promise.all(promises)
+                .then(() => {
+                    if (!isBlobLoaded) {
+                        videoElement.load();
+                        videoElement.onerror = () => {
+                            $overlay.html("Error loading video");
+                        };
+    
+                        isBlobLoaded = true;
+                        const playButtonTemplate = `
+                            <div class="play-button-overlay d-flex align-items-center justify-content-center">
+                                <button class="play-button btn btn-danger btn-lg" aria-label="Play Button">
+                                    <i class="bi bi-play-fill"></i>
+                                </button>
+                            </div>
+                        `;
+    
+                        $overlay.html(playButtonTemplate);
+    
+                        $(videoElement).on('loadedmetadata', () => {
+                            $(videoElement).prop('controls', false);
+                        });
+    
+                        $overlay.find('.play-button').on('click', () => {
+                            this.playVideo(videoElement, $overlay);
+                        });
+    
+                        $(videoElement).on('ended', () => {
+                            this.resetVideo(videoElement, $overlay, playButtonTemplate);
+                        });
+    
+                        // Start autoplay if attribute is set
+                        if (shouldAutoPlay) {
+                            this.playVideo(videoElement, $overlay);
+                        }
+                    }
+                });
+        }
+    
+        playVideo(videoElement, $overlay) {
+            $overlay.remove();
+            $(videoElement).prop('controls', true);
+            videoElement.play();
+        }
+    
+        resetVideo(videoElement, $overlay, playButtonTemplate) {
+            $(videoElement).parent().append($overlay);
+            $overlay.html(playButtonTemplate);
+            $(videoElement).prop('controls', false);
+            $overlay.find('.play-button').on('click', () => {
+                this.playVideo(videoElement, $overlay);
+            });
+            videoElement.currentTime = 0;
+        }
+    }
+    
+    const lazyVideoLoader = new LazyVideoLoader();
     lazyVideoLoader.loadVideos();
     
-
     class LazyImageLoader {
         constructor() {
             this.options = {
