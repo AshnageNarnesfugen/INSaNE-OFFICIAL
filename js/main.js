@@ -707,7 +707,7 @@ jQuery(() => {
                 this.sendNotification(type, this.notifError[0], this.notifError[1]);
             }
             this.form.css('display', 'none');
-            $('.post-form').html(`<div class="post-form">${response.message}</div>`);
+            $('.form-container').html(`<div class="post-form">${response.message}</div>`);
         }
     
         handleSubmit(e) {
