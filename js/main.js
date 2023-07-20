@@ -516,8 +516,10 @@ jQuery(() => {
         }
     }
     
+    /*
     const cookieManager = new CookieManager();
-    cookieManager.acceptedFunctionalityCookie();    
+    cookieManager.acceptedFunctionalityCookie();
+    */    
 
     $(window).on("load", function() {
         let langMSG = {};
@@ -590,6 +592,8 @@ jQuery(() => {
                 break;
         }
 
+        const cookieManager = new CookieManager();
+
         cookieconsent.initialise({
             "palette": {
                 "popup": {
@@ -608,14 +612,12 @@ jQuery(() => {
                 var consent = Cookies.get('cookieconsent_status');
                 if (consent && consent == 'allow') {
                     console.log('Cookies are allowed!');
-                    const cookieManager = new CookieManager();
                     cookieManager.acceptedFunctionalityCookie();
                 }
             },
             "onStatusChange": function(status, chosenBefore) {
                 if (status == 'allow') {
                     console.log('Cookies are allowed!');
-                    const cookieManager = new CookieManager();
                     cookieManager.acceptedFunctionalityCookie();
                 } else {
                     console.log('Cookies are not allowed!');
@@ -629,7 +631,6 @@ jQuery(() => {
             },
             "onAccept": function() {
                 console.log('Cookies have been accepted!');
-                const cookieManager = new CookieManager();
                 cookieManager.acceptedFunctionalityCookie();
             }
         });
