@@ -1,4 +1,4 @@
-/*$.fn.shuffleLetters = function(prop) {
+$.fn.shuffleLetters = function(prop) {
     var options = $.extend({
         "step": 20, // How many times should the letters be changed
         "fps": 30, // Frames Per Second
@@ -88,65 +88,5 @@ function randomChar(type) {
 
     var arr = pool.split('');
     return arr[Math.floor(Math.random() * arr.length)];
-}*/
-$.fn.shuffleLetters = function(prop) {
-    var options = $.extend({
-        "step": 20,
-        "fps": 30,
-        "text": ""
-    }, prop);
+}
 
-    var charPools = {
-        "lowerLetter": "abcdefghijklmnopqrstuvwxyz0123456789",
-        "upperLetter": "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
-        "symbol": ",.?/\\(^)![]{}*&^%$#'\"",
-        "hiragana": "あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわをん",
-        "katakana": "アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン",
-        "kanji": "亜哀挨愛曖悪握圧扱宛嵐安案暗以衣位囲医依委威為畏胃尉異移萎偉椅彙意違維慰遺緯射捨赦謝詐社車舎者尺借酌釈爵若樹受呪寿授需儒舟酒収宗就縦従縮熟純処初所暑署書諸除傷償勝称笑賞上"
-    };
-
-    function randomChar(type) {
-        if (type === "space") return " ";
-        var pool = charPools[type];
-        return pool[Math.floor(Math.random() * pool.length)];
-    }
-
-    return this.each(function() {
-        var el = $(this);
-        var str = options.text ? options.text.split('') : el.text().split('');
-        var types = [];
-        var letters = [];
-        var len = str.length;
-
-        for (var i = 0; i < len; i++) {
-            var ch = str[i];
-            types[i] = ch == " " ? "space" : 
-                        /[a-z]/.test(ch) ? "lowerLetter" :
-                        /[A-Z]/.test(ch) ? "upperLetter" :
-                        /[\u3040-\u309F]/.test(ch) ? "hiragana" :
-                        /[\u30A0-\u30FF]/.test(ch) ? "katakana" :
-                        /[\u4E00-\u9FBF]/.test(ch) ? "kanji" : "symbol";
-            letters.push(i);
-        }
-
-        el.html("");
-
-        (function shuffle(start) {
-            if (start > len) {
-                return;
-            }
-
-            var strCopy = str.slice(0);
-
-            for (var i = Math.max(start, 0), len = letters.length; i < len; i++) {
-                strCopy[letters[i]] = i < start + options.step && types[letters[i]] !== "space" ? randomChar(types[letters[i]]) : "";
-            }
-
-            el.text(strCopy.join(""));
-
-            setTimeout(function() {
-                shuffle(start + 1);
-            }, 1000 / options.fps);
-        })(-options.step);
-    });
-};
