@@ -252,10 +252,11 @@ jQuery(() => {
                             this.resetVideo(videoElement, $overlay, playButtonTemplate);
                         });
     
-                        // Start autoplay if attribute is set
-                        if (shouldAutoPlay) {
-                            this.playVideo(videoElement, $overlay);
-                        }
+                        videoElement.oncanplay = () => {
+                            if (shouldAutoPlay) {
+                                this.playVideo(videoElement, $overlay);
+                            }
+                        };
                     }
                 });
         }
