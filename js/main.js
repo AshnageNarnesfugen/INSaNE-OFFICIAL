@@ -633,6 +633,7 @@ jQuery(() => {
     let formHandler = new FormHandler('#former-form', 'https://formsubmit.co/ajax/70a19f04e48d9da8774f32b49b924edf');
     
 
+    /*
     class SectionShuffler {
         constructor() {
             this.observerConfig = {
@@ -670,6 +671,64 @@ jQuery(() => {
         }
     }
 
+    // Usage:
+    const shuffler = new SectionShuffler();
+    shuffler.init();
+    */
+
+    class SectionShuffler {
+        constructor() {
+            this.observerConfig = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.5
+            };
+            this.observer = new IntersectionObserver(this.handleIntersection.bind(this), this.observerConfig);
+            this.sections = this.getShuffleSections();
+        }
+    
+        getShuffleSections() {
+            const sections = [];
+            $('.shuffle-section').each((index, element) => {
+                const section = $(element);
+                const titles = section.find('[data-text]').map((idx, el) => {
+                    return {
+                        element: $(el),
+                        text: $(el).attr('data-text'),
+                    };
+                }).get();
+                if (titles.length > 0) {
+                    sections.push({
+                        element: section,
+                        titles: titles,
+                    });
+                }
+            });
+            return sections;
+        }
+    
+        init() {
+            this.sections.forEach(section => {
+                this.observer.observe(section.element[0]);
+            });
+        }
+    
+        handleIntersection(entries, observer) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const section = this.sections.find(s => s.element[0] === entry.target);
+                    section.titles.forEach(title => {
+                        title.element.shuffleLetters({
+                            step: 30,
+                            fps: 60,
+                            text: title.text
+                        });
+                    });
+                }
+            });
+        }
+    }
+    
     // Usage:
     const shuffler = new SectionShuffler();
     shuffler.init();
