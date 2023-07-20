@@ -289,7 +289,6 @@ jQuery(() => {
             .then(() => console.log('All images loaded successfully'))
             .catch(error => console.error('Failed to load images:', error));
 
-    /*
         class CookieManager {
         constructor() {
             this.baseUrl = 'https://insane-bh.space';
@@ -364,92 +363,7 @@ jQuery(() => {
             window.location.href = baseUrl + country;
         }
     }
-    */        
-    class CookieManager {
-        constructor() {
-            this.baseUrl = 'https://insane-bh.space';
-            this.hasDefaultCaseExecuted = false;
-        }
-    
-        acceptedFunctionalityCookie() {
-            var language = Cookies.get('language');
-            console.log(language);
-        
-            const languageCases = {
-                'ES': ['/es', ['MX', 'AR', 'CO', 'PE', 'VE', 'CL', 'EC', 'GT', 'CU']],
-                'US': ['/', ['CA', 'GB', 'AU', 'NZ', 'IE', 'ZA', 'IN', 'SG']],
-                'JP': ['/ja', []],
-                'PT': ['/pt', ['BR', 'AO', 'MZ', 'CV', 'GW', 'ST', 'GQ', 'TL']]
-            };
-    
-            for(let [key, value] of Object.entries(languageCases)) {
-                if(key === language || value[1].includes(language)) {
-                    if(window.location.pathname !== value[0] && !Cookies.get('userChangedLanguage')) {
-                        window.location.href = `${this.baseUrl}${value[0]}?country=${language}`;
-                    }
-                    return;
-                }
-            }
-    
-            // Default Case
-            $.getJSON('https://ipapi.co/json/')
-                .done((data) => this.performRedirection(data.country_code, language))
-                .fail((jqXHR, textStatus, errorThrown) => {
-                    console.error('Failed to retrieve country code:', textStatus, errorThrown);
-                    const browserLanguage = (navigator.language || navigator.userLanguage).split('-')[0].toUpperCase();
-                    console.log(browserLanguage);
-                    this.performRedirection(browserLanguage, language);
-                });
-    
-            // Reset userChangedLanguage cookie
-            Cookies.set('userChangedLanguage', false, {
-                expires: 365,
-                path: '/',
-                domain: 'insane-bh.space',
-                secure: true,
-                sameSite: 'Strict',
-            });
-        }
-        
-        performRedirection(userCountry, language) {
-            const countryCases = {
-                'US': ['/', ['CA', 'GB', 'AU', 'NZ', 'IE', 'ZA', 'IN', 'SG']],
-                'JP': ['/ja', []],
-                'ES': ['/es', ['MX', 'AR', 'CO', 'PE', 'VE', 'CL', 'EC', 'GT', 'CU']],
-                'PT': ['/pt', ['BR', 'AO', 'MZ', 'CV', 'GW', 'ST', 'GQ', 'TL']]
-            };
-    
-            for(let [key, value] of Object.entries(countryCases)) {
-                if(key === userCountry || value[1].includes(userCountry)) {
-                    if(language !== userCountry && !Cookies.get('userChangedLanguage')) {
-                        this.redirectToCountry(`${this.baseUrl}${value[0]}?country=`, userCountry);
-                    }
-                    return;
-                }
-            }
-    
-            // Default Case
-            if (this.hasDefaultCaseExecuted) {
-                console.log('Country code not supported');
-            } else {
-                this.hasDefaultCaseExecuted = true;
-                this.redirectToCountry(`${this.baseUrl}/?country=`, userCountry);
-            }
-        }
-        
-        redirectToCountry(baseUrl, country) {
-            Cookies.set('language', country, {
-                expires: 365,
-                path: '/',
-                domain: 'insane-bh.space',
-                secure: true,
-                sameSite: 'Strict',
-            });
-            window.location.href = baseUrl + country;
-        }
-    }
-    
-
+       
     class CookieConsentHandler {
         constructor() {
             this.cookieManager = new CookieManager();
