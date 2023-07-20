@@ -663,6 +663,8 @@ jQuery(() => {
             this.ajaxUrl = ajaxUrl;
             this.notifSuccess = JSON.parse(this.form.attr('data-notif-success'));
             this.notifError = JSON.parse(this.form.attr('data-notif-error'));
+            this.tyMsg = this.form.attr('data-tymsg');
+            this.errMsg = this.form.attr('data-errmsg');
             this.form.on('submit', (e) => this.handleSubmit(e));
         }
     
@@ -703,11 +705,13 @@ jQuery(() => {
         handleResponse(type, response) {
             if (type === 'Accepted') {
                 this.sendNotification(type, this.notifSuccess[0], this.notifSuccess[1]);
+                this.form.css('display', 'none');
+                $('.form-container').html(`<div class="post-form">${this.tyMsg}</div>`);
             } else {
                 this.sendNotification(type, this.notifError[0], this.notifError[1]);
+                this.form.css('display', 'none');
+                $('.form-container').html(`<div class="post-form">${this.errMsg}</div>`);
             }
-            this.form.css('display', 'none');
-            $('.form-container').html(`<div class="post-form">${response.message}</div>`);
         }
     
         handleSubmit(e) {
@@ -717,7 +721,8 @@ jQuery(() => {
     }
     
     // Usage
-    let formHandler = new FormHandler('#former-form', 'https://formsubmit.co/ajax/70a19f04e48d9da8774f32b49b924edf');   
+    let formHandler = new FormHandler('#former-form', 'https://formsubmit.co/ajax/70a19f04e48d9da8774f32b49b924edf');
+    
 
     class SectionShuffler {
         constructor() {
