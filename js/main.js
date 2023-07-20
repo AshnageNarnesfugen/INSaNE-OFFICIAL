@@ -23,7 +23,7 @@ jQuery(() => {
         }
     
         handleButtonClick(event) {
-            const platform = $(event.target).data('platform');
+            const platform = $(event.target).attr('data-platform');
             const url = window.location.href;
             const shareUrl = this.getShareUrl(platform, url);
     
