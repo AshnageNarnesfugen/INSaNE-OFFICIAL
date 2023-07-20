@@ -554,6 +554,7 @@ main.slider {
   width: 100%;
   display: grid;
   padding: 100px 0;
+  color: white;
 }
 .post-form {
   display: grid;
