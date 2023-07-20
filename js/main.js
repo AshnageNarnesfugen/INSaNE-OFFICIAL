@@ -218,7 +218,7 @@ jQuery(() => {
                             console.error(`Unable to load video from source: ${videoURL}`);
                         }
                     });
-            }).get(); // get() is used to convert jQuery object to array
+            }).get();
     
             $.when.apply($, promises).then(() => {
                 video[0].load();
@@ -261,6 +261,8 @@ jQuery(() => {
                 modal.hide();
                 video[0].pause();
                 video[0].currentTime = 0;
+                video.parent().append(overlay);
+                overlay.html(playButtonTemplate);
             };
     
             modal.find('.close-button').on('click', closeModal);
@@ -280,24 +282,13 @@ jQuery(() => {
                 modal.find('video')[0].play();
             });
     
-            video.on('ended', () => {
-                video.parent().append(overlay);
-                overlay.html(playButtonTemplate);
-                video.prop('controls', false);
-    
-                overlay.find('.play-button').on('click', () => {
-                    overlay.remove();
-                    video.prop('controls', false);
-                    modal.find('video').prop('src', video.find('source').prop('src'));
-                    modal.show();
-                    modal.find('video')[0].play();
-                });
-            });
+            modal.find('video').on('ended', closeModal);
         }
     }
     
     const lazyVideoLoader = new LazyVideoLoader();
     $(document).ready(() => lazyVideoLoader.loadVideos());
+    
     
 
         class LazyImageLoader {
