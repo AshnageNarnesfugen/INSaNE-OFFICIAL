@@ -81,10 +81,10 @@ jQuery(() => {
     
     // Define your language specific URLs
     const urls = {
-        'en': window.location.origin + '/',
-        'es': window.location.origin + '/es',
-        'pt': window.location.origin + '/pt',
-        'ja': window.location.origin + '/ja'
+        'en': window.location.href.split("?")[0],
+        'es': window.location.href.split("?")[0],
+        'pt': window.location.href.split("?")[0],
+        'ja': window.location.href.split("?")[0]
     };
     
     // Initialize a new ShareButton object
