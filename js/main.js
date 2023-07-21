@@ -290,23 +290,17 @@ jQuery(() => {
             .catch(error => console.error('Failed to load images:', error));
 
         class CookieManager {
-        constructor() {
+        constructor(customCases) {
             this.baseUrl = 'https://insane-bh.space';
             this.hasDefaultCaseExecuted = false;
+            this.langCases = customCases;
         }
     
         acceptedFunctionalityCookie() {
             var language = Cookies.get('language');
             console.log(language);
-        
-            const languageCases = {
-                'ES': ['/es', ['MX', 'AR', 'CO', 'PE', 'VE', 'CL', 'EC', 'GT', 'CU']],
-                'US': ['/', ['CA', 'GB', 'AU', 'NZ', 'IE', 'ZA', 'IN', 'SG']],
-                'JP': ['/ja', []],
-                'PT': ['/pt', ['BR', 'AO', 'MZ', 'CV', 'GW', 'ST', 'GQ', 'TL']]
-            };
     
-            for(let [key, value] of Object.entries(languageCases)) {
+            for(let [key, value] of Object.entries(this.langCases)) {
                 if(key === language || value[1].includes(language)) {
                     if(window.location.pathname !== value[0]) {
                         window.location.href = `${this.baseUrl}${value[0]}?country=${language}`;
@@ -327,14 +321,7 @@ jQuery(() => {
         }
         
         performRedirection(userCountry, language) {
-            const countryCases = {
-                'US': ['/', ['CA', 'GB', 'AU', 'NZ', 'IE', 'ZA', 'IN', 'SG']],
-                'JP': ['/ja', []],
-                'ES': ['/es', ['MX', 'AR', 'CO', 'PE', 'VE', 'CL', 'EC', 'GT', 'CU']],
-                'PT': ['/pt', ['BR', 'AO', 'MZ', 'CV', 'GW', 'ST', 'GQ', 'TL']]
-            };
-    
-            for(let [key, value] of Object.entries(countryCases)) {
+            for(let [key, value] of Object.entries(this.langCases)) {
                 if(key === userCountry || value[1].includes(userCountry)) {
                     if(language !== userCountry) {
                         this.redirectToCountry(`${this.baseUrl}${value[0]}?country=`, userCountry);
@@ -366,7 +353,12 @@ jQuery(() => {
        
     class CookieConsentHandler {
         constructor() {
-            this.cookieManager = new CookieManager();
+            this.cookieManager = new CookieManager({
+                'ES': ['/es', ['MX', 'AR', 'CO', 'PE', 'VE', 'CL', 'EC', 'GT', 'CU']],
+                'US': ['/', ['CA', 'GB', 'AU', 'NZ', 'IE', 'ZA', 'IN', 'SG']],
+                'JP': ['/ja', []],
+                'PT': ['/pt', ['BR', 'AO', 'MZ', 'CV', 'GW', 'ST', 'GQ', 'TL']]
+            });
             this.langMessages = this.getLanguageMessages();
             this.cookieConsentConfig = this.getCookieConsentConfig();
         }
