@@ -843,9 +843,6 @@ mark {
   height: 1080px;
   background: #2b2b2b;
 }
-.slide#Noward {
-  flex-direction: row-reverse;
-}
 .text {
   overflow: hidden;
   width: 0;
