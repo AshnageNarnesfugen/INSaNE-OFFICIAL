@@ -895,7 +895,6 @@ span {
   height: auto;
   margin-top: 30px;
   margin-bottom: 50px;
-  padding: 0 30px;
 }
 .backimage,
 .slice-img img {
@@ -918,11 +917,6 @@ span {
   border-radius: 0;
   background: 0 0;
   cursor: pointer;
-}
-.text-content {
-  margin-top: 30px;
-  margin-bottom: 50px;
-  padding: 0 30px;
 }
 .text-content h2 {
   margin-bottom: 10px;
