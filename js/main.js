@@ -703,30 +703,7 @@ jQuery(() => {
     $('.cuztomized')
         .on('dragstart', (e) => e.stopPropagation().preventDefault(), {passive: true})
         .on('drop', (e) => e.stopPropagation().preventDefault(), {passive: true})
-    
-    $(document).keydown(function(event) {
-        switch (event.keyCode) {
-            case 123: // Prevent F12
-            case 74: // Prevent Ctrl+Shift+J (Windows/Linux)
-            case 75: // Prevent Cmd+Option+J (Mac)
-                return false;
-            case 73: // Prevent Ctrl+Shift+I and Ctrl+Shift+C
-                if (event.ctrlKey && event.shiftKey) {
-                    return false;
-                }
-                break;
-            case 85: // Prevent Ctrl+U
-            case 83: // Prevent Ctrl+Shift+S (Windows/Linux)
-            case 74: // Prevent Cmd+Shift+C (Mac)
-                if (event.ctrlKey) {
-                    return false;
-                }
-                break;
-        }
-    });
-    $(document).on("contextmenu", function(event) {
-        event.preventDefault();
-    });
+
     // Al inicio del DOM ready
     var startTime = new Date().getTime();
 
