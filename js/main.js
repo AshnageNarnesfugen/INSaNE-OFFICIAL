@@ -3,73 +3,73 @@ jQuery(() => {
     $('.share-btn').on('click', function() {
         var platform = $(this).data('platform');
         var url = window.location.href; // Get current page URL
-      
+
         // Generate the sharing URL based on the platform
         var shareUrl = '';
-      
+
         switch (platform) {
-          case 'facebook':
-            shareUrl = 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(url);
-            break;
-          case 'twitter':
-            shareUrl = 'https://twitter.com/intent/tweet?url=' + encodeURIComponent(url);
-            break;
-          case 'linkedin':
-            shareUrl = 'https://www.linkedin.com/shareArticle?url=' + encodeURIComponent(url);
-            break;
-          case 'reddit':
-            var title = 'Check out this webpage!'; // The title of your shared content on Reddit
-            shareUrl = 'https://www.reddit.com/submit?url=' + encodeURIComponent(url) + '&title=' + encodeURIComponent(title);
-            break;
-          default:
-            // If platform is not recognized, do nothing or handle the error here
-            return;
+            case 'facebook':
+                shareUrl = 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(url);
+                break;
+            case 'twitter':
+                shareUrl = 'https://twitter.com/intent/tweet?url=' + encodeURIComponent(url);
+                break;
+            case 'linkedin':
+                shareUrl = 'https://www.linkedin.com/shareArticle?url=' + encodeURIComponent(url);
+                break;
+            case 'reddit':
+                var title = 'Check out this webpage!'; // The title of your shared content on Reddit
+                shareUrl = 'https://www.reddit.com/submit?url=' + encodeURIComponent(url) + '&title=' + encodeURIComponent(title);
+                break;
+            default:
+                // If platform is not recognized, do nothing or handle the error here
+                return;
         }
-      
+
         // Open the sharing URL in a new window
         window.open(shareUrl, '_blank');
-    });      
+    });
 
     // Create a class with a function to set the title property
     class DynamicTitleHandler {
         static setTitleForLinks() {
-        // Select all anchor tags with class "dynamic-title"
-        $('a').each(function() {
-            const $this = $(this);
-            const content = $this.text().trim();
+            // Select all anchor tags with class "dynamic-title"
+            $('a').each(function() {
+                const $this = $(this);
+                const content = $this.text().trim();
 
-            // Check if the content is proper for the title property
-            if (content.length > 0) {
-            // Set the title property to the inner content
-            $this.attr('title', content);
-            } else {
-            // If the content is not suitable for the title property, return and ignore the tag
-            return;
-            }
-        });
+                // Check if the content is proper for the title property
+                if (content.length > 0) {
+                    // Set the title property to the inner content
+                    $this.attr('title', content);
+                } else {
+                    // If the content is not suitable for the title property, return and ignore the tag
+                    return;
+                }
+            });
         }
     }
 
     // Call the function to set titles for all anchor tags with class "dynamic-title"
     DynamicTitleHandler.setTitleForLinks();
 
-        class LazyVideoLoader {
+    class LazyVideoLoader {
         constructor() {
             this.options = {
                 root: null,
                 rootMargin: '0px',
                 threshold: 0.1
             };
-    
+
             this.observer = new IntersectionObserver(this.handleIntersection.bind(this), this.options);
         }
-    
+
         loadVideos() {
             $('video').each((index, videoElement) => {
                 this.observer.observe(videoElement);
             });
         }
-    
+
         handleIntersection(entries) {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -79,7 +79,7 @@ jQuery(() => {
                 }
             });
         }
-    
+
         fetchVideoSource(src) {
             return fetch(src)
                 .then(response => response.blob())
@@ -89,17 +89,17 @@ jQuery(() => {
                     return '';
                 });
         }
-    
+
         lazyLoadVideo(video) {
             const sources = video.find('source');
             const overlay = this.createOverlay(video);
-    
+
             video.prop('controls', false);
-    
+
             const promises = sources.map((index, sourceElement) => {
                 const source = $(sourceElement);
                 const videoURL = source.attr('data-src');
-    
+
                 return this.fetchVideoSource(videoURL)
                     .then(videoObjectURL => {
                         if (videoObjectURL) {
@@ -109,21 +109,24 @@ jQuery(() => {
                         }
                     });
             }).get(); // get() is used to convert jQuery object to array
-    
+
             $.when.apply($, promises).then(() => {
                 video[0].load();
                 this.setupPlayButton(overlay, video);
             });
         }
-    
+
         createOverlay(video) {
-            const overlay = $('<div>', { class: 'video-overlay', text: 'Loading...' });
-    
+            const overlay = $('<div>', {
+                class: 'video-overlay',
+                text: 'Loading...'
+            });
+
             video.parent().append(overlay);
-    
+
             return overlay;
         }
-    
+
         setupPlayButton(overlay, video) {
             const playButtonTemplate = `
                 <div class="play-button-overlay d-flex align-items-center justify-content-center">
@@ -132,22 +135,22 @@ jQuery(() => {
                     </button>
                 </div>
             `;
-    
+
             overlay.html(playButtonTemplate);
-    
+
             video.on('loadedmetadata', () => video.prop('controls', false));
-    
+
             overlay.find('.play-button').on('click', () => {
                 overlay.remove();
                 video.prop('controls', true);
                 video[0].play();
             });
-    
+
             video.on('ended', () => {
                 video.parent().append(overlay);
                 overlay.html(playButtonTemplate);
                 video.prop('controls', false);
-    
+
                 overlay.find('.play-button').on('click', () => {
                     overlay.remove();
                     video.prop('controls', true);
@@ -157,96 +160,96 @@ jQuery(() => {
             });
         }
     }
-    
+
     const lazyVideoLoader = new LazyVideoLoader();
     $(document).ready(() => lazyVideoLoader.loadVideos());
 
-        class LazyImageLoader {
-            constructor() {
-                this.options = {
-                    root: null,
-                    rootMargin: '0px',
-                    threshold: 0.1
-                };
-        
-                this.observer = new IntersectionObserver(this.handleIntersection.bind(this), this.options);
-                this.downloadMSN = this.getDownloadMSN();
-            }
-        
-            loadImages() {
-                return $('img').map((index, img) => {
-                    const $img = $(img);
-                    const dataSrc = $img.attr('data-src');
-                    const dataModule = $img.attr('data-module');
-                    const dataBlur = $img.attr('data-blur');
-        
-                    if (!dataSrc || (!dataModule && dataModule !== 'true')) {
-                        return;
-                    }
-        
-                    $img.on('dragstart', function() {
-                        return false;
-                    })
-        
-                    if (dataBlur === 'true' && !$img.parent().hasClass('blur-load')) {
-                        $img.wrap('<div class="blur-load"></div>');
-                    }
-        
-                    $img.attr('src', 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1MDAiIGhlaWdodD0iNTAwIiB2aWV3Qm94PSIwIDAgNTAwIDUwMCI+DQogIDxyZWN0IGZpbGw9InRyYW5zcGFyZW50IiB3aWR0aD0iNTAwIiBoZWlnaHQ9IjUwMCIvPg0KICA8dGV4dCBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDI1NS41KSIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMzAiIGR5PSIxMC41IiBmb250LXdlaWdodD0iYm9sZCIgeD0iNTAlIiB5PSI1MCUiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkxvYWRpbmcuLi48L3RleHQ+DQo8L3N2Zz4=')
-        
-                    this.observer.observe(img);
-        
-                    if (dataModule === 'true') {
-                        this.setupModalImage($img);
-                    }
-        
-                    return this.imageLoadPromise($img);
-                }).get();
-            }
-        
-            handleIntersection(entries, observer) {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        const imgElement = entry.target;
-                        this.lazyLoadImage($(imgElement));
-                        observer.unobserve(imgElement);
-                    }
-                });
-            }
-        
-            lazyLoadImage($imgElement) {
-                const src = $imgElement.attr('data-src');
-        
-                if (src && (src.startsWith('data:') || src.startsWith('http://') || src.startsWith('https://'))) {
-                    $imgElement.parent().addClass('loaded');
-                    return Promise.resolve();
+    class LazyImageLoader {
+        constructor() {
+            this.options = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+            };
+
+            this.observer = new IntersectionObserver(this.handleIntersection.bind(this), this.options);
+            this.downloadMSN = this.getDownloadMSN();
+        }
+
+        loadImages() {
+            return $('img').map((index, img) => {
+                const $img = $(img);
+                const dataSrc = $img.attr('data-src');
+                const dataModule = $img.attr('data-module');
+                const dataBlur = $img.attr('data-blur');
+
+                if (!dataSrc || (!dataModule && dataModule !== 'true')) {
+                    return;
                 }
-        
-                return $.ajax({
-                    url: src,
-                    xhrFields: {
-                        responseType: 'blob'
-                    },
-                    success: (blob) => {
-                        $imgElement.attr('src', URL.createObjectURL(blob));
-                        $imgElement.parent().addClass('loaded');
-                    },
-                    error: () => console.error(`Failed to load image: ${src}`)
-                });
+
+                $img.on('dragstart', function() {
+                    return false;
+                })
+
+                if (dataBlur === 'true' && !$img.parent().hasClass('blur-load')) {
+                    $img.wrap('<div class="blur-load"></div>');
+                }
+
+                $img.attr('src', 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1MDAiIGhlaWdodD0iNTAwIiB2aWV3Qm94PSIwIDAgNTAwIDUwMCI+DQogIDxyZWN0IGZpbGw9InRyYW5zcGFyZW50IiB3aWR0aD0iNTAwIiBoZWlnaHQ9IjUwMCIvPg0KICA8dGV4dCBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDI1NS41KSIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMzAiIGR5PSIxMC41IiBmb250LXdlaWdodD0iYm9sZCIgeD0iNTAlIiB5PSI1MCUiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkxvYWRpbmcuLi48L3RleHQ+DQo8L3N2Zz4=')
+
+                this.observer.observe(img);
+
+                if (dataModule === 'true') {
+                    this.setupModalImage($img);
+                }
+
+                return this.imageLoadPromise($img);
+            }).get();
+        }
+
+        handleIntersection(entries, observer) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const imgElement = entry.target;
+                    this.lazyLoadImage($(imgElement));
+                    observer.unobserve(imgElement);
+                }
+            });
+        }
+
+        lazyLoadImage($imgElement) {
+            const src = $imgElement.attr('data-src');
+
+            if (src && (src.startsWith('data:') || src.startsWith('http://') || src.startsWith('https://'))) {
+                $imgElement.parent().addClass('loaded');
+                return Promise.resolve();
             }
-        
-            imageLoadPromise($img) {
-                return new Promise((resolve, reject) => {
-                    $img.on('load', () => resolve());
-                    $img.on('error', () => reject(new Error(`Failed to load image: ${$img.src}`)));
-                });
-            }
-        
-            setupModalImage($img) {
-                $img.on('click', () => {
-                    const src = $img.attr('src');
-                    const $modal = $(
-                        `<div class="modal">
+
+            return $.ajax({
+                url: src,
+                xhrFields: {
+                    responseType: 'blob'
+                },
+                success: (blob) => {
+                    $imgElement.attr('src', URL.createObjectURL(blob));
+                    $imgElement.parent().addClass('loaded');
+                },
+                error: () => console.error(`Failed to load image: ${src}`)
+            });
+        }
+
+        imageLoadPromise($img) {
+            return new Promise((resolve, reject) => {
+                $img.on('load', () => resolve());
+                $img.on('error', () => reject(new Error(`Failed to load image: ${$img.src}`)));
+            });
+        }
+
+        setupModalImage($img) {
+            $img.on('click', () => {
+                const src = $img.attr('src');
+                const $modal = $(
+                    `<div class="modal">
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                 <img class="modal-img img-fluid inherit" src="${src}" ondragstart="return false;">
@@ -254,61 +257,61 @@ jQuery(() => {
                                 </div>
                             </div>
                         </div>`
-                    );
-        
-                    $modal.appendTo('body').show();
-                    $('body').css('overflow', 'hidden');
-        
-                    $modal.on('click', () => {
-                        $modal.hide().remove();
-                        $('body').css('overflow', 'visible');
-                    });
+                );
+
+                $modal.appendTo('body').show();
+                $('body').css('overflow', 'hidden');
+
+                $modal.on('click', () => {
+                    $modal.hide().remove();
+                    $('body').css('overflow', 'visible');
                 });
-            }
-        
-            getDownloadMSN() {
-                switch (window.location.href.split("?")[0]) {
-                    case 'https://insane-bh.space':
-                        return 'Download';
-                    case 'https://insane-bh.space/es':
-                        return 'Descarga';
-                    case 'https://insane-bh.space/ja':
-                        return 'ダウンロード';
-                    case 'https://insane-bh.space/pt':
-                        return 'Baixar';
-                    default:
-                        return 'Download';
-                }
+            });
+        }
+
+        getDownloadMSN() {
+            switch (window.location.href.split("?")[0]) {
+                case 'https://insane-bh.space':
+                    return 'Download';
+                case 'https://insane-bh.space/es':
+                    return 'Descarga';
+                case 'https://insane-bh.space/ja':
+                    return 'ダウンロード';
+                case 'https://insane-bh.space/pt':
+                    return 'Baixar';
+                default:
+                    return 'Download';
             }
         }
-        
-        const lazyImageLoader = new LazyImageLoader();
-        const imagePromises = lazyImageLoader.loadImages();
-        
-        Promise.all(imagePromises)
-            .then(() => console.log('All images loaded successfully'))
-            .catch(error => console.error('Failed to load images:', error));
+    }
 
-        class CookieManager {
+    const lazyImageLoader = new LazyImageLoader();
+    const imagePromises = lazyImageLoader.loadImages();
+
+    Promise.all(imagePromises)
+        .then(() => console.log('All images loaded successfully'))
+        .catch(error => console.error('Failed to load images:', error));
+
+    class CookieManager {
         constructor(customCases) {
             this.baseUrl = 'https://insane-bh.space';
             this.hasDefaultCaseExecuted = false;
             this.langCases = customCases;
         }
-    
+
         acceptedFunctionalityCookie() {
             var language = Cookies.get('language');
             console.log(language);
-    
-            for(let [key, value] of Object.entries(this.langCases)) {
-                if(key === language || value[1].includes(language)) {
-                    if(window.location.pathname !== value[0]) {
+
+            for (let [key, value] of Object.entries(this.langCases)) {
+                if (key === language || value[1].includes(language)) {
+                    if (window.location.pathname !== value[0]) {
                         window.location.href = `${this.baseUrl}${value[0]}?country=${language}`;
                     }
                     return;
                 }
             }
-    
+
             // Default Case
             $.getJSON('https://ipapi.co/json/')
                 .done((data) => this.performRedirection(data.country_code, language))
@@ -319,17 +322,17 @@ jQuery(() => {
                     this.performRedirection(browserLanguage, language);
                 });
         }
-        
+
         performRedirection(userCountry, language) {
-            for(let [key, value] of Object.entries(this.langCases)) {
-                if(key === userCountry || value[1].includes(userCountry)) {
-                    if(language !== userCountry) {
+            for (let [key, value] of Object.entries(this.langCases)) {
+                if (key === userCountry || value[1].includes(userCountry)) {
+                    if (language !== userCountry) {
                         this.redirectToCountry(`${this.baseUrl}${value[0]}?country=`, userCountry);
                     }
                     return;
                 }
             }
-    
+
             // Default Case
             if (this.hasDefaultCaseExecuted) {
                 console.log('Country code not supported');
@@ -338,7 +341,7 @@ jQuery(() => {
                 this.redirectToCountry(`${this.baseUrl}/?country=`, userCountry);
             }
         }
-        
+
         redirectToCountry(baseUrl, country) {
             Cookies.set('language', country, {
                 expires: 365,
@@ -350,7 +353,7 @@ jQuery(() => {
             window.location.href = baseUrl + country;
         }
     }
-       
+
     class CookieConsentHandler {
         constructor() {
             this.cookieManager = new CookieManager({
@@ -362,7 +365,7 @@ jQuery(() => {
             this.langMessages = this.getLanguageMessages();
             this.cookieConsentConfig = this.getCookieConsentConfig();
         }
-    
+
         getLanguageMessages() {
             const baseURL = 'https://insane-bh.space';
             const defaultLangMSG = {
@@ -376,7 +379,7 @@ jQuery(() => {
                 "close": "❌",
                 "policy": "Cookie Policy"
             };
-            
+
             return {
                 [`${baseURL}`]: defaultLangMSG,
                 [`${baseURL}/es`]: {
@@ -414,10 +417,10 @@ jQuery(() => {
                 },
             };
         }
-    
+
         getCookieConsentConfig() {
             const langMSG = this.langMessages[window.location.href.split("?")[0]] || this.langMessages['https://insane-bh.space'];
-    
+
             return {
                 "palette": {
                     "popup": {
@@ -459,17 +462,17 @@ jQuery(() => {
                 }
             };
         }
-    
+
         init() {
             $(window).on("load", () => {
                 cookieconsent.initialise(this.cookieConsentConfig);
             });
         }
     }
-    
+
     // Usage:
     new CookieConsentHandler().init();
-    
+
 
     $.fn.clickToggle = function(func1, func2) {
         var funcs = [func1, func2];
@@ -544,7 +547,7 @@ jQuery(() => {
     var index = 0
     const interval = () => {
         container.shuffleLetters({
-            "step": 15,  // adjusted from 30 to 15
+            "step": 15, // adjusted from 30 to 15
             "fps": 60,
             "text": data[index]
         });
@@ -568,7 +571,7 @@ jQuery(() => {
             this.errMsg = this.form.attr('data-errmsg');
             this.form.on('submit', (e) => this.handleSubmit(e));
         }
-    
+
         sendNotification(type, title, body) {
             Notification.requestPermission().then(perm => {
                 if (perm === "granted") {
@@ -579,14 +582,14 @@ jQuery(() => {
                 }
             });
         }
-    
+
         getFormData() {
             return this.form.serializeArray().reduce((obj, item) => {
                 obj[item.name] = item.value;
                 return obj;
             }, {});
         }
-    
+
         submitForm() {
             $.ajax({
                 method: 'POST',
@@ -602,7 +605,7 @@ jQuery(() => {
                 }
             });
         }
-    
+
         handleResponse(type, response) {
             if (type === 'Accepted') {
                 this.sendNotification(type, this.notifSuccess[0], this.notifSuccess[1]);
@@ -614,13 +617,13 @@ jQuery(() => {
                 $('.form-container').html(`<p>${this.errMsg}</p>`);
             }
         }
-    
+
         handleSubmit(e) {
             e.preventDefault();
             this.submitForm();
         }
     }
-    
+
     // Usage
     let formHandler = new FormHandler('#former-form', 'https://formsubmit.co/ajax/70a19f04e48d9da8774f32b49b924edf');
 
@@ -634,7 +637,7 @@ jQuery(() => {
             this.observer = new IntersectionObserver(this.handleIntersection.bind(this), this.observerConfig);
             this.sections = this.getShuffleSections();
         }
-    
+
         getShuffleSections() {
             const sections = [];
             $('.shuffle-section').each((index, element) => {
@@ -654,13 +657,13 @@ jQuery(() => {
             });
             return sections;
         }
-    
+
         init() {
             this.sections.forEach(section => {
                 this.observer.observe(section.element[0]);
             });
         }
-    
+
         handleIntersection(entries, observer) {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -676,7 +679,7 @@ jQuery(() => {
             });
         }
     }
-    
+
     // Usage:
     const shuffler = new SectionShuffler();
     shuffler.init();
@@ -693,16 +696,20 @@ jQuery(() => {
     $('.owl-prev').click(() => owl.trigger('prev.owl.carousel'))
     $('.owl-next').click(() => owl.trigger('next.owl.carousel'))
     $('.cuztomized')
-        .on('dragstart', (e) => e.stopPropagation().preventDefault(), {passive: true})
-        .on('drop', (e) => e.stopPropagation().preventDefault(), {passive: true})
+        .on('dragstart', (e) => e.stopPropagation().preventDefault(), {
+            passive: true
+        })
+        .on('drop', (e) => e.stopPropagation().preventDefault(), {
+            passive: true
+        })
 
     // Al inicio del DOM ready
     var startTime = new Date().getTime();
 
     // Al final del DOM ready
     $(window).on('load', function() {
-      var endTime = new Date().getTime();
-      var loadTime = endTime - startTime;
-      console.log(`Load Time: ${loadTime}ms`);
+        var endTime = new Date().getTime();
+        var loadTime = endTime - startTime;
+        console.log(`Load Time: ${loadTime}ms`);
     });
 })
