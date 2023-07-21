@@ -30,67 +30,57 @@ jQuery(() => {
         window.open(shareUrl, '_blank');
     });
     */
-    
-    class ShareButton {
-        constructor(selector, platforms, languages, urls, texts) {
-            this.selector = selector;
-            this.platforms = platforms;
-            this.languages = languages;
-            this.urls = urls;
-            this.texts = texts;
-        }
-    
-        share() {
-            $(this.selector).on('click', (event) => {
-                let platform = $(event.target).attr('data-platform');
-                let language = $(event.target).attr('data-language');
-                let url = this.urls[language] || '';
-                let text = this.texts[language] || '';
-    
-                if (!platform || !language || !url || !text) {
-                    console.error("Missing necessary data attributes");
-                    return;
-                }
-    
-                let shareUrl = this.platforms[platform].replace('{url}', encodeURIComponent(url)).replace('{text}', encodeURIComponent(text));
-    
-                if (shareUrl) {
-                    window.open(shareUrl, '_blank');
-                } else {
-                    console.error("Invalid platform");
-                }
-            });
-        }
-    }
-    
-    // Define your platforms with placeholders {url} and {text} for the URL and the share text respectively
-    const platforms = {
-        'facebook': 'https://www.facebook.com/sharer/sharer.php?u={url}&quote={text}',
-        'twitter': 'https://twitter.com/intent/tweet?url={url}&text={text}',
-        'linkedin': 'https://www.linkedin.com/shareArticle?url={url}&title={text}',
-        'reddit': 'https://www.reddit.com/submit?url={url}&title={text}',
-    };
-    
-    // Define your invitational texts
-    const texts = {
-        'en': 'Check out this amazing website!',
-        'es': '¡Mira este increíble sitio web!',
-        'pt': 'Confira este incrível site!',
-        'ja': 'この素晴らしいウェブサイトをご覧ください！'
-    };
-    
-    // Define your language specific URLs
-    const urls = {
-        'en': window.location.href.split("?")[0],
-        'es': window.location.href.split("?")[0],
-        'pt': window.location.href.split("?")[0],
-        'ja': window.location.href.split("?")[0]
-    };
-    
-    // Initialize a new ShareButton object
-    const shareBtn = new ShareButton('.share-btn', platforms, texts, urls);
-    shareBtn.share();    
 
+    $('.share-btn').on('click', function() {
+        var platform = $(this).data('platform');
+        var language = $(this).data('language'); // Assuming each button also has a 'data-language' attribute
+        
+        // Generate the sharing URL based on the platform
+        var shareUrl = '';
+    
+        // Invitational texts in different languages
+        var invitationalTexts = {
+            'en': 'Check out this amazing website!',
+            'es': '¡Mira este increíble sitio web!',
+            'pt': 'Confira este incrível site!',
+            'ja': 'この素晴らしいウェブサイトをご覧ください！'
+        };
+    
+        var invitationalText = invitationalTexts[language]; // Get the invitational text based on the language
+    
+        // Different main page URLs for different languages
+        var urls = {
+            'en': window.location.origin + '/', // For English
+            'es': window.location.origin + '/es', // For Spanish
+            'pt': window.location.origin + '/pt', // For Portuguese
+            'ja': window.location.origin + '/ja' // For Japanese
+        };
+    
+        var url = urls[language]; // Get the URL based on the language
+    
+        switch (platform) {
+            case 'facebook':
+                shareUrl = 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(url) + '&quote=' + encodeURIComponent(invitationalText);
+                break;
+            case 'twitter':
+                shareUrl = 'https://twitter.com/intent/tweet?url=' + encodeURIComponent(url) + '&text=' + encodeURIComponent(invitationalText);
+                break;
+            case 'linkedin':
+                shareUrl = 'https://www.linkedin.com/shareArticle?url=' + encodeURIComponent(url) + '&title=' + encodeURIComponent(invitationalText);
+                break;
+            case 'reddit':
+                shareUrl = 'https://www.reddit.com/submit?url=' + encodeURIComponent(url) + '&title=' + encodeURIComponent(invitationalText);
+                break;
+            default:
+                // If platform is not recognized, do nothing or handle the error here
+                return;
+        }
+    
+        // Open the sharing URL in a new window
+        window.open(shareUrl, '_blank');
+    });
+    
+    
     // Create a class with a function to set the title property
     class DynamicTitleHandler {
         static setTitleForLinks() {
