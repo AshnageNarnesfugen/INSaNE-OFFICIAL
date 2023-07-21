@@ -40,10 +40,10 @@ jQuery(() => {
     
         // Invitational texts in different languages
         var invitationalTexts = {
-            'en': 'Check out this amazing website!',
-            'es': '¡Mira este increíble sitio web!',
-            'pt': 'Confira este incrível site!',
-            'ja': 'この素晴らしいウェブサイトをご覧ください！'
+            'en': 'Dive into "INSaNE | A Broken Hero". Join Ashnage, a gravity-controller, on his epic quest against an alien invasion. Personal struggles, intense battles, deep mysteries await. Join now!!',
+            'es': 'Sumérgete en "INSaNE | Un Héroe Roto". Únete a Ashnage, un controlador de gravedad, en su épica misión contra una invasión alienígena. Luchas personales, intensas batallas, profundos misterios te esperan. ¡¡Únete ahora!!',
+            'pt': 'Mergulhe em "INSaNE | Um Herói Quebrado". Junte-se a Ashnage, um controlador de gravidade, em sua épica missão contra uma invasão alienígena. Lutas pessoais, intensas batalhas, profundos mistérios te esperam. Junte-se agora!!',
+            'ja': '「INSaNE | 壊れた英雄」に飛び込んでください。重力を制御するAshnageと一緒に、エイリアンの侵略に対する壮大なクエストに参加してください。個人的な闘争、激しい戦闘、深い謎が待っています。今すぐ参加してください!'
         };
     
         var invitationalText = invitationalTexts[language]; // Get the invitational text based on the language
