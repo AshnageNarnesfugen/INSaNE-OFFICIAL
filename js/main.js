@@ -1,6 +1,6 @@
 jQuery(() => {
-
-    $('.share-btn').on('click', function() {
+    /*
+        $('.share-btn').on('click', function() {
         var platform = $(this).data('platform');
         var url = window.location.href; // Get current page URL
 
@@ -29,6 +29,67 @@ jQuery(() => {
         // Open the sharing URL in a new window
         window.open(shareUrl, '_blank');
     });
+    */
+    
+    class ShareButton {
+        constructor(selector, platforms, languages, urls, texts) {
+            this.selector = selector;
+            this.platforms = platforms;
+            this.languages = languages;
+            this.urls = urls;
+            this.texts = texts;
+        }
+    
+        share() {
+            $(this.selector).on('click', (event) => {
+                let platform = $(event.target).data('platform');
+                let language = $(event.target).data('language');
+                let url = this.urls[language] || '';
+                let text = this.texts[language] || '';
+    
+                if (!platform || !language || !url || !text) {
+                    console.error("Missing necessary data attributes");
+                    return;
+                }
+    
+                let shareUrl = this.platforms[platform].replace('{url}', encodeURIComponent(url)).replace('{text}', encodeURIComponent(text));
+    
+                if (shareUrl) {
+                    window.open(shareUrl, '_blank');
+                } else {
+                    console.error("Invalid platform");
+                }
+            });
+        }
+    }
+    
+    // Define your platforms with placeholders {url} and {text} for the URL and the share text respectively
+    const platforms = {
+        'facebook': 'https://www.facebook.com/sharer/sharer.php?u={url}&quote={text}',
+        'twitter': 'https://twitter.com/intent/tweet?url={url}&text={text}',
+        'linkedin': 'https://www.linkedin.com/shareArticle?url={url}&title={text}',
+        'reddit': 'https://www.reddit.com/submit?url={url}&title={text}',
+    };
+    
+    // Define your invitational texts
+    const texts = {
+        'en': 'Check out this amazing website!',
+        'es': '¡Mira este increíble sitio web!',
+        'pt': 'Confira este incrível site!',
+        'ja': 'この素晴らしいウェブサイトをご覧ください！'
+    };
+    
+    // Define your language specific URLs
+    const urls = {
+        'en': window.location.origin + '/',
+        'es': window.location.origin + '/es',
+        'pt': window.location.origin + '/pt',
+        'ja': window.location.origin + '/ja'
+    };
+    
+    // Initialize a new ShareButton object
+    const shareBtn = new ShareButton('.share-btn', platforms, texts, urls);
+    shareBtn.share();    
 
     // Create a class with a function to set the title property
     class DynamicTitleHandler {
