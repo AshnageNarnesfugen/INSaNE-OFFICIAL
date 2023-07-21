@@ -60,13 +60,13 @@ jQuery(() => {
     
         switch (platform) {
             case 'facebook':
-                shareUrl = 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(url) + '&quote=' + encodeURIComponent(invitationalText);
+                shareUrl = 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(url);
                 break;
             case 'twitter':
                 shareUrl = 'https://twitter.com/intent/tweet?url=' + encodeURIComponent(url) + '&text=' + encodeURIComponent(invitationalText);
                 break;
             case 'linkedin':
-                shareUrl = 'https://www.linkedin.com/shareArticle?url=' + encodeURIComponent(url) + '&title=' + encodeURIComponent(invitationalText);
+                shareUrl = 'https://www.linkedin.com/shareArticle?url=' + encodeURIComponent(url);
                 break;
             case 'reddit':
                 shareUrl = 'https://www.reddit.com/submit?url=' + encodeURIComponent(url) + '&title=' + encodeURIComponent(invitationalText);
