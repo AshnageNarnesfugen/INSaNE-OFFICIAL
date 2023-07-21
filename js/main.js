@@ -42,8 +42,8 @@ jQuery(() => {
     
         share() {
             $(this.selector).on('click', (event) => {
-                let platform = $(event.target).data('platform');
-                let language = $(event.target).data('language');
+                let platform = $(event.target).attr('data-platform');
+                let language = $(event.target).attr('data-language');
                 let url = this.urls[language] || '';
                 let text = this.texts[language] || '';
     
