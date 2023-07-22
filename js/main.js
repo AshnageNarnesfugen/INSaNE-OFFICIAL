@@ -79,134 +79,6 @@ jQuery(() => {
                 rootMargin: '0px',
                 threshold: 0.1
             };
-
-            this.observer = new IntersectionObserver(this.handleIntersection.bind(this), this.options);
-        }
-
-        loadVideos() {
-            $('video').each((index, videoElement) => {
-                this.observer.observe(videoElement);
-            });
-        }
-
-        handleIntersection(entries) {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const video = $(entry.target);
-                    this.lazyLoadVideo(video);
-                    this.lazyLoadPoster(video);
-                    this.observer.unobserve(entry.target);
-                }
-            });
-        }
-
-        fetchVideoSource(src) {
-            return fetch(src)
-                .then(response => response.blob())
-                .then(blob => URL.createObjectURL(blob))
-                .catch(err => {
-                    console.error(`Failed to fetch video: ${err}`);
-                    return '';
-                });
-        }
-
-        lazyLoadPoster(video) {
-            const posterURL = video.attr('data-poster');
-            if (posterURL) {
-                fetch(posterURL)
-                    .then(response => response.blob())
-                    .then(blob => {
-                        const objectURL = URL.createObjectURL(blob);
-                        video.attr('poster', objectURL);
-                    })
-                    .catch(err => {
-                        console.error(`Failed to load poster image: ${err}`);
-                    });
-            }
-        }
-
-        lazyLoadVideo(video) {
-            const sources = video.find('source');
-            const overlay = this.createOverlay(video);
-
-            video.prop('controls', false);
-
-            const promises = sources.map((index, sourceElement) => {
-                const source = $(sourceElement);
-                const videoURL = source.attr('data-src');
-
-                return this.fetchVideoSource(videoURL)
-                    .then(videoObjectURL => {
-                        if (videoObjectURL) {
-                            source.attr('src', videoObjectURL);
-                        } else {
-                            console.error(`Unable to load video from source: ${videoURL}`);
-                        }
-                    });
-            }).get(); // get() is used to convert jQuery object to array
-
-            $.when.apply($, promises).then(() => {
-                video[0].load();
-                this.setupPlayButton(overlay, video);
-            });
-        }
-
-        createOverlay(video) {
-            const overlay = $('<div>', {
-                class: 'video-overlay',
-                text: 'Loading...'
-            });
-
-            video.parent().append(overlay);
-
-            return overlay;
-        }
-
-        setupPlayButton(overlay, video) {
-            const playButtonTemplate = `
-                <div class="play-button-overlay d-flex align-items-center justify-content-center">
-                    <button class="play-button btn btn-danger btn-lg" aria-label="Play Button">
-                        ▶
-                    </button>
-                </div>
-            `;
-
-            overlay.html(playButtonTemplate);
-
-            video.on('loadedmetadata', () => video.prop('controls', false));
-
-            overlay.find('.play-button').on('click', () => {
-                overlay.remove();
-                video.prop('controls', true);
-                video[0].play();
-            });
-
-            video.on('ended', () => {
-                video.parent().append(overlay);
-                overlay.html(playButtonTemplate);
-                video.prop('controls', false);
-
-                overlay.find('.play-button').on('click', () => {
-                    overlay.remove();
-                    video.prop('controls', true);
-                    video[0].currentTime = 0;
-                    video[0].play();
-                });
-            });
-        }
-    }
-
-    const lazyVideoLoader = new LazyVideoLoader();
-    $(document).ready(() => lazyVideoLoader.loadVideos());
-    */
-    
-    class LazyVideoLoader {
-        constructor() {
-            this.options = {
-                root: null,
-                rootMargin: '0px',
-                threshold: 0.1
-            };
     
             this.observer = new IntersectionObserver(this.handleIntersection.bind(this), this.options);
         }
@@ -280,6 +152,185 @@ jQuery(() => {
         }
     
 
+        lazyLoadVideo(video) {
+            const sources = video.find('source');
+            const overlay = this.createOverlay(video);
+    
+            video.prop('controls', false);
+    
+            const promises = sources.map((index, sourceElement) => {
+                const source = $(sourceElement);
+                const videoURL = source.attr('data-src');
+    
+                return this.fetchVideoSource(videoURL)
+                    .then(videoObjectURL => {
+                        if (videoObjectURL) {
+                            source.attr('src', videoObjectURL);
+                        } else {
+                            console.error(`Unable to load video from source: ${videoURL}`);
+                        }
+                    });
+            }).get();
+    
+            $.when.apply($, promises).then(() => {
+                video[0].load();
+                this.setupPlayButton(overlay, video);
+            });
+        }
+    
+        createOverlay(video) {
+            const overlay = $('<div>', {
+                class: 'video-overlay',
+                text: 'Loading...'
+            });
+    
+            video.parent().append(overlay);
+            return overlay;
+        }
+    
+        setupPlayButton(overlay, video) {
+            const playButtonTemplate = `
+                <div class="play-button-overlay d-flex align-items-center justify-content-center">
+                    <button class="play-button btn btn-danger btn-lg" aria-label="Play Button">
+                        ▶
+                    </button>
+                </div>
+            `;
+    
+            overlay.html(playButtonTemplate);
+    
+            video.on('loadedmetadata', () => video.prop('controls', false));
+    
+            overlay.find('.play-button').on('click', () => {
+                overlay.remove();
+                video.prop('controls', true);
+                video[0].play();
+            });
+    
+            video.on('ended', () => {
+                video.parent().append(overlay);
+                overlay.html(playButtonTemplate);
+                video.prop('controls', false);
+    
+                overlay.find('.play-button').on('click', () => {
+                    overlay.remove();
+                    video.prop('controls', true);
+                    video[0].currentTime = 0;
+                    video[0].play();
+                });
+            });
+        }
+    }
+    
+    const lazyVideoLoader = new LazyVideoLoader();
+    $(document).ready(() => lazyVideoLoader.loadVideos());
+    */
+    
+    class LazyVideoLoader {
+        constructor() {
+            this.options = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+            };
+            this.observer = new IntersectionObserver(this.handleIntersection.bind(this), this.options);
+    
+            // Initialize the property for tracking loaded posters
+            this.postersLoaded = 0;
+        }
+    
+        loadVideos() {
+            $('video').each((index, videoElement) => {
+                this.observer.observe(videoElement);
+            });
+        }
+    
+        handleIntersection(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const video = $(entry.target);
+                    this.lazyLoadVideo(video);
+                    this.lazyLoadPoster(video);
+                    this.observer.unobserve(entry.target);
+                }
+            });
+        }
+    
+        fetchVideoSource(src) {
+            return fetch(src)
+                .then(response => response.blob())
+                .then(blob => URL.createObjectURL(blob))
+                .catch(err => {
+                    console.error(`Failed to fetch video: ${err}`);
+                    return '';
+                });
+        }
+    
+        lazyLoadPoster(video) {
+            const posterData = video.attr('data-poster');
+    
+            if (posterData) {
+                let posterObject;
+                try {
+                    posterObject = JSON.parse(posterData);
+                } catch {
+                    console.error(`Unable to parse poster data: ${posterData}`);
+                    return;
+                }
+    
+                // Initialize an array to store the loaded posters
+                video.data('posters', []);
+    
+                const posterPriorityList = Object.keys(posterObject).sort();
+                this.fetchAndSetPoster(video, posterObject, posterPriorityList, 0);
+            }
+        }
+    
+        fetchAndSetPoster(video, posterObject, posterPriorityList, index) {
+            if (index >= posterPriorityList.length) {
+                console.log(`All posters loaded for video number ${video.index() + 1}`);
+        
+                // Check if hover effect can be applied to this video
+                this.checkAndApplyHover(video);
+        
+                return;
+            }
+        
+            const posterURL = posterObject[posterPriorityList[index]];
+        
+            fetch(posterURL)
+                .then(response => response.blob())
+                .then(blob => {
+                    const objectURL = URL.createObjectURL(blob);
+        
+                    // Store the object URL in the posters array
+                    video.data('posters').push(objectURL);
+        
+                    // Fetch the next poster URL in the list
+                    this.fetchAndSetPoster(video, posterObject, posterPriorityList, index + 1);
+                })
+                .catch(err => {
+                    console.error(`Failed to load poster image: ${err}`);
+        
+                    // Try the next poster if this one fails
+                    this.fetchAndSetPoster(video, posterObject, posterPriorityList, index + 1);
+                });
+        }
+        
+        checkAndApplyHover(video) {
+            // The hover effect should only be applied when all the posters for this video have been loaded
+            const posterObject = JSON.parse(video.attr('data-poster'));
+            if (video.data('posters').length === Object.keys(posterObject).length) {
+                video.find('.play-button').hover(() => {
+                    if (video.data('posters').length > 1) {
+                        video.attr('poster', video.data('posters')[1]);
+                    }
+                }, () => {
+                    video.attr('poster', video.data('posters')[0]);
+                });
+            }
+        }        
+    
         lazyLoadVideo(video) {
             const sources = video.find('source');
             const overlay = this.createOverlay(video);
