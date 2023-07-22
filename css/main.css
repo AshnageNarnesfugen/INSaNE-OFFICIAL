@@ -915,8 +915,6 @@ span {
   bottom: 14px;
   height: 50px;
   left: 50%;
-  place-content: center;
-  place-items: center;
   position: absolute;
   transform: translate(-50%);
   z-index: 1;
@@ -941,7 +939,7 @@ span {
 
 .customized {
   position: absolute;
-  width: 250px;
+  width: 400px;
   z-index: 1;
   display: flex;
   place-content: space-between;
