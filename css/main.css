@@ -791,7 +791,11 @@ img {
   position: relative;
   overflow: hidden;
 }
-.character-position,
+.character-position {
+  top: 50%;
+  bottom: 50%;
+  transform: translate(-50%, -50%);
+}
 .customized {
   top: 92%;
   left: 50%;
