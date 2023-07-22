@@ -939,7 +939,7 @@ span {
 
 .customized {
   position: absolute;
-  width: 400px;
+  width: 280px;
   z-index: 1;
   display: flex;
   place-content: space-between;
