@@ -320,8 +320,7 @@ jQuery(() => {
                     // Try the next poster if this one fails
                     this.fetchAndSetPoster(video, posterObject, posterPriorityList, index + 1);
                 });
-        }
-        
+        }        
         
         checkAndApplyHover(video) {
             // The hover effect should only be applied when all the posters for this video have been loaded
