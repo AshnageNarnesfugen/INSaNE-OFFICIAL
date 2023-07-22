@@ -281,19 +281,37 @@ jQuery(() => {
             }
         }
     
-        loadPostersFromPriorityList(video, posterObject, posterPriorityList) {
-            let posterPromises = [];
-            video.data('posters', []);
-    
-            posterPriorityList.forEach((posterPriority, index) => {
-                posterPromises.push(this.fetchAndSetPoster(video, posterObject, posterPriority, index));
-            });
-    
-            Promise.all(posterPromises).then(() => {
-                this.checkAndApplyHover(video);
-            });
+        loadPostersFromPriorityList(video, posterObject, posterPriorityList, index) {
+            if (index >= posterPriorityList.length) {
+                console.log(`All posters loaded for video number ${index + 1}`);
+                this.setupPosterHoverEffect(video, posterPriorityList);
+                return;
+            }
+        
+            const posterPriority = posterPriorityList[index];
+            const posterURL = posterObject[posterPriority];
+        
+            console.log(`Loading poster with priority ${posterPriority} from URL ${posterURL}`);
+        
+            fetch(posterURL)
+                .then(response => {
+                    console.log(`Received response for poster with priority ${posterPriority}`);
+                    return response.blob();
+                })
+                .then(blob => {
+                    const objectURL = URL.createObjectURL(blob);
+                    video.attr('poster', objectURL);
+                    video.attr(`data-object-poster-${posterPriority}`, objectURL);
+                    console.log(`Loaded poster with priority ${posterPriority}`);
+                })
+                .catch(err => {
+                    console.error(`Failed to load poster image from URL ${posterURL}: ${err}`);
+                })
+                .finally(() => {
+                    this.loadPostersFromPriorityList(video, posterObject, posterPriorityList, index + 1);
+                });
         }
-    
+        
         fetchAndSetPoster(video, posterObject, posterPriority, index) {
             const posterURL = posterObject[posterPriority];
     
