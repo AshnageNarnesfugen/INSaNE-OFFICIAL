@@ -237,7 +237,9 @@ jQuery(() => {
                     video.attr('poster', posters[1]);
                 } else {
                     // On desktop, switch poster image on hover
-                    video.hover(
+                    const overlay = video.siblings('.video-overlay');
+                    const playButton = overlay.find('.play-button');
+                    playButton.hover(
                         () => video.attr('poster', posters[1]),
                         () => video.attr('poster', posters[0])
                     );
