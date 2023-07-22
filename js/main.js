@@ -242,45 +242,44 @@ jQuery(() => {
             const posterData = video.attr('data-poster');
     
             if (posterData) {
-                let posterURLs;
+                let posterObject;
                 try {
-                    posterURLs = JSON.parse(posterData);
+                    posterObject = JSON.parse(posterData);
                 } catch {
-                    posterURLs = [posterData];
+                    console.error(`Unable to parse poster data: ${posterData}`);
+                    return;
                 }
     
-                const posterImages = Array(posterURLs.length).fill(null);
-                this.loadPostersFromURLs(video, posterURLs, 0, posterImages);
+                const posterPriorityList = Object.keys(posterObject).sort();
+                this.loadPostersFromPriorityList(video, posterObject, posterPriorityList, 0);
             }
         }
     
-        loadPostersFromURLs(video, posterURLs, index, posterImages) {
-            if (index >= posterURLs.length) {
-                console.log(`All posters attempted for video: ${video.attr('id')}`);
-                const largestImageIndex = posterImages
-                    .map((image, idx) => [image ? image.size : 0, idx])
-                    .sort((a, b) => b[0] - a[0])[0][1];
-                video.attr('poster', URL.createObjectURL(posterImages[largestImageIndex]));
+        loadPostersFromPriorityList(video, posterObject, posterPriorityList, index) {
+            if (index >= posterPriorityList.length) {
+                console.log(`All posters attempted for video: ${index + 1}`);
                 return;
             }
     
-            const posterURL = posterURLs[index];
+            const posterPriority = posterPriorityList[index];
+            const posterURL = posterObject[posterPriority];
     
             fetch(posterURL)
                 .then(response => response.blob())
                 .then(blob => {
-                    posterImages[index] = blob;
-                    video.attr(`data-object-poster-${index}`, URL.createObjectURL(blob));
+                    const objectURL = URL.createObjectURL(blob);
+                    video.attr('poster', objectURL);
+                    video.attr(`data-object-poster-${posterPriority}`, objectURL);
                 })
                 .catch(err => {
                     console.error(`Failed to load poster image from URL ${posterURL}: ${err}`);
                 })
                 .finally(() => {
-                    this.loadPostersFromURLs(video, posterURLs, index + 1, posterImages);
+                    this.loadPostersFromPriorityList(video, posterObject, posterPriorityList, index + 1);
                 });
         }
-      
     
+
         lazyLoadVideo(video) {
             const sources = video.find('source');
             const overlay = this.createOverlay(video);
