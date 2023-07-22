@@ -848,7 +848,8 @@ jQuery(() => {
         items: 1,
         loop: true,
         mouseDrag: true,
-        dots: true,
+        dotsContainer: '#custom-owl-dots',
+        dotsSpeed: 400,
         autoplay: false,
         nav: false
     })
@@ -863,6 +864,9 @@ jQuery(() => {
             passive: true
         })
     
+    $('.owl-dot').click(function () {
+        owl.trigger('to.owl.carousel', [$(this).index(), 300]);
+    });
     // Al inicio del DOM ready
     var startTime = new Date().getTime();
 
