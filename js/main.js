@@ -186,6 +186,11 @@ jQuery(() => {
                 overlay.html(playButtonTemplate);
                 video.prop('controls', false);
 
+                const posterURL = video.attr('data-poster');
+                if (posterURL) {
+                    video.attr('poster', posterURL);
+                }
+
                 overlay.find('.play-button').on('click', () => {
                     overlay.remove();
                     video.prop('controls', true);
