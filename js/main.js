@@ -81,6 +81,7 @@ jQuery(() => {
             };
     
             this.observer = new IntersectionObserver(this.handleIntersection.bind(this), this.options);
+            this.isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
         }
     
         loadVideos() {
@@ -231,12 +232,16 @@ jQuery(() => {
             const posters = video.data('posters');
     
             if (posters.length > 1) {
-                const playButton = $(`.play-button[data-video-id="${video.attr('id')}"]`);
-    
-                playButton.hover(
-                    () => video.attr('poster', posters[1]),
-                    () => video.attr('poster', posters[0])
-                );
+                if (this.isMobile) {
+                    // On mobile, switch poster image when second image loads
+                    video.attr('poster', posters[1]);
+                } else {
+                    // On desktop, switch poster image on hover
+                    video.hover(
+                        () => video.attr('poster', posters[1]),
+                        () => video.attr('poster', posters[0])
+                    );
+                }
             }
         }
     }
