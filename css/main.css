@@ -827,8 +827,8 @@ ol,
 ul {
   padding-left: 0 !important;
 }
-.main {
-  height: 1080px;
+.main, .slide {
+  height: 100vh;
 }
 mark {
   background: #f5f5f5;
@@ -840,7 +840,6 @@ mark {
   height: 100%;
 }
 .slide {
-  height: 1080px;
   background: #2b2b2b;
 }
 .text {
