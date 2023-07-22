@@ -710,7 +710,7 @@ jQuery(() => {
         mouseDrag: true,
         dots: true,
         autoplay: false,
-        nav: false
+        nav: true
     })
     /*
     $('.owl-prev').click(() => owl.trigger('prev.owl.carousel'))
