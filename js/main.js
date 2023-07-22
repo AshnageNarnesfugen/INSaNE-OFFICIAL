@@ -239,6 +239,7 @@ jQuery(() => {
     
         loadVideos() {
             $('video').each((index, videoElement) => {
+                $(videoElement).attr('id', `video-${index}`); // Assign ID to each video
                 this.observer.observe(videoElement);
             });
         }
@@ -350,7 +351,7 @@ jQuery(() => {
         setupPlayButton(overlay, video) {
             const playButtonTemplate = `
                 <div class="play-button-overlay d-flex align-items-center justify-content-center">
-                    <button class="play-button btn btn-danger btn-lg" aria-label="Play Button">
+                    <button class="play-button btn btn-danger btn-lg" aria-label="Play Button" data-video-id="${video.attr('id')}">
                         ▶
                     </button>
                 </div>
@@ -384,7 +385,9 @@ jQuery(() => {
             const posters = video.data('posters');
     
             if (posters.length > 1) {
-                video.hover(
+                const playButton = $(`.play-button[data-video-id="${video.attr('id')}"]`);
+    
+                playButton.hover(
                     () => video.attr('poster', posters[1]),
                     () => video.attr('poster', posters[0])
                 );
@@ -394,7 +397,6 @@ jQuery(() => {
     
     const lazyVideoLoader = new LazyVideoLoader();
     $(document).ready(() => lazyVideoLoader.loadVideos());
-        
 
         class LazyImageLoader {
             constructor() {
