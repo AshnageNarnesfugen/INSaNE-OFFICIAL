@@ -240,53 +240,45 @@ jQuery(() => {
     
         lazyLoadPoster(video) {
             const posterData = video.attr('data-poster');
-            if (!posterData) {
-                console.warn('No data-poster attribute found for the video element.');
-                return;
-            }
     
-            let posterURLs;
-            try {
-                posterURLs = JSON.parse(posterData);
-                if (!Array.isArray(posterURLs)) {
-                    throw new Error();
+            if (posterData) {
+                let posterURLs;
+                try {
+                    posterURLs = JSON.parse(posterData);
+                } catch {
+                    posterURLs = [posterData];
                 }
-            } catch {
-                posterURLs = [posterData];
-            }
     
-            this.loadPosterFromURLs(video, posterURLs, 0);
+                this.loadPostersFromURLs(video, posterURLs, 0);
+            }
         }
     
-        loadPosterFromURLs(video, posterURLs, index) {
+        loadPostersFromURLs(video, posterURLs, index) {
             if (index >= posterURLs.length) {
-                console.error('Failed to load all poster images.');
+                console.log(`All posters attempted for video: ${video.attr('id')}`);
                 return;
             }
     
             const posterURL = posterURLs[index];
     
             fetch(posterURL)
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! status: ${response.status}`);
-                    }
-                    return response.blob();
-                })
+                .then(response => response.blob())
                 .then(blob => {
                     const objectURL = URL.createObjectURL(blob);
+    
                     if (!video.attr('poster')) {
                         video.attr('poster', objectURL);
                     }
-                    video.data(`object-poster-${index}`, objectURL);
+    
+                    video.attr(`data-object-poster-${index}`, objectURL);
                 })
                 .catch(err => {
-                    console.error(`Failed to load poster image from URL: ${posterURL}. Error: ${err}`);
+                    console.error(`Failed to load poster image from URL ${posterURL}: ${err}`);
                 })
                 .finally(() => {
-                    this.loadPosterFromURLs(video, posterURLs, index + 1);
+                    this.loadPostersFromURLs(video, posterURLs, index + 1);
                 });
-        }
+        }    
     
         lazyLoadVideo(video) {
             const sources = video.find('source');
