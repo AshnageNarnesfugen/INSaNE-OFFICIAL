@@ -904,6 +904,16 @@ span {
   object-fit: cover;
   object-position: center;
 }
+.owl-dots {
+  bottom: 10px;
+  display: flex;
+  height: 50px;
+  left: 50%;
+  place-content: center;
+  place-items: center;
+  position: absolute;
+  transform: translate(-50%);
+}
 .customized {
   position: absolute;
   width: 100%;
