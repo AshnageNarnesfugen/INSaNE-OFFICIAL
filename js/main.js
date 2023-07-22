@@ -249,13 +249,18 @@ jQuery(() => {
                     posterURLs = [posterData];
                 }
     
-                this.loadPostersFromURLs(video, posterURLs, 0);
+                const posterImages = Array(posterURLs.length).fill(null);
+                this.loadPostersFromURLs(video, posterURLs, 0, posterImages);
             }
         }
     
-        loadPostersFromURLs(video, posterURLs, index) {
+        loadPostersFromURLs(video, posterURLs, index, posterImages) {
             if (index >= posterURLs.length) {
                 console.log(`All posters attempted for video: ${video.attr('id')}`);
+                const largestImageIndex = posterImages
+                    .map((image, idx) => [image ? image.size : 0, idx])
+                    .sort((a, b) => b[0] - a[0])[0][1];
+                video.attr('poster', URL.createObjectURL(posterImages[largestImageIndex]));
                 return;
             }
     
@@ -264,21 +269,17 @@ jQuery(() => {
             fetch(posterURL)
                 .then(response => response.blob())
                 .then(blob => {
-                    const objectURL = URL.createObjectURL(blob);
-    
-                    if (!video.attr('poster')) {
-                        video.attr('poster', objectURL);
-                    }
-    
-                    video.attr(`data-object-poster-${index}`, objectURL);
+                    posterImages[index] = blob;
+                    video.attr(`data-object-poster-${index}`, URL.createObjectURL(blob));
                 })
                 .catch(err => {
                     console.error(`Failed to load poster image from URL ${posterURL}: ${err}`);
                 })
                 .finally(() => {
-                    this.loadPostersFromURLs(video, posterURLs, index + 1);
+                    this.loadPostersFromURLs(video, posterURLs, index + 1, posterImages);
                 });
-        }    
+        }
+      
     
         lazyLoadVideo(video) {
             const sources = video.find('source');
