@@ -233,10 +233,8 @@ jQuery(() => {
                 rootMargin: '0px',
                 threshold: 0.1
             };
-            this.observer = new IntersectionObserver(this.handleIntersection.bind(this), this.options);
     
-            // Initialize the property for tracking loaded posters
-            this.postersLoaded = 0;
+            this.observer = new IntersectionObserver(this.handleIntersection.bind(this), this.options);
         }
     
         loadVideos() {
@@ -278,63 +276,55 @@ jQuery(() => {
                     return;
                 }
     
-                // Initialize an array to store the loaded posters
-                video.data('posters', []);
-    
                 const posterPriorityList = Object.keys(posterObject).sort();
-                this.fetchAndSetPoster(video, posterObject, posterPriorityList, 0);
+                this.loadPostersFromPriorityList(video, posterObject, posterPriorityList);
             }
         }
     
-        fetchAndSetPoster(video, posterObject, posterPriorityList, index) {
-            if (index >= posterPriorityList.length) {
-                console.log(`All posters attempted for video number ${video.index() + 1}`);
-        
-                // Check if hover effect can be applied to this video
+        loadPostersFromPriorityList(video, posterObject, posterPriorityList) {
+            let posterPromises = [];
+            video.data('posters', []);
+    
+            posterPriorityList.forEach((posterPriority, index) => {
+                posterPromises.push(this.fetchAndSetPoster(video, posterObject, posterPriority, index));
+            });
+    
+            Promise.all(posterPromises).then(() => {
                 this.checkAndApplyHover(video);
-        
-                return;
-            }
-        
-            const posterURL = posterObject[posterPriorityList[index]];
-        
-            fetch(posterURL)
+            });
+        }
+    
+        fetchAndSetPoster(video, posterObject, posterPriority, index) {
+            const posterURL = posterObject[posterPriority];
+    
+            return fetch(posterURL)
                 .then(response => response.blob())
                 .then(blob => {
                     const objectURL = URL.createObjectURL(blob);
-        
-                    // Store the object URL in the posters array
                     video.data('posters').push(objectURL);
-        
-                    // Set the poster attribute of the video element to the URL of the poster image
+    
                     if (index === 0) {
                         video.attr('poster', objectURL);
                     }
-        
-                    // Fetch the next poster URL in the list
-                    this.fetchAndSetPoster(video, posterObject, posterPriorityList, index + 1);
                 })
                 .catch(err => {
                     console.error(`Failed to load poster image: ${err}`);
-        
-                    // Try the next poster if this one fails
-                    this.fetchAndSetPoster(video, posterObject, posterPriorityList, index + 1);
                 });
-        }        
-        
+        }
+    
         checkAndApplyHover(video) {
-            // The hover effect should only be applied when all the posters for this video have been loaded
-            const posterObject = JSON.parse(video.attr('data-poster'));
-            if (video.data('posters').length === Object.keys(posterObject).length) {
-                video.find('.play-button').hover(() => {
-                    if (video.data('posters').length > 1) {
-                        video.attr('poster', video.data('posters')[1]);
-                    }
-                }, () => {
-                    video.attr('poster', video.data('posters')[0]);
-                });
+            const posters = video.data('posters');
+    
+            if (posters.length > 1) {
+                const overlay = video.siblings('.video-overlay');
+                const playButton = overlay.find('.play-button');
+    
+                playButton.hover(
+                    () => video.attr('poster', posters[1]),
+                    () => video.attr('poster', posters[0])
+                );
             }
-        }        
+        }
     
         lazyLoadVideo(video) {
             const sources = video.find('source');
@@ -407,8 +397,7 @@ jQuery(() => {
     }
     
     const lazyVideoLoader = new LazyVideoLoader();
-    $(document).ready(() => lazyVideoLoader.loadVideos());
-    
+    $(document).ready(() => lazyVideoLoader.loadVideos());    
 
         class LazyImageLoader {
             constructor() {
