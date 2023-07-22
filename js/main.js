@@ -712,7 +712,7 @@ jQuery(() => {
         autoplay: false,
         nav: false
     })
-    /*
+
     $('.owl-prev').click(() => owl.trigger('prev.owl.carousel'))
     $('.owl-next').click(() => owl.trigger('next.owl.carousel'))
     $('.cuztomized')
@@ -722,7 +722,6 @@ jQuery(() => {
         .on('drop', (e) => e.stopPropagation().preventDefault(), {
             passive: true
         })
-    */
     
     // Al inicio del DOM ready
     var startTime = new Date().getTime();
