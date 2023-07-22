@@ -1095,6 +1095,8 @@ span {
   transform: translateY(0) scale(0.8);
   z-index: 2;
   overflow: hidden;
+  max-width: 400px;
+  margin: 0 auto;
 }
 
 .speaker-image img {
