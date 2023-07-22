@@ -288,7 +288,7 @@ jQuery(() => {
     
         fetchAndSetPoster(video, posterObject, posterPriorityList, index) {
             if (index >= posterPriorityList.length) {
-                console.log(`All posters loaded for video number ${video.index() + 1}`);
+                console.log(`All posters attempted for video number ${video.index() + 1}`);
         
                 // Check if hover effect can be applied to this video
                 this.checkAndApplyHover(video);
@@ -306,6 +306,11 @@ jQuery(() => {
                     // Store the object URL in the posters array
                     video.data('posters').push(objectURL);
         
+                    // Set the poster attribute of the video element to the URL of the poster image
+                    if (index === 0) {
+                        video.attr('poster', objectURL);
+                    }
+        
                     // Fetch the next poster URL in the list
                     this.fetchAndSetPoster(video, posterObject, posterPriorityList, index + 1);
                 })
@@ -316,6 +321,7 @@ jQuery(() => {
                     this.fetchAndSetPoster(video, posterObject, posterPriorityList, index + 1);
                 });
         }
+        
         
         checkAndApplyHover(video) {
             // The hover effect should only be applied when all the posters for this video have been loaded
