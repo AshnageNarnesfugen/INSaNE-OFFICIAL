@@ -247,6 +247,7 @@ jQuery(() => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     const video = $(entry.target);
+                    video.data('posters', []);  // Initialize 'posters' data on each video
                     this.lazyLoadVideo(video);
                     this.lazyLoadPoster(video);
                     this.observer.unobserve(entry.target);
@@ -277,96 +278,62 @@ jQuery(() => {
                 }
     
                 const posterPriorityList = Object.keys(posterObject).sort();
-                this.loadPostersFromPriorityList(video, posterObject, posterPriorityList);
+                this.loadPostersFromPriorityList(video, posterObject, posterPriorityList, 0);
             }
         }
     
-        loadPostersFromPriorityList(video, posterObject, posterPriorityList, index) {
+        loadPostersFromPriorityList(video, posterObject, posterPriorityList, index = 0) {
             if (index >= posterPriorityList.length) {
-                console.log(`All posters loaded for video number ${index + 1}`);
-                this.setupPosterHoverEffect(video, posterPriorityList);
+                console.log(`All posters attempted for video`);
                 return;
             }
         
             const posterPriority = posterPriorityList[index];
             const posterURL = posterObject[posterPriority];
-        
             console.log(`Loading poster with priority ${posterPriority} from URL ${posterURL}`);
         
             fetch(posterURL)
-                .then(response => {
-                    console.log(`Received response for poster with priority ${posterPriority}`);
-                    return response.blob();
-                })
-                .then(blob => {
-                    const objectURL = URL.createObjectURL(blob);
-                    video.attr('poster', objectURL);
-                    video.attr(`data-object-poster-${posterPriority}`, objectURL);
-                    console.log(`Loaded poster with priority ${posterPriority}`);
-                })
-                .catch(err => {
-                    console.error(`Failed to load poster image from URL ${posterURL}: ${err}`);
-                })
-                .finally(() => {
-                    this.loadPostersFromPriorityList(video, posterObject, posterPriorityList, index + 1);
-                });
-        }
-        
-        fetchAndSetPoster(video, posterObject, posterPriority, index) {
-            const posterURL = posterObject[posterPriority];
-    
-            return fetch(posterURL)
                 .then(response => response.blob())
                 .then(blob => {
                     const objectURL = URL.createObjectURL(blob);
-                    video.data('posters').push(objectURL);
-    
-                    if (index === 0) {
+                    video.data('posters').push(objectURL);  // Store each loaded poster URL in 'posters' data
+        
+                    if (index === 0) {  // Set the first loaded poster as the video poster
                         video.attr('poster', objectURL);
                     }
+        
+                    this.loadPostersFromPriorityList(video, posterObject, posterPriorityList, index + 1);
                 })
                 .catch(err => {
-                    console.error(`Failed to load poster image: ${err}`);
+                    console.error(`Failed to load poster image from URL ${posterURL}: ${err}`);
+                    this.loadPostersFromPriorityList(video, posterObject, posterPriorityList, index + 1);
                 });
-        }
-    
-        checkAndApplyHover(video) {
-            const posters = video.data('posters');
-    
-            if (posters.length > 1) {
-                const overlay = video.siblings('.video-overlay');
-                const playButton = overlay.find('.play-button');
-    
-                playButton.hover(
-                    () => video.attr('poster', posters[1]),
-                    () => video.attr('poster', posters[0])
-                );
-            }
         }
     
         lazyLoadVideo(video) {
             const sources = video.find('source');
             const overlay = this.createOverlay(video);
-    
             video.prop('controls', false);
-    
+        
             const promises = sources.map((index, sourceElement) => {
                 const source = $(sourceElement);
                 const videoURL = source.attr('data-src');
-    
+        
                 return this.fetchVideoSource(videoURL)
                     .then(videoObjectURL => {
                         if (videoObjectURL) {
                             source.attr('src', videoObjectURL);
+                            return videoObjectURL;
                         } else {
-                            console.error(`Unable to load video from source: ${videoURL}`);
+                            throw new Error(`Unable to load video from source: ${videoURL}`);
                         }
                     });
             }).get();
-    
+        
             $.when.apply($, promises).then(() => {
                 video[0].load();
                 this.setupPlayButton(overlay, video);
+                this.checkAndApplyHover(video);  // Check and apply hover effect after video sources are loaded
             });
         }
     
@@ -412,10 +379,22 @@ jQuery(() => {
                 });
             });
         }
+    
+        checkAndApplyHover(video) {
+            const posters = video.data('posters');
+    
+            if (posters.length > 1) {
+                video.hover(
+                    () => video.attr('poster', posters[1]),
+                    () => video.attr('poster', posters[0])
+                );
+            }
+        }
     }
     
     const lazyVideoLoader = new LazyVideoLoader();
-    $(document).ready(() => lazyVideoLoader.loadVideos());    
+    $(document).ready(() => lazyVideoLoader.loadVideos());
+        
 
         class LazyImageLoader {
             constructor() {
