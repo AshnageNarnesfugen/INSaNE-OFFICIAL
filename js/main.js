@@ -1,36 +1,4 @@
 jQuery(() => {
-    /*
-        $('.share-btn').on('click', function() {
-        var platform = $(this).data('platform');
-        var url = window.location.href; // Get current page URL
-
-        // Generate the sharing URL based on the platform
-        var shareUrl = '';
-
-        switch (platform) {
-            case 'facebook':
-                shareUrl = 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(url);
-                break;
-            case 'twitter':
-                shareUrl = 'https://twitter.com/intent/tweet?url=' + encodeURIComponent(url);
-                break;
-            case 'linkedin':
-                shareUrl = 'https://www.linkedin.com/shareArticle?url=' + encodeURIComponent(url);
-                break;
-            case 'reddit':
-                var title = 'Check out this webpage!'; // The title of your shared content on Reddit
-                shareUrl = 'https://www.reddit.com/submit?url=' + encodeURIComponent(url) + '&title=' + encodeURIComponent(title);
-                break;
-            default:
-                // If platform is not recognized, do nothing or handle the error here
-                return;
-        }
-
-        // Open the sharing URL in a new window
-        window.open(shareUrl, '_blank');
-    });
-    */
-
     $('.share-btn').on('click', function() {
         var platform = $(this).data('platform');
         var language = $(this).data('language'); // Assuming each button also has a 'data-language' attribute
