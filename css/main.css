@@ -918,6 +918,7 @@ span {
   place-items: center;
   position: absolute;
   transform: translate(-50%);
+  z-index: 1;
 }
 .owl-dot {
     width: 20px;
