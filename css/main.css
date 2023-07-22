@@ -912,8 +912,7 @@ span {
   object-position: center;
 }
 .owl-dots {
-  bottom: 21.5px;
-  display: flex;
+  bottom: 14px;
   height: 50px;
   left: 50%;
   place-content: center;
