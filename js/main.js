@@ -531,7 +531,7 @@ jQuery(() => {
         isLanguageSupported(language) {
             for (const [key, value] of Object.entries(this.langCases)) {
                 if (key === language || value[1].includes(language)) {
-                    return value[0];
+                    return `${value[0]}?country=`;
                 }
             }
             return null;
@@ -582,7 +582,7 @@ jQuery(() => {
             }
         
             window.location.href = url;
-        }               
+        }              
     }    
 
     class CookieConsentHandler {
