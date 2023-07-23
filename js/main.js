@@ -540,20 +540,20 @@ jQuery(() => {
         performRedirection(data, language) {
             const userCountry = data ? data.country_code : language;
             const userLanguages = data ? data.languages.split('-')[0].toUpperCase() : language;
-    
+        
             const supportedPath = this.isLanguageSupported(userCountry) || this.isLanguageSupported(userLanguages);
             if (supportedPath && window.location.pathname !== supportedPath) {
                 this.redirectToCountry(supportedPath, userCountry, data);
                 return;
             }
-    
+        
             // Default Case
             if (this.hasDefaultCaseExecuted) {
                 console.log('Country code not supported');
             } else {
                 this.hasDefaultCaseExecuted = true;
                 if (window.location.pathname !== '/') {
-                    this.redirectToCountry(`${this.baseUrl}/?country=`, userCountry, data);
+                    this.redirectToCountry(`${this.baseUrl}/`, userCountry, data);
                 }
             }
         }
