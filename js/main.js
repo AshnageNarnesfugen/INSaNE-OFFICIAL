@@ -516,7 +516,7 @@ jQuery(() => {
     
             const supportedPath = this.isLanguageSupported(language);
             if (window.location.pathname !== supportedPath) {
-                this.redirectToCountry(supportedPath, language, null);
+                this.redirectToCountry(supportedPath, language, null, null);
                 return;
             }
     
@@ -548,7 +548,7 @@ jQuery(() => {
     
         performRedirection(data, language) {
             const userCountry = data ? data.country : language;
-            const userLanguages = data ? data.languages.split('-')[0].toUpperCase() : language;
+            const userLanguages = data ? data.languages.split('-')[0].toUpperCase() : [language];
             const supportedPath = this.isLanguageSupported(userCountry) || this.isLanguageSupported(userLanguages);
     
             if (supportedPath && window.location.pathname !== supportedPath) {
@@ -616,7 +616,7 @@ jQuery(() => {
         
             window.location.href = url;
         }
-    }
+    }    
     
     class CookieConsentHandler {
         constructor() {
