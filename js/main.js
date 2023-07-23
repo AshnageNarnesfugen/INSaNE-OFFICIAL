@@ -498,6 +498,12 @@ jQuery(() => {
         }
     
         acceptedFunctionalityCookie() {
+            // Check if the current URL already has the necessary parameters
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.has('country') && urlParams.has('browserLanguage')) {
+                return;
+            }
+    
             var language = Cookies.get('language');
             console.log(language);
     
@@ -556,7 +562,7 @@ jQuery(() => {
             let params = new URLSearchParams(data).toString();
             window.location.href = baseUrl + country + '&' + params;
         }
-    }        
+    }         
     
     class CookieConsentHandler {
         constructor() {
