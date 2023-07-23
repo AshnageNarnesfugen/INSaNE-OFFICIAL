@@ -572,7 +572,7 @@ jQuery(() => {
                 sameSite: 'Strict',
             });
         
-            let url = `${path}?country=${country}`;
+            let url = `${path}country=${country}`;
         
             if (data) {
                 url += `&region=${data.region}&city=${data.city}&currency=${data.currency}`;
