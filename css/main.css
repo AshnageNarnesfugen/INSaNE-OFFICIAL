@@ -1085,7 +1085,7 @@ span {
   font-style: italic;
   z-index: 5;
   display: table;
-  transform: translateY(-180px);
+  transform: translateY(-150px);
   background: var(--bg-primary);
   border-radius: 15px;
   color: #fff !important;
