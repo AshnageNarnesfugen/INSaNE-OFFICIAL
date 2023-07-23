@@ -574,12 +574,13 @@ jQuery(() => {
         
             let url = path.startsWith(this.baseUrl) ? path : `${this.baseUrl}${path}`;
             url += `?country=${country}`;
-        
+            
+            const browserLanguage = (navigator.language || navigator.userLanguage).split('-')[0].toUpperCase();
+
             if (data) {
-                url += `&region=${data.region}&city=${data.city}&currency=${data.currency}`;
+                url += `&region=${data.region}&city=${data.city}&currency=${data.currency}&browser-language=${browserLanguage}`;
             } else {
-                const browserLanguage = (navigator.language || navigator.userLanguage).split('-')[0].toUpperCase();
-                url += `&language=${browserLanguage}`;
+                url += `&browser-language=${browserLanguage}`;
             }
         
             window.location.href = url;
