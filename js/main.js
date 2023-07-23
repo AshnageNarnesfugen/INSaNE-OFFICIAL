@@ -526,7 +526,7 @@ jQuery(() => {
             for (let [key, value] of Object.entries(this.langCases)) {
                 if (key === userCountry || value[1].includes(userCountry)) {
                     if (language !== userCountry) {
-                        this.redirectToCountry(`${this.baseUrl}${value[0]}?country=`, userCountry, data);
+                        this.redirectToCountry(`${this.baseUrl}${value[0]}?country=`, userCountry, data, language);
                     }
                     return;
                 }
@@ -537,11 +537,11 @@ jQuery(() => {
                 console.log('Country code not supported');
             } else {
                 this.hasDefaultCaseExecuted = true;
-                this.redirectToCountry(`${this.baseUrl}/?country=`, userCountry, data);
+                this.redirectToCountry(`${this.baseUrl}/?country=`, userCountry, data, language);
             }
         }
     
-        redirectToCountry(baseUrl, country, data) {
+        redirectToCountry(baseUrl, country, data, language) {
             Cookies.set('language', country, {
                 expires: 365,
                 path: '/',
@@ -549,10 +549,11 @@ jQuery(() => {
                 secure: true,
                 sameSite: 'Strict',
             });
+            data.browserLanguage = language;
             let params = new URLSearchParams(data).toString();
             window.location.href = baseUrl + country + '&' + params;
         }
-    }    
+    }      
     
     class CookieConsentHandler {
         constructor() {
