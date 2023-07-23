@@ -507,9 +507,11 @@ jQuery(() => {
             }
     
             // Check if the user is using the Tor browser
-            if (window.navigator.doNotTrack == 'yes' && window.navigator.userAgent.includes('Tor')) {
-                console.log('Tor browser detected');
+            if (window.navigator.doNotTrack == 'yes' && window.navigator.userAgent.includes('Firefox')) {
+                console.log('Possible Tor browser detected');
                 // Handle the Tor browser separately
+                // For example, you could show a message asking the user to manually select their language
+                // Or you could default to a specific language
                 this.redirectToCountry(`${this.baseUrl}/?country=`, 'US', null);
             } else {
                 // Default Case
