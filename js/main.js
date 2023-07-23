@@ -582,7 +582,7 @@ jQuery(() => {
             }
         
             window.location.href = url;
-        }           
+        }                  
     }    
 
     class CookieConsentHandler {
