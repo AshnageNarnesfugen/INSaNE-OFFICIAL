@@ -226,6 +226,7 @@ jQuery(() => {
                     video[0].currentTime = 0;
                     video[0].play();
                 });
+                this.checkAndApplyHover(video);
             });
         }
     
