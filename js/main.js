@@ -1,4 +1,10 @@
 jQuery(() => {
+    var path = window.location.pathname;
+    $('#language-dropdown option').each(function() {
+        if ($(this).val() == path) {
+            $(this).attr('selected', 'selected');
+        }
+    });
     $('#language-dropdown').change(function() {
         window.location.href = $(this).val();
     });
