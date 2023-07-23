@@ -596,6 +596,14 @@ jQuery(() => {
                 path = '/';
             }
         
+            // If language or country are undefined or null, set them to default values
+            if (!language) {
+                language = this.defaultLanguage;
+            }
+            if (!country) {
+                country = 'Unknown';
+            }
+        
             let url = path.startsWith(this.baseUrl) ? path : `${this.baseUrl}${path}`;
             url += `?language=${language}&country=${country}`;
         
