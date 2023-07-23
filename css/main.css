@@ -690,6 +690,14 @@ img {
   width: 100px;
   height: 100px;
 }
+
+.btn-iris {
+  width: 35px;
+  height: 35px;
+  background: #000;
+  clip-path: polygon(0 0, 0% 100%, 100% 50%);
+}
+
 .download-btn {
   position: absolute;
   bottom: 0;
@@ -1139,13 +1147,6 @@ span {
   }
   h2 > .charted {
     font-size: 35px;
-  }
-
-  .btn-iris {
-    width: 35px;
-    height: 35px;
-    background: #000;
-    clip-path: polygon(0 0, 0% 100%, 100% 50%);
   }
 
   .speaker-box .text-box,
