@@ -428,8 +428,8 @@ jQuery(() => {
 
 
     class CookieManager {
-        constructor(customCases) {
-            this.baseUrl = href.location.href.split("/")[0];
+        constructor(customCases, targetPage) {
+            this.baseUrl = targetPage;
             this.hasDefaultCaseExecuted = false;
             this.langCases = customCases;
         }
@@ -502,7 +502,7 @@ jQuery(() => {
                 'DE': ['/de', ['AT', 'CH', 'LU', 'LI', 'BE']],
                 'IT': ['/it', ['CH', 'SM', 'VA']],
                 'KR': ['/kr', []]
-            });
+            }, window.location.origin);
             this.langMessages = this.getLanguageMessages();
             this.cookieConsentConfig = this.getCookieConsentConfig();
         }
