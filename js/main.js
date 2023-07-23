@@ -493,16 +493,15 @@ jQuery(() => {
     
     class CookieManager {
         constructor(customCases) {
-            this.baseUrl = window.location.origin;
+            this.baseUrl = 'https://insane-bh.space';
             this.hasDefaultCaseExecuted = false;
             this.langCases = customCases;
             this.maxRedirections = 5; // Define max redirections
-            this.defaultLanguage = 'en';
         }
     
         acceptedFunctionalityCookie() {
-            const currentPath = window.location.pathname.split('/')[1] || this.defaultLanguage;
-            const language = Cookies.get('language') || this.defaultLanguage;
+            const currentPath = window.location.pathname.split('/')[1];
+            const language = Cookies.get('language');
             const redirections = Number(Cookies.get('redirections')) || 0;
     
             if (redirections > this.maxRedirections) {
@@ -510,18 +509,9 @@ jQuery(() => {
                 return;
             }
     
-            if (language === currentPath) {
-                return;
-            }
-    
             const supportedPath = this.isLanguageSupported(language);
             if (window.location.pathname !== supportedPath) {
-                this.redirectToCountry(supportedPath, language, null);
-                return;
-            }
-    
-            if (window.navigator.doNotTrack === '1' && window.navigator.userAgent.includes('Firefox')) {
-                console.log('Possible Tor browser detected');
+                this.redirectToCountry(supportedPath, language);
                 return;
             }
     
@@ -529,74 +519,65 @@ jQuery(() => {
                 .done((data) => this.performRedirection(data, language))
                 .fail(() => {
                     const browserLanguage = (navigator.language || navigator.userLanguage).split('-')[0].toUpperCase();
-                    if (this.isLanguageSupported(browserLanguage)) {
-                        this.performRedirection(null, browserLanguage);
-                    } else {
-                        this.performRedirection(null, this.defaultLanguage);
-                    }
+                    this.performRedirection(null, browserLanguage);
                 });
         }
     
         isLanguageSupported(language) {
             for (const [key, value] of Object.entries(this.langCases)) {
-                if (key === language || (Array.isArray(value[1]) && value[1].includes(language))) {
+                if (key === language || value[1].includes(language)) {
                     return value[0];
                 }
             }
-            return null; 
+            return null;
         }
     
         performRedirection(data, language) {
-            const userCountry = data ? data.country : language;
-            const userLanguages = data ? data.languages.split('-')[0].toUpperCase() : language;
-            const supportedPath = this.isLanguageSupported(userCountry) || this.isLanguageSupported(userLanguages);
-    
+            const userCountry = data ? data.country_code : language;
+            const supportedPath = this.isLanguageSupported(userCountry);
             if (supportedPath && window.location.pathname !== supportedPath) {
-                this.redirectToCountry(supportedPath, userLanguages, userCountry, data);
+                this.redirectToCountry(supportedPath, userCountry, data);
                 return;
             }
     
             if (!this.hasDefaultCaseExecuted) {
                 this.hasDefaultCaseExecuted = true;
-                if (window.location.pathname !== '/') {
-                    this.redirectToCountry(`${this.baseUrl}/`, userLanguages, userCountry, data);
-                }
+                this.redirectToCountry(`${this.baseUrl}/`, userCountry, data);
             } else {
                 console.log('Country code not supported');
             }
         }
     
-        redirectToCountry(path, language, country, data) {
+        redirectToCountry(path, country, data) {
             let redirections = Number(Cookies.get('redirections')) || 0;
             redirections++;
     
-            const cookieData = {
-                country: country,
-                apiData: data,
-                redirections: redirections
-            };
-    
-            Cookies.set('userData', JSON.stringify(cookieData), {
+            Cookies.set('language', country, {
                 expires: 365,
                 path: '/',
-                domain: this.baseUrl,
+                domain: 'insane-bh.space',
                 secure: true,
                 sameSite: 'Strict',
             });
     
-            let url = path.startsWith(this.baseUrl) ? path : `${this.baseUrl}${path}`;
-            url += `?language=${language}&country=${country}`;
+            Cookies.set('redirections', redirections, {
+                expires: 365,
+                path: '/',
+                domain: 'insane-bh.space',
+                secure: true,
+                sameSite: 'Strict',
+            });
     
             const browserLanguage = (navigator.language || navigator.userLanguage).split('-')[0].toUpperCase();
-            if (data) {
-                url += `&region=${data.region}&city=${data.city}&currency=${data.currency}&browser-language=${browserLanguage}`;
-            } else {
-                url += `&browser-language=${browserLanguage}`;
-            }
+            let url = `${path}?country=${country}&browser-language=${browserLanguage}`;
     
+            if (data) {
+                url += `&region=${data.region}&city=${data.city}&currency=${data.currency}`;
+            }
+            
             window.location.href = url;
         }
-    }
+    }    
     
     class CookieConsentHandler {
         constructor() {
