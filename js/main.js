@@ -493,24 +493,16 @@ jQuery(() => {
     
     class CookieManager {
         constructor(customCases) {
-            this.baseUrl = 'https://insane-bh.space';
+            this.baseUrl = window.location.origin;
             this.hasDefaultCaseExecuted = false;
             this.langCases = customCases;
-            this.maxRedirections = 5; // Define max redirections
         }
     
         acceptedFunctionalityCookie() {
-            const currentPath = window.location.pathname.split('/')[1];
             const language = Cookies.get('language');
-            const redirections = Number(Cookies.get('redirections')) || 0;
-    
-            if (redirections > this.maxRedirections) {
-                console.error('Maximum redirection limit reached');
-                return;
-            }
-    
             const supportedPath = this.isLanguageSupported(language);
-            if (window.location.pathname !== supportedPath) {
+    
+            if (supportedPath && window.location.pathname !== supportedPath) {
                 this.redirectToCountry(supportedPath, language);
                 return;
             }
@@ -525,15 +517,15 @@ jQuery(() => {
     
         isLanguageSupported(language) {
             for (const [key, value] of Object.entries(this.langCases)) {
-                if (key === language || value[1].includes(language)) {
+                if (key === language || (Array.isArray(value[1]) && value[1].includes(language))) {
                     return value[0];
                 }
             }
-            return null;
+            return null; 
         }
     
         performRedirection(data, language) {
-            const userCountry = data ? data.country_code : language;
+            const userCountry = data ? data.country : language;
             const supportedPath = this.isLanguageSupported(userCountry);
             if (supportedPath && window.location.pathname !== supportedPath) {
                 this.redirectToCountry(supportedPath, userCountry, data);
@@ -548,33 +540,25 @@ jQuery(() => {
             }
         }
     
-        redirectToCountry(path, country, data) {
-            let redirections = Number(Cookies.get('redirections')) || 0;
-            redirections++;
-    
-            Cookies.set('language', country, {
+        redirectToCountry(path, language, data) {
+            Cookies.set('language', language, {
                 expires: 365,
                 path: '/',
-                domain: 'insane-bh.space',
+                domain: this.baseUrl,
                 secure: true,
                 sameSite: 'Strict',
             });
     
-            Cookies.set('redirections', redirections, {
-                expires: 365,
-                path: '/',
-                domain: 'insane-bh.space',
-                secure: true,
-                sameSite: 'Strict',
-            });
-    
-            const browserLanguage = (navigator.language || navigator.userLanguage).split('-')[0].toUpperCase();
-            let url = `${path}?country=${country}&browser-language=${browserLanguage}`;
+            let url = path.startsWith(this.baseUrl) ? path : `${this.baseUrl}${path}`;
+            url += `?language=${language}`;
     
             if (data) {
                 url += `&region=${data.region}&city=${data.city}&currency=${data.currency}`;
             }
-            
+    
+            const browserLanguage = (navigator.language || navigator.userLanguage).split('-')[0].toUpperCase();
+            url += `&browser-language=${browserLanguage}`;
+    
             window.location.href = url;
         }
     }    
