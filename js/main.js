@@ -429,7 +429,7 @@ jQuery(() => {
 
     class CookieManager {
         constructor(customCases) {
-            this.baseUrl = href.location.href.split("/");
+            this.baseUrl = href.location.href.split("/")[0];
             this.hasDefaultCaseExecuted = false;
             this.langCases = customCases;
         }
