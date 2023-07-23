@@ -571,8 +571,17 @@ jQuery(() => {
                 secure: true,
                 sameSite: 'Strict',
             });
+
+            let url = `${this.baseUrl}${path}?country=${country}`;
+
+            if (data) {
+                url += `&region=${data.region}&city=${data.city}&currency=${data.currency}`;
+            } else {
+                const browserLanguage = (navigator.language || navigator.userLanguage).split('-')[0].toUpperCase();
+                url += `&language=${browserLanguage}`;
+            }
     
-            window.location.href = `${this.baseUrl}${path}?country=${country}`;
+            window.location.href = url;
         }
     }    
 
