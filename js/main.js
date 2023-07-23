@@ -204,7 +204,7 @@ jQuery(() => {
             const playButtonTemplate = `
                 <div class="play-button-overlay d-flex align-items-center justify-content-center">
                     <button class="play-button btn btn-danger btn-lg" aria-label="Play Button" data-video-id="${video.attr('id')}">
-                        ▶
+                        <span class="btn-iris"></span>
                     </button>
                 </div>
             `;

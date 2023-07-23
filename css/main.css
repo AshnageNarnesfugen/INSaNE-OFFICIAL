@@ -689,8 +689,6 @@ img {
   clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
   width: 100px;
   height: 100px;
-  font-size: 35px;
-  color: #000;
 }
 .download-btn {
   position: absolute;
@@ -1142,6 +1140,14 @@ span {
   h2 > .charted {
     font-size: 35px;
   }
+
+  .btn-iris {
+    width: 35px;
+    height: 35px;
+    background: #000;
+    clip-path: polygon(0 0, 0% 100%, 100% 50%);
+  }
+
   .speaker-box .text-box,
   .speaker-box .user-name,
   .speaker-box:hover .user-name {
