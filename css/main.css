@@ -920,8 +920,8 @@ span {
   z-index: 1;
 }
 .owl-dot {
-    width: 20px;
-    height: 20px;
+    width: 20px !important;
+    height: 20px !important;
     background-color: white !important;
     margin: 5px;
     border-radius: 100%;
