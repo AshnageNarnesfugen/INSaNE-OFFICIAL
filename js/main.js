@@ -525,22 +525,24 @@ jQuery(() => {
         performRedirection(data, language) {
             let userCountry = data ? data.country_code : language;
             let userLanguages = data ? data.languages.split('-')[0].toUpperCase() : language;
-    
+        
             for (let [key, value] of Object.entries(this.langCases)) {
                 if (key === userCountry || value[1].includes(userCountry) || key === userLanguages) {
-                    if (language !== userCountry) {
+                    if (window.location.pathname !== value[0]) {
                         this.redirectToCountry(`${this.baseUrl}${value[0]}?country=`, userCountry, data);
                     }
                     return;
                 }
             }
-    
+        
             // Default Case
             if (this.hasDefaultCaseExecuted) {
                 console.log('Country code not supported');
             } else {
                 this.hasDefaultCaseExecuted = true;
-                this.redirectToCountry(`${this.baseUrl}/?country=`, userCountry, data);
+                if (window.location.pathname !== '/') {
+                    this.redirectToCountry(`${this.baseUrl}/?country=`, userCountry, data);
+                }
             }
         }
     
