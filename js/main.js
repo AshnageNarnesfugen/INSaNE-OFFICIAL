@@ -146,7 +146,12 @@ jQuery(() => {
                     const objectURL = URL.createObjectURL(blob);
                     video.data('posters').push(objectURL);  // Store each loaded poster URL in 'posters' data
         
-                    if (index === 0) {  // Set the first loaded poster as the video poster
+                    // If it's mobile, set the second poster as the video poster
+                    if (this.isMobile && index === 1) { 
+                        video.attr('poster', objectURL);
+                    }
+                    // On desktop, set the first loaded poster as the video poster
+                    else if (!this.isMobile && index === 0) {
                         video.attr('poster', objectURL);
                     }
         
@@ -156,7 +161,7 @@ jQuery(() => {
                     console.error(`Failed to load poster image from URL ${posterURL}: ${err}`);
                     this.loadPostersFromPriorityList(video, posterObject, posterPriorityList, index + 1);
                 });
-        }
+        }        
     
         lazyLoadVideo(video) {
             const sources = video.find('source');
