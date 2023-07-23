@@ -429,7 +429,7 @@ jQuery(() => {
 
     class CookieManager {
         constructor(customCases) {
-            this.baseUrl = 'https://insane-bh.space';
+            this.baseUrl = href.location.origin;
             this.hasDefaultCaseExecuted = false;
             this.langCases = customCases;
         }
