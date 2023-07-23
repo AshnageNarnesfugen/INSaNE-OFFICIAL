@@ -427,7 +427,6 @@ jQuery(() => {
             .catch(error => console.error('Failed to load images:', error));        
 
 
-    /*
     class CookieManager {
         constructor(customCases) {
             this.baseUrl = 'https://insane-bh.space';
@@ -488,135 +487,7 @@ jQuery(() => {
             });
             window.location.href = baseUrl + country;
         }
-    }
-    */        
-    
-    class CookieManager {
-        constructor(customCases) {
-            this.baseUrl = window.location.origin;
-            this.hasDefaultCaseExecuted = false;
-            this.langCases = customCases;
-            this.maxRedirections = 5; // Define max redirections
-            this.defaultLanguage = 'en';
-        }
-    
-        acceptedFunctionalityCookie() {
-            const currentPath = window.location.pathname.split('/')[1] || this.defaultLanguage;
-            const language = Cookies.get('language') || this.defaultLanguage;
-            const redirections = Number(Cookies.get('redirections')) || 0;
-    
-            if (redirections > this.maxRedirections) {
-                console.error('Maximum redirection limit reached');
-                return;
-            }
-    
-            if (language === currentPath) {
-                return;
-            }
-    
-            const supportedPath = this.isLanguageSupported(language);
-            if (window.location.pathname !== supportedPath) {
-                this.redirectToCountry(supportedPath, language, null, null);
-                return;
-            }
-    
-            if (window.navigator.doNotTrack === '1' && window.navigator.userAgent.includes('Firefox')) {
-                console.log('Possible Tor browser detected');
-                return;
-            }
-    
-            $.getJSON('https://ipapi.co/json/')
-                .done((data) => this.performRedirection(data, language))
-                .fail(() => {
-                    const browserLanguage = (navigator.language || navigator.userLanguage).split('-')[0].toUpperCase();
-                    if (this.isLanguageSupported(browserLanguage)) {
-                        this.performRedirection(null, browserLanguage);
-                    } else {
-                        this.performRedirection(null, this.defaultLanguage);
-                    }
-                });
-        }
-    
-        isLanguageSupported(language) {
-            for (const [key, value] of Object.entries(this.langCases)) {
-                if (key === language || (Array.isArray(value[1]) && value[1].includes(language))) {
-                    return value[0];
-                }
-            }
-            return null; 
-        }
-    
-        performRedirection(data, language) {
-            const userCountry = data ? data.country : language;
-            const userLanguages = data ? data.languages.split('-')[0].toUpperCase() : [language];
-            const supportedPath = this.isLanguageSupported(userCountry) || this.isLanguageSupported(userLanguages);
-    
-            if (supportedPath && window.location.pathname !== supportedPath) {
-                this.redirectToCountry(supportedPath, userLanguages, userCountry, data);
-                return;
-            }
-    
-            if (!this.hasDefaultCaseExecuted) {
-                this.hasDefaultCaseExecuted = true;
-                if (window.location.pathname !== '/') {
-                    this.redirectToCountry(`${this.baseUrl}/`, userLanguages, userCountry, data);
-                }
-            } else {
-                console.log('Country code not supported');
-            }
-        }
-    
-        redirectToCountry(path, language, country, data) {
-            let redirections = Number(Cookies.get('redirections')) || 0;
-            redirections++;
-        
-            const cookieData = {
-                country: country,
-                apiData: data,
-            };
-        
-            Cookies.set('userData', JSON.stringify(cookieData), {
-                expires: 365,
-                path: '/',
-                domain: this.baseUrl,
-                secure: true,
-                sameSite: 'Strict',
-            });
-        
-            Cookies.set('redirections', redirections, {
-                expires: 365,
-                path: '/',
-                domain: this.baseUrl,
-                secure: true,
-                sameSite: 'Strict',
-            });
-        
-            // If path is null, set it to a default path
-            if (!path) {
-                path = '/';
-            }
-        
-            // If language or country are undefined or null, set them to default values
-            if (!language) {
-                language = this.defaultLanguage;
-            }
-            if (!country) {
-                country = 'Unknown';
-            }
-        
-            let url = path.startsWith(this.baseUrl) ? path : `${this.baseUrl}${path}`;
-            url += `?language=${language}&country=${country}`;
-        
-            const browserLanguage = (navigator.language || navigator.userLanguage).split('-')[0].toUpperCase();
-            if (data) {
-                url += `&region=${data.region}&city=${data.city}&currency=${data.currency}&browser-language=${browserLanguage}`;
-            } else {
-                url += `&browser-language=${browserLanguage}`;
-            }
-        
-            window.location.href = url;
-        }
-    }    
+    } 
     
     class CookieConsentHandler {
         constructor() {
