@@ -501,9 +501,13 @@ jQuery(() => {
         acceptedFunctionalityCookie() {
             const language = Cookies.get('language');
             console.log(language);
-    
+
             const supportedPath = this.isLanguageSupported(language);
             if (supportedPath && window.location.pathname !== supportedPath) {
+                // If the cookie is already set to the same language, don't redirect
+                if (language === window.location.pathname.split('/')[1]) {
+                    return;
+                }
                 this.redirectToCountry(supportedPath, language, null);
                 return;
             }
