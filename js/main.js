@@ -502,47 +502,48 @@ jQuery(() => {
             const language = Cookies.get('language');
             console.log(language);
     
-            if (this.isLanguageSupported(language)) {
+            const supportedPath = this.isLanguageSupported(language);
+            if (supportedPath) {
+                this.redirectToCountry(supportedPath, language, null);
                 return;
             }
     
             // Check if the user is using the Tor browser
             if (window.navigator.doNotTrack == 'yes' && window.navigator.userAgent.includes('Firefox')) {
                 console.log('Possible Tor browser detected');
-                // Handle the Tor browser separately
-                // For example, you could show a message asking the user to manually select their language
-                // Or you could default to a specific language
-                this.redirectToCountry(`${this.baseUrl}/?country=`, 'US', null);
-            } else {
-                // Default Case
-                $.getJSON('https://ipapi.co/json/')
-                    .done((data) => this.performRedirection(data, language))
-                    .fail((jqXHR, textStatus, errorThrown) => {
-                        console.error('Failed to retrieve country code:', textStatus, errorThrown);
-                        const browserLanguage = (navigator.language || navigator.userLanguage).split('-')[0].toUpperCase();
-                        console.log(browserLanguage);
-                        this.performRedirection(null, browserLanguage);
-                    });
+                // Ask the user to manually select their language or location
+                // Or default to a specific language
+                // this.redirectToCountry(`${this.baseUrl}/?country=`, 'US', null);
+                return;
             }
+    
+            // Default Case
+            $.getJSON('https://ipapi.co/json/')
+                .done((data) => this.performRedirection(data, language))
+                .fail((jqXHR, textStatus, errorThrown) => {
+                    console.error('Failed to retrieve data:', textStatus, errorThrown);
+                    const browserLanguage = (navigator.language || navigator.userLanguage).split('-')[0].toUpperCase();
+                    console.log(browserLanguage);
+                    this.performRedirection(null, browserLanguage);
+                });
         }
     
         isLanguageSupported(language) {
-            for (let [key, value] of Object.entries(this.langCases)) {
+            for (const [key, value] of Object.entries(this.langCases)) {
                 if (key === language || value[1].includes(language)) {
-                    if (window.location.pathname !== value[0]) {
-                        window.location.href = `${this.baseUrl}${value[0]}?country=${language}`;
-                    }
-                    return true;
+                    return value[0];
                 }
             }
-            return false;
+            return null;
         }
     
         performRedirection(data, language) {
             const userCountry = data ? data.country_code : language;
             const userLanguages = data ? data.languages.split('-')[0].toUpperCase() : language;
     
-            if (this.isLanguageSupported(userCountry) || this.isLanguageSupported(userLanguages)) {
+            const supportedPath = this.isLanguageSupported(userCountry) || this.isLanguageSupported(userLanguages);
+            if (supportedPath) {
+                this.redirectToCountry(supportedPath, userCountry, data);
                 return;
             }
     
@@ -557,8 +558,8 @@ jQuery(() => {
             }
         }
     
-        redirectToCountry(baseUrl, country, data) {
-            let cookieData = {
+        redirectToCountry(path, country, data) {
+            const cookieData = {
                 country: country,
                 apiData: data
             };
@@ -566,14 +567,14 @@ jQuery(() => {
             Cookies.set('userData', JSON.stringify(cookieData), {
                 expires: 365,
                 path: '/',
-                domain: baseUrl,
+                domain: this.baseUrl,
                 secure: true,
                 sameSite: 'Strict',
             });
     
-            window.location.href = baseUrl + country;
+            window.location.href = `${this.baseUrl}${path}?country=${country}`;
         }
-    }   
+    }    
 
     class CookieConsentHandler {
         constructor() {
