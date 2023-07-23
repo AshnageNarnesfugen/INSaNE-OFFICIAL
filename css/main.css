@@ -915,6 +915,8 @@ span {
   bottom: 14px;
   height: 50px;
   left: 50%;
+  display: flex;
+  flex-wrap: wrap;
   position: absolute;
   transform: translate(-50%);
   z-index: 1;
@@ -926,6 +928,9 @@ span {
     margin: 5px;
     border-radius: 100%;
     transition: opacity 500ms linear;
+    appearance: none;
+    border: none;
+    display: block;
 }
 
 .owl-dot:hover {
