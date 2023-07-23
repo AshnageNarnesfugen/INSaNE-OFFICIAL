@@ -500,7 +500,7 @@ jQuery(() => {
         }
     
         acceptedFunctionalityCookie() {
-            const currentPath = window.location.pathname.split('/')[1];
+            const currentPath = window.location.pathname.split('/')[1] || 'en';
             const language = Cookies.get('language') || 'en';
             const redirections = Number(Cookies.get('redirections')) || 0;
     
@@ -514,7 +514,7 @@ jQuery(() => {
             }
     
             const supportedPath = this.isLanguageSupported(language);
-            if (supportedPath && window.location.pathname !== supportedPath) {
+            if (window.location.pathname !== supportedPath) {
                 this.redirectToCountry(supportedPath, language, null);
                 return;
             }
@@ -538,7 +538,7 @@ jQuery(() => {
                     return value[0];
                 }
             }
-            return null;
+            return '/'; // return default path when language is not supported
         }
     
         performRedirection(data, language) {
@@ -592,6 +592,7 @@ jQuery(() => {
             window.location.href = url;
         }
     }
+    
     /*
     class CookieConsentHandler {
         constructor() {
