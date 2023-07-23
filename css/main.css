@@ -1149,7 +1149,7 @@ span {
     opacity: 1;
   }
   .speaker-box {
-    height: 500px;
+    height: 415px;
     width: auto;
     transform: perspective(600px) rotateX(0);
   }
