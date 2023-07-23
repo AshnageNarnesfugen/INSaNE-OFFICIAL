@@ -572,7 +572,8 @@ jQuery(() => {
                 sameSite: 'Strict',
             });
         
-            let url = `${this.baseUrl}${path}?country=${country}`;
+            let url = path.startsWith(this.baseUrl) ? path : `${this.baseUrl}${path}`;
+            url += `?country=${country}`;
         
             if (data) {
                 url += `&region=${data.region}&city=${data.city}&currency=${data.currency}`;
@@ -582,7 +583,7 @@ jQuery(() => {
             }
         
             window.location.href = url;
-        }                  
+        }                        
     }    
 
     class CookieConsentHandler {
