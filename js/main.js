@@ -229,6 +229,8 @@ jQuery(() => {
                 });
                 if (!this.isMobile) {
                     this.checkAndApplyHover(video);
+                } else {
+                    video.attr('poster', posters[0]);
                 }
             });
         }
@@ -237,10 +239,7 @@ jQuery(() => {
             const posters = video.data('posters');
     
             if (posters.length > 1) {
-                if (this.isMobile) {
-                    // On mobile, switch poster image when second image loads
-                    video.attr('poster', posters[1]);
-                } else {
+                if (!this.isMobile) {
                     // On desktop, switch poster image on hover
                     const overlay = video.siblings('.video-overlay');
                     const playButton = overlay.find('.play-button');
