@@ -501,9 +501,8 @@ jQuery(() => {
     
         acceptedFunctionalityCookie() {
             const currentPath = window.location.pathname.split('/')[1];
-            const language = Cookies.get('language');
-            const redirections = Cookies.get('redirections') || 0;
-            console.log(language);
+            const language = Cookies.get('language') || 'en';
+            const redirections = Number(Cookies.get('redirections')) || 0;
     
             if (redirections > this.maxRedirections) {
                 console.error('Maximum redirection limit reached');
@@ -520,24 +519,22 @@ jQuery(() => {
                 return;
             }
     
-            if (window.navigator.doNotTrack == 'yes' && window.navigator.userAgent.includes('Firefox')) {
+            if (window.navigator.doNotTrack === '1' && window.navigator.userAgent.includes('Firefox')) {
                 console.log('Possible Tor browser detected');
                 return;
             }
     
             $.getJSON('https://ipapi.co/json/')
                 .done((data) => this.performRedirection(data, language))
-                .fail((jqXHR, textStatus, errorThrown) => {
-                    console.error('Failed to retrieve data:', textStatus, errorThrown);
+                .fail(() => {
                     const browserLanguage = (navigator.language || navigator.userLanguage).split('-')[0].toUpperCase();
-                    console.log(browserLanguage);
                     this.performRedirection(null, browserLanguage);
                 });
         }
     
         isLanguageSupported(language) {
             for (const [key, value] of Object.entries(this.langCases)) {
-                if (key === language || value[1].includes(language)) {
+                if (key === language || (Array.isArray(value[1]) && value[1].includes(language))) {
                     return value[0];
                 }
             }
@@ -545,27 +542,27 @@ jQuery(() => {
         }
     
         performRedirection(data, language) {
-            const userCountry = data ? data.country_code : language;
+            const userCountry = data ? data.country : language;
             const userLanguages = data ? data.languages.split('-')[0].toUpperCase() : language;
-    
             const supportedPath = this.isLanguageSupported(userCountry) || this.isLanguageSupported(userLanguages);
+    
             if (supportedPath && window.location.pathname !== supportedPath) {
                 this.redirectToCountry(supportedPath, userLanguages, userCountry, data);
                 return;
             }
     
-            if (this.hasDefaultCaseExecuted) {
-                console.log('Country code not supported');
-            } else {
+            if (!this.hasDefaultCaseExecuted) {
                 this.hasDefaultCaseExecuted = true;
                 if (window.location.pathname !== '/') {
                     this.redirectToCountry(`${this.baseUrl}/`, userLanguages, userCountry, data);
                 }
+            } else {
+                console.log('Country code not supported');
             }
         }
     
         redirectToCountry(path, language, country, data) {
-            let redirections = Cookies.get('redirections') || 0;
+            let redirections = Number(Cookies.get('redirections')) || 0;
             redirections++;
     
             const cookieData = {
@@ -594,7 +591,7 @@ jQuery(() => {
     
             window.location.href = url;
         }
-    }    
+    }
     /*
     class CookieConsentHandler {
         constructor() {
