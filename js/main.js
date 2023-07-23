@@ -572,13 +572,9 @@ jQuery(() => {
             let url = path.startsWith(this.baseUrl) ? path : `${this.baseUrl}${path}`;
             url += `?language=${language}&country=${country}`;
     
-            if (data) {
-                url += `&region=${data.region}&city=${data.city}&currency=${data.currency}&language=${data.languages.split('-')[0].toUpperCase()}`;
-            } else {
-                const browserLanguage = (navigator.language || navigator.userLanguage).split('-')[0].toUpperCase();
-                url += `&language=${browserLanguage}`;
-            }
-    
+            const browserLanguage = (navigator.language || navigator.userLanguage).split('-')[0].toUpperCase();
+            url += `&region=${data.region}&city=${data.city}&currency=${data.currency}&browser-language=${browserLanguage}}`;
+
             window.location.href = url;
         }                      
     }
