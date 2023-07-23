@@ -346,7 +346,7 @@ html {
 li,
 ul {
   list-style: none;
-  line-height: 60px;
+  line-height: 45px;
 }
 ::-webkit-scrollbar {
   width: 0.5rem;
