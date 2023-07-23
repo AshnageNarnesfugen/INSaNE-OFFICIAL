@@ -531,11 +531,11 @@ jQuery(() => {
         isLanguageSupported(language) {
             for (const [key, value] of Object.entries(this.langCases)) {
                 if (key === language || value[1].includes(language)) {
-                    return `${value[0]}?country=`;
+                    return value[0];
                 }
             }
             return null;
-        }
+        }        
     
         performRedirection(data, language) {
             const userCountry = data ? data.country_code : language;
@@ -572,7 +572,7 @@ jQuery(() => {
                 sameSite: 'Strict',
             });
         
-            let url = `${path}${country}`;
+            let url = `${path}?country=${country}`;
         
             if (data) {
                 url += `&region=${data.region}&city=${data.city}&currency=${data.currency}`;
@@ -582,7 +582,8 @@ jQuery(() => {
             }
         
             window.location.href = url;
-        }              
+        }
+                   
     }    
 
     class CookieConsentHandler {
