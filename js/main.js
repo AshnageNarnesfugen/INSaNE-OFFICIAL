@@ -598,8 +598,6 @@ jQuery(() => {
         }
     }
     
-    
-    /*
     class CookieConsentHandler {
         constructor() {
             this.cookieManager = new CookieManager({
@@ -721,137 +719,7 @@ jQuery(() => {
             });
         }
     }
-    */
-
-    class CookieConsentHandler {
-        constructor() {
-            this.cookieManager = new CookieManager({
-                'US': ['/', ['CA', 'GB', 'AU', 'NZ', 'IE', 'ZA', 'IN', 'SG']],
-                'ES': ['/es', ['MX', 'AR', 'CO', 'PE', 'VE', 'CL', 'EC', 'GT', 'CU']],
-                'PT': ['/pt', ['BR', 'AO', 'MZ', 'CV', 'GW', 'ST', 'GQ', 'TL']],
-                'JP': ['/ja', []],
-                'FR': ['/fr', ['BE', 'CA', 'CH', 'LU', 'MC', 'DZ', 'MA', 'TN']],
-                'CN': ['/cn', ['HK', 'MO', 'SG']],
-                'RU': ['/ru', ['BY', 'KZ', 'KG', 'TJ', 'TM']],
-                'DE': ['/de', ['AT', 'CH', 'LU', 'LI', 'BE']],
-                'IT': ['/it', ['CH', 'SM', 'VA']],
-                'KR': ['/kr', []]
-            });
-            this.langMessages = this.getLanguageMessages();
-            this.cookieConsentConfig = this.getCookieConsentConfig();
-            this.isCookieAccepted = false;
-        }
     
-        getLanguageMessages() {
-            const baseURL = 'https://insane-bh.space';
-            const defaultLangMSG = {
-                "header": "Cookies used on the website!",
-                "message": "This website uses cookies to ensure you get the best experience on our website.",
-                "dismiss": "Got it!",
-                "allow": "Allow cookies",
-                "deny": "Decline",
-                "link": "Learn More",
-                "href": "https://www.example.com/cookies",
-                "close": "❌",
-                "policy": "Cookie Policy"
-            };
-
-            return {
-                [`${baseURL}`]: defaultLangMSG,
-                [`${baseURL}/es`]: {
-                    "header": "¡Cookies usadas en el sitio web!",
-                    "message": "Este sitio web utiliza cookies para garantizar que obtenga la mejor experiencia en nuestro sitio web.",
-                    "dismiss": "¡Entiendo!",
-                    "allow": "Permitir cookies",
-                    "deny": "Rechazar",
-                    "link": "Saber más",
-                    "href": defaultLangMSG.href,
-                    "close": "❌",
-                    "policy": "Política de Cookies"
-                },
-                [`${baseURL}/ja`]: {
-                    "header": "ウェブサイトでのクッキーの使用について",
-                    "message": "当ウェブサイトでは、最良の体験を提供するためにクッキーを使用しています。",
-                    "dismiss": "了解しました！",
-                    "allow": "クッキーを許可する",
-                    "deny": "拒否する",
-                    "link": "詳細を知る",
-                    "href": defaultLangMSG.href,
-                    "close": "❌",
-                    "policy": "クッキーポリシー"
-                },
-                [`${baseURL}/pt`]: {
-                    "header": "Usando cookies no site da Web!",
-                    "message": "O meu website usa cookies para fornecer uma experiência ótima.",
-                    "dismiss": "Entendi!",
-                    "allow": "Aceitar",
-                    "deny": "Negar",
-                    "link": "Saiba mais",
-                    "href": defaultLangMSG.href,
-                    "close": "❌",
-                    "policy": "Política de cookies"
-                },
-            };
-        }
-    
-        getCookieConsentConfig() {
-            const langMSG = this.langMessages[window.location.href.split("?")[0]] || this.langMessages['https://insane-bh.space'];
-    
-            return {
-                "palette": {
-                    "popup": {
-                        "background": "#292929",
-                        "text": "#ffffff"
-                    },
-                    "button": {
-                        "background": "red",
-                        "text": "#000000"
-                    }
-                },
-                "content": langMSG,
-                "position": "bottom-left",
-                "type": "opt-in",
-                "onInitialise": (status) => {
-                    var consent = Cookies.get('cookieconsent_status');
-                    if (consent && consent == 'allow') {
-                        console.log('Cookies are allowed!');
-                        this.handleCookieAcceptance();
-                    }
-                },
-                "onStatusChange": (status) => {
-                    if (status == 'allow') {
-                        console.log('Cookies are allowed!');
-                        this.handleCookieAcceptance();
-                    } else {
-                        console.log('Cookies are not allowed!');
-                    }
-                },
-                "onRevokeChoice": () => {
-                    console.log('Cookies consent has been revoked!');
-                },
-                "onNoCookieLaw": () => {
-                    console.log('No cookie law is applied!');
-                },
-                "onAccept": () => {
-                    console.log('Cookies have been accepted!');
-                    this.handleCookieAcceptance();
-                }
-            };
-        }
-    
-        handleCookieAcceptance() {
-            if (!this.isCookieAccepted) {
-                this.isCookieAccepted = true;
-                this.cookieManager.acceptedFunctionalityCookie();
-            }
-        }
-    
-        init() {
-            $(window).on("load", () => {
-                cookieconsent.initialise(this.cookieConsentConfig);
-            });
-        }
-    }
 
     // Usage:
     new CookieConsentHandler().init();
