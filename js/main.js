@@ -230,7 +230,7 @@ jQuery(() => {
                 if (!this.isMobile) {
                     this.checkAndApplyHover(video);
                 } else {
-                    video.attr('poster', posters[0]);
+                    video.attr('poster', posters[1]);
                 }
             });
         }
