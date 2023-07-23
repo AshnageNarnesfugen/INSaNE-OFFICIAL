@@ -499,15 +499,17 @@ jQuery(() => {
         }
     
         acceptedFunctionalityCookie() {
+            const currentPath = window.location.pathname.split('/')[1];
             const language = Cookies.get('language');
             console.log(language);
 
+            if (language === currentPath) {
+                // The language hasn't changed between redirects, so display the default version of the site
+                return;
+            }
+
             const supportedPath = this.isLanguageSupported(language);
             if (supportedPath && window.location.pathname !== supportedPath) {
-                // If the cookie is already set to the same language, don't redirect
-                if (language === window.location.pathname.split('/')[1]) {
-                    return;
-                }
                 this.redirectToCountry(supportedPath, language, null);
                 return;
             }
