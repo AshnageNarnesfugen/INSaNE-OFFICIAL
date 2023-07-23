@@ -511,9 +511,6 @@ jQuery(() => {
             // Check if the user is using the Tor browser
             if (window.navigator.doNotTrack == 'yes' && window.navigator.userAgent.includes('Firefox')) {
                 console.log('Possible Tor browser detected');
-                // Ask the user to manually select their language or location
-                // Or default to a specific language
-                // this.redirectToCountry(`${this.baseUrl}/?country=`, 'US', null);
                 return;
             }
     
@@ -540,30 +537,30 @@ jQuery(() => {
         performRedirection(data, language) {
             const userCountry = data ? data.country_code : language;
             const userLanguages = data ? data.languages.split('-')[0].toUpperCase() : language;
-
+    
             const supportedPath = this.isLanguageSupported(userCountry) || this.isLanguageSupported(userLanguages);
             if (supportedPath && window.location.pathname !== supportedPath) {
-                this.redirectToCountry(supportedPath, userCountry, data, userLanguages);
+                this.redirectToCountry(supportedPath, userLanguages, userCountry, data);
                 return;
             }
-
+    
             // Default Case
             if (this.hasDefaultCaseExecuted) {
                 console.log('Country code not supported');
             } else {
                 this.hasDefaultCaseExecuted = true;
                 if (window.location.pathname !== '/') {
-                    this.redirectToCountry(`${this.baseUrl}/`, userCountry, data, userLanguages);
+                    this.redirectToCountry(`${this.baseUrl}/`, userLanguages, userCountry, data);
                 }
             }
         }
     
-        redirectToCountry(path, country, data) {
+        redirectToCountry(path, language, country, data) {
             const cookieData = {
                 country: country,
                 apiData: data
             };
-        
+    
             Cookies.set('userData', JSON.stringify(cookieData), {
                 expires: 365,
                 path: '/',
@@ -571,21 +568,21 @@ jQuery(() => {
                 secure: true,
                 sameSite: 'Strict',
             });
-        
+    
             let url = path.startsWith(this.baseUrl) ? path : `${this.baseUrl}${path}`;
-            url += `?country=${country}`;
-        
+            url += `?language=${language}&country=${country}`;
+    
             if (data) {
                 url += `&region=${data.region}&city=${data.city}&currency=${data.currency}&language=${data.languages.split('-')[0].toUpperCase()}`;
             } else {
                 const browserLanguage = (navigator.language || navigator.userLanguage).split('-')[0].toUpperCase();
                 url += `&language=${browserLanguage}`;
             }
-        
+    
             window.location.href = url;
         }                      
-    }    
-
+    }
+    
     class CookieConsentHandler {
         constructor() {
             this.cookieManager = new CookieManager({
