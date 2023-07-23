@@ -512,21 +512,24 @@ jQuery(() => {
     
             // Default Case
             $.getJSON('https://ipapi.co/json/')
-                .done((data) => this.performRedirection(data, language))
+                .done((data) => {
+                    const browserLanguage = (navigator.language || navigator.userLanguage).split('-')[0].toUpperCase();
+                    this.performRedirection(data, language, browserLanguage);
+                })
                 .fail((jqXHR, textStatus, errorThrown) => {
                     console.error('Failed to retrieve country code:', textStatus, errorThrown);
                     const browserLanguage = (navigator.language || navigator.userLanguage).split('-')[0].toUpperCase();
                     console.log(browserLanguage);
-                    this.performRedirection({}, browserLanguage);
+                    this.performRedirection({}, language, browserLanguage);
                 });
         }
     
-        performRedirection(data, language) {
+        performRedirection(data, language, browserLanguage) {
             let userCountry = data.country_code;
             for (let [key, value] of Object.entries(this.langCases)) {
                 if (key === userCountry || value[1].includes(userCountry)) {
                     if (language !== userCountry) {
-                        this.redirectToCountry(`${this.baseUrl}${value[0]}?country=`, userCountry, data, language);
+                        this.redirectToCountry(`${this.baseUrl}${value[0]}?country=`, userCountry, data, browserLanguage);
                     }
                     return;
                 }
@@ -537,11 +540,11 @@ jQuery(() => {
                 console.log('Country code not supported');
             } else {
                 this.hasDefaultCaseExecuted = true;
-                this.redirectToCountry(`${this.baseUrl}/?country=`, userCountry, data, language);
+                this.redirectToCountry(`${this.baseUrl}/?country=`, userCountry, data, browserLanguage);
             }
         }
     
-        redirectToCountry(baseUrl, country, data, language) {
+        redirectToCountry(baseUrl, country, data, browserLanguage) {
             Cookies.set('language', country, {
                 expires: 365,
                 path: '/',
@@ -549,11 +552,11 @@ jQuery(() => {
                 secure: true,
                 sameSite: 'Strict',
             });
-            data.browserLanguage = language;
+            data.browserLanguage = browserLanguage;
             let params = new URLSearchParams(data).toString();
             window.location.href = baseUrl + country + '&' + params;
         }
-    }      
+    }        
     
     class CookieConsentHandler {
         constructor() {
