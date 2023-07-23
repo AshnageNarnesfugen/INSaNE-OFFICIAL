@@ -223,7 +223,6 @@ jQuery(() => {
                 overlay.find('.play-button').on('click', () => {
                     overlay.remove();
                     video.prop('controls', true);
-                    video[0].currentTime = 0;
                     video[0].play();
                 });
                 if (!this.isMobile) {
