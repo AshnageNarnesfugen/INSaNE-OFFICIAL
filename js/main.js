@@ -215,7 +215,7 @@ jQuery(() => {
             });
     
             video.on('ended', () => {
-                video.load()
+                video[0].load()
                 video.parent().append(overlay);
                 overlay.html(playButtonTemplate);
                 video.prop('controls', false);
