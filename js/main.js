@@ -591,6 +591,11 @@ jQuery(() => {
                 sameSite: 'Strict',
             });
         
+            // If path is null, set it to a default path
+            if (!path) {
+                path = '/';
+            }
+        
             let url = path.startsWith(this.baseUrl) ? path : `${this.baseUrl}${path}`;
             url += `?language=${language}&country=${country}`;
         
