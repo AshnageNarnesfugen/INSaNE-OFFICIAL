@@ -1,7 +1,7 @@
 jQuery(() => {
     $('.share-btn').on('click', function() {
-    var platform = $(this).data('platform');
-    var language = $(this).data('language'); // Assuming each button also has a 'data-language' attribute
+    var platform = $(this).attr('data-platform');
+    var language = $(this).attr('data-language'); // Assuming each button also has a 'data-language' attribute
 
     var shareUrl = '';
 
@@ -19,6 +19,7 @@ jQuery(() => {
         'ko': '"INSaNE | 부서진 영웅"에 뛰어들어보세요. 중력 컨트롤러인 Ashnage와 함께 외계인 침략에 대한 서사시적인 퀘스트에 참여하세요. 개인적인 싸움, 격렬한 전투, 깊은 미스터리가 기다리고 있습니다. 지금 바로 참여하세요!!'
     };
 
+    var invitationalText = invitationalTexts[language];
     // Different main page URLs for different languages
     var urls = {
         'en':  window.location.origin + '/', // For English
