@@ -503,7 +503,7 @@ jQuery(() => {
             console.log(language);
     
             const supportedPath = this.isLanguageSupported(language);
-            if (supportedPath) {
+            if (supportedPath && window.location.pathname !== supportedPath) {
                 this.redirectToCountry(supportedPath, language, null);
                 return;
             }
@@ -542,7 +542,7 @@ jQuery(() => {
             const userLanguages = data ? data.languages.split('-')[0].toUpperCase() : language;
     
             const supportedPath = this.isLanguageSupported(userCountry) || this.isLanguageSupported(userLanguages);
-            if (supportedPath) {
+            if (supportedPath && window.location.pathname !== supportedPath) {
                 this.redirectToCountry(supportedPath, userCountry, data);
                 return;
             }
@@ -571,9 +571,9 @@ jQuery(() => {
                 secure: true,
                 sameSite: 'Strict',
             });
-
+    
             let url = `${this.baseUrl}${path}?country=${country}`;
-
+    
             if (data) {
                 url += `&region=${data.region}&city=${data.city}&currency=${data.currency}`;
             } else {
