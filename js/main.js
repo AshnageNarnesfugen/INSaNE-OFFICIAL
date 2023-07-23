@@ -497,11 +497,12 @@ jQuery(() => {
             this.hasDefaultCaseExecuted = false;
             this.langCases = customCases;
             this.maxRedirections = 5; // Define max redirections
+            this.defaultLanguage = 'en';
         }
     
         acceptedFunctionalityCookie() {
-            const currentPath = window.location.pathname.split('/')[1] || 'en';
-            const language = Cookies.get('language') || 'en';
+            const currentPath = window.location.pathname.split('/')[1] || this.defaultLanguage;
+            const language = Cookies.get('language') || this.defaultLanguage;
             const redirections = Number(Cookies.get('redirections')) || 0;
     
             if (redirections > this.maxRedirections) {
@@ -528,7 +529,11 @@ jQuery(() => {
                 .done((data) => this.performRedirection(data, language))
                 .fail(() => {
                     const browserLanguage = (navigator.language || navigator.userLanguage).split('-')[0].toUpperCase();
-                    this.performRedirection(null, browserLanguage);
+                    if (this.isLanguageSupported(browserLanguage)) {
+                        this.performRedirection(null, browserLanguage);
+                    } else {
+                        this.performRedirection(null, this.defaultLanguage);
+                    }
                 });
         }
     
@@ -538,7 +543,7 @@ jQuery(() => {
                     return value[0];
                 }
             }
-            return '/'; // return default path when language is not supported
+            return null; 
         }
     
         performRedirection(data, language) {
@@ -592,6 +597,7 @@ jQuery(() => {
             window.location.href = url;
         }
     }
+    
     
     /*
     class CookieConsentHandler {
