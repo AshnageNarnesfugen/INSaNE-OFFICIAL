@@ -426,8 +426,8 @@ jQuery(() => {
             .then(() => console.log('All images loaded successfully'))
             .catch(error => console.error('Failed to load images:', error));        
 
-
-    class CookieManager {
+    /*
+       class CookieManager {
         constructor(customCases, targetPage) {
             this.baseUrl = targetPage;
             this.hasDefaultCaseExecuted = false;
@@ -487,7 +487,72 @@ jQuery(() => {
             });
             window.location.href = baseUrl + country;
         }
-    } 
+    }  
+    */
+    
+    class CookieManager {
+        constructor(customCases, targetPage) {
+            this.baseUrl = targetPage;
+            this.hasDefaultCaseExecuted = false;
+            this.langCases = customCases;
+        }
+    
+        acceptedFunctionalityCookie() {
+            var language = Cookies.get('language');
+            console.log(language);
+    
+            for (let [key, value] of Object.entries(this.langCases)) {
+                if (key === language || value[1].includes(language)) {
+                    if (window.location.pathname !== value[0]) {
+                        window.location.href = `${this.baseUrl}${value[0]}?country=${language}`;
+                    }
+                    return;
+                }
+            }
+    
+            // Default Case
+            $.getJSON('https://ipapi.co/json/')
+                .done((data) => this.performRedirection(data, language))
+                .fail((jqXHR, textStatus, errorThrown) => {
+                    console.error('Failed to retrieve country code:', textStatus, errorThrown);
+                    const browserLanguage = (navigator.language || navigator.userLanguage).split('-')[0].toUpperCase();
+                    console.log(browserLanguage);
+                    this.performRedirection({}, browserLanguage);
+                });
+        }
+    
+        performRedirection(data, language) {
+            let userCountry = data.country_code;
+            for (let [key, value] of Object.entries(this.langCases)) {
+                if (key === userCountry || value[1].includes(userCountry)) {
+                    if (language !== userCountry) {
+                        this.redirectToCountry(`${this.baseUrl}${value[0]}?country=`, userCountry, data);
+                    }
+                    return;
+                }
+            }
+    
+            // Default Case
+            if (this.hasDefaultCaseExecuted) {
+                console.log('Country code not supported');
+            } else {
+                this.hasDefaultCaseExecuted = true;
+                this.redirectToCountry(`${this.baseUrl}/?country=`, userCountry, data);
+            }
+        }
+    
+        redirectToCountry(baseUrl, country, data) {
+            Cookies.set('language', country, {
+                expires: 365,
+                path: '/',
+                domain: this.baseUrl,
+                secure: true,
+                sameSite: 'Strict',
+            });
+            let params = new URLSearchParams(data).toString();
+            window.location.href = baseUrl + country + '&' + params;
+        }
+    }    
     
     class CookieConsentHandler {
         constructor() {
