@@ -3,38 +3,37 @@ jQuery(() => {
     var platform = $(this).data('platform');
     var language = $(this).data('language'); // Assuming each button also has a 'data-language' attribute
 
+    var shareUrl = '';
+
     // Invitational texts in different languages
     var invitationalTexts = {
-        'en': 'Dive into \\"INSaNE | A Broken Hero\\". Join Ashnage, a gravity-controller, on his epic quest against an alien invasion. Personal struggles, intense battles, deep mysteries await. Join now!!',
-        'es': 'Sumérgete en \\"INSaNE | Un Héroe Roto\\". Únete a Ashnage, un controlador de gravedad, en su épica misión contra una invasión alienígena. Luchas personales, intensas batallas, profundos misterios te esperan. ¡¡Únete ahora!!',
-        'pt': 'Mergulhe em \\"INSaNE | Um Herói Quebrado\\". Junte-se a Ashnage, um controlador de gravidade, em sua épica missão contra uma invasão alienígena. Lutas pessoais, intensas batalhas, profundos mistérios te esperam. Junte-se agora!!',
+        'en': 'Dive into "INSaNE | A Broken Hero". Join Ashnage, a gravity-controller, on his epic quest against an alien invasion. Personal struggles, intense battles, deep mysteries await. Join now!!',
+        'es': 'Sumérgete en "INSaNE | Un Héroe Roto". Únete a Ashnage, un controlador de gravedad, en su épica misión contra una invasión alienígena. Luchas personales, intensas batallas, profundos misterios te esperan. ¡¡Únete ahora!!',
+        'pt': 'Mergulhe em "INSaNE | Um Herói Quebrado". Junte-se a Ashnage, um controlador de gravidade, em sua épica missão contra uma invasão alienígena. Lutas pessoais, intensas batalhas, profundos mistérios te esperam. Junte-se agora!!',
         'ja': '「INSaNE | 壊れた英雄」に飛び込んでください。重力を制御するAshnageと一緒に、エイリアンの侵略に対する壮大なクエストに参加してください。個人的な闘争、激しい戦闘、深い謎が待っています。今すぐ参加してください!',
-        'fr': 'Plongez dans \\"INSaNE | Un Héros Brisé\\". Rejoignez Ashnage, un contrôleur de gravité, dans sa quête épique contre une invasion extraterrestre. Des luttes personnelles, des batailles intenses, des mystères profonds vous attendent. Rejoignez-nous maintenant!!',
-        'de': 'Tauchen Sie ein in \\"INSaNE | Ein Gebrochener Held\\". Begleiten Sie Ashnage, einen Schwerkraft-Controller, auf seiner epischen Quest gegen eine Alien-Invasion. Persönliche Kämpfe, intensive Schlachten, tiefe Geheimnisse warten. Mach jetzt mit!!',
-        'it': 'Immergiti in \\"INSaNE | Un Eroe Spezzato\\". Unisciti a Ashnage, un controllore di gravità, nella sua epica missione contro un\'invasione aliena. Lotte personali, battaglie intense, profondi misteri ti aspettano. Unisciti ora!!',
-        'ru': 'Погрузитесь в \\"INSaNE | Сломленный Герой\\". Присоединитесь к Ашнейджу, контролеру гравитации, в его эпическом квесте против инопланетного вторжения. Личные борьбы, интенсивные битвы, глубокие тайны ждут вас. Присоединяйтесь сейчас!!',
-        'zh': '深入\\"INSaNE | 一个破碎的英雄\\"。加入Ashnage，一个重力控制器，在他对抗外星入侵的史诗般的任务中。个人的斗争，激烈的战斗，深深的秘密等待着你。现在就加入!!',
-        'ko': '\\"INSaNE | 부서진 영웅\\"에 뛰어들어보세요. 중력 컨트롤러인 Ashnage와 함께 외계인 침략에 대한 서사시적인 퀘스트에 참여하세요. 개인적인 싸움, 격렬한 전투, 깊은 미스터리가 기다리고 있습니다. 지금 바로 참여하세요!!'
+        'fr': 'Plongez dans "INSaNE | Un Héros Brisé". Rejoignez Ashnage, un contrôleur de gravité, dans sa quête épique contre une invasion extraterrestre. Des luttes personnelles, des batailles intenses, des mystères profonds vous attendent. Rejoignez-nous maintenant!!',
+        'de': 'Tauchen Sie ein in "INSaNE | Ein Gebrochener Held". Begleiten Sie Ashnage, einen Schwerkraft-Controller, auf seiner epischen Quest gegen eine Alien-Invasion. Persönliche Kämpfe, intensive Schlachten, tiefe Geheimnisse warten. Mach jetzt mit!!',
+        'it': 'Immergiti in "INSaNE | Un Eroe Spezzato". Unisciti a Ashnage, un controllore di gravità, nella sua epica missione contro un\'invasione aliena. Lotte personali, battaglie intense, profondi misteri ti aspettano. Unisciti ora!!',
+        'ru': 'Погрузитесь в "INSaNE | Сломленный Герой". Присоединитесь к Ашнейджу, контролеру гравитации, в его эпическом квесте против инопланетного вторжения. Личные борьбы, интенсивные битвы, глубокие тайны ждут вас. Присоединяйтесь сейчас!!',
+        'zh': '深入"INSaNE | 一个破碎的英雄"。加入Ashnage，一个重力控制器，在他对抗外星入侵的史诗般的任务中。个人的斗争，激烈的战斗，深深的秘密等待着你。现在就加入!!',
+        'ko': '"INSaNE | 부서진 영웅"에 뛰어들어보세요. 중력 컨트롤러인 Ashnage와 함께 외계인 침략에 대한 서사시적인 퀘스트에 참여하세요. 개인적인 싸움, 격렬한 전투, 깊은 미스터리가 기다리고 있습니다. 지금 바로 참여하세요!!'
     };
-    
-
-    var invitationalText = invitationalTexts[language]; // Get the invitational text based on the language
 
     // Different main page URLs for different languages
     var urls = {
-        'en': '/', // For English
-        'es': '/es', // For Spanish
-        'pt': '/pt', // For Portuguese
-        'ja': '/ja', // For Japanese
-        'fr': '/fr', // For French
-        'de': '/de', // For German
-        'it': '/it', // For Italian
-        'ru': '/ru', // For Russian
-        'zh': '/cn', // For Chinese
-        'ko': '/kr' // For Korean
+        'en':  window.location.origin + '/', // For English
+        'es':  window.location.origin + '/es', // For Spanish
+        'pt':  window.location.origin + '/pt', // For Portuguese
+        'ja':  window.location.origin + '/ja', // For Japanese
+        'fr':  window.location.origin + '/fr', // For French
+        'de':  window.location.origin + '/de', // For German
+        'it':  window.location.origin + '/it', // For Italian
+        'ru':  window.location.origin + '/ru', // For Russian
+        'zh':  window.location.origin + '/cn', // For Chinese
+        'ko':  window.location.origin + '/kr' // For Korean
     };
 
-    var url = window.location.origin + urls[language]; // Get the URL based on the language
+    var url = urls[language]; // Get the URL based on the language
 
     switch (platform) {
         case 'facebook':
