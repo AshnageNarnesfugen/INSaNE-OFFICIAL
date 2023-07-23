@@ -1,52 +1,63 @@
 jQuery(() => {
     $('.share-btn').on('click', function() {
-        var platform = $(this).data('platform');
-        var language = $(this).data('language'); // Assuming each button also has a 'data-language' attribute
-        
-        // Generate the sharing URL based on the platform
-        var shareUrl = '';
+    var platform = $(this).data('platform');
+    var language = $(this).data('language'); // Assuming each button also has a 'data-language' attribute
+
+    // Invitational texts in different languages
+    var invitationalTexts = {
+        'en': 'Dive into \\"INSaNE | A Broken Hero\\". Join Ashnage, a gravity-controller, on his epic quest against an alien invasion. Personal struggles, intense battles, deep mysteries await. Join now!!',
+        'es': 'Sumérgete en \\"INSaNE | Un Héroe Roto\\". Únete a Ashnage, un controlador de gravedad, en su épica misión contra una invasión alienígena. Luchas personales, intensas batallas, profundos misterios te esperan. ¡¡Únete ahora!!',
+        'pt': 'Mergulhe em \\"INSaNE | Um Herói Quebrado\\". Junte-se a Ashnage, um controlador de gravidade, em sua épica missão contra uma invasão alienígena. Lutas pessoais, intensas batalhas, profundos mistérios te esperam. Junte-se agora!!',
+        'ja': '「INSaNE | 壊れた英雄」に飛び込んでください。重力を制御するAshnageと一緒に、エイリアンの侵略に対する壮大なクエストに参加してください。個人的な闘争、激しい戦闘、深い謎が待っています。今すぐ参加してください!',
+        'fr': 'Plongez dans \\"INSaNE | Un Héros Brisé\\". Rejoignez Ashnage, un contrôleur de gravité, dans sa quête épique contre une invasion extraterrestre. Des luttes personnelles, des batailles intenses, des mystères profonds vous attendent. Rejoignez-nous maintenant!!',
+        'de': 'Tauchen Sie ein in \\"INSaNE | Ein Gebrochener Held\\". Begleiten Sie Ashnage, einen Schwerkraft-Controller, auf seiner epischen Quest gegen eine Alien-Invasion. Persönliche Kämpfe, intensive Schlachten, tiefe Geheimnisse warten. Mach jetzt mit!!',
+        'it': 'Immergiti in \\"INSaNE | Un Eroe Spezzato\\". Unisciti a Ashnage, un controllore di gravità, nella sua epica missione contro un\'invasione aliena. Lotte personali, battaglie intense, profondi misteri ti aspettano. Unisciti ora!!',
+        'ru': 'Погрузитесь в \\"INSaNE | Сломленный Герой\\". Присоединитесь к Ашнейджу, контролеру гравитации, в его эпическом квесте против инопланетного вторжения. Личные борьбы, интенсивные битвы, глубокие тайны ждут вас. Присоединяйтесь сейчас!!',
+        'zh': '深入\\"INSaNE | 一个破碎的英雄\\"。加入Ashnage，一个重力控制器，在他对抗外星入侵的史诗般的任务中。个人的斗争，激烈的战斗，深深的秘密等待着你。现在就加入!!',
+        'ko': '\\"INSaNE | 부서진 영웅\\"에 뛰어들어보세요. 중력 컨트롤러인 Ashnage와 함께 외계인 침략에 대한 서사시적인 퀘스트에 참여하세요. 개인적인 싸움, 격렬한 전투, 깊은 미스터리가 기다리고 있습니다. 지금 바로 참여하세요!!'
+    };
     
-        // Invitational texts in different languages
-        var invitationalTexts = {
-            'en': 'Dive into "INSaNE | A Broken Hero". Join Ashnage, a gravity-controller, on his epic quest against an alien invasion. Personal struggles, intense battles, deep mysteries await. Join now!!',
-            'es': 'Sumérgete en "INSaNE | Un Héroe Roto". Únete a Ashnage, un controlador de gravedad, en su épica misión contra una invasión alienígena. Luchas personales, intensas batallas, profundos misterios te esperan. ¡¡Únete ahora!!',
-            'pt': 'Mergulhe em "INSaNE | Um Herói Quebrado". Junte-se a Ashnage, um controlador de gravidade, em sua épica missão contra uma invasão alienígena. Lutas pessoais, intensas batalhas, profundos mistérios te esperam. Junte-se agora!!',
-            'ja': '「INSaNE | 壊れた英雄」に飛び込んでください。重力を制御するAshnageと一緒に、エイリアンの侵略に対する壮大なクエストに参加してください。個人的な闘争、激しい戦闘、深い謎が待っています。今すぐ参加してください!'
-        };
-    
-        var invitationalText = invitationalTexts[language]; // Get the invitational text based on the language
-    
-        // Different main page URLs for different languages
-        var urls = {
-            'en': window.location.origin + '/', // For English
-            'es': window.location.origin + '/es', // For Spanish
-            'pt': window.location.origin + '/pt', // For Portuguese
-            'ja': window.location.origin + '/ja' // For Japanese
-        };
-    
-        var url = urls[language]; // Get the URL based on the language
-    
-        switch (platform) {
-            case 'facebook':
-                shareUrl = 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(url);
-                break;
-            case 'twitter':
-                shareUrl = 'https://twitter.com/intent/tweet?url=' + encodeURIComponent(url) + '&text=' + encodeURIComponent(invitationalText);
-                break;
-            case 'linkedin':
-                shareUrl = 'https://www.linkedin.com/shareArticle?url=' + encodeURIComponent(url);
-                break;
-            case 'reddit':
-                shareUrl = 'https://www.reddit.com/submit?url=' + encodeURIComponent(url) + '&title=' + encodeURIComponent(invitationalText);
-                break;
-            default:
-                // If platform is not recognized, do nothing or handle the error here
-                return;
-        }
-    
-        // Open the sharing URL in a new window
-        window.open(shareUrl, '_blank');
-    });
+
+    var invitationalText = invitationalTexts[language]; // Get the invitational text based on the language
+
+    // Different main page URLs for different languages
+    var urls = {
+        'en': '/', // For English
+        'es': '/es', // For Spanish
+        'pt': '/pt', // For Portuguese
+        'ja': '/ja', // For Japanese
+        'fr': '/fr', // For French
+        'de': '/de', // For German
+        'it': '/it', // For Italian
+        'ru': '/ru', // For Russian
+        'zh': '/cn', // For Chinese
+        'ko': '/kr' // For Korean
+    };
+
+    var url = window.location.origin + urls[language]; // Get the URL based on the language
+
+    switch (platform) {
+        case 'facebook':
+            shareUrl = 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(url);
+            break;
+        case 'twitter':
+            shareUrl = 'https://twitter.com/intent/tweet?url=' + encodeURIComponent(url) + '&text=' + encodeURIComponent(invitationalText);
+            break;
+        case 'linkedin':
+            shareUrl = 'https://www.linkedin.com/shareArticle?url=' + encodeURIComponent(url);
+            break;
+        case 'reddit':
+            shareUrl = 'https://www.reddit.com/submit?url=' + encodeURIComponent(url) + '&title=' + encodeURIComponent(invitationalText);
+            break;
+        default:
+            // If platform is not recognized, do nothing or handle the error here
+            return;
+    }
+
+    // Open the sharing URL in a new window
+    window.open(shareUrl, '_blank');
+});
+
     
     
     // Create a class with a function to set the title property
@@ -390,9 +401,21 @@ jQuery(() => {
                         return 'ダウンロード';
                     case 'https://insane-bh.space/pt':
                         return 'Baixar';
+                    case 'https://insane-bh.space/fr':
+                        return 'Télécharger';
+                    case 'https://insane-bh.space/de':
+                        return 'Herunterladen';
+                    case 'https://insane-bh.space/it':
+                        return 'Scarica';
+                    case 'https://insane-bh.space/ru':
+                        return 'Скачать';
+                    case 'https://insane-bh.space/cn':
+                        return '下载';
+                    case 'https://insane-bh.space/kr':
+                        return '다운로드';
                     default:
                         return 'Download';
-                }
+                }                
             }
         }
         
@@ -468,10 +491,16 @@ jQuery(() => {
     class CookieConsentHandler {
         constructor() {
             this.cookieManager = new CookieManager({
+                'EN': ['/', ['US', 'CA', 'GB', 'AU', 'NZ', 'IE', 'ZA', 'IN', 'SG']],
                 'ES': ['/es', ['MX', 'AR', 'CO', 'PE', 'VE', 'CL', 'EC', 'GT', 'CU']],
-                'US': ['/', ['CA', 'GB', 'AU', 'NZ', 'IE', 'ZA', 'IN', 'SG']],
+                'PT': ['/pt', ['BR', 'AO', 'MZ', 'CV', 'GW', 'ST', 'GQ', 'TL']],
                 'JP': ['/ja', []],
-                'PT': ['/pt', ['BR', 'AO', 'MZ', 'CV', 'GW', 'ST', 'GQ', 'TL']]
+                'FR': ['/fr', ['BE', 'CA', 'CH', 'LU', 'MC', 'DZ', 'MA', 'TN']],
+                'CN': ['/cn', ['HK', 'MO', 'SG']],
+                'RU': ['/ru', ['BY', 'KZ', 'KG', 'TJ', 'TM']],
+                'DE': ['/de', ['AT', 'CH', 'LU', 'LI', 'BE']],
+                'IT': ['/it', ['CH', 'SM', 'VA']],
+                'KR': ['/kr', []]
             });
             this.langMessages = this.getLanguageMessages();
             this.cookieConsentConfig = this.getCookieConsentConfig();

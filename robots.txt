@@ -9,3 +9,10 @@ Sitemap: https://insane-bh.space/sitemap.xml
 Sitemap: https://insane-bh.space/es/sitemap.xml
 Sitemap: https://insane-bh.space/pt/sitemap.xml
 Sitemap: https://insane-bh.space/ja/sitemap.xml
+Sitemap: https://insane-bh.space/de/sitemap.xml
+Sitemap: https://insane-bh.space/fr/sitemap.xml
+Sitemap: https://insane-bh.space/it/sitemap.xml
+Sitemap: https://insane-bh.space/ru/sitemap.xml
+Sitemap: https://insane-bh.space/zh/sitemap.xml
+Sitemap: https://insane-bh.space/ko/sitemap.xml
+Sitemap: https://insane-bh.space/it/sitemap.xml
