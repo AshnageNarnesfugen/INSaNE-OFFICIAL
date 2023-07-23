@@ -496,31 +496,35 @@ jQuery(() => {
             this.baseUrl = window.location.origin;
             this.hasDefaultCaseExecuted = false;
             this.langCases = customCases;
+            this.maxRedirections = 5; // Define max redirections
         }
     
         acceptedFunctionalityCookie() {
             const currentPath = window.location.pathname.split('/')[1];
             const language = Cookies.get('language');
+            const redirections = Cookies.get('redirections') || 0;
             console.log(language);
-
-            if (language === currentPath) {
-                // The language hasn't changed between redirects, so display the default version of the site
+    
+            if (redirections > this.maxRedirections) {
+                console.error('Maximum redirection limit reached');
                 return;
             }
-
+    
+            if (language === currentPath) {
+                return;
+            }
+    
             const supportedPath = this.isLanguageSupported(language);
             if (supportedPath && window.location.pathname !== supportedPath) {
                 this.redirectToCountry(supportedPath, language, null);
                 return;
             }
     
-            // Check if the user is using the Tor browser
             if (window.navigator.doNotTrack == 'yes' && window.navigator.userAgent.includes('Firefox')) {
                 console.log('Possible Tor browser detected');
                 return;
             }
     
-            // Default Case
             $.getJSON('https://ipapi.co/json/')
                 .done((data) => this.performRedirection(data, language))
                 .fail((jqXHR, textStatus, errorThrown) => {
@@ -538,7 +542,7 @@ jQuery(() => {
                 }
             }
             return null;
-        }        
+        }
     
         performRedirection(data, language) {
             const userCountry = data ? data.country_code : language;
@@ -550,7 +554,6 @@ jQuery(() => {
                 return;
             }
     
-            // Default Case
             if (this.hasDefaultCaseExecuted) {
                 console.log('Country code not supported');
             } else {
@@ -562,9 +565,13 @@ jQuery(() => {
         }
     
         redirectToCountry(path, language, country, data) {
+            let redirections = Cookies.get('redirections') || 0;
+            redirections++;
+    
             const cookieData = {
                 country: country,
-                apiData: data
+                apiData: data,
+                redirections: redirections
             };
     
             Cookies.set('userData', JSON.stringify(cookieData), {
@@ -586,8 +593,8 @@ jQuery(() => {
             }
     
             window.location.href = url;
-        }                      
-    }
+        }
+    }    
     
     class CookieConsentHandler {
         constructor() {
