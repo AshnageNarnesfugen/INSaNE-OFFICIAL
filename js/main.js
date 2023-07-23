@@ -481,7 +481,7 @@ jQuery(() => {
             Cookies.set('language', country, {
                 expires: 365,
                 path: '/',
-                domain: 'insane-bh.space',
+                domain: this.baseUrl,
                 secure: true,
                 sameSite: 'Strict',
             });
