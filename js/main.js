@@ -215,6 +215,7 @@ jQuery(() => {
             });
     
             video.on('ended', () => {
+                const posters = video.data('posters');
                 video[0].load()
                 video.parent().append(overlay);
                 overlay.html(playButtonTemplate);
