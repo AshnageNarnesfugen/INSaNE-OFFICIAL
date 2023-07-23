@@ -229,6 +229,13 @@ jQuery(() => {
                 });
                 if (!this.isMobile) {
                     this.checkAndApplyHover(video);
+                    video.attr('poster', posters[0]);
+                } else {
+                    if (posters.length > 1) {
+                        video.attr('poster', posters[1]);
+                    } else {
+                        video.attr('poster', posters[0]);
+                    }
                 }
             });
         }
