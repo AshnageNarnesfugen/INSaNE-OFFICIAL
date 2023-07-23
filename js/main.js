@@ -563,7 +563,7 @@ jQuery(() => {
                 country: country,
                 apiData: data
             };
-    
+        
             Cookies.set('userData', JSON.stringify(cookieData), {
                 expires: 365,
                 path: '/',
@@ -571,16 +571,16 @@ jQuery(() => {
                 secure: true,
                 sameSite: 'Strict',
             });
-    
-            let url = `${this.baseUrl}${path}?country=${country}`;
-    
+        
+            let url = `${path}?country=${country}`;
+        
             if (data) {
                 url += `&region=${data.region}&city=${data.city}&currency=${data.currency}`;
             } else {
                 const browserLanguage = (navigator.language || navigator.userLanguage).split('-')[0].toUpperCase();
                 url += `&language=${browserLanguage}`;
             }
-    
+        
             window.location.href = url;
         }
     }    
