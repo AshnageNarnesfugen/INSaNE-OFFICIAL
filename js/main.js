@@ -573,8 +573,12 @@ jQuery(() => {
             url += `?language=${language}&country=${country}`;
     
             const browserLanguage = (navigator.language || navigator.userLanguage).split('-')[0].toUpperCase();
-            url += `&region=${data.region}&city=${data.city}&currency=${data.currency}&browser-language=${browserLanguage}}`;
-
+            if (data) {
+                url += `&region=${data.region}&city=${data.city}&currency=${data.currency}&browser-language=${browserLanguage}`;
+            } else {
+                url += `&browser-language=${browserLanguage}`;
+            }
+    
             window.location.href = url;
         }                      
     }
