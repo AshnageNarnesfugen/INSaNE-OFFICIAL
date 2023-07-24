@@ -17,9 +17,9 @@
         }
 
         createMenu() {
-            let menu = $('<div>').attr('id', 'accessibilityMenu');
+            let menu = $('<div>').attr('id', 'accessibilityMenu').addClass('position-fixed bottom-0 start-0 p-3 bg-light');
             $('body').append(menu);
-
+    
             this.createSelect('Apply changes to', ['body', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p'], (value) => this.setPreviewElement(value));
             this.createSlider('Change Text Size', (value) => this.changeTextSize(value));
             this.createButton('Highlight Links', () => this.highlightLinks());
@@ -101,33 +101,33 @@
             this.previewElement = value;
             this.reset();
         }
-
+    
         changeTextSize(value) {
-            $(this.previewElement).css('font-size', `${value}%`);
+            $(this.previewElement).not('#accessibilityMenu *').css('font-size', `${value}%`);
             localStorage.setItem('textSize', value);
         }
-
+    
         highlightLinks() {
-            $('a').css('background-color', 'yellow');
+            $('a').not('#accessibilityMenu *').css('background-color', 'yellow');
         }
-
+    
         changeTextSpacing(value) {
-            $(this.previewElement).css('letter-spacing', `${value}px`);
+            $(this.previewElement).not('#accessibilityMenu *').css('letter-spacing', `${value}px`);
             localStorage.setItem('textSpacing', value);
         }
-
+    
         changeSaturation(value) {
-            $(this.previewElement).css('filter', `saturate(${value}%)`);
+            $(this.previewElement).not('#accessibilityMenu *').css('filter', `saturate(${value}%)`);
             localStorage.setItem('saturation', value);
         }
-
+    
         changeCursorFocus(checked) {
-            $(this.previewElement).css('cursor', checked ? 'zoom-in' : this.originalStyles.cursor);
+            $(this.previewElement).not('#accessibilityMenu *').css('cursor', checked ? 'zoom-in' : this.originalStyles.cursor);
             localStorage.setItem('cursorFocus', checked);
         }
-
+    
         dyslexiaFriendlyFont(checked) {
-            $(this.previewElement).css('font-family', checked ? 'Comic Sans MS, sans-serif' : this.originalStyles.fontFamily);
+            $(this.previewElement).not('#accessibilityMenu *').css('font-family', checked ? 'Comic Sans MS, sans-serif' : this.originalStyles.fontFamily);
             localStorage.setItem('dyslexiaFont', checked);
         }
 

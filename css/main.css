@@ -1,7 +1,11 @@
 #language-dropdown {
   width: 200px;
 }
-
+#accessibilityMenu {
+  max-width: 300px;
+  overflow: auto;
+  max-height: 90vh;
+}
 #esc3,
 .burger_menu,
 .left-col,
