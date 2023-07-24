@@ -1,4 +1,34 @@
+(function($) {
+    $.fn.readMore = function(options) {
+      var settings = $.extend({
+        button: '.read-more',
+        height: '100px',
+        overflow: 'hidden'
+      }, options );
+  
+      return this.each(function() {
+        var content = $(this);
+        content.css({
+          'height': settings.height,
+          'overflow': settings.overflow
+        });
+  
+        $(settings.button).click(function() {
+          if ($(this).data('target') === '#' + content.attr('id')) {
+            content.css({
+              'height': 'auto',
+              'overflow': 'visible'
+            });
+            $(this).hide();
+          }
+        });
+      });
+    };
+  }(jQuery));
+
 jQuery(() => {
+    $('#content1').readMore();
+
     var path = window.location.pathname;
     $('#language-dropdown option').each(function() {
         if ($(this).val() == path) {
