@@ -2,7 +2,6 @@ jQuery(() => {
 
     class AccessibilityMenu {
         constructor() {
-            this.createMenu();
             this.originalStyles = {
                 fontSize: $('body').css('font-size'),
                 letterSpacing: $('body').css('letter-spacing'),
@@ -12,9 +11,10 @@ jQuery(() => {
                 color: $('body').css('color'),
                 backgroundColor: $('body').css('background-color')
             };
-            this.loadPreferences();
-            this.previewElement = null;
+            this.previewElement = 'body';
             this.themes = this.loadThemes();
+            this.createMenu();
+            this.loadPreferences();
         }
 
         createMenu() {
