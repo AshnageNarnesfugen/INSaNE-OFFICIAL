@@ -1,4 +1,4 @@
-jQuery(() => {
+
 
     class AccessibilityMenu {
         constructor() {
@@ -14,7 +14,6 @@ jQuery(() => {
             this.previewElement = 'body';
             this.themes = this.loadThemes();
             this.createMenu();
-            this.loadPreferences();
         }
 
         createMenu() {
@@ -145,13 +144,14 @@ jQuery(() => {
         textToSpeech() {
             let text = $(this.previewElement).text();
             let msg = new SpeechSynthesisUtterance(text);
+            let previewElement = this.previewElement;
             msg.onstart = function(event) {
                 // Highlight the text as it's being read
-                $(this.previewElement).css('background-color', 'yellow');
+                $(previewElement).css('background-color', 'yellow');
             };
             msg.onend = function(event) {
                 // Remove the highlight when the speech ends
-                $(this.previewElement).css('background-color', '');
+                $(previewElement).css('background-color', '');
             };
             window.speechSynthesis.speak(msg);
         }
@@ -255,6 +255,6 @@ jQuery(() => {
         }
     }
 
-
-    const menu = new AccessibilityMenu();
+jQuery(() => {
+    new AccessibilityMenu();
 });
