@@ -103,31 +103,31 @@
         }
     
         changeTextSize(value) {
-            $(this.previewElement).not('#accessibilityMenu *').css('font-size', `${value}%`);
+            $(this.previewElement).not('#accessibilityMenu, #accessibilityMenu *').css('font-size', `${value}%`);
             localStorage.setItem('textSize', value);
         }
     
         highlightLinks() {
-            $('a').not('#accessibilityMenu *').css('background-color', 'yellow');
+            $('a').not('#accessibilityMenu, #accessibilityMenu *').css('background-color', 'yellow');
         }
     
         changeTextSpacing(value) {
-            $(this.previewElement).not('#accessibilityMenu *').css('letter-spacing', `${value}px`);
+            $(this.previewElement).not('#accessibilityMenu, #accessibilityMenu *').css('letter-spacing', `${value}px`);
             localStorage.setItem('textSpacing', value);
         }
     
         changeSaturation(value) {
-            $(this.previewElement).not('#accessibilityMenu *').css('filter', `saturate(${value}%)`);
+            $(this.previewElement).not('#accessibilityMenu, #accessibilityMenu *').css('filter', `saturate(${value}%)`);
             localStorage.setItem('saturation', value);
         }
     
         changeCursorFocus(checked) {
-            $(this.previewElement).not('#accessibilityMenu *').css('cursor', checked ? 'zoom-in' : this.originalStyles.cursor);
+            $(this.previewElement).not('#accessibilityMenu, #accessibilityMenu *').css('cursor', checked ? 'zoom-in' : this.originalStyles.cursor);
             localStorage.setItem('cursorFocus', checked);
         }
     
         dyslexiaFriendlyFont(checked) {
-            $(this.previewElement).not('#accessibilityMenu *').css('font-family', checked ? 'Comic Sans MS, sans-serif' : this.originalStyles.fontFamily);
+            $(this.previewElement).not('#accessibilityMenu, #accessibilityMenu *').css('font-family', checked ? 'Comic Sans MS, sans-serif' : this.originalStyles.fontFamily);
             localStorage.setItem('dyslexiaFont', checked);
         }
 
