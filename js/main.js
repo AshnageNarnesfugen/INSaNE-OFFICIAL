@@ -2,24 +2,28 @@
     $.fn.readMore = function(options) {
       var settings = $.extend({
         button: '.read-more',
-        height: '100px',
-        overflow: 'hidden'
+        closedHeight: '100px',
+        openHeight: 'auto',
+        closedText: 'Read More',
+        openText: 'Read Less'
       }, options );
   
       return this.each(function() {
         var content = $(this);
-        content.css({
-          'height': settings.height,
-          'overflow': settings.overflow
-        });
+        var isOpen = false;
+        content.css('max-height', settings.closedHeight);
   
         $(settings.button).click(function() {
           if ($(this).data('target') === '#' + content.attr('id')) {
-            content.css({
-              'height': 'auto',
-              'overflow': 'visible'
-            });
-            $(this).hide();
+            if (isOpen) {
+              content.css('max-height', settings.closedHeight);
+              $(this).text(settings.closedText);
+              isOpen = false;
+            } else {
+              content.css('max-height', settings.openHeight);
+              $(this).text(settings.openText);
+              isOpen = true;
+            }
           }
         });
       });
