@@ -59,6 +59,10 @@
                         lazyLoadPoster(video);
                         video.attr('data-loaded', 'true');
                     }
+                    if (video.attr('data-paused') === 'true' && video.attr('data-user-started') === 'true') {
+                        video[0].play();
+                        video.attr('data-paused', 'false');
+                    }
                 } else {
                     if (!video[0].paused && video.attr('data-user-started') === 'true') {
                         video[0].pause();
