@@ -703,7 +703,9 @@ jQuery(() => {
         repeat: 'repeat',
     })
 
-    $(".backdrop").blurOnScroll()
+    $(".backdrop").blurOnScroll({
+        disableMobile: false
+    })
 
     let data = $('#letter').attr('data-array');
     data = JSON.parse(data)
