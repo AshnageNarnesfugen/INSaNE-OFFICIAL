@@ -1,4 +1,6 @@
 jQuery(() => {
+    $('.lazy-background').lazyBackgroundLoader();
+
     var path = window.location.pathname;
     $('#language-dropdown option').each(function() {
         if ($(this).val() == path) {
