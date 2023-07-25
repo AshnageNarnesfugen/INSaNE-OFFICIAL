@@ -22,14 +22,18 @@
              visibilityChange = "webkitvisibilitychange";
          }
 
-         function handleVisibilityChange(videoElement) {
+         let isTabActive = !document[hidden];  // Initialize based on the current visibility status
+
+        function handleVisibilityChange(videoElement) {
             const video = $(videoElement);
             if (document[hidden]) {
+                isTabActive = false;
                 if (!video[0].paused && video.attr('data-user-started') === 'true') {
                     video[0].pause();
                     video.attr('data-paused', 'true');
                 }
             } else {
+                isTabActive = true;
                 if (video.attr('data-paused') === 'true' && video.attr('data-user-started') === 'true') {
                     video[0].play();
                     video.attr('data-paused', 'false');
@@ -59,8 +63,7 @@
                         lazyLoadPoster(video);
                         video.attr('data-loaded', 'true');
                     }
-                    // Check if the document is visible before playing the video
-                    if (video.attr('data-paused') === 'true' && video.attr('data-user-started') === 'true' && !document[hidden]) {
+                    if (video.attr('data-paused') === 'true' && video.attr('data-user-started') === 'true' && isTabActive) {
                         video[0].play();
                         video.attr('data-paused', 'false');
                     }
