@@ -44,6 +44,7 @@
             this.each((index, videoElement) => {
                 $(videoElement).attr('id', `video-${index}`); // Assign ID to each video
                 observer.observe(videoElement);
+                document.addEventListener(visibilityChange, () => handleVisibilityChange(videoElement), false);
             });
         }
 
@@ -51,10 +52,15 @@
             entries.forEach(entry => {
                 const video = $(entry.target);
                 if (entry.isIntersecting) {
-                    video.data('posters', []);  // Initialize 'posters' data on each video
-                    lazyLoadVideo(video);
-                    lazyLoadPoster(video);
-                    observer.unobserve(entry.target);
+                    if (video.attr('data-loaded') !== 'true') {
+                        video.data('posters', []);  // Initialize 'posters' data on each video
+                        lazyLoadVideo(video);
+                        lazyLoadPoster(video);
+                        video.attr('data-loaded', 'true');
+                    }
+                    if (video.attr('data-paused') !== 'true') {
+                        video[0].play();
+                    }
                 } else {
                     if (!video[0].paused) {
                         video[0].pause();
