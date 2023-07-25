@@ -24,19 +24,21 @@
 
          let isTabActive = !document[hidden];  // Initialize based on the current visibility status
 
-        function handleVisibilityChange(videoElement) {
+         function handleVisibilityChange(videoElement) {
             const video = $(videoElement);
             if (document[hidden]) {
-                isTabActive = false;
                 if (!video[0].paused && video.attr('data-user-started') === 'true') {
                     video[0].pause();
                     video.attr('data-paused', 'true');
                 }
             } else {
-                isTabActive = true;
                 if (video.attr('data-paused') === 'true' && video.attr('data-user-started') === 'true') {
-                    video[0].play();
-                    video.attr('data-paused', 'false');
+                    // Check if the video is visible before playing it again
+                    const entry = observer.takeRecords().find(entry => entry.target === videoElement);
+                    if (entry && entry.isIntersecting) {
+                        video[0].play();
+                        video.attr('data-paused', 'false');
+                    }
                 }
             }
         }
