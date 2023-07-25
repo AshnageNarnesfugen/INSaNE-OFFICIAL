@@ -22,16 +22,17 @@
              visibilityChange = "webkitvisibilitychange";
          }
 
-        function handleVisibilityChange(video) {
+         function handleVisibilityChange(videoElement) {
+            const video = $(videoElement);
             if (document[hidden]) {
-                if (!video.paused) {
-                    video.pause();
-                    $(video).attr('data-paused', 'true');
+                if (!video[0].paused && video.attr('data-user-started') === 'true') {
+                    video[0].pause();
+                    video.attr('data-paused', 'true');
                 }
             } else {
-                if ($(video).attr('data-paused') === 'true') {
-                    video.play();
-                    $(video).attr('data-paused', 'false');
+                if (video.attr('data-paused') === 'true' && video.attr('data-user-started') === 'true') {
+                    video[0].play();
+                    video.attr('data-paused', 'false');
                 }
             }
         }
@@ -58,11 +59,8 @@
                         lazyLoadPoster(video);
                         video.attr('data-loaded', 'true');
                     }
-                    if (video.attr('data-paused') !== 'true') {
-                        video[0].play();
-                    }
                 } else {
-                    if (!video[0].paused) {
+                    if (!video[0].paused && video.attr('data-user-started') === 'true') {
                         video[0].pause();
                         video.attr('data-paused', 'true');
                     }
@@ -175,15 +173,16 @@
                     </button>
                 </div>
             `;
-    
+
             overlay.html(playButtonTemplate);
-    
+
             video.on('loadedmetadata', () => video.prop('controls', false));
-    
+
             overlay.find('.play-button').on('click', () => {
                 overlay.remove();
                 video.prop('controls', true);
                 video[0].play();
+                video.attr('data-user-started', 'true');  // Set flag when user starts playing the video
             });
     
             video.on('ended', () => {
