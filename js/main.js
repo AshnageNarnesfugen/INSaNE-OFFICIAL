@@ -110,8 +110,8 @@ jQuery(() => {
         },
         defaultDownloadMessage: 'Download'
     });
-    
-    class CookieManager {
+    /*
+        class CookieManager {
         constructor(customCases, targetPage) {
             this.baseUrl = targetPage;
             this.hasDefaultCaseExecuted = false;
@@ -306,11 +306,13 @@ jQuery(() => {
             });
         }
     }
-    
 
     // Usage:
     new CookieConsentHandler().init();
-
+    */
+    
+    // Usage:
+    $.cookieConsentPlugin();
 
     $.fn.clickToggle = function(func1, func2) {
         var funcs = [func1, func2];
