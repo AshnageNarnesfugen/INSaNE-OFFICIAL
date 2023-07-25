@@ -59,7 +59,8 @@
                         lazyLoadPoster(video);
                         video.attr('data-loaded', 'true');
                     }
-                    if (video.attr('data-paused') === 'true' && video.attr('data-user-started') === 'true') {
+                    // Check if the document is visible before playing the video
+                    if (video.attr('data-paused') === 'true' && video.attr('data-user-started') === 'true' && !document[hidden]) {
                         video[0].play();
                         video.attr('data-paused', 'false');
                     }
