@@ -131,8 +131,6 @@
             return settings.pathToMessageMap[path] || settings.defaultDownloadMessage;              
         }
 
-        const downloadMSN = getDownloadMSN();
-
         return this.each(function() {
             const imagePromises = loadImages.call($(this));
 
