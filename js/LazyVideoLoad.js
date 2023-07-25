@@ -55,9 +55,6 @@
                     lazyLoadVideo(video);
                     lazyLoadPoster(video);
                     observer.unobserve(entry.target);
-                    if (video.attr('data-paused') !== 'true') {
-                        video[0].play();
-                    }
                 } else {
                     if (!video[0].paused) {
                         video[0].pause();
