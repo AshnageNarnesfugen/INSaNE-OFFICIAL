@@ -9,41 +9,35 @@
         const observer = new IntersectionObserver(handleIntersection, settings);
         const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
-        // Page Visibility API
-        let hidden, visibilityChange;
-        if (typeof document.hidden !== "undefined") {
-            hidden = "hidden";
-            visibilityChange = "visibilitychange";
-        } else if (typeof document.msHidden !== "undefined") {
-            hidden = "msHidden";
-            visibilityChange = "msvisibilitychange";
-        } else if (typeof document.webkitHidden !== "undefined") {
-            hidden = "webkitHidden";
-            visibilityChange = "webkitvisibilitychange";
-        }
+         // Page Visibility API
+         let hidden, visibilityChange;
+         if (typeof document.hidden !== "undefined") {
+             hidden = "hidden";
+             visibilityChange = "visibilitychange";
+         } else if (typeof document.msHidden !== "undefined") {
+             hidden = "msHidden";
+             visibilityChange = "msvisibilitychange";
+         } else if (typeof document.webkitHidden !== "undefined") {
+             hidden = "webkitHidden";
+             visibilityChange = "webkitvisibilitychange";
+         }
 
-        function handleVisibilityChange() {
+        function handleVisibilityChange(video) {
             if (document[hidden]) {
-                $('video').each(function() {
-                    if (!this.paused) {
-                        this.pause();
-                        $(this).attr('data-paused', 'true');
-                    }
-                });
+                if (!video.paused) {
+                    video.pause();
+                    $(video).attr('data-paused', 'true');
+                }
             } else {
-                $('video').each(function() {
-                    if ($(this).attr('data-paused') === 'true') {
-                        this.play();
-                        $(this).attr('data-paused', 'false');
-                    }
-                });
+                if ($(video).attr('data-paused') === 'true') {
+                    video.play();
+                    $(video).attr('data-paused', 'false');
+                }
             }
         }
 
         if (typeof document.addEventListener === "undefined" || hidden === undefined) {
             console.log("This demo requires Page Visibility API.");
-        } else {
-            document.addEventListener(visibilityChange, handleVisibilityChange, false);
         }
 
         function loadVideos() {
@@ -201,6 +195,7 @@
                     overlay.remove();
                     video.prop('controls', true);
                     video[0].play();
+                    document.addEventListener(visibilityChange, () => handleVisibilityChange(video[0]), false);
                 });
                 if (!isMobile) {
                     checkAndApplyHover(video);
@@ -212,6 +207,7 @@
                         video.attr('poster', posters[0]);
                     }
                 }
+                document.removeEventListener(visibilityChange, () => handleVisibilityChange(video[0]), false);
             });
         }
 
