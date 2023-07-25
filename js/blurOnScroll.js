@@ -50,7 +50,7 @@
     function blur_scroll( $el, local_options ){
         $el.each(function(){
             var $this = $(this);
-            var blur_value =  local_options.maxBlur * ($this.offset().top - $(window).scrollTop()) / $(window).height();
+            var blur_value =  local_options.maxBlur * ($(window).scrollTop() - $this.offset().top) / $(window).height();
             blur_value = Math.max(0, Math.min(local_options.maxBlur, blur_value)); // Clamp between 0 and maxBlur
             $this.css( 'backdrop-filter', 'blur(' + blur_value + 'px)' );
         });
