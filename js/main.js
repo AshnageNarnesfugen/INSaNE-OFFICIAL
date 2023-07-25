@@ -850,7 +850,7 @@ jQuery(() => {
     var owl = $('.owl-carousel')
     owl.owlCarousel({
         items: 1,
-        loop: true,
+        loop: false,
         mouseDrag: true,
         dotsContainer: '#custom-owl-dots',
         dotsSpeed: 400,
@@ -871,6 +871,23 @@ jQuery(() => {
     $('.owl-dot').click(function () {
         owl.trigger('to.owl.carousel', [$(this).index(), 300]);
     });
+
+    // Handle the changed event and check if it's at the beginning or end
+    owl.on('changed.owl.carousel', function(e) {
+        $('.owl-next').show();
+        $('.owl-prev').show();
+
+        if(e.item.index === 0) {
+            // First item, hide previous button
+            $('.owl-prev').hide();
+        } else if(e.item.index === e.item.count - 1) {
+            // Last item, hide next button
+            $('.owl-next').hide();
+        }
+    });
+
+    // Trigger the changed event to set the initial state
+    owl.trigger('changed.owl.carousel');
     // Al inicio del DOM ready
     var startTime = new Date().getTime();
 
