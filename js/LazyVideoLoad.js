@@ -9,6 +9,43 @@
         const observer = new IntersectionObserver(handleIntersection, settings);
         const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
+        // Page Visibility API
+        let hidden, visibilityChange;
+        if (typeof document.hidden !== "undefined") {
+            hidden = "hidden";
+            visibilityChange = "visibilitychange";
+        } else if (typeof document.msHidden !== "undefined") {
+            hidden = "msHidden";
+            visibilityChange = "msvisibilitychange";
+        } else if (typeof document.webkitHidden !== "undefined") {
+            hidden = "webkitHidden";
+            visibilityChange = "webkitvisibilitychange";
+        }
+
+        function handleVisibilityChange() {
+            if (document[hidden]) {
+                $('video').each(function() {
+                    if (!this.paused) {
+                        this.pause();
+                        $(this).attr('data-paused', 'true');
+                    }
+                });
+            } else {
+                $('video').each(function() {
+                    if ($(this).attr('data-paused') === 'true') {
+                        this.play();
+                        $(this).attr('data-paused', 'false');
+                    }
+                });
+            }
+        }
+
+        if (typeof document.addEventListener === "undefined" || hidden === undefined) {
+            console.log("This demo requires Page Visibility API.");
+        } else {
+            document.addEventListener(visibilityChange, handleVisibilityChange, false);
+        }
+
         function loadVideos() {
             this.each((index, videoElement) => {
                 $(videoElement).attr('id', `video-${index}`); // Assign ID to each video
@@ -18,12 +55,20 @@
 
         function handleIntersection(entries) {
             entries.forEach(entry => {
+                const video = $(entry.target);
                 if (entry.isIntersecting) {
-                    const video = $(entry.target);
                     video.data('posters', []);  // Initialize 'posters' data on each video
                     lazyLoadVideo(video);
                     lazyLoadPoster(video);
                     observer.unobserve(entry.target);
+                    if (video.attr('data-paused') !== 'true') {
+                        video[0].play();
+                    }
+                } else {
+                    if (!video[0].paused) {
+                        video[0].pause();
+                        video.attr('data-paused', 'true');
+                    }
                 }
             });
         }
