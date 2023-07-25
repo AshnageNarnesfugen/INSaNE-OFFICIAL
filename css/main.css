@@ -421,6 +421,8 @@ ul {
   inset: 0;
   width: inherit;
   height: inherit;
+  background-size: cover;
+  background-position: center;
 }
 .first-image-intro {
   width: 100%;
