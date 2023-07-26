@@ -85,8 +85,8 @@ jQuery(() => {
             });
             data.browserLanguage = browserLanguage;
             let params = new URLSearchParams(data).toString();
-            window.location.href = baseUrl + country + '&' + params;
-        }
+            window.location.href = baseUrl + country + '&lang=' + browserLanguage + '&' + params;
+        }        
     }         
     
     class CookieConsentHandler {
