@@ -80,8 +80,9 @@ jQuery(() => {
             }
             
             const trailingSlash = baseUrl.endsWith('/') ? '' : '/';
-            window.location.href = baseUrl + trailingSlash + redirectPath + '?country=' + finalLang + '&' + params;
-        }                                     
+            const leadingSlash = redirectPath.startsWith('/') ? '' : '/';
+            window.location.href = baseUrl + trailingSlash + leadingSlash + redirectPath + '?country=' + finalLang + '&' + params;
+        }                                            
     }         
     
     class CookieConsentHandler {
