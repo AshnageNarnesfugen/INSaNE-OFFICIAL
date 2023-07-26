@@ -131,7 +131,9 @@ jQuery(() => {
             
             this.init = function() {
                 return this.each(function() {
-                    if (Cookies.get(settings.cookieName) === undefined) {
+                if (Cookies.get(settings.cookieName) === 'true') {
+                    settings.onAccept();
+                } else if (Cookies.get(settings.cookieName) === undefined) {
                         var banner = $('<div>', { class: 'cookie-banner fixed-bottom bg-dark text-white text-center p-3' }).appendTo(this);
                         var message = $('<p>', { class: 'd-inline' }).text(texts.message).appendTo(banner);
                         var policyLink = $('<a>', { href: texts.policyLink, class: 'text-decoration-none text-white ms-2' }).text(texts.policyText).appendTo(message);
@@ -169,6 +171,9 @@ jQuery(() => {
         'KR': ['/kr', []]
     } 
     let targetPage = window.location.origin
+    if (Cookies.get('my_cookie_consent') === 'true') {
+        $(document).cookieManager(customCases, targetPage);
+    }
     $('body').cookieBanner({
         expires: 365,  // Number of days until the cookie expires
         cookieName: 'my_cookie_consent',
