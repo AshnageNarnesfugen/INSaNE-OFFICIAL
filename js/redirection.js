@@ -19,7 +19,7 @@ jQuery(() => {
                     for (let [key, value] of Object.entries(this.langCases)) {
                         if (key === language || value[1].includes(language)) {
                             if (window.location.pathname !== value[0]) {
-                                window.location.href = `${this.baseUrl}${value[0]}?country=${language}`;
+                                window.location.href = `${this.baseUrl}${value[0]}?language=${language}`;
                             }
                             return;
                         }
@@ -83,7 +83,7 @@ jQuery(() => {
                     const formattedBaseUrl = baseUrl.endsWith('/') ? baseUrl.slice(0, -1) : baseUrl;
                     const formattedRedirectPath = redirectPath.startsWith('/') ? redirectPath.slice(1) : redirectPath;
                 
-                    window.location.href = formattedBaseUrl + '/' + formattedRedirectPath + '?country=' + finalLang + '&' + params;
+                    window.location.href = formattedBaseUrl + '/' + formattedRedirectPath + '?language=' + finalLang + '&' + params;
                 }
             };
     
