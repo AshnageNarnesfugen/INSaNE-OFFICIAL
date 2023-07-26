@@ -41,15 +41,31 @@ jQuery(() => {
     
         performRedirection(data, language, browserLanguage) {
             let userCountry = data.country_code;
+            let hasCountryBeenRedirected = false;
+        
+            // Redirect based on the browser language first
             for (let [key, value] of Object.entries(this.langCases)) {
-                if (key === userCountry || value[1].includes(userCountry)) {
-                    if (language !== userCountry) {
-                        this.redirectToCountry(`${this.baseUrl}${value[0]}?country=`, userCountry, data, browserLanguage);
+                if (value[1].includes(browserLanguage)) {
+                    if (language !== browserLanguage) {
+                        this.redirectToCountry(`${this.baseUrl}${value[0]}?country=`, browserLanguage, data, browserLanguage);
+                        hasCountryBeenRedirected = true;
+                        break;
                     }
-                    return;
                 }
             }
-    
+        
+            // If we haven't found a match based on the browser language, use the IP-derived country
+            if (!hasCountryBeenRedirected) {
+                for (let [key, value] of Object.entries(this.langCases)) {
+                    if (key === userCountry || value[1].includes(userCountry)) {
+                        if (language !== userCountry) {
+                            this.redirectToCountry(`${this.baseUrl}${value[0]}?country=`, userCountry, data, browserLanguage);
+                        }
+                        return;
+                    }
+                }
+            }
+        
             // Default Case
             if (this.hasDefaultCaseExecuted) {
                 console.log('Country code not supported');
