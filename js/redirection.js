@@ -138,13 +138,13 @@ jQuery(() => {
                         var acceptButton = $('<button>', { class: 'cookie-accept btn btn-success ms-3' }).text(texts.buttonText).appendTo(banner);
                         var rejectButton = $('<button>', { class: 'cookie-reject btn btn-danger ms-2' }).text(texts.rejectText).appendTo(banner);
             
-                        acceptButton.click(function() {
+                        $('body').on('click', '.cookie-accept', function() {
                             Cookies.set(settings.cookieName, 'true', { expires: settings.expires });
                             banner.remove();
                             settings.onAccept();
                         });
             
-                        rejectButton.click(function() {
+                        $('body').on('click', '.cookie-reject', function() {
                             Cookies.set(settings.cookieName, 'false', { expires: settings.expires });
                             settings.onReject();
                             banner.remove();
