@@ -128,11 +128,11 @@ jQuery(() => {
             this.init = function() {
                 return this.each(function() {
                     if (Cookies.get(settings.cookieName) === undefined) {
-                        var banner = $('<div>', { id: 'cookie-banner', class: 'fixed-bottom bg-light text-dark text-center p-3 d-flex flex-column flex-md-row justify-content-around align-items-center' }).appendTo(this);
-                        var message = $('<p>', { id: 'cookie-message', class: 'm-0 flex-grow-1 text-center text-md-left' }).text(texts.message).appendTo(banner);
+                        var banner = $('<div>', { id: 'cookie-banner', class: 'fixed-bottom bg-light text-dark text-center p-3 d-flex justify-content-around align-items-center' }).appendTo(this);
+                        var message = $('<p>', { id: 'cookie-message', class: 'm-0 flex-grow-1' }).text(texts.message).appendTo(banner);
                         var policyLink = $('<a>', { id: 'policy-link', href: texts.policyLink, class: 'text-decoration-none text-dark ms-2' }).text(texts.policyText).appendTo(message);
-                        var acceptButton = $('<button>', { id: 'cookie-accept', class: 'btn btn-success mt-2 mt-md-0 ms-md-3' }).text(texts.buttonText).appendTo(banner);
-                        var rejectButton = $('<button>', { id: 'cookie-reject', class: 'btn btn-danger mt-2 mt-md-0 ms-2 ms-md-2' }).text(texts.rejectText).appendTo(banner);
+                        var acceptButton = $('<button>', { id: 'cookie-accept', class: 'btn btn-success ms-3' }).text(texts.buttonText).appendTo(banner);
+                        var rejectButton = $('<button>', { id: 'cookie-reject', class: 'btn btn-danger ms-2' }).text(texts.rejectText).appendTo(banner);
             
                         acceptButton.click(function() {
                             Cookies.set(settings.cookieName, 'true', { expires: settings.expires });
