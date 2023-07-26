@@ -146,12 +146,6 @@ jQuery(() => {
                             settings.onReject();
                         });
                     }
-                    acceptButton.click(function() {
-                        settings.onAccept();
-                    })
-                    rejectButton.click(function() {
-                        settings.onReject();
-                    });
                 });
             }
             return this.init();
