@@ -1,4 +1,99 @@
 jQuery(() => {
+    (function($) {
+        $.fn.cookieManager = function(customCases, targetPage) {
+            var cookieManager = {
+                baseUrl: targetPage,
+                hasDefaultCaseExecuted: false,
+                langCases: customCases,
+    
+                acceptedFunctionalityCookie: function() {
+                    // Check if the current URL already has the necessary parameters
+                    const urlParams = new URLSearchParams(window.location.search);
+                    if (urlParams.has('language') && urlParams.has('browserLanguage')) {
+                        return;
+                    }
+            
+                    var language = Cookies.get('language');
+                    console.log(language);
+            
+                    for (let [key, value] of Object.entries(this.langCases)) {
+                        if (key === language || value[1].includes(language)) {
+                            if (window.location.pathname !== value[0]) {
+                                window.location.href = `${this.baseUrl}${value[0]}?language=${language}`;
+                            }
+                            return;
+                        }
+                    }
+            
+                    // Default Case
+                    $.getJSON('https://ipapi.co/json/')
+                        .done((data) => {
+                            const browserLanguage = (navigator.language || navigator.userLanguage).split('-')[0].toUpperCase();
+                            this.performRedirection(data, language, browserLanguage);
+                        })
+                        .fail((jqXHR, textStatus, errorThrown) => {
+                            console.error('Failed to retrieve country code:', textStatus, errorThrown);
+                            const browserLanguage = (navigator.language || navigator.userLanguage).split('-')[0].toUpperCase();
+                            console.log(browserLanguage);
+                            this.performRedirection({}, language, browserLanguage);
+                        });
+                },
+    
+                performRedirection: function(data, language, browserLanguage) {
+                    let userCountry = data.country_code;
+                    for (let [key, value] of Object.entries(this.langCases)) {
+                        if (key === userCountry || value[1].includes(userCountry)) {
+                            if (language !== userCountry) {
+                                this.redirectToCountry(`${this.baseUrl}`, key, data, browserLanguage); // Changed value[0] to key
+                            }
+                            return;
+                        }
+                    }
+                    
+                    // Default Case
+                    if (this.hasDefaultCaseExecuted) {
+                        console.log('Country code not supported');
+                    } else {
+                        this.hasDefaultCaseExecuted = true;
+                        this.redirectToCountry(`${this.baseUrl}`, userCountry, data, browserLanguage);
+                    }
+                },
+    
+                redirectToCountry: function(baseUrl, lang, data, browserLanguage) {
+                    const finalLang = lang || browserLanguage;
+                    Cookies.set('language', finalLang, {
+                        expires: 365,
+                        path: '/',
+                        domain: this.baseUrl,
+                        secure: true,
+                        sameSite: 'Strict',
+                    });
+                    data.browserLanguage = browserLanguage;
+                    let params = new URLSearchParams(data).toString();
+                
+                    let redirectPath = "";
+                    for (let [key, value] of Object.entries(this.langCases)) {
+                        if (key === finalLang || value[1].includes(finalLang)) {
+                            redirectPath = value[0];
+                            break;
+                        }
+                    }
+                    
+                    // Remove any trailing slash from baseUrl and any leading slash from redirectPath
+                    const formattedBaseUrl = baseUrl.endsWith('/') ? baseUrl.slice(0, -1) : baseUrl;
+                    const formattedRedirectPath = redirectPath.startsWith('/') ? redirectPath.slice(1) : redirectPath;
+                
+                    window.location.href = formattedBaseUrl + '/' + formattedRedirectPath + '?language=' + finalLang + '&' + params;
+                }
+            };
+    
+            return this.each(function() {
+                cookieManager.acceptedFunctionalityCookie();
+            });
+        };
+    }(jQuery));             
+    
+    /*
     class CookieManager {
         constructor(customCases, targetPage) {
             this.baseUrl = targetPage;
@@ -85,9 +180,8 @@ jQuery(() => {
         
             window.location.href = formattedBaseUrl + '/' + formattedRedirectPath + '?language=' + finalLang + '&' + params;
         }                                                   
-    }         
-    
-    /*
+    }
+
     class CookieConsentHandler {
         constructor() {
             this.cookieManager = new CookieManager({
@@ -331,6 +425,10 @@ jQuery(() => {
                         banner.hide();
                         settings.onReject();
                     });
+
+                    window.onbeforeunload = function() {
+                        banner.hide();
+                    }
                 });
             }
             return this.init();
@@ -350,13 +448,12 @@ jQuery(() => {
         'KR': ['/kr', []]
     } 
     let targetPage = window.location.origin
-    var cookieManager = new CookieManager(customCases, targetPage);
     $('body').cookieBanner({
         expires: 365,  // Number of days until the cookie expires
         cookieName: 'my_cookie_consent',  // Customize the cookie name
         onAccept: function() {
             // Code to execute when the user clicks "I Agree"
-            cookieManager.acceptedFunctionalityCookie();
+            $(document).cookieManager(customCases, targetPage);
         },
         onReject: function() {
             // Code to execute when the user clicks "I Reject"
