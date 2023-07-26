@@ -145,10 +145,9 @@ jQuery(() => {
                         });
             
                         rejectButton.click(function() {
-                            
                             Cookies.set(settings.cookieName, 'false', { expires: settings.expires });
-                            banner.remove();
                             settings.onReject();
+                            banner.remove();
                         });
                     }
                 });
