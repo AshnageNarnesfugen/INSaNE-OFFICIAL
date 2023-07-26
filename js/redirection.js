@@ -139,16 +139,16 @@ jQuery(() => {
                         var rejectButton = $('<button>', { class: 'cookie-reject btn btn-danger ms-2' }).text(texts.rejectText).appendTo(banner);
             
                         acceptButton.click(function() {
-                            settings.onAccept(function() {
+                            Cookies.set(settings.cookieName, 'true', { expires: settings.expires }).done(function() {
                                 banner.remove();
-                                Cookies.set(settings.cookieName, 'true', { expires: settings.expires });
+                                settings.onAccept();
                             });
                         });
             
                         rejectButton.click(function() {
-                            settings.onReject(function() {
+                            Cookies.set(settings.cookieName, 'false', { expires: settings.expires }).done(function() {
                                 banner.remove();
-                                Cookies.set(settings.cookieName, 'false', { expires: settings.expires });
+                                settings.onReject();
                             });
                         });
                     }
