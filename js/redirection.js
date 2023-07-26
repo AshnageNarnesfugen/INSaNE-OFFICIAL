@@ -9,22 +9,23 @@ jQuery(() => {
                 acceptedFunctionalityCookie: function() {
                     // Check if the current URL already has the necessary parameters
                     const urlParams = new URLSearchParams(window.location.search);
-                    if (urlParams.has('language') && urlParams.has('browserLanguage')) {
+                    if (urlParams.has('language') && urlParams.has('browserLanguage') && urlParams.has('country')) {
                         return;
                     }
-            
+                
                     var language = Cookies.get('language');
                     console.log(language);
-            
+                
                     for (let [key, value] of Object.entries(this.langCases)) {
                         if (key === language || value[1].includes(language)) {
+                            let country = value[1].includes(language) ? language : "";
                             if (window.location.pathname !== value[0]) {
-                                window.location.href = `${this.baseUrl}${value[0]}?language=${language}`;
+                                window.location.href = `${this.baseUrl}${value[0]}?language=${language}` + (country ? '&country=' + country : '');
                             }
                             return;
                         }
                     }
-            
+                
                     // Default Case
                     $.getJSON('https://ipapi.co/json/')
                         .done((data) => {
@@ -43,8 +44,9 @@ jQuery(() => {
                     let userCountry = data.country_code;
                     for (let [key, value] of Object.entries(this.langCases)) {
                         if (key === userCountry || value[1].includes(userCountry)) {
+                            let country = value[1].includes(userCountry) ? userCountry : "";
                             if (language !== userCountry) {
-                                this.redirectToCountry(`${this.baseUrl}`, key, data, browserLanguage); // Changed value[0] to key
+                                this.redirectToCountry(`${this.baseUrl}`, key, data, browserLanguage, country); // Added country parameter
                             }
                             return;
                         }
@@ -55,11 +57,11 @@ jQuery(() => {
                         console.log('Country code not supported');
                     } else {
                         this.hasDefaultCaseExecuted = true;
-                        this.redirectToCountry(`${this.baseUrl}`, userCountry, data, browserLanguage);
+                        this.redirectToCountry(`${this.baseUrl}`, userCountry, data, browserLanguage, userCountry); // Added country parameter
                     }
                 },
     
-                redirectToCountry: function(baseUrl, lang, data, browserLanguage) {
+                redirectToCountry: function(baseUrl, lang, data, browserLanguage, country) {
                     const finalLang = lang || browserLanguage;
                     Cookies.set('language', finalLang, {
                         expires: 365,
@@ -83,8 +85,9 @@ jQuery(() => {
                     const formattedBaseUrl = baseUrl.endsWith('/') ? baseUrl.slice(0, -1) : baseUrl;
                     const formattedRedirectPath = redirectPath.startsWith('/') ? redirectPath.slice(1) : redirectPath;
                 
-                    window.location.href = formattedBaseUrl + '/' + formattedRedirectPath + '?language=' + finalLang + '&' + params;
-                }
+                    // Add the language and country parameters to the URL
+                    window.location.href = formattedBaseUrl + '/' + formattedRedirectPath + '?language=' + finalLang + (country ? '&country=' + country : '') + '&' + params;
+                }                
             };
     
             return this.each(function() {
