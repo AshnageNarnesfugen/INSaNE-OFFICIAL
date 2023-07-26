@@ -1,6 +1,11 @@
 jQuery(() => {
     $('.lazy-background').lazyBackgroundLoader();
 
+    var currentYear = new Date().getFullYear();
+    $('footer').html(function(i, oldHtml) {
+        return oldHtml.replace('{{ current_year }}', currentYear);
+    });
+
     var path = window.location.pathname;
     $('#language-dropdown option').each(function() {
         if ($(this).val() == path) {
