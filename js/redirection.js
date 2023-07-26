@@ -79,10 +79,12 @@ jQuery(() => {
                 }
             }
             
-            const trailingSlash = baseUrl.endsWith('/') ? '' : '/';
-            const leadingSlash = redirectPath.startsWith('/') ? '' : '/';
-            window.location.href = baseUrl + trailingSlash + leadingSlash + redirectPath + '?country=' + finalLang + '&' + params;
-        }                                            
+            // Remove any trailing slash from baseUrl and any leading slash from redirectPath
+            const formattedBaseUrl = baseUrl.endsWith('/') ? baseUrl.slice(0, -1) : baseUrl;
+            const formattedRedirectPath = redirectPath.startsWith('/') ? redirectPath.slice(1) : redirectPath;
+        
+            window.location.href = formattedBaseUrl + '/' + formattedRedirectPath + '?country=' + finalLang + '&' + params;
+        }                                                   
     }         
     
     class CookieConsentHandler {
