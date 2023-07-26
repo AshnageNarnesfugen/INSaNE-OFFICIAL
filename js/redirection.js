@@ -97,7 +97,7 @@ jQuery(() => {
             
             const trailingSlash = baseUrl.endsWith('/') ? '' : '/';
             window.location.href = baseUrl + trailingSlash + redirectPath + '?country=' + finalLang + '&' + params;
-        }                               
+        }                                     
     }         
     
     class CookieConsentHandler {
