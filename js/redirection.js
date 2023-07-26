@@ -41,7 +41,7 @@ jQuery(() => {
                 },
     
                 performRedirection: function(data, language, browserLanguage) {
-                    let userCountry = data.country_code || 'UNKNOWN'; // Set a default value for userCountry
+                    let userCountry = data.country_code;
                     for (let [key, value] of Object.entries(this.langCases)) {
                         if (key === userCountry || value[1].includes(userCountry)) {
                             let country = value[1].includes(userCountry) ? userCountry : "";
