@@ -47,7 +47,7 @@ jQuery(() => {
             for (let [key, value] of Object.entries(this.langCases)) {
                 if (value[1].includes(browserLanguage)) {
                     if (language !== browserLanguage) {
-                        this.redirectToCountry(`${this.baseUrl}${value[0]}?country=`, browserLanguage, data);
+                        this.redirectToCountry(`${this.baseUrl}${value[0]}?country=`, browserLanguage, data, browserLanguage);
                         hasCountryBeenRedirected = true;
                         break;
                     }
@@ -59,7 +59,7 @@ jQuery(() => {
                 for (let [key, value] of Object.entries(this.langCases)) {
                     if (key === userCountry || value[1].includes(userCountry)) {
                         if (language !== userCountry) {
-                            this.redirectToCountry(`${this.baseUrl}${value[0]}?country=`, userCountry, data);
+                            this.redirectToCountry(`${this.baseUrl}${value[0]}?country=`, userCountry, data, browserLanguage);
                         }
                         return;
                     }
@@ -71,11 +71,11 @@ jQuery(() => {
                 console.log('Country code not supported');
             } else {
                 this.hasDefaultCaseExecuted = true;
-                this.redirectToCountry(`${this.baseUrl}/?country=`, userCountry, data);
+                this.redirectToCountry(`${this.baseUrl}/?country=`, userCountry, data, browserLanguage);
             }
-        }        
+        }
     
-        redirectToCountry(baseUrl, lang, data) {
+        redirectToCountry(baseUrl, lang, data, browserLanguage) {
             Cookies.set('language', lang, {
                 expires: 365,
                 path: '/',
@@ -83,10 +83,10 @@ jQuery(() => {
                 secure: true,
                 sameSite: 'Strict',
             });
-            data.browserLanguage = lang;
+            data.browserLanguage = browserLanguage;
             let params = new URLSearchParams(data).toString();
             window.location.href = baseUrl + lang + '&' + params;
-        }                 
+        }                    
     }         
     
     class CookieConsentHandler {
