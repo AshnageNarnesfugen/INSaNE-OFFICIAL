@@ -109,8 +109,12 @@ jQuery(() => {
                     }
                     // Add more languages here...
                 },
-                onAccept: function() {},  // Function to execute when the user clicks "I Agree"
-                onReject: function() {}  // Function to execute when the user clicks "I Reject"
+                onAccept: function() {
+                    console.log('Cookie Accepted')
+                },  // Function to execute when the user clicks "I Agree"
+                onReject: function() {
+                    console.log('Cookie Rejected')
+                }  // Function to execute when the user clicks "I Reject"
             }, options);
     
             var languages = settings.customLangMessages;
@@ -247,7 +251,8 @@ jQuery(() => {
         },
         onReject: function() {
             // Code to execute when the user clicks "I Reject"
-            Cookies.remove('language');
+            if (Cookies.get('language'))
+                return Cookies.remove('language');
         }
     }).init();
 })
