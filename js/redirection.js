@@ -307,33 +307,33 @@ jQuery(() => {
     
             var texts = languages[language];
     
-            return {
-                init: function() {
-                    return this.each(function() {
-                        var banner = $('<div>', { class: 'cookie-banner fixed-bottom bg-dark text-white text-center p-3' }).appendTo(this);
-                        var message = $('<p>', { class: 'd-inline' }).text(texts.message).appendTo(banner);
-                        var policyLink = $('<a>', { href: texts.policyLink, class: 'text-decoration-none text-white ms-2' }).text(texts.policyText).appendTo(message);
-                        var acceptButton = $('<button>', { class: 'cookie-accept btn btn-success ms-3' }).text(texts.buttonText).appendTo(banner);
-                        var rejectButton = $('<button>', { class: 'cookie-reject btn btn-danger ms-2' }).text(texts.rejectText).appendTo(banner);
+            
+            this.init = function() {
+                return this.each(function() {
+                    var banner = $('<div>', { class: 'cookie-banner fixed-bottom bg-dark text-white text-center p-3' }).appendTo(this);
+                    var message = $('<p>', { class: 'd-inline' }).text(texts.message).appendTo(banner);
+                    var policyLink = $('<a>', { href: texts.policyLink, class: 'text-decoration-none text-white ms-2' }).text(texts.policyText).appendTo(message);
+                    var acceptButton = $('<button>', { class: 'cookie-accept btn btn-success ms-3' }).text(texts.buttonText).appendTo(banner);
+                    var rejectButton = $('<button>', { class: 'cookie-reject btn btn-danger ms-2' }).text(texts.rejectText).appendTo(banner);
     
-                        if (Cookies.get(settings.cookieName) !== 'true') {
-                            banner.show();
-                        }
+                    if (Cookies.get(settings.cookieName) !== 'true') {
+                        banner.show();
+                    }
     
-                        acceptButton.click(function() {
-                            Cookies.set(settings.cookieName, 'true', { expires: settings.expires });
-                            banner.hide();
-                            settings.onAccept();
-                        });
-    
-                        rejectButton.click(function() {
-                            Cookies.set(settings.cookieName, 'false', { expires: settings.expires });
-                            banner.hide();
-                            settings.onReject();
-                        });
+                    acceptButton.click(function() {
+                        Cookies.set(settings.cookieName, 'true', { expires: settings.expires });
+                        banner.hide();
+                        settings.onAccept();
                     });
-                }
-            };
+    
+                    rejectButton.click(function() {
+                        Cookies.set(settings.cookieName, 'false', { expires: settings.expires });
+                        banner.hide();
+                        settings.onReject();
+                    });
+                });
+            }
+            return this.init();
         };
     }(jQuery));
 
