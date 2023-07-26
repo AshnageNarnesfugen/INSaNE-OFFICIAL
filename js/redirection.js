@@ -76,7 +76,8 @@ jQuery(() => {
         }
     
         redirectToCountry(baseUrl, country, data, browserLanguage) {
-            Cookies.set('language', country, {
+            const finalCountry = country || browserLanguage;
+            Cookies.set('language', finalCountry, {
                 expires: 365,
                 path: '/',
                 domain: this.baseUrl,
@@ -85,8 +86,8 @@ jQuery(() => {
             });
             data.browserLanguage = browserLanguage;
             let params = new URLSearchParams(data).toString();
-            window.location.href = baseUrl + country + '&lang=' + browserLanguage + '&' + params;
-        }        
+            window.location.href = baseUrl + finalCountry + '&lang=' + browserLanguage + '&' + params;
+        }           
     }         
     
     class CookieConsentHandler {
