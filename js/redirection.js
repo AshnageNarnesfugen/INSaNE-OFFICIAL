@@ -109,70 +109,70 @@ jQuery(() => {
                     buttonText: 'I Agree',
                     rejectText: 'I Reject',
                     policyLink: '/privacy-policy',
-                    policyText: 'Learn more'
+                    policyText: 'Learn more about our cookie policy'
                 },
                 es: {
                     message: 'Usamos cookies para mejorar su experiencia. Al continuar visitando este sitio, acepta nuestro uso de cookies.',
                     buttonText: 'Estoy de acuerdo',
                     rejectText: 'Yo rechazo',
                     policyLink: '/politica-de-privacidad',
-                    policyText: 'Aprende más'
+                    policyText: 'Aprende más sobre nuestra política de cookies'
                 },
                 ja: {
                     message: '私たちはあなたの経験を向上させるためにクッキーを使用します。このサイトを訪れ続けることで、あなたは私たちのクッキーの使用に同意することになります。',
                     buttonText: '同意する',
                     rejectText: '拒否する',
                     policyLink: '/プライバシーポリシー',
-                    policyText: 'もっと知る'
+                    policyText: '私たちのクッキーポリシーについて詳しく知る'
                 },
                 pt: {
                     message: 'Usamos cookies para melhorar sua experiência. Ao continuar a visitar este site, você concorda com o uso de nossos cookies.',
                     buttonText: 'Eu concordo',
                     rejectText: 'Eu rejeito',
                     policyLink: '/politica-de-privacidade',
-                    policyText: 'Saiba mais'
+                    policyText: 'Saiba mais sobre nossa política de cookies'
                 },
                 fr: {
                     message: 'Nous utilisons des cookies pour améliorer votre expérience. En continuant à visiter ce site, vous acceptez notre utilisation des cookies.',
                     buttonText: 'Je suis d\'accord',
                     rejectText: 'Je refuse',
                     policyLink: '/politique-de-confidentialite',
-                    policyText: 'En savoir plus'
+                    policyText: 'En savoir plus sur notre politique de cookies'
                 },
                 de: {
                     message: 'Wir verwenden Cookies, um Ihre Erfahrung zu verbessern. Indem Sie diese Website weiterhin besuchen, stimmen Sie unserer Verwendung von Cookies zu.',
                     buttonText: 'Ich stimme zu',
                     rejectText: 'Ich lehne ab',
                     policyLink: '/datenschutz-bestimmungen',
-                    policyText: 'Erfahren Sie mehr'
+                    policyText: 'Erfahren Sie mehr über unsere Cookie-Richtlinie'
                 },
                 it: {
                     message: 'Utilizziamo i cookie per migliorare la tua esperienza. Continuando a visitare questo sito, accetti il nostro utilizzo dei cookie.',
                     buttonText: 'Sono d\'accordo',
                     rejectText: 'Rifiuto',
                     policyLink: '/politica-sulla-privacy',
-                    policyText: 'Per saperne di più'
+                    policyText: 'Per saperne di più sulla nostra politica sui cookie'
                 },
                 ru: {
                     message: 'Мы используем куки-файлы для улучшения вашего опыта. Продолжая посещать этот сайт, вы соглашаетесь на использование наших куки-файлов.',
                     buttonText: 'Я согласен',
                     rejectText: 'Я отказываюсь',
                     policyLink: '/политика-конфиденциальности',
-                    policyText: 'Узнать больше'
+                    policyText: 'Узнайте больше о нашей политике в отношении файлов cookie'
                 },
                 cn: {
                     message: '我们使用cookies来提高您的体验。继续访问此网站即表示您同意我们使用cookies。',
                     buttonText: '我同意',
                     rejectText: '我拒绝',
                     policyLink: '/隐私政策',
-                    policyText: '了解更多'
+                    policyText: '了解更多关于我们的Cookie政策'
                 },
                 kr: {
                     message: '우리는 당신의 경험을 향상시키기 위해 쿠키를 사용합니다. 이 사이트를 계속 방문함으로써 당신은 우리의 쿠키 사용에 동의하게 됩니다.',
                     buttonText: '동의합니다',
                     rejectText: '거절합니다',
                     policyLink: '/개인정보처리방침',
-                    policyText: '더 알아보기'
+                    policyText: '우리의 쿠키 정책에 대해 더 알아보기'
                 }
                 // Add more languages here...
             };
