@@ -135,14 +135,14 @@ jQuery(() => {
                         var rejectButton = $('<button>', { class: 'cookie-reject btn btn-danger ms-2' }).text(texts.rejectText).appendTo(banner);
             
                         acceptButton.click(function() {
-                            Cookies.set(settings.cookieName, 'true', { expires: settings.expires });
                             banner.remove();
+                            Cookies.set(settings.cookieName, 'true', { expires: settings.expires });
                             settings.onAccept();
                         });
             
                         rejectButton.click(function() {
-                            Cookies.set(settings.cookieName, 'false', { expires: settings.expires });
                             banner.remove();
+                            Cookies.set(settings.cookieName, 'false', { expires: settings.expires });
                             settings.onReject();
                         });
                     }
