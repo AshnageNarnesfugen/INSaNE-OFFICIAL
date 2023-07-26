@@ -57,7 +57,7 @@ jQuery(() => {
                         console.log('Country code not supported');
                     } else {
                         this.hasDefaultCaseExecuted = true;
-                        this.redirectToCountry(`${this.baseUrl}`, userCountry, data, browserLanguage, userCountry); // Added country parameter
+                        this.redirectToCountry(`${this.baseUrl}`, browserLanguage, data, browserLanguage); // No country parameter
                     }
                 },
     
