@@ -139,17 +139,16 @@ jQuery(() => {
                         var rejectButton = $('<button>', { class: 'cookie-reject btn btn-danger ms-2' }).text(texts.rejectText).appendTo(banner);
             
                         acceptButton.click(function() {
-                            Cookies.set(settings.cookieName, 'true', { expires: settings.expires }).done(function() {
-                                banner.remove();
-                                settings.onAccept();
-                            });
+                            Cookies.set(settings.cookieName, 'true', { expires: settings.expires });
+                            banner.remove();
+                            settings.onAccept();
                         });
             
                         rejectButton.click(function() {
-                            Cookies.set(settings.cookieName, 'false', { expires: settings.expires }).done(function() {
-                                banner.remove();
-                                settings.onReject();
-                            });
+                            
+                            Cookies.set(settings.cookieName, 'false', { expires: settings.expires });
+                            banner.remove();
+                            settings.onReject();
                         });
                     }
                 });
@@ -250,11 +249,6 @@ jQuery(() => {
         onAccept: function() {
             // Code to execute when the user clicks "I Agree"
             $(document).cookieManager(customCases, targetPage);
-        },
-        onReject: function() {
-            // Code to execute when the user clicks "I Reject"
-            if (Cookies.get('language'))
-                return Cookies.remove('language');
         }
     }).init();
 })
