@@ -86,9 +86,18 @@ jQuery(() => {
             });
             data.browserLanguage = browserLanguage;
             let params = new URLSearchParams(data).toString();
+        
+            let redirectPath = "";
+            for (let [key, value] of Object.entries(this.langCases)) {
+                if (key === finalLang || value[1].includes(finalLang)) {
+                    redirectPath = value[0];
+                    break;
+                }
+            }
+            
             const trailingSlash = baseUrl.endsWith('/') ? '' : '/';
-            window.location.href = baseUrl + trailingSlash + finalLang + '&' + params;
-        }                          
+            window.location.href = baseUrl + trailingSlash + redirectPath + '?country=' + finalLang + '&' + params;
+        }                               
     }         
     
     class CookieConsentHandler {
