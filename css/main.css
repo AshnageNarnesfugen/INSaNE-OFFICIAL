@@ -94,6 +94,7 @@ textarea {
   list-style: none;
   scroll-behavior: unset !important;
 }
+
 .link-to,
 .link-to span {
   font-size: 3rem;
@@ -121,7 +122,6 @@ textarea {
 }
 body,
 html {
-  font-display: swap;
   font-family: sharpsans-web, helvetica, arial, sans-serif;
   box-sizing: border-box;
   margin: 0;
