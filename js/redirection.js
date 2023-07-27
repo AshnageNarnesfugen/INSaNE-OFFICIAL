@@ -16,11 +16,15 @@ jQuery(() => {
                     var language = Cookies.get('language');
                     console.log(language);
 
+                    var userCountry = null;
+
                     for (let [key, value] of Object.entries(this.langCases)) {
-                        if (key === language || value[1].includes(language)) {
+                        if (key === language) {
+                            // If the language matches the key, use the IP country code
+                            // if it is in the list of countries for this language
+                            userCountry = value[1].includes(data.country) ? data.country : null;
                             if (window.location.pathname !== value[0]) {
-                                // Include the language in the URL
-                                window.location.href = `${this.baseUrl}${value[0]}?language=${key}`;
+                                window.location.href = `${this.baseUrl}${value[0]}?language=${language}&country=${userCountry}`;
                             }
                             return;
                         }
@@ -62,6 +66,19 @@ jQuery(() => {
     
                 redirectToCountry: function(baseUrl, lang, data, browserLanguage) {
                     const finalLang = lang || browserLanguage;
+                    let userCountry = null;
+                
+                    // Check if the finalLang matches a key in the langCases
+                    for (let [key, value] of Object.entries(this.langCases)) {
+                        if (key === finalLang) {
+                            // If the finalLang matches the key, then find the country
+                            // code that matches the user's IP country code from the value array
+                            if (value[1].includes(data.country)) {
+                                userCountry = data.country;
+                            }
+                            break;
+                        }
+                    }
                 
                     Cookies.set('language', finalLang, {
                         expires: 365,
@@ -71,16 +88,24 @@ jQuery(() => {
                         sameSite: 'Strict',
                     });
                 
-                    data.browserLanguage = browserLanguage;
+                    // Set the country cookie
+                    if (userCountry) {
+                        Cookies.set('country', userCountry, {
+                            expires: 365,
+                            path: '/',
+                            domain: this.baseUrl,
+                            secure: true,
+                            sameSite: 'Strict',
+                        });
+                    }
                 
-                    // Delete the 'country' property from data
-                    delete data.country;
+                    data.browserLanguage = browserLanguage;
                 
                     let params = new URLSearchParams(data).toString();
                 
                     let redirectPath = "";
                     for (let [key, value] of Object.entries(this.langCases)) {
-                        if (key === finalLang || value[1].includes(finalLang)) {
+                        if (key === finalLang) {
                             redirectPath = value[0];
                             break;
                         }
@@ -90,8 +115,9 @@ jQuery(() => {
                     const formattedBaseUrl = baseUrl.endsWith('/') ? baseUrl.slice(0, -1) : baseUrl;
                     const formattedRedirectPath = redirectPath.startsWith('/') ? redirectPath.slice(1) : redirectPath;
                 
-                    window.location.href = formattedBaseUrl + '/' + formattedRedirectPath + '?language=' + finalLang + '&' + params;
-                }                              
+                    window.location.href = formattedBaseUrl + '/' + formattedRedirectPath + '?language=' + finalLang + '&country=' + userCountry + '&' + params;
+                }
+                                           
             };
     
             return this.each(function() {
