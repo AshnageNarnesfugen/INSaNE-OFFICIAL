@@ -12,14 +12,21 @@ jQuery(() => {
                     if (urlParams.has('language') && urlParams.has('browserLanguage')) {
                         return;
                     }
-            
+
                     var language = Cookies.get('language');
                     console.log(language);
-            
+
+                    var userCountry = null;
+
                     for (let [key, value] of Object.entries(this.langCases)) {
                         if (key === language || value[1].includes(language)) {
                             if (window.location.pathname !== value[0]) {
-                                window.location.href = `${this.baseUrl}${value[0]}?language=${language}`;
+                                // If the language matches the key, use the key as the country code
+                                // Otherwise, use the language itself as the country code
+                                userCountry = key === language ? key : language;
+
+                                // Include the country code in the URL
+                                window.location.href = `${this.baseUrl}${value[0]}?language=${language}&country=${userCountry}`;
                             }
                             return;
                         }
@@ -61,6 +68,18 @@ jQuery(() => {
     
                 redirectToCountry: function(baseUrl, lang, data, browserLanguage) {
                     const finalLang = lang || browserLanguage;
+                    let userCountry = null;
+                
+                    // Check if the finalLang matches a key or a value in the langCases
+                    for (let [key, value] of Object.entries(this.langCases)) {
+                        if (key === finalLang || value[1].includes(finalLang)) {
+                            // If the finalLang matches the key, use the key as the country code
+                            // Otherwise, use the finalLang itself as the country code
+                            userCountry = key === finalLang ? key : finalLang;
+                            break;
+                        }
+                    }
+                
                     Cookies.set('language', finalLang, {
                         expires: 365,
                         path: '/',
@@ -68,6 +87,18 @@ jQuery(() => {
                         secure: true,
                         sameSite: 'Strict',
                     });
+                
+                    // Set the country cookie
+                    if (userCountry) {
+                        Cookies.set('country', userCountry, {
+                            expires: 365,
+                            path: '/',
+                            domain: this.baseUrl,
+                            secure: true,
+                            sameSite: 'Strict',
+                        });
+                    }
+                
                     data.browserLanguage = browserLanguage;
                     let params = new URLSearchParams(data).toString();
                 
@@ -78,13 +109,13 @@ jQuery(() => {
                             break;
                         }
                     }
-                    
+                
                     // Remove any trailing slash from baseUrl and any leading slash from redirectPath
                     const formattedBaseUrl = baseUrl.endsWith('/') ? baseUrl.slice(0, -1) : baseUrl;
                     const formattedRedirectPath = redirectPath.startsWith('/') ? redirectPath.slice(1) : redirectPath;
                 
-                    window.location.href = formattedBaseUrl + '/' + formattedRedirectPath + '?language=' + finalLang + '&' + params;
-                }
+                    window.location.href = formattedBaseUrl + '/' + formattedRedirectPath + '?language=' + finalLang + '&country=' + userCountry + '&' + params;
+                }                
             };
     
             return this.each(function() {
