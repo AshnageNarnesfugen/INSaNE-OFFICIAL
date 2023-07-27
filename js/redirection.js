@@ -16,14 +16,11 @@ jQuery(() => {
                     var language = Cookies.get('language');
                     console.log(language);
 
-                    // Retrieve the country code from the cookie
-                    var userCountry = Cookies.get('country');
-
                     for (let [key, value] of Object.entries(this.langCases)) {
-                        if ((key === language || value[1].includes(language)) && userCountry) {
+                        if (key === language || value[1].includes(language)) {
                             if (window.location.pathname !== value[0]) {
-                                // Include the country code in the URL
-                                window.location.href = `${this.baseUrl}${value[0]}?language=${language}&country=${userCountry}`;
+                                // Include the language in the URL
+                                window.location.href = `${this.baseUrl}${value[0]}?language=${key}`;
                             }
                             return;
                         }
@@ -65,19 +62,6 @@ jQuery(() => {
     
                 redirectToCountry: function(baseUrl, lang, data, browserLanguage) {
                     const finalLang = lang || browserLanguage;
-                    let userCountry = null;
-                
-                    // Check if the finalLang matches a key in the langCases
-                    for (let [key, value] of Object.entries(this.langCases)) {
-                        if (key === finalLang) {
-                            // If the finalLang matches the key, then find the country
-                            // code that matches the user's IP country code from the value array
-                            if (value[1].includes(data.country)) {
-                                userCountry = data.country;
-                            }
-                            break;
-                        }
-                    }
                 
                     Cookies.set('language', finalLang, {
                         expires: 365,
@@ -86,17 +70,6 @@ jQuery(() => {
                         secure: true,
                         sameSite: 'Strict',
                     });
-                
-                    // Set the country cookie
-                    if (userCountry) {
-                        Cookies.set('country', userCountry, {
-                            expires: 365,
-                            path: '/',
-                            domain: this.baseUrl,
-                            secure: true,
-                            sameSite: 'Strict',
-                        });
-                    }
                 
                     data.browserLanguage = browserLanguage;
                 
@@ -107,7 +80,7 @@ jQuery(() => {
                 
                     let redirectPath = "";
                     for (let [key, value] of Object.entries(this.langCases)) {
-                        if (key === finalLang) {
+                        if (key === finalLang || value[1].includes(finalLang)) {
                             redirectPath = value[0];
                             break;
                         }
@@ -117,8 +90,8 @@ jQuery(() => {
                     const formattedBaseUrl = baseUrl.endsWith('/') ? baseUrl.slice(0, -1) : baseUrl;
                     const formattedRedirectPath = redirectPath.startsWith('/') ? redirectPath.slice(1) : redirectPath;
                 
-                    window.location.href = formattedBaseUrl + '/' + formattedRedirectPath + '?language=' + finalLang + '&country=' + userCountry + '&' + params;
-                }                               
+                    window.location.href = formattedBaseUrl + '/' + formattedRedirectPath + '?language=' + finalLang + '&' + params;
+                }                              
             };
     
             return this.each(function() {
@@ -193,16 +166,16 @@ jQuery(() => {
     }(jQuery));
 
     let customCases = {
-        'US': ['/', ['CA', 'GB', 'AU', 'NZ', 'IE', 'ZA', 'IN', 'SG']],
-        'ES': ['/es', ['MX', 'AR', 'CO', 'PE', 'VE', 'CL', 'EC', 'GT', 'CU']],
-        'PT': ['/pt', ['BR', 'AO', 'MZ', 'CV', 'GW', 'ST', 'GQ', 'TL']],
-        'JP': ['/ja', []],
-        'FR': ['/fr', ['BE', 'CA', 'CH', 'LU', 'MC', 'DZ', 'MA', 'TN']],
-        'CN': ['/cn', ['HK', 'MO', 'SG']],
-        'RU': ['/ru', ['BY', 'KZ', 'KG', 'TJ', 'TM']],
-        'DE': ['/de', ['AT', 'CH', 'LU', 'LI', 'BE']],
-        'IT': ['/it', ['CH', 'SM', 'VA']],
-        'KR': ['/kr', []]
+        'EN': ['/', ['US', 'CA', 'GB', 'AU', 'NZ', 'IE', 'ZA', 'IN', 'SG']],
+        'ES': ['/es', ['ES', 'MX', 'AR', 'CO', 'PE', 'VE', 'CL', 'EC', 'GT', 'CU']],
+        'PT': ['/pt', ['PT', 'BR', 'AO', 'MZ', 'CV', 'GW', 'ST', 'GQ', 'TL']],
+        'JP': ['/ja', ['JP']],
+        'FR': ['/fr', ['FR', 'BE', 'CA', 'CH', 'LU', 'MC', 'DZ', 'MA', 'TN']],
+        'CN': ['/cn', ['CN', 'HK', 'MO', 'SG']],
+        'RU': ['/ru', ['RU', 'BY', 'KZ', 'KG', 'TJ', 'TM']],
+        'DE': ['/de', ['DE', 'AT', 'CH', 'LU', 'LI', 'BE']],
+        'IT': ['/it', ['IT', 'CH', 'SM', 'VA']],
+        'KR': ['/kr', ['KR']]
     } 
     let targetPage = window.location.origin
     if (Cookies.get('my_cookie_consent') === 'true') {
