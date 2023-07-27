@@ -14,10 +14,15 @@ jQuery(() => {
                     }
 
                     var language = Cookies.get('language');
-                    var userCountry = Cookies.get('country');
+                    console.log(language);
+
+                    var userCountry = null;
 
                     for (let [key, value] of Object.entries(this.langCases)) {
                         if (key === language) {
+                            // If the language matches the key, use the IP country code
+                            // if it is in the list of countries for this language
+                            userCountry = value[1].includes(data.country) ? data.country : null;
                             if (window.location.pathname !== value[0]) {
                                 window.location.href = `${this.baseUrl}${value[0]}?language=${language}&country=${userCountry}`;
                             }
@@ -66,8 +71,11 @@ jQuery(() => {
                     // Check if the finalLang matches a key in the langCases
                     for (let [key, value] of Object.entries(this.langCases)) {
                         if (key === finalLang) {
-                            // If the finalLang matches the key, then set userCountry from the value array
-                            userCountry = value[1][0];
+                            // If the finalLang matches the key, then find the country
+                            // code that matches the user's IP country code from the value array
+                            if (value[1].includes(data.country)) {
+                                userCountry = data.country;
+                            }
                             break;
                         }
                     }
@@ -108,7 +116,7 @@ jQuery(() => {
                     const formattedRedirectPath = redirectPath.startsWith('/') ? redirectPath.slice(1) : redirectPath;
                 
                     window.location.href = formattedBaseUrl + '/' + formattedRedirectPath + '?language=' + finalLang + '&country=' + userCountry + '&' + params;
-                }                                          
+                }                       
             };
     
             return this.each(function() {
