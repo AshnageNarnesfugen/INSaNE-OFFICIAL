@@ -20,7 +20,7 @@ jQuery(() => {
                     var userCountry = Cookies.get('country');
 
                     for (let [key, value] of Object.entries(this.langCases)) {
-                        if (key === language || value[1].includes(language)) {
+                        if ((key === language || value[1].includes(language)) && userCountry) {
                             if (window.location.pathname !== value[0]) {
                                 // Include the country code in the URL
                                 window.location.href = `${this.baseUrl}${value[0]}?language=${language}&country=${userCountry}`;
