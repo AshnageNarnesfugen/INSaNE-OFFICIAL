@@ -16,15 +16,12 @@ jQuery(() => {
                     var language = Cookies.get('language');
                     console.log(language);
 
-                    var userCountry = null;
+                    // Retrieve the country code from the cookie
+                    var userCountry = Cookies.get('country');
 
                     for (let [key, value] of Object.entries(this.langCases)) {
                         if (key === language || value[1].includes(language)) {
                             if (window.location.pathname !== value[0]) {
-                                // If the language matches the key, use the key as the country code
-                                // Otherwise, use the language itself as the country code
-                                userCountry = key === language ? key : language;
-
                                 // Include the country code in the URL
                                 window.location.href = `${this.baseUrl}${value[0]}?language=${language}&country=${userCountry}`;
                             }
@@ -70,12 +67,14 @@ jQuery(() => {
                     const finalLang = lang || browserLanguage;
                     let userCountry = null;
                 
-                    // Check if the finalLang matches a key or a value in the langCases
+                    // Check if the finalLang matches a key in the langCases
                     for (let [key, value] of Object.entries(this.langCases)) {
-                        if (key === finalLang || value[1].includes(finalLang)) {
-                            // If the finalLang matches the key, use the key as the country code
-                            // Otherwise, use the finalLang itself as the country code
-                            userCountry = key === finalLang ? key : finalLang;
+                        if (key === finalLang) {
+                            // If the finalLang matches the key, then find the country
+                            // code that matches the user's IP country code from the value array
+                            if (value[1].includes(data.country)) {
+                                userCountry = data.country;
+                            }
                             break;
                         }
                     }
@@ -100,11 +99,15 @@ jQuery(() => {
                     }
                 
                     data.browserLanguage = browserLanguage;
+                
+                    // Delete the 'country' property from data
+                    delete data.country;
+                
                     let params = new URLSearchParams(data).toString();
                 
                     let redirectPath = "";
                     for (let [key, value] of Object.entries(this.langCases)) {
-                        if (key === finalLang || value[1].includes(finalLang)) {
+                        if (key === finalLang) {
                             redirectPath = value[0];
                             break;
                         }
@@ -115,7 +118,7 @@ jQuery(() => {
                     const formattedRedirectPath = redirectPath.startsWith('/') ? redirectPath.slice(1) : redirectPath;
                 
                     window.location.href = formattedBaseUrl + '/' + formattedRedirectPath + '?language=' + finalLang + '&country=' + userCountry + '&' + params;
-                }                
+                }                               
             };
     
             return this.each(function() {
