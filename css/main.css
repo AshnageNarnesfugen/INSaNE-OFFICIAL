@@ -8,6 +8,7 @@
   width: 50px;
   border: none;
   cursor: pointer;
+  background: transparent;
 }
 #accessibilityMenu {
   max-width: 300px;
