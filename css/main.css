@@ -5,7 +5,8 @@
 }
 
 #language-dropdown {
-  width: 200px;
+  width: 50px;
+  border: none;
 }
 #accessibilityMenu {
   max-width: 300px;
@@ -842,8 +843,6 @@ img {
     #fff;
   box-shadow: 7px 7px 0 0 rgba(0, 0, 0, 0.5);
   border: solid 2px black;
-  padding-left: 10px;
-  padding-right: 10px;
 }
 #language-menu li {
   display: inline;
