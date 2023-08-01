@@ -184,6 +184,14 @@ jQuery(() => {
         repeat: 'repeat',
     })
 
+    $("#sneak-peak").parallaxie({
+        speed: 0.5,
+        disableMobile: true,
+        size: 'unset',
+        pos_x: 'center',
+        repeat: 'repeat',
+    })
+
     let data = $('#letter').attr('data-array');
     data = JSON.parse(data)
 
