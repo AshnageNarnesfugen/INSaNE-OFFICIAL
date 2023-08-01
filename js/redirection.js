@@ -167,7 +167,7 @@ jQuery(() => {
                     settings.onAccept();
                 } else if (Cookies.get(settings.cookieName) === undefined) {
                         var banner = $('<div>', { class: 'cookie-banner fixed-bottom bg-dark text-white text-center p-3' }).appendTo(this);
-                        var message = $('<p>', { class: 'd-inline' }).text(texts.message).appendTo(banner);
+                        var message = $('<p>', { class: 'd-block' }).text(texts.message).appendTo(banner);
                         var policyLink = $('<a>', { href: texts.policyLink, class: 'text-decoration-none text-white ms-2' }).text(texts.policyText).appendTo(message);
                         var acceptButton = $('<button>', { class: 'cookie-accept btn btn-success ms-3' }).text(texts.buttonText).appendTo(banner);
                         var rejectButton = $('<button>', { class: 'cookie-reject btn btn-danger ms-2' }).text(texts.rejectText).appendTo(banner);
