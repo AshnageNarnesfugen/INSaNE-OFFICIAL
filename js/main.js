@@ -1,9 +1,9 @@
 jQuery(() => {
 
-    $('#show-btn').clickToggle(function() {
+    $('#show-btn').clickToggle(() => {
         $('.read-more-content').css({'height': '0'})
         $(this).text('Read Less')
-    }, function() {
+    }, () => {
         $('.read-more-content').css({'height': '100%'})
         $(this).text('Read More')
     })
