@@ -1,35 +1,5 @@
 jQuery(() => {
 
-    var content = $('#content');
-    var showChar = 100; // How many characters are shown by default
-    var ellipsestext = "...";
-    var moretext = "Read More";
-    var lesstext = "Read Less";
-  
-    var contentHtml = content.html();
-  
-    if(contentHtml.length > showChar) {
-        var showContent = contentHtml.substr(0, showChar);
-        var hideContent = contentHtml.substr(showChar, contentHtml.length - showChar);
-        var html = showContent + '<span class="moreellipses">' + ellipsestext+ '</span><span class="morecontent"><span>' + hideContent + '</span><a href="" class="morelink">' + moretext + '</a></span>';
-
-        content.html(html);
-    }
-  
-    $(".morelink").click(function() {
-        if($(this).hasClass("less")) {
-            $(this).removeClass("less");
-            $(this).html(moretext);
-        } else {
-            $(this).addClass("less");
-            $(this).html(lesstext);
-        }
-      
-        $(this).parent().prev().toggle();
-        $(this).prev().toggle();
-        return false;
-    });
-
     $('.lazy-background').lazyBackgroundLoader();
 
     var currentYear = new Date().getFullYear();
