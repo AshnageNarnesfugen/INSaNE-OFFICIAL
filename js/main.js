@@ -11,12 +11,59 @@ jQuery(() => {
         return this;
     };
 
+    // Define your translations
+    var translations = {
+        'en': {
+            'readMore': 'Read More',
+            'readLess': 'Read Less'
+        },
+        'es': {
+            'readMore': 'Leer Más',
+            'readLess': 'Leer Menos'
+        },
+        'pt': {
+            'readMore': 'Ler Mais',
+            'readLess': 'Ler Menos'
+        },
+        'fr': {
+            'readMore': 'Lire la suite',
+            'readLess': 'Lire moins'
+        },
+        'it': {
+            'readMore': 'Leggi di più',
+            'readLess': 'Leggi di meno'
+        },
+        'de': {
+            'readMore': 'Weiterlesen',
+            'readLess': 'Weniger lesen'
+        },
+        'ru': {
+            'readMore': 'Читать далее',
+            'readLess': 'Читать меньше'
+        },
+        'zh': {
+            'readMore': '阅读更多',
+            'readLess': '阅读更少'
+        },
+        'ja': {
+            'readMore': 'もっと読む',
+            'readLess': '読むのをやめる'
+        },
+        'ko': {
+            'readMore': '더 읽기',
+            'readLess': '적게 읽기'
+        }
+    }
+
+    // Get the language of the page
+    var pageLanguage = $('html').attr('lang'); // Assuming you've set the language in a <html lang="..."> attribute
+
     $('#show-btn').clickToggle(() => {
         $('.read-more-content').css({'height': '100%'})
-        $('#show-btn').html('Read Less')
+        $('#show-btn').html(translations[pageLanguage]['readLess'])
     }, () => {
         $('.read-more-content').css({'height': '0'})
-        $('#show-btn').html('Read More')
+        $('#show-btn').html(translations[pageLanguage]['readMore'])
     })
 
     $('.lazy-background').lazyBackgroundLoader();
@@ -43,7 +90,7 @@ jQuery(() => {
     var shareUrl = '';
 
     // Invitational texts in different languages
-    var invitationalTexts = {
+    let invitationalTexts = {
         'en': 'Dive into "INSaNE | A Broken Hero". Join Ashnage, a gravity-controller, on his epic quest against an alien invasion. Personal struggles, intense battles, deep mysteries await. Join now!!',
         'es': 'Sumérgete en "INSaNE | Un Héroe Roto". Únete a Ashnage, un controlador de gravedad, en su épica misión contra una invasión alienígena. Luchas personales, intensas batallas, profundos misterios te esperan. ¡¡Únete ahora!!',
         'pt': 'Mergulhe em "INSaNE | Um Herói Quebrado". Junte-se a Ashnage, um controlador de gravidade, em sua épica missão contra uma invasão alienígena. Lutas pessoais, intensas batalhas, profundos mistérios te esperam. Junte-se agora!!',
@@ -58,7 +105,7 @@ jQuery(() => {
 
     var invitationalText = invitationalTexts[language];
     // Different main page URLs for different languages
-    var urls = {
+    let urls = {
         'en':  window.location.origin + '/', // For English
         'es':  window.location.origin + '/es', // For Spanish
         'pt':  window.location.origin + '/pt', // For Portuguese
