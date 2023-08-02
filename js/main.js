@@ -58,16 +58,17 @@ jQuery(() => {
     // Get the language of the page
     var pageLanguage = $('html').attr('lang'); // Assuming you've set the language in a <html lang="..."> attribute
 
-    $('#show-btn').html(translations[pageLanguage]['readMore'])
+    const customClass = 'fw-bold text-dark'
+    $('#show-btn').html(`<p class="${customClass}">${translations[pageLanguage]['readMore']}</p>`)
     $('#show-btn').attr('aria-label', translations[pageLanguage]['readMore'])
 
     $('#show-btn').clickToggle(() => {
         $('.read-more-content').css({'height': '100%'})
-        $('#show-btn').html(translations[pageLanguage]['readLess'])
+        $('#show-btn').html(`<p class="${customClass}">${translations[pageLanguage]['readLess']}</p>`)
         $('#show-btn').attr('aria-label', translations[pageLanguage]['readLess'])
     }, () => {
         $('.read-more-content').css({'height': '0'})
-        $('#show-btn').html(translations[pageLanguage]['readMore'])
+        $('#show-btn').html(`<p class="${customClass}">${translations[pageLanguage]['readMore']}</p>`)
         $('#show-btn').attr('aria-label', translations[pageLanguage]['readMore'])
     })
 
