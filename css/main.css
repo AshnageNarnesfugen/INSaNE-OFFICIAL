@@ -4,11 +4,9 @@
 .solution {
     place-content: center;
 }
-.morecontent span {
-    display: none;
-}
-.morelink {
-    display: block;
+.read-more-content {
+    height: 0;
+    overflow: hidden;
 }
 .content-container {
     max-height: 100px;
