@@ -13,10 +13,10 @@ jQuery(() => {
 
     $('#show-btn').clickToggle(() => {
         $('.read-more-content').css({'height': '0'})
-        $(this).text('Read Less')
+        $(this).html('Read Less')
     }, () => {
         $('.read-more-content').css({'height': '100%'})
-        $(this).text('Read More')
+        $(this).html('Read More')
     })
 
     $('.lazy-background').lazyBackgroundLoader();
