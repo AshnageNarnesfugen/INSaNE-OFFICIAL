@@ -12,10 +12,10 @@ jQuery(() => {
     };
 
     $('#show-btn').clickToggle(() => {
-        $('.read-more-content').css({'height': '0'})
+        $('.read-more-content').css({'height': '100%'})
         $('#show-btn').html('Read Less')
     }, () => {
-        $('.read-more-content').css({'height': '100%'})
+        $('.read-more-content').css({'height': '0'})
         $('#show-btn').html('Read More')
     })
 
