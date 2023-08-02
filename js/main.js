@@ -12,11 +12,11 @@ jQuery(() => {
     };
 
     $('#show-btn').clickToggle(() => {
-        $('.read-more-content').css({'height': '0'})
-        $(this).html('Read Less')
+        $('.read-more-content').css({'height': '0%'})
+        $('#show-btn').html('Read Less')
     }, () => {
         $('.read-more-content').css({'height': '100%'})
-        $(this).html('Read More')
+        $('#show-btn').html('Read More')
     })
 
     $('.lazy-background').lazyBackgroundLoader();

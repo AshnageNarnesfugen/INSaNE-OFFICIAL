@@ -7,6 +7,7 @@
 .read-more-content {
     height: 0;
     overflow: hidden;
+    transition: height 500ms linear;
 }
 .content-container {
     max-height: 100px;
