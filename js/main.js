@@ -58,6 +58,8 @@ jQuery(() => {
     // Get the language of the page
     var pageLanguage = $('html').attr('lang'); // Assuming you've set the language in a <html lang="..."> attribute
 
+    $('#show-btn').html(translations[pageLanguage]['readMore'])
+
     $('#show-btn').clickToggle(() => {
         $('.read-more-content').css({'height': '100%'})
         $('#show-btn').html(translations[pageLanguage]['readLess'])
