@@ -59,13 +59,16 @@ jQuery(() => {
     var pageLanguage = $('html').attr('lang'); // Assuming you've set the language in a <html lang="..."> attribute
 
     $('#show-btn').html(translations[pageLanguage]['readMore'])
+    $('#show-btn').attr('aria-label', translations[pageLanguage]['readMore'])
 
     $('#show-btn').clickToggle(() => {
         $('.read-more-content').css({'height': '100%'})
         $('#show-btn').html(translations[pageLanguage]['readLess'])
+        $('#show-btn').attr('aria-label', translations[pageLanguage]['readLess'])
     }, () => {
         $('.read-more-content').css({'height': '0'})
         $('#show-btn').html(translations[pageLanguage]['readMore'])
+        $('#show-btn').attr('aria-label', translations[pageLanguage]['readMore'])
     })
 
     $('.lazy-background').lazyBackgroundLoader();
