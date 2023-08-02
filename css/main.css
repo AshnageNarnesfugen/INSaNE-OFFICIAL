@@ -4,6 +4,12 @@
 .solution {
     place-content: center;
 }
+.morecontent span {
+    display: none;
+}
+.morelink {
+    display: block;
+}
 .content-container {
     max-height: 100px;
     overflow: hidden;
