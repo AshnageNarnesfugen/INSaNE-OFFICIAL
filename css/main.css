@@ -507,8 +507,8 @@ a {
 .hamburger-menu,
 .hamburger-menu:after,
 .hamburger-menu:before {
-    width: 50px;
-    height: 5px;
+    width: 60px;
+    height: 10px;
 }
 .hamburger-menu {
     position: relative;
