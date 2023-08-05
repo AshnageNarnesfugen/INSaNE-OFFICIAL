@@ -23,6 +23,7 @@
          }
 
          let isTabActive = !document[hidden];  // Initialize based on the current visibility status
+         let shouldResumeOnIntersection = false; // Initialize flag to track if video should resume on intersection
 
          function handleVisibilityChange(videoElement) {
             const video = $(videoElement);
@@ -30,16 +31,10 @@
                 if (!video[0].paused && video.attr('data-user-started') === 'true') {
                     video[0].pause();
                     video.attr('data-paused', 'true');
+                    shouldResumeOnIntersection = true;  // Set flag to indicate that video should resume on intersection
                 }
             } else {
-                if (video.attr('data-paused') === 'true' && video.attr('data-user-started') === 'true') {
-                    // Check if the video is visible before playing it again
-                    const entry = observer.takeRecords().find(entry => entry.target === videoElement);
-                    if (entry && entry.isIntersecting) {
-                        video[0].play();
-                        video.attr('data-paused', 'false');
-                    }
-                }
+                isTabActive = true;  // Set flag to indicate that tab is active
             }
         }
 
@@ -58,22 +53,21 @@
         function handleIntersection(entries) {
             entries.forEach(entry => {
                 const video = $(entry.target);
-                if (entry.isIntersecting) {
+                if (entry.isIntersecting && isTabActive && shouldResumeOnIntersection) {
                     if (video.attr('data-loaded') !== 'true') {
                         video.data('posters', []);  // Initialize 'posters' data on each video
                         lazyLoadVideo(video);
                         lazyLoadPoster(video);
                         video.attr('data-loaded', 'true');
                     }
-                    if (video.attr('data-paused') === 'true' && video.attr('data-user-started') === 'true' && isTabActive) {
+                    if (video.attr('data-paused') === 'true' && video.attr('data-user-started') === 'true') {
                         video[0].play();
                         video.attr('data-paused', 'false');
                     }
-                } else {
-                    if (!video[0].paused && video.attr('data-user-started') === 'true') {
-                        video[0].pause();
-                        video.attr('data-paused', 'true');
-                    }
+                    shouldResumeOnIntersection = false;  // Reset flag as video has resumed
+                } else if (!entry.isIntersecting && !video[0].paused && video.attr('data-user-started') === 'true') {
+                    video[0].pause();
+                    video.attr('data-paused', 'true');
                 }
             });
         }
