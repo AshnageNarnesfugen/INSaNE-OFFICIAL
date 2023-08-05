@@ -26,22 +26,31 @@
 
          function handleVisibilityChange(videoElement) {
             const video = $(videoElement);
+        
+            // If the tab is hidden, pause the video if it's playing and started by the user
             if (document[hidden]) {
                 if (!video[0].paused && video.attr('data-user-started') === 'true') {
                     video[0].pause();
                     video.attr('data-paused', 'true');
                 }
             } else {
+                // If the tab is visible, check if the video was paused by a visibility change and started by the user
                 if (video.attr('data-paused') === 'true' && video.attr('data-user-started') === 'true') {
-                    // Check if the video is visible before playing it again
+                    // Retrieve the latest records from the observer
                     const entry = observer.takeRecords().find(entry => entry.target === videoElement);
+        
+                    // If the video is intersecting, play it
                     if (entry && entry.isIntersecting) {
                         video[0].play();
                         video.attr('data-paused', 'false');
+                    } else {
+                        // If the video is not intersecting, keep it paused
+                        video.attr('data-paused', 'true');
                     }
                 }
             }
         }
+        
 
         if (typeof document.addEventListener === "undefined" || hidden === undefined) {
             console.log("This demo requires Page Visibility API.");
