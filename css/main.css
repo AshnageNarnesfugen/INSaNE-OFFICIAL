@@ -7,7 +7,7 @@
     display: grid;
     place-content: center;
     text-align: center;
-    background: rgba(25, 25, 25, 0.5);
+    background: rgba(25, 25, 25, 0.8);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(10px);
     transition: opacity 500ms linear;
