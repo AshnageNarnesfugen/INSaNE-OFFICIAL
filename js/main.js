@@ -101,7 +101,7 @@ jQuery(() => {
     var path = window.location.pathname;
     $('#language-dropdown option').each(function() {
         if ($(this).val() == path) {
-            $(this).attr('selected', 'selected');
+            $(this).prop('selected', 'selected');
         }
     });
     $('#language-dropdown').change(function() {
