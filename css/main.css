@@ -677,7 +677,7 @@ button[type="submit"]:hover {
     display: inline-block;
 }
 .mini-charted p {
-    line-height: 0;
+    line-height: 1;
     margin: 0;
     padding: 0;
 }
