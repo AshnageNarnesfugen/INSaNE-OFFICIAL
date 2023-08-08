@@ -1,5 +1,6 @@
 .intro_animation {
-    position: absolute;
+    position: fixed;
+    z-index: 11111111111111111111111111111111111;
     inset: 0;
     height: inherit;
     width: inherit;
