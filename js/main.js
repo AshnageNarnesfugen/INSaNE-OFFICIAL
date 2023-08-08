@@ -11,6 +11,10 @@ jQuery(() => {
         return this;
     };
     if (!Cookies.get('my_cookie_consent')) {
+        $(".intro_animation").css({
+            "display": "grid",
+            "opacity": "1"
+        });
         setTimeout(function () {
             $(".intro_animation").css("opacity", "0");
             setTimeout(function () {
