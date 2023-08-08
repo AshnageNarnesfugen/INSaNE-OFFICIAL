@@ -11,6 +11,20 @@ jQuery(() => {
         return this;
     };
 
+    setTimeout(function () {
+        $(".intro_animation").css("opacity", "0");
+        setTimeout(function () {
+          $(".intro_animation").css("display", "none");
+        }, 500);
+      }, 5000);
+      
+      setTimeout(function () {
+        $(".intro_title").css("opacity", 1);
+        setTimeout(function () {
+          $(".intro_subtitle").css("opacity", 1);
+        }, 1000);
+      }, 1000);
+
     // Define your translations
     var translations = {
         'en': {
