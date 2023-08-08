@@ -16,7 +16,7 @@
   .intro_animation span {
     opacity: 0;
     transition: opacity 1s linear;
-    font-family: "Architects Daughter";
+    font-family: architects-daughter, sharpsans-web;
   }
   
   .intro_title {
