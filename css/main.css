@@ -8,8 +8,8 @@
     place-content: center;
     text-align: center;
     background: rgba(0, 0, 0, 0.8);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(50px);
+    -webkit-backdrop-filter: blur(50px);
     transition: opacity 500ms linear;
   }
   
