@@ -125,6 +125,12 @@ textarea {
     font-family: architects-daughter;
     src: url("./fonts/ArchitectsDaughter-Regular.ttf") format("truetype");
 }
+@font-face {
+    font-family: "MailSans";
+    src: url("./fonts/MailSansRegular.woff2") format("woff2"), url("./fonts/MailSansRegular.woff") format("woff");
+    font-weight: 400;
+    font-style: normal;
+}
 *,
 ::after,
 ::before {
@@ -160,7 +166,7 @@ a:hover {
 }
 body,
 html {
-    font-family: sharpsans-web, helvetica, arial, sans-serif;
+    font-family: sharpsans-web, "MailSans", helvetica, arial, sans-serif;
     box-sizing: border-box;
     margin: 0;
     padding: 0;
