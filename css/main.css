@@ -16,7 +16,7 @@
   .intro_animation span {
     opacity: 0;
     transition: opacity 1s linear;
-    font-family: architects-daughter, sharpsans-web;
+    font-family: architects-daughter, sharpsans-web, "MailSans", "Hiragino Mincho Pro";
   }
   
   .intro_title {
@@ -126,8 +126,16 @@ textarea {
     src: url("./fonts/ArchitectsDaughter-Regular.ttf") format("truetype");
 }
 @font-face {
+    font-display: swap;
     font-family: "MailSans";
     src: url("./fonts/MailSansRegular.woff2") format("woff2"), url("./fonts/MailSansRegular.woff") format("woff");
+    font-weight: 400;
+    font-style: normal;
+}
+@font-face {
+    font-display: swap;
+    font-family: "Hiragino Mincho Pro";
+    src: url('./fonts/hiragino-mincho-pro-w3.otf') format("opentype");
     font-weight: 400;
     font-style: normal;
 }
@@ -166,7 +174,7 @@ a:hover {
 }
 body,
 html {
-    font-family: sharpsans-web, "MailSans", helvetica, arial, sans-serif;
+    font-family: sharpsans-web, "MailSans", "Hiragino Mincho Pro", helvetica, arial, sans-serif;
     box-sizing: border-box;
     margin: 0;
     padding: 0;
@@ -474,12 +482,12 @@ ul {
     clip-path: polygon(0 0, 100% 0, 96% 50%, 100% 100%, 0 100%, 5% 51%);
     padding: 0 0.5em;
     text-align: center;
-    font-family: architects-daughter !important;
+    font-family: architects-daughter, sharpsans-web, "Hiragino Mincho Pro", "MailSans" !important;
 }
 #letter,
 .charted,
 .mini-charted {
-    font-family: architects-daughter, sharpsans-web;
+    font-family: architects-daughter, sharpsans-web, "Hiragino Mincho Pro", "MailSans";
 }
 .mark .first-headline,
 .mark .second-headline {
