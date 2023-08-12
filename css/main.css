@@ -1,33 +1,52 @@
-.intro_animation {
-    position: fixed;
-    z-index: 11111111111111111111111111111111111;
-    inset: 0;
-    height: inherit;
-    width: inherit;
-    display: grid;
-    place-content: center;
-    text-align: center;
-    background: rgba(0, 0, 0, 0.8);
-    backdrop-filter: blur(50px);
-    -webkit-backdrop-filter: blur(50px);
-    transition: opacity 500ms linear;
-  }
-  
-  .intro_animation span {
-    opacity: 0;
-    transition: opacity 1s linear;
-    font-family: architects-daughter, sharpsans-web, "MailSans", "Hiragino Mincho Pro";
-  }
-  
-  .intro_title {
-    color: red;
-    font-size: 60px;
-  }
-  
-  .intro_subtitle {
-    color: white;
-    font-size: 30px;
-  }
+/*
+@font-face {
+    font-display: swap;
+    font-family: sharpsans-web;
+    font-style: normal;
+    font-weight: 400;
+    src: url("./fonts/SharpSans-Medium.woff2") format("woff2");
+}
+@font-face {
+    font-display: swap;
+    font-family: sharpsans-web;
+    font-style: normal;
+    font-weight: 600;
+    src: url("./fonts/SharpSans-Semibold.woff2") format("woff2");
+}
+@font-face {
+    font-display: swap;
+    font-family: sharpsans-web;
+    font-style: normal;
+    font-weight: 800;
+    src: url("./fonts/SharpSans-Bold.woff2") format("woff2");
+}
+@font-face {
+    font-display: swap;
+    font-family: architects-daughter;
+    src: url("./fonts/ArchitectsDaughter-Regular.ttf") format("truetype");
+}
+@font-face {
+    font-display: swap;
+    font-family: "MailSans";
+    src: url("./fonts/MailSansRegular.woff2") format("woff2"), url("./fonts/MailSansRegular.woff") format("woff");
+    font-weight: 400;
+    font-style: normal;
+}
+@font-face {
+    font-display: swap;
+    font-family: "Hiragino Mincho Pro";
+    src: url('./fonts/hiragino-mincho-pro-w3.otf') format("opentype");
+    font-weight: 400;
+    font-style: normal;
+}
+*/
+*,
+::after,
+::before {
+    font: inherit;
+    list-style: none;
+    scroll-behavior: unset !important;
+}
 .burger_menu,
 .form-container,
 .modal-dialog,
@@ -99,52 +118,35 @@ textarea {
 .right-col {
     border-top: 2px solid #000;
 }
-@font-face {
-    font-display: swap;
-    font-family: sharpsans-web;
-    font-style: normal;
-    font-weight: 400;
-    src: url("./fonts/SharpSans-Medium.woff2") format("woff2");
-}
-@font-face {
-    font-display: swap;
-    font-family: sharpsans-web;
-    font-style: normal;
-    font-weight: 600;
-    src: url("./fonts/SharpSans-Semibold.woff2") format("woff2");
-}
-@font-face {
-    font-display: swap;
-    font-family: sharpsans-web;
-    font-style: normal;
-    font-weight: 800;
-    src: url("./fonts/SharpSans-Bold.woff2") format("woff2");
-}
-@font-face {
-    font-display: swap;
-    font-family: architects-daughter;
-    src: url("./fonts/ArchitectsDaughter-Regular.ttf") format("truetype");
-}
-@font-face {
-    font-display: swap;
-    font-family: "MailSans";
-    src: url("./fonts/MailSansRegular.woff2") format("woff2"), url("./fonts/MailSansRegular.woff") format("woff");
-    font-weight: 400;
-    font-style: normal;
-}
-@font-face {
-    font-display: swap;
-    font-family: "Hiragino Mincho Pro";
-    src: url('./fonts/hiragino-mincho-pro-w3.otf') format("opentype");
-    font-weight: 400;
-    font-style: normal;
-}
-*,
-::after,
-::before {
-    font: inherit;
-    list-style: none;
-    scroll-behavior: unset !important;
+.intro_animation {
+    position: fixed;
+    z-index: 11111111111111111111111111111111111;
+    inset: 0;
+    height: inherit;
+    width: inherit;
+    display: grid;
+    place-content: center;
+    text-align: center;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(50px);
+    -webkit-backdrop-filter: blur(50px);
+    transition: opacity 500ms linear;
+  }
+  
+  .intro_animation span {
+    opacity: 0;
+    transition: opacity 1s linear;
+    font-family: architects-daughter, sharpsans-web, "MailSans", "Hiragino Mincho Pro";
+  }
+  
+  .intro_title {
+    color: red;
+    font-size: 60px;
+  }
+  
+  .intro_subtitle {
+    color: white;
+    font-size: 30px;
 }
 .link-to,
 .link-to span {
