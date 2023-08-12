@@ -112,7 +112,7 @@ jQuery(() => {
              ],
             fallback: 'sans-serif',
             preload: true,  // Set this to false if you don't want to preload
-            timeout: 3000  // 3 seconds timeout
+            timeout: 10000  // 3 seconds timeout
         });
     });
 });
