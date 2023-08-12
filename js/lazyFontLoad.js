@@ -66,12 +66,6 @@ jQuery(() => {
                 fallback: 'sans-serif',
                 timeout: 3000
             }, options);
-    
-            function isFontAvailable(fontName) {
-                // This checks if the font might be available locally
-                const font = new FontFaceObserver(fontName);
-                return font.check();
-            }
 
             function loadFontWithTimeout(font) {
                 return new Promise((resolve, reject) => {
@@ -87,10 +81,6 @@ jQuery(() => {
             }
 
             function loadFont(font) {
-                if (isFontAvailable(font.name)) {
-                    return Promise.resolve();
-                }
-
                 const formats = font.formats || {};
                 const promises = [];
     
