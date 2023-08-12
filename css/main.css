@@ -1,9 +1,7 @@
 *,
 ::after,
 ::before {
-    font: inherit;
     list-style: none;
-    scroll-behavior: unset !important;
 }
 .burger_menu,
 .form-container,
