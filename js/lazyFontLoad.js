@@ -63,22 +63,8 @@ jQuery(() => {
         $.fn.fontLoader = function(options) {
             const settings = $.extend({
                 fonts: [],
-                fallback: 'sans-serif',
-                timeout: 3000
+                fallback: 'sans-serif'
             }, options);
-
-            function loadFontWithTimeout(font) {
-                return new Promise((resolve, reject) => {
-                    const timer = setTimeout(() => {
-                        reject(new Error(`Font loading timeout for ${font.name}`));
-                    }, settings.timeout);
-
-                    loadFont(font).then(loadedFont => {
-                        clearTimeout(timer);
-                        resolve(loadedFont);
-                    }, reject);
-                });
-            }
 
             function loadFont(font) {
                 const formats = font.formats || {};
@@ -101,7 +87,7 @@ jQuery(() => {
                 });
             }
     
-            const fontPromises = settings.fonts.map(loadFontWithTimeout);
+            const fontPromises = settings.fonts.map(loadFont);
     
             return this.each(function() {
                 Promise.all(fontPromises).then(() => {
@@ -167,9 +153,7 @@ jQuery(() => {
                     }
                 }
              ],
-            fallback: 'sans-serif',
-            preload: true,  // Set this to false if you don't want to preload
-            timeout: 10000  // 3 seconds timeout
+            fallback: 'sans-serif'
         });
     });
 });
