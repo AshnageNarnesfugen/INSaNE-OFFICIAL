@@ -1,45 +1,3 @@
-/*
-@font-face {
-    font-display: swap;
-    font-family: sharpsans-web;
-    font-style: normal;
-    font-weight: 400;
-    src: url("./fonts/SharpSans-Medium.woff2") format("woff2");
-}
-@font-face {
-    font-display: swap;
-    font-family: sharpsans-web;
-    font-style: normal;
-    font-weight: 600;
-    src: url("./fonts/SharpSans-Semibold.woff2") format("woff2");
-}
-@font-face {
-    font-display: swap;
-    font-family: sharpsans-web;
-    font-style: normal;
-    font-weight: 800;
-    src: url("./fonts/SharpSans-Bold.woff2") format("woff2");
-}
-@font-face {
-    font-display: swap;
-    font-family: architects-daughter;
-    src: url("./fonts/ArchitectsDaughter-Regular.ttf") format("truetype");
-}
-@font-face {
-    font-display: swap;
-    font-family: "MailSans";
-    src: url("./fonts/MailSansRegular.woff2") format("woff2"), url("./fonts/MailSansRegular.woff") format("woff");
-    font-weight: 400;
-    font-style: normal;
-}
-@font-face {
-    font-display: swap;
-    font-family: "Hiragino Mincho Pro";
-    src: url('./fonts/hiragino-mincho-pro-w3.otf') format("opentype");
-    font-weight: 400;
-    font-style: normal;
-}
-*/
 *,
 ::after,
 ::before {
@@ -176,7 +134,7 @@ a:hover {
 }
 body,
 html {
-    font-family: sharpsans-web, "MailSans", "Hiragino Mincho Pro", helvetica, arial, sans-serif;
+    font-family: sharpsans-web, "MailSans", "Hiragino Mincho Pro";
     box-sizing: border-box;
     margin: 0;
     padding: 0;
@@ -484,12 +442,12 @@ ul {
     clip-path: polygon(0 0, 100% 0, 96% 50%, 100% 100%, 0 100%, 5% 51%);
     padding: 0 0.5em;
     text-align: center;
-    font-family: architects-daughter, sharpsans-web, "Hiragino Mincho Pro", "MailSans" !important;
+    font-family: architects-daughter, "Hiragino Mincho Pro", "MailSans";
 }
 #letter,
 .charted,
 .mini-charted {
-    font-family: architects-daughter, sharpsans-web, "Hiragino Mincho Pro", "MailSans";
+    font-family: architects-daughter, "Hiragino Mincho Pro", "MailSans";
 }
 .mark .first-headline,
 .mark .second-headline {
