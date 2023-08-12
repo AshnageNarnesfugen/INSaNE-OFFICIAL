@@ -43,56 +43,58 @@ jQuery(() => {
     })(jQuery);
     
     // Usage
-    $('body').fontLoader({
-        fonts: [
-            {
-                name: 'sharpsans-web',
-                weight: '400',
-                style: 'normal',
-                formats: {
-                    woff2: '../css/fonts/SharpSans-Medium.woff2'
+    $(document).ready(function() {
+        $('body').fontLoader({
+            fonts: [
+                {
+                    name: 'sharpsans-web',
+                    weight: '400',
+                    style: 'normal',
+                    formats: {
+                        woff2: '../css/fonts/SharpSans-Medium.woff2'
+                    }
+                },
+                {
+                    name: 'sharpsans-web',
+                    weight: '600',
+                    style: 'normal',
+                    formats: {
+                        woff2: '../css/fonts/SharpSans-Semibold.woff2'
+                    }
+                },
+                {
+                    name: 'sharpsans-web',
+                    weight: '800',
+                    style: 'normal',
+                    formats: {
+                        woff2: '../css/fonts/SharpSans-Bold.woff2'
+                    }
+                },
+                {
+                    name: 'architects-daughter',
+                    formats: {
+                        ttf: '../css/fonts/ArchitectsDaughter-Regular.ttf'
+                    }
+                },
+                {
+                    name: 'MailSans',
+                    weight: '400',
+                    style: 'normal',
+                    formats: {
+                        woff2: '../css/fonts/MailSansRegular.woff2',
+                        woff: '../css/fonts/MailSansRegular.woff'
+                    }
+                },
+                {
+                    name: 'Hiragino Mincho Pro',
+                    weight: '400',
+                    style: 'normal',
+                    formats: {
+                        otf: '../css/fonts/hiragino-mincho-pro-w3.otf'
+                    }
                 }
-            },
-            {
-                name: 'sharpsans-web',
-                weight: '600',
-                style: 'normal',
-                formats: {
-                    woff2: '../css/fonts/SharpSans-Semibold.woff2'
-                }
-            },
-            {
-                name: 'sharpsans-web',
-                weight: '800',
-                style: 'normal',
-                formats: {
-                    woff2: '../css/fonts/SharpSans-Bold.woff2'
-                }
-            },
-            {
-                name: 'architects-daughter',
-                formats: {
-                    ttf: '../css/fonts/ArchitectsDaughter-Regular.ttf'
-                }
-            },
-            {
-                name: 'MailSans',
-                weight: '400',
-                style: 'normal',
-                formats: {
-                    woff2: '../css/fonts/MailSansRegular.woff2',
-                    woff: '../css/fonts/MailSansRegular.woff'
-                }
-            },
-            {
-                name: 'Hiragino Mincho Pro',
-                weight: '400',
-                style: 'normal',
-                formats: {
-                    otf: '../css/fonts/hiragino-mincho-pro-w3.otf'
-                }
-            }
-        ],
-        fallback: 'sans-serif'
-    });    
+            ],
+            fallback: 'sans-serif'
+        });
+    }) 
 })
