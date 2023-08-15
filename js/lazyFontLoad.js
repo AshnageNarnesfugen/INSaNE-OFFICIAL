@@ -1,48 +1,36 @@
 jQuery(() => {
-    (function($) {
-        $.fn.fontLoader = function(options) {
-            const settings = $.extend({
-                fonts: [],
-                fallback: 'sans-serif'
-            }, options);
+    $.fn.fontLoader = function(options) {
+        const {
+            fonts = [],
+            fallback = 'sans-serif'
+        } = options;
 
-            function loadFont(font) {
-                const formats = font.formats || {};
-                const promises = [];
-    
-                for (let format in formats) {
-                    const face = new FontFace(font.name, `url(${formats[format]})`, {
-                        weight: font.weight || 'normal',
-                        style: font.style || 'normal'
-                    });
-                    promises.push(face.load());
-                }
-    
-                return Promise.all(promises).then(loadedFonts => {
-                    loadedFonts.forEach(loadedFont => {
-                        document.fonts.add(loadedFont);
-                    });
+        function loadFont(font) {
+            const { name, formats = {}, weight = 'normal', style = 'normal' } = font;
+            const promises = Object.entries(formats).map(([format, url]) => {
+                const face = new FontFace(name, `url(${url})`, { weight, style });
+                return face.load().then(loadedFont => {
+                    document.fonts.add(loadedFont);
                 }).catch(error => {
-                    console.error(`Failed to load font: ${font.name}`, error);
-                });
-            }
-    
-            const fontPromises = settings.fonts.map(loadFont);
-    
-            return this.each(function() {
-                Promise.all(fontPromises).then(() => {
-                    console.log('All fonts loaded!');
-                    $(this).trigger('fontsLoaded');
-                }).catch(error => {
-                    console.error('Some fonts failed to load.', error);
-                    $(this).trigger('fontsLoadError', error);
+                    console.error(`Failed to load font [${name}] in format [${format}]:`, error);
                 });
             });
-        };
-    })(jQuery);
+            return Promise.all(promises);
+        }
+
+        const fontPromises = fonts.map(loadFont);
+
+        return Promise.all(fontPromises).then(() => {
+            console.log('All fonts loaded!');
+            this.trigger('fontsLoaded');
+        }).catch(error => {
+            console.error('Some fonts failed to load.', error);
+            this.trigger('fontsLoadError', error);
+        });
+    };
 
     // Usage
-    $(window).on('load', function() {
+    $(document).on('load', window, function() {
         $('body').fontLoader({
             fonts: [ 
                 {
