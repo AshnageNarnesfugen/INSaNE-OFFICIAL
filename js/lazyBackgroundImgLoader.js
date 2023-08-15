@@ -89,29 +89,16 @@
             return /^(data:|https?:\/\/)/.test(src);
         }
 
-        function lazyLoadBackground($divElement) {
-            const src = $divElement.attr('data-background-img');
+        function loadBackgrounds() {
+            return this.map((index, divElement) => {
+                const $divElement = $(divElement);
+                const dataBackgroundImg = $divElement.attr('data-background-img');
 
-            if (!src || !isValidURL(src)) {
-                return Promise.resolve();
-            }
+                if (!dataBackgroundImg) return;
 
-            if (src.startsWith('data:')) {
-                $divElement.addClass('loaded');
-                return Promise.resolve();
-            }
-
-            return $.ajax({
-                url: src,
-                xhrFields: {
-                    responseType: 'blob'
-                }
-            })
-            .then((blob) => {
-                $divElement.css('background-image', `url(${URL.createObjectURL(blob)})`);
-                $divElement.addClass('loaded');
-            })
-            .catch(() => console.error(`Failed to load background image: ${src}`));
+                observer.observe(divElement);
+                return backgroundLoadPromise($divElement);
+            }).get();
         }
 
         function handleIntersection(entries) {
@@ -124,25 +111,39 @@
             });
         }
 
-        function backgroundLoadPromise($div) {
+        function lazyLoadBackground($divElement) {
+            const src = $divElement.attr('data-background-img');
+
+            if (!isValidURL(src)) return Promise.resolve();
+
+            if (src.startsWith('data:')) {
+                $divElement.css('background-image', `url(${src})`).addClass('loaded');
+                return Promise.resolve();
+            }
+
+            return $.ajax({
+                url: src,
+                xhrFields: {
+                    responseType: 'blob'
+                }
+            })
+            .then((blob) => {
+                $divElement.css('background-image', `url(${URL.createObjectURL(blob)})`).addClass('loaded');
+            })
+            .catch(() => console.error(`Failed to load background image: ${src}`));
+        }
+
+        function backgroundLoadPromise($divElement) {
             return new Promise((resolve, reject) => {
                 const img = new Image();
                 img.onload = resolve;
-                img.onerror = () => reject(new Error(`Failed to load background image: ${$div.attr('data-background-img')}`));
-                img.src = $div.attr('data-background-img');
+                img.onerror = () => reject(new Error(`Failed to load background image: ${$divElement.attr('data-background-img')}`));
+                img.src = $divElement.attr('data-background-img');
             });
         }
 
         return this.each(function() {
-            const backgroundPromises = $(this).map((index, divElement) => {
-                const $divElement = $(divElement);
-                const dataBackgroundImg = $divElement.attr('data-background-img');
-
-                if (dataBackgroundImg) {
-                    observer.observe(divElement);
-                    return backgroundLoadPromise($divElement);
-                }
-            }).get();
+            const backgroundPromises = loadBackgrounds.call($(this));
 
             Promise.all(backgroundPromises)
                 .then(() => console.log('All backgrounds loaded successfully'))
