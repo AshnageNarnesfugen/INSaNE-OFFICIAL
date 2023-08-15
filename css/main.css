@@ -9,6 +9,7 @@
 .solution {
     place-content: center;
 }
+.modal-open { overflow: hidden; }
 .read-more-content {
     height: 0;
     overflow: hidden;
