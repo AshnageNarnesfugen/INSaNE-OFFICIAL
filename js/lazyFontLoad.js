@@ -30,7 +30,7 @@ jQuery(() => {
     };
 
     // Usage
-    $(document).on('load', window, function() {
+    $(window).on('load', function() {
         $('body').fontLoader({
             fonts: [ 
                 {
