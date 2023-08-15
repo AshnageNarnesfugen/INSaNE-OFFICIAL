@@ -2,6 +2,7 @@
 ::after,
 ::before {
     list-style: none;
+    scroll-behavior: none !important;
 }
 .burger_menu,
 .form-container,
