@@ -221,6 +221,10 @@
                     $imgElement.attr('src', blobURL);
                     setImageDimensions($imgElement, src);
                     $imgElement.parent().addClass('loaded');
+                    $imgElement.on('load', () => {
+                        // Revoke the blob URL after the image has fully loaded
+                        URL.revokeObjectURL(blobURL);
+                    });
                 },
                 error: () => console.error(`Failed to load image: ${src}`)
             });
