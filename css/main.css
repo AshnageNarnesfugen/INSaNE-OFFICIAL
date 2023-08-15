@@ -2,7 +2,7 @@
 ::after,
 ::before {
     list-style: none;
-    scroll-behavior: none !important;
+    scroll-behavior: unset !important;
 }
 .burger_menu,
 .form-container,
@@ -141,6 +141,7 @@ html {
     background-color: #000;
     width: 100%;
     height: 100%;
+    scroll-behavior: unset !important;
 }
 .video-overlay {
     position: absolute;
