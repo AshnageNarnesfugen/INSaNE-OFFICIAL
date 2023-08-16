@@ -1196,6 +1196,7 @@ span {
         left: 18% !important;
         transform: translate(-12%, -30%) !important;
         padding: 5px;
+        max-width: 250px;
     }
 }
 #speakers {
