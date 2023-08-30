@@ -42,6 +42,8 @@ $.fn.shuffleLetters = function(prop) {
                 types[i] = "russian";
             } else if (/[\u0600-\u06FF]/.test(ch)) { // Arabic range
                 types[i] = "arabic";
+            } else if (/[\u0900-\u097F]/.test(ch)) { // Hindi characters range
+                types[i] = "hindi";
             } else if (/[0-9]/.test(ch)) {
                 types[i] = "number"
             } else {
@@ -103,7 +105,13 @@ function randomChar(type) {
     } else if (type == "number") {
         pool = "0123456789";
     } else if (type == "arabic") {
-        pool = "ءآأؤإئابةتثجحخدذرزسشصضطظعغفقكلمنهوىيًٌٍَُِّْٕٖٜٟٓٔٗ٘ٙٚٛٝٞ٠١٢٣٤٥٦٧٨٩٪٫٬٭ٮٯٰٱٲٳٴٵٶٷٸٹٺٻټٽپٿ";
+        pool = "ءآأؤإئابةتثجحخدذرزسشصضطظعغفقكلمنهوىيـًٌٍَُِّْ٠١٢٣٤٥٦٧٨٩";
+        // Diacritics
+        pool += "ـَُِّْ";
+    } else if (type == "hindi") {
+        pool = "अआइईउऊऋएऐऑओऔकखगघङचछजझञटठडढणतथदधनपफबभमयरलवशषसह़ािीुूृेैॉोौ्ॐऽ।॥";
+        // Matras (diacritics)
+        pool += "ािीुूृॄॅॆेैॉॊोौ्";
     }
 
     var arr = pool.split('');
