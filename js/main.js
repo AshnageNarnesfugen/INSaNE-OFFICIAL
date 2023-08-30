@@ -65,6 +65,10 @@ jQuery(() => {
         'ko': {
             'readMore': '더 읽기',
             'readLess': '적게 읽기'
+        },
+        'ar': {
+            'readMore': 'اقرأ أكثر',
+            'readLess': 'أقرأ أقل'
         }
     }
 
@@ -119,7 +123,8 @@ jQuery(() => {
         'it': 'Immergiti in "INSaNE | Un Eroe Spezzato". Unisciti a Ashnage, un controllore di gravità, nella sua epica missione contro un\'invasione aliena. Lotte personali, battaglie intense, profondi misteri ti aspettano. Unisciti ora!!',
         'ru': 'Погрузитесь в "INSaNE | Сломленный Герой". Присоединитесь к Ашнейджу, контролеру гравитации, в его эпическом квесте против инопланетного вторжения. Личные борьбы, интенсивные битвы, глубокие тайны ждут вас. Присоединяйтесь сейчас!!',
         'zh': '深入"INSaNE | 一个破碎的英雄"。加入Ashnage，一个重力控制器，在他对抗外星入侵的史诗般的任务中。个人的斗争，激烈的战斗，深深的秘密等待着你。现在就加入!!',
-        'ko': '"INSaNE | 부서진 영웅"에 뛰어들어보세요. 중력 컨트롤러인 Ashnage와 함께 외계인 침략에 대한 서사시적인 퀘스트에 참여하세요. 개인적인 싸움, 격렬한 전투, 깊은 미스터리가 기다리고 있습니다. 지금 바로 참여하세요!!'
+        'ko': '"INSaNE | 부서진 영웅"에 뛰어들어보세요. 중력 컨트롤러인 Ashnage와 함께 외계인 침략에 대한 서사시적인 퀘스트에 참여하세요. 개인적인 싸움, 격렬한 전투, 깊은 미스터리가 기다리고 있습니다. 지금 바로 참여하세요!!',
+        'ar': 'انغمس في "جنون | بطل مكسور". انضم إلى Ashnage، المتحكم في الجاذبية، في سعيه الملحمي ضد الغزو الفضائي. صراعات شخصية ومعارك شديدة وأسرار عميقة في انتظارك. نضم الان!!'
     };
 
     var invitationalText = invitationalTexts[language];
@@ -134,7 +139,8 @@ jQuery(() => {
         'it':  window.location.origin + '/it', // For Italian
         'ru':  window.location.origin + '/ru', // For Russian
         'zh':  window.location.origin + '/cn', // For Chinese
-        'ko':  window.location.origin + '/kr' // For Korean
+        'ko':  window.location.origin + '/kr', // For Korean
+        'ar':  window.location.origin + '/ar', // For Arabic
     };
 
     var url = urls[language]; // Get the URL based on the language
@@ -199,7 +205,8 @@ jQuery(() => {
             '/it': 'Scarica',
             '/ru': 'Скачать',
             '/cn': '下载',
-            '/kr': '다운로드'
+            '/kr': '다운로드',
+            '/ar': 'تحميل'
         },
         defaultDownloadMessage: 'Download'
     });

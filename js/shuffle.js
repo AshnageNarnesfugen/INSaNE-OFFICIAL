@@ -40,6 +40,8 @@ $.fn.shuffleLetters = function(prop) {
                 types[i] = "korean";
             } else if (/[\u0410-\u044F]/.test(ch)) { // Russian range
                 types[i] = "russian";
+            } else if (/[\u0600-\u06FF]/.test(ch)) { // Arabic range
+                types[i] = "arabic";
             } else if (/[0-9]/.test(ch)) {
                 types[i] = "number"
             } else {
@@ -100,6 +102,8 @@ function randomChar(type) {
         pool = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдеёжзийклмнопрстуфхцчшщъыьэюя";
     } else if (type == "number") {
         pool = "0123456789";
+    } else if (type == "arabic") {
+        pool = "ءآأؤإئابةتثجحخدذرزسشصضطظعغفقكلمنهوىيًٌٍَُِّْٕٖٜٟٓٔٗ٘ٙٚٛٝٞ٠١٢٣٤٥٦٧٨٩٪٫٬٭ٮٯٰٱٲٳٴٵٶٷٸٹٺٻټٽپٿ";
     }
 
     var arr = pool.split('');

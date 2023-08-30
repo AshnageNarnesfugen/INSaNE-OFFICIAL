@@ -200,7 +200,8 @@ jQuery(() => {
         'RU': ['/ru', ['RU', 'BY', 'KZ', 'KG', 'TJ', 'TM']],
         'DE': ['/de', ['DE', 'AT', 'CH', 'LU', 'LI', 'BE']],
         'IT': ['/it', ['IT', 'CH', 'SM', 'VA']],
-        'KR': ['/kr', ['KR']]
+        'KR': ['/kr', ['KR']],
+        'AR': ['/ar', ['SA', 'EG', 'IQ', 'DZ', 'SD', 'MA', 'TN', 'OM', 'JO', 'AE', 'LB', 'LY', 'MR', 'KW', 'QA', 'BH', 'YE', 'PS', 'SO', 'KM', 'DJ', 'EH']]
     } 
     let targetPage = window.location.origin
     if (Cookies.get('my_cookie_consent') === 'true') {
@@ -279,7 +280,13 @@ jQuery(() => {
                 rejectText: '거절합니다',
                 policyLink: '/개인정보처리방침',
                 policyText: '우리의 쿠키 정책에 대해 더 알아보기'
-            }
+            },ar: {
+                message: 'نستخدم ملفات تعريف الارتباط لتعزيز تجربتك. من خلال الاستمرار في زيارة هذا الموقع، فإنك توافق على استخدامنا لملفات تعريف الارتباط.',
+                buttonText: 'أوافق',
+                rejectText: 'أرفض',
+                policyLink: '/siasatu-alkhususia',
+                policyText: 'تعرف على المزيد حول سياسة ملفات تعريف الارتباط لدينا'
+            }            
             // Add more languages here...
         },
         onAccept: function() {

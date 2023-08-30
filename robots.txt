@@ -19,3 +19,4 @@ Sitemap: https://insane-bh.space/ru/sitemap.xml
 Sitemap: https://insane-bh.space/cn/sitemap.xml
 Sitemap: https://insane-bh.space/kr/sitemap.xml
 Sitemap: https://insane-bh.space/it/sitemap.xml
+Sitemap: https://insane-bh.space/ar/sitemap.xml

@@ -60,5 +60,10 @@
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
+  <loc>https://insane-bh.space/ar/</loc>
+    <lastmod>2023-07-12</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
   <!-- Add more URLs here -->
 </urlset>
