@@ -201,7 +201,8 @@ jQuery(() => {
         'DE': ['/de', ['DE', 'AT', 'CH', 'LU', 'LI', 'BE']],
         'IT': ['/it', ['IT', 'CH', 'SM', 'VA']],
         'KR': ['/kr', ['KR']],
-        'AR': ['/ar', ['SA', 'EG', 'IQ', 'DZ', 'SD', 'MA', 'TN', 'OM', 'JO', 'AE', 'LB', 'LY', 'MR', 'KW', 'QA', 'BH', 'YE', 'PS', 'SO', 'KM', 'DJ', 'EH']]
+        'AR': ['/ar', ['SA', 'EG', 'IQ', 'DZ', 'SD', 'MA', 'TN', 'OM', 'JO', 'AE', 'LB', 'LY', 'MR', 'KW', 'QA', 'BH', 'YE', 'PS', 'SO', 'KM', 'DJ', 'EH']],
+        'HI': ['/hi', ['IN', 'FJ', 'MU']]
     } 
     let targetPage = window.location.origin
     if (Cookies.get('my_cookie_consent') === 'true') {
@@ -280,13 +281,21 @@ jQuery(() => {
                 rejectText: '거절합니다',
                 policyLink: '/개인정보처리방침',
                 policyText: '우리의 쿠키 정책에 대해 더 알아보기'
-            },ar: {
+            },
+            ar: {
                 message: 'نستخدم ملفات تعريف الارتباط لتعزيز تجربتك. من خلال الاستمرار في زيارة هذا الموقع، فإنك توافق على استخدامنا لملفات تعريف الارتباط.',
                 buttonText: 'أوافق',
                 rejectText: 'أرفض',
                 policyLink: '/siasatu-alkhususia',
                 policyText: 'تعرف على المزيد حول سياسة ملفات تعريف الارتباط لدينا'
-            }            
+            },
+            hi: {
+                message: 'हम कुकीज़ का उपयोग आपके अनुभव को बेहतर बनाने के लिए करते हैं। इस साइट का दौरा करने का जारी रखकर आप हमारे कुकीज़ के उपयोग से सहमत होते हैं।',
+                buttonText: 'मैं सहमत हूँ',
+                rejectText: 'मैं असहमत हूँ',
+                policyLink: '/gopaneeyata-neeti',
+                policyText: 'हमारी कुकी पॉलिसी के बारे में और अधिक जानें'
+            }                       
             // Add more languages here...
         },
         onAccept: function() {
