@@ -1,3 +1,7 @@
+html.arabian * {
+    text-align: right !important;
+}
+
 *,
 ::after,
 ::before {
