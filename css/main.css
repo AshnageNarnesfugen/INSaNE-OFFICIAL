@@ -882,7 +882,14 @@ ul {
 }
 .main,
 .slide {
-    height: 100vh;
+    height: 1000px;
+}
+
+@media (max-width: 979px) {
+    .main,
+    .slide {
+        height: 750px;
+    }
 }
 .image,
 .owl-stage-outer,
