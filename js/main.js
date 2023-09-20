@@ -433,7 +433,8 @@ jQuery(() => {
         dotsContainer: '#custom-owl-dots',
         dotsSpeed: 400,
         autoplay: false,
-        nav: false
+        nav: false,
+        rewind: true
     })
 
     $('.owl-prev').click(() => owl.trigger('prev.owl.carousel'))
