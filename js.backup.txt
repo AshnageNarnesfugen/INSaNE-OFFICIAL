@@ -2100,4 +2100,69 @@ jQuery(() => {
         });
     }) 
 })
-*/        
+*/     
+
+
+<section id="speakers" class="space_section py-5 shuffle-section">
+            <div class="container">
+                <div class="row py-5 gx-0">
+                    <p><span class="speakers-title mini-charted text-dark" data-text="Team Members">Team Members</span></p>
+                </div>
+                <div class="row py-5 gx-0 justify-content-center align-content-center">
+                    <div class="col-sm-12 col-md-6 col-lg-4 my-5">
+                        <div class="speaker-box">
+                            <div class="speaker-image">
+                                <img data-blur="true" data-module="false" data-src="./img/SEO_IMAGES/alexis.webp" alt="user1" class="img-fluid">
+                            </div>
+                            <div class="user-name">
+                                <div class="container">
+                                    <p class="px-3"><span class="bold">Alexis Cantú</span></p>
+                                    <p class="px-3">Author | Global Executive Director (CEO)</p>
+                                </div>
+                            </div>
+                            <div class="text-box">
+                                <div class="container">
+                                    <p class="px-3">"'INSaNE - A Broken Hero's creation was a journey to inspire audiences with a powerful story via animation."</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-6 col-lg-4 my-5">
+                        <div class="speaker-box">
+                            <div class="speaker-image">
+                                <img data-blur="true" data-module="false" data-src="./img/SEO_IMAGES/jiterig.webp" alt="user2" class="img-fluid">
+                            </div>
+                            <div class="user-name">
+                                <div class="container">
+                                    <p class="px-3"><span class="bold">Michaela Silcher</span></p>
+                                    <p class="px-3">Chief Animation Director (CAD)</p>
+                                </div>
+                            </div>
+                            <div class="text-box">
+                                <div class="container">
+                                    <p class="px-3">"Our work on 'INSaNE' vividly animates Ashnage's journey, hoping for a deep audience connection with the visual narrative."</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-6 col-lg-4 my-5">
+                        <div class="speaker-box">
+                            <div class="speaker-image">
+                               <img data-blur="true" data-module="false" data-src="./img/SEO_IMAGES/lilanth-min.webp" alt="user3" class="img-fluid"> 
+                            </div>
+                            <div class="user-name">
+                                <div class="container">
+                                    <p class="px-3"><span class="bold">Anthea Villagarcia</span></p>
+                                    <p class="px-3">Chief Creative Officer (CCO)</p>
+                                </div>
+                            </div>
+                            <div class="text-box">
+                                <div class="container">
+                                    <p class="px-3">"Contributing to 'INSaNE' involved animating a unique, visually captivating world, delivering a distinctive aesthetic experience."</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
