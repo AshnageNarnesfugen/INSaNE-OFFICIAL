@@ -266,8 +266,10 @@ jQuery(() => {
     });
 
     $("#download-pdf").parallaxie({
-        speed: 0.8,
-        disableMobile: true
+        speed: 0.2,
+        disableMobile: true,
+        size: 'auto',
+        repeat: 'repeat',
     });
 
     $("#speakers").parallaxie({
