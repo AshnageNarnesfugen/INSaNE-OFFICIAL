@@ -428,6 +428,30 @@ jQuery(() => {
         }
     }
 
+    // Obtén el valor del parámetro "sectionScrollID" de la URL
+    var sectionScrollID = getUrlParameter('sectionScrollID');
+
+    // Verifica si el parámetro está presente y no es nulo
+    if (sectionScrollID) {
+        // Encuentra el elemento con el ID correspondiente
+        var targetElement = $('#' + sectionScrollID);
+
+        // Realiza un scroll suave hasta el elemento
+        if (targetElement.length > 0) {
+            $('html, body').animate({
+                scrollTop: targetElement.offset().top
+            }, 1000); // Cambia 1000 a la duración en milisegundos que desees para la animación
+        }
+    }
+
+    // Función para obtener el valor de un parámetro de la URL
+    function getUrlParameter(name) {
+        name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+        var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+        var results = regex.exec(location.search);
+        return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+    }
+
     // Usage:
     const shuffler = new SectionShuffler();
     shuffler.init();
