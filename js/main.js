@@ -436,10 +436,11 @@ jQuery(() => {
        // Encuentra el elemento con el ID correspondiente
        var targetElement = $('#' + sectionScrollID);
 
-       // Realiza un scroll suave hasta el elemento
+       // Realiza un scroll suave hasta el elemento centrado en la ventana
        if (targetElement.length > 0) {
            var windowHeight = $(window).height();
-           var scrollTo = targetElement.offset().top - (windowHeight / 2);
+           var elementHeight = targetElement.height();
+           var scrollTo = targetElement.offset().top - (windowHeight / 2) + (elementHeight / 2);
            
            $('html, body').animate({
                scrollTop: scrollTo
