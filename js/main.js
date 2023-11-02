@@ -326,7 +326,7 @@ jQuery(() => {
             if (Cookies.get('registered') === 'true') {
                 // Display a message indicating that the user has already registered
                 this.form.css('display', 'none');
-                $('.form-container').html(`<div class="post-form"><h1>${this.cookieSubmittedMSN}</h1></div>`);
+                $('.form-container').html(`<p>${this.cookieSubmittedMSN}</p>`);
             }
         }
         //data-cookiesubmittedmsn
