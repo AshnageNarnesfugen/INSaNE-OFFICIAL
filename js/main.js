@@ -317,9 +317,19 @@ jQuery(() => {
             this.notifError = JSON.parse(this.form.attr('data-notif-error'));
             this.tyMsg = this.form.attr('data-tymsg');
             this.errMsg = this.form.attr('data-errmsg');
+            this.cookieSubmittedMSN = this.form.attr('data-cookiesubmittedmsn')
+            this.checkRegistrationStatus()
             this.form.on('submit', (e) => this.handleSubmit(e));
         }
 
+        checkRegistrationStatus() {
+            if (Cookies.get('registered') === 'true') {
+                // Display a message indicating that the user has already registered
+                $('#form-container').html(`<div class="post-form"><h1>${this.cookieSubmittedMSN}</h1></div>`);
+                this.form.css('display', 'none');
+            }
+        }
+        //data-cookiesubmittedmsn
         sendNotification(type, title, body) {
             Notification.requestPermission().then(perm => {
                 if (perm === "granted") {
@@ -359,6 +369,9 @@ jQuery(() => {
                 this.sendNotification(type, this.notifSuccess[0], this.notifSuccess[1]);
                 this.form.css('display', 'none');
                 $('.form-container').html(`<p>${this.tyMsg}</p>`);
+
+                // Set a cookie to mark that the user has registered
+                Cookies.set('registered', 'true', { expires: 365 }); // Expires in 1 year
             } else {
                 this.sendNotification(type, this.notifError[0], this.notifError[1]);
                 this.form.css('display', 'none');
