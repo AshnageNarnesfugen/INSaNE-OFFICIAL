@@ -646,7 +646,7 @@ main.slider {
 }
 .form-container {
     width: 100%;
-    display: grid;
+    display: flex;
     color: #fff;
 }
 .post-form {
