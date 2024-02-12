@@ -362,6 +362,7 @@ textarea {
     background-repeat: repeat !important;
     overflow: hidden;
     height: 100% !important;
+    padding: 100px 0;
 }
 .section_videos {
     display: inline-flex !important;
@@ -632,7 +633,6 @@ main.slider {
 .form-container {
     width: 100%;
     display: grid;
-    padding: 100px 0;
     color: #fff;
 }
 .post-form {
