@@ -621,6 +621,8 @@ a {
     left: 50%;
     transform: translate(-50%, -30%);
     padding: 5px;
+    min-width: 300px;
+    min-height: 55px;
 }
 #letter::after {
     content: "";
