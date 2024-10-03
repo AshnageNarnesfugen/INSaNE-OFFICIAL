@@ -105,7 +105,7 @@
             $img.on('click', () => {
                 const src = $img.attr('src');
                 const $modal = $(
-                    `<div class="modal">
+                    `<div class="modal active">
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                 <img class="modal-img img-fluid inherit" src="${src}" ondragstart="return false;">

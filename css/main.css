@@ -818,6 +818,12 @@ img {
     overflow: auto;
     background-color: rgba(0, 0, 0, 0.9);
 }
+
+.modal .active {
+    display: flex !important;
+    flex-wrap: wrap;
+    place-content: center;
+}
 .modal-img {
     margin: 0 auto;
     display: block;
