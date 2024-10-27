@@ -265,13 +265,6 @@ jQuery(() => {
         disableMobile: true
     });
 
-    $("#download-pdf").parallaxie({
-        speed: 0.2,
-        disableMobile: true,
-        size: 'auto',
-        repeat: 'repeat',
-    });
-
     $("#speakers").parallaxie({
         speed: 0.2,
         disableMobile: true,
