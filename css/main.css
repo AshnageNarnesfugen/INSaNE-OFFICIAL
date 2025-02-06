@@ -47,6 +47,10 @@ html.arabian * {
     border: none;
     cursor: pointer;
     background: 0 0;
+    display: flex;
+}
+.language-label {
+    padding: 7px;
 }
 #accessibilityMenu {
     max-width: 300px;
