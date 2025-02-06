@@ -2166,3 +2166,10 @@ jQuery(() => {
                 </div>
             </div>
         </section>
+        <script src="js/smoothscroll.js"></script>
+    <script>
+        SmoothScroll({
+            animationTime: 1000,
+            stepSize: 200
+        });
+    </script>
