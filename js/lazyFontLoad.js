@@ -37,8 +37,6 @@ jQuery(() => {
             fontsToLoad = [
                 {
                     name: 'Noto Serif Hentaigana',
-                    weight: '400',
-                    style: 'normal',
                     formats: {
                         ttf: '../css/fonts/NotoSerifHentaigana-VariableFont_wght.ttf'
                     }
@@ -48,8 +46,6 @@ jQuery(() => {
             fontsToLoad = [
                 {
                     name: 'MailSans',
-                    weight: '400',
-                    style: 'normal',
                     formats: {
                         woff2: '../css/fonts/MailSansRegular.woff2',
                         woff: '../css/fonts/MailSansRegular.woff'
