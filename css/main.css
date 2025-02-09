@@ -2,6 +2,14 @@ html.arabian * {
     text-align: right !important;
 }
 
+select:focus {
+    outline: none !important;
+}
+
+*:focus {
+    outline: none;
+}
+
 .pdf-button {
     width: 100%;
     height: 100%;
