@@ -42,7 +42,7 @@ jQuery(() => {
                     }
                 }
             ];
-        } else if (currentURL.includes('/de')) {
+        } else if (currentURL.includes('/ru')) {
             fontsToLoad = [
                 {
                     name: 'MailSans',
