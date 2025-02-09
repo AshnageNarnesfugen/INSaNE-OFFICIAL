@@ -1,5 +1,7 @@
-html.arabian * {
+html.arabian *:not(input):not(button):not(img):not(br):not(hr):not(video):not(audio):not(svg):not(canvas) {
     text-align: right !important;
+    display: block;
+    margin: 0 auto;
 }
 
 select:focus {
@@ -33,6 +35,7 @@ select:focus {
 ::before {
     list-style: none;
     scroll-behavior: unset !important;
+    font-family: sharpsans-web, "MailSans", "Noto Serif Hentaigana";
 }
 .burger_menu,
 .form-container,
