@@ -300,7 +300,7 @@ jQuery(() => {
 
     setInterval(interval, 4000)
 
-    class FormHandler {
+    /*class FormHandler {
         constructor(formId, ajaxUrl) {
             this.form = $(formId);
             this.ajaxUrl = ajaxUrl;
@@ -374,8 +374,125 @@ jQuery(() => {
             e.preventDefault();
             this.submitForm();
         }
-    }
-
+    }*/
+        class FormHandler {
+            constructor(formId, ajaxUrl) {
+                this.form = $(formId);
+                this.ajaxUrl = ajaxUrl;
+                this.notifSuccess = this.sanitizeJSON(this.form.attr('data-notif-success'));
+                this.notifError = this.sanitizeJSON(this.form.attr('data-notif-error'));
+                this.tyMsg = this.sanitize(this.form.attr('data-tymsg'));
+                this.errMsg = this.sanitize(this.form.attr('data-errmsg'));
+                this.cookieSubmittedMSN = this.sanitize(this.form.attr('data-cookiesubmittedmsn'));
+        
+                this.checkRegistrationStatus();
+                this.form.on('submit', (e) => this.handleSubmit(e));
+            }
+        
+            /**
+             * Advanced sanitizer function to prevent multiple types of XSS attacks.
+             */
+            sanitize(input) {
+                if (typeof input !== 'string') return '';
+                
+                // Remove script tags, iframes, and objects
+                input = input.replace(/<script.*?>.*?<\/script>/gi, '')
+                             .replace(/<iframe.*?>.*?<\/iframe>/gi, '')
+                             .replace(/<object.*?>.*?<\/object>/gi, '')
+                             .replace(/<embed.*?>.*?<\/embed>/gi, '')
+                             .replace(/<applet.*?>.*?<\/applet>/gi, '')
+                             .replace(/<meta.*?>/gi, '')
+                             .replace(/<link.*?>/gi, '');
+                
+                // Remove JavaScript event handlers (e.g., onclick, onmouseover, etc.)
+                input = input.replace(/\bon[a-z]+\s*=\s*(['"]).*?\1/gi, '');
+        
+                // Prevent JavaScript URL-based attacks (e.g., `javascript:alert(1)`)
+                input = input.replace(/javascript:/gi, '');
+        
+                // Encode HTML special characters
+                input = input.replace(/&/g, "&amp;")
+                             .replace(/</g, "&lt;")
+                             .replace(/>/g, "&gt;")
+                             .replace(/"/g, "&quot;")
+                             .replace(/'/g, "&#x27;")
+                             .replace(/\//g, "&#x2F;");
+        
+                return input;
+            }
+        
+            /**
+             * Sanitizes JSON input by ensuring that all elements are properly escaped.
+             */
+            sanitizeJSON(jsonString) {
+                try {
+                    return JSON.parse(jsonString).map(item => this.sanitize(item));
+                } catch (e) {
+                    return ["Invalid Data", "Invalid Data"];
+                }
+            }
+        
+            checkRegistrationStatus() {
+                if (Cookies.get('registered') === 'true') {
+                    this.form.css('display', 'none');
+                    $('.form-container').text(this.cookieSubmittedMSN);
+                }
+            }
+        
+            sendNotification(type, title, body) {
+                Notification.requestPermission().then(perm => {
+                    if (perm === "granted") {
+                        new Notification(this.sanitize(title), {
+                            body: this.sanitize(body),
+                            icon: "img/webiconspace-removebg-preview.png"
+                        });
+                    }
+                });
+            }
+        
+            getFormData() {
+                return this.form.serializeArray().reduce((obj, item) => {
+                    obj[item.name] = this.sanitize(item.value);
+                    return obj;
+                }, {});
+            }
+        
+            submitForm() {
+                $.ajax({
+                    method: 'POST',
+                    url: this.ajaxUrl,
+                    dataType: 'json',
+                    accepts: 'application/json',
+                    data: this.getFormData(),
+                    success: (data) => {
+                        this.handleResponse('Accepted', data);
+                    },
+                    error: (err) => {
+                        this.handleResponse('Rejected', err);
+                    }
+                });
+            }
+        
+            handleResponse(type, response) {
+                if (type === 'Accepted') {
+                    this.sendNotification(type, this.notifSuccess[0], this.notifSuccess[1]);
+                    this.form.css('display', 'none');
+                    $('.form-container').text(this.tyMsg);
+        
+                    // Set a cookie to mark that the user has registered
+                    Cookies.set('registered', 'true', { expires: 365 });
+                } else {
+                    this.sendNotification(type, this.notifError[0], this.notifError[1]);
+                    this.form.css('display', 'none');
+                    $('.form-container').text(this.errMsg);
+                }
+            }
+        
+            handleSubmit(e) {
+                e.preventDefault();
+                this.submitForm();
+            }
+        }
     // Usage
     let formHandler = new FormHandler('#former-form', 'https://formsubmit.co/ajax/70a19f04e48d9da8774f32b49b924edf');
 
