@@ -73,11 +73,11 @@ jQuery(() => {
                     }
                 },
                 {
-                    name: 'Hiragino Mincho Pro',
+                    name: 'Noto Serif Hentaigana',
                     weight: '400',
                     style: 'normal',
                     formats: {
-                        otf: '../css/fonts/hiragino-mincho-pro-w3.otf'
+                        ttf: '../css/fonts/NotoSerifHentaigana-VariableFont_wght.ttf'
                     }
                 }
              ],
