@@ -1,5 +1,5 @@
 jQuery(() => {
-    $.fn.fontLoader = function(options) {
+    $.fn.fontLoader = function (options) {
         const {
             fonts = [],
             fallback = 'sans-serif'
@@ -29,10 +29,36 @@ jQuery(() => {
         });
     };
 
-    // Usage
-    $(window).on('load', function() {
-        $('body').fontLoader({
-            fonts: [ 
+    $(window).on('load', function () {
+        const currentURL = window.location.href.toLowerCase();
+        let fontsToLoad = [];
+
+        if (currentURL.includes('/ja')) {
+            fontsToLoad = [
+                {
+                    name: 'Noto Serif Hentaigana',
+                    weight: '400',
+                    style: 'normal',
+                    formats: {
+                        ttf: '../css/fonts/NotoSerifHentaigana-VariableFont_wght.ttf'
+                    }
+                }
+            ];
+        } else if (currentURL.includes('/de')) {
+            fontsToLoad = [
+                {
+                    name: 'MailSans',
+                    weight: '400',
+                    style: 'normal',
+                    formats: {
+                        woff2: '../css/fonts/MailSansRegular.woff2',
+                        woff: '../css/fonts/MailSansRegular.woff'
+                    }
+                }
+            ];
+        } else {
+            // Default fonts for other pages
+            fontsToLoad = [
                 {
                     name: 'sharpsans-web',
                     weight: '400',
@@ -62,25 +88,12 @@ jQuery(() => {
                     formats: {
                         ttf: '../css/fonts/ArchitectsDaughter-Regular.ttf'
                     }
-                },
-                {
-                    name: 'MailSans',
-                    weight: '400',
-                    style: 'normal',
-                    formats: {
-                        woff2: '../css/fonts/MailSansRegular.woff2',
-                        woff: '../css/fonts/MailSansRegular.woff'
-                    }
-                },
-                {
-                    name: 'Noto Serif Hentaigana',
-                    weight: '400',
-                    style: 'normal',
-                    formats: {
-                        ttf: '../css/fonts/NotoSerifHentaigana-VariableFont_wght.ttf'
-                    }
                 }
-             ],
+            ];
+        }
+
+        $('body').fontLoader({
+            fonts: fontsToLoad,
             fallback: 'sans-serif'
         });
     });
