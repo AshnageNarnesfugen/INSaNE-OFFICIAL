@@ -452,18 +452,6 @@ ul {
     align-self: center;
     justify-self: center;
 }
-#alternate_styles {
-    background-repeat: repeat;
-    animation: moveBackground 500ms linear infinite;
-}
-@keyframes moveBackground {
-    0% {
-      background-position: 0 0;
-    }
-    100% {
-      background-position: 100% 100%;
-    }
-}
 .equal,
 .text {
     flex-wrap: wrap;
