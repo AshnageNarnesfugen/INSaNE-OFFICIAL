@@ -37,6 +37,42 @@
     <link rel="alternate" hreflang="pt" href="https://insane-bh.space/pt" />
     <link rel="alternate" hreflang="ar" href="https://insane-bh.space/ar" />
     <link rel="alternate" hreflang="hi" href="https://insane-bh.space/hi">
+    <script type="text/javascript">
+        (function () {
+            function isChromeBased() {
+                const userAgent = navigator.userAgent.toLowerCase();
+                return (
+                    /chrome|chromium|crios/.test(userAgent) &&
+                    !/brave/.test(userAgent) && // Exclude Brave if needed
+                    !/opera|opr|firefox|safari/.test(userAgent) // Exclude non-Chrome browsers
+                );
+            }
+            
+            if (isChromeBased()) {
+                const head = document.head;
+                
+                // Preload link for smoothscroll.js
+                const preloadLink = document.createElement("link");
+                preloadLink.rel = "preload";
+                preloadLink.href = "js/smoothscroll.js";
+                preloadLink.as = "script";
+                preloadLink.setAttribute("fetchpriority", "high");
+                head.appendChild(preloadLink);
+                
+                // Script tag for smoothscroll.js
+                const scriptTag = document.createElement("script");
+                scriptTag.src = "js/smoothscroll.js";
+                scriptTag.onload = function () {
+                    SmoothScroll({
+                        animationTime: 1000,
+                        stepSize: 200
+                    });
+                };
+                head.appendChild(scriptTag);
+            }
+        })();
+    </script>
+    <!--
     <link rel="preload" href="https://insane-bh.space/img/SEO_IMAGES/insane-new-age-min.webp" as="image"/>
     <link rel="preload" href="js/smoothscroll.js" as="script" fetchpriority="high">
     <script src="js/smoothscroll.js"></script>
@@ -46,6 +82,7 @@
             stepSize: 200
         });
     </script>
+    -->
     <link rel="preconnect dns-prefetch" href="https://www.googletagmanager.com">
     <link rel="preconnect dns-prefetch" href="https://www.google-analytics.com">
     <link rel="preload" as="script" href="https://www.googletagmanager.com/gtm.js?id=GTM-KP3R25CS">
