@@ -1,7 +1,5 @@
-html.arabian *:not(input):not(button):not(img):not(br):not(hr):not(video):not(audio):not(svg):not(canvas) {
+html.arabian * {
     text-align: right !important;
-    display: block;
-    margin: 0 auto;
 }
 
 select:focus {
