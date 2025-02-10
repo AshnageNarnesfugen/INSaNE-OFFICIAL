@@ -487,12 +487,12 @@ ul {
     clip-path: polygon(0 0, 100% 0, 96% 50%, 100% 100%, 0 100%, 5% 51%);
     padding: 0 0.5em;
     text-align: center;
-    font-family: architects-daughter, "MailSans", "Noto Serif Hentaigana";
+    font-family: architects-daughter, "MailSans", "Noto Serif Hentaigana" !important;
 }
 #letter,
 .charted,
 .mini-charted {
-    font-family: architects-daughter, "MailSans", "Noto Serif Hentaigana";
+    font-family: architects-daughter, "MailSans", "Noto Serif Hentaigana" !important;
 }
 .mark .first-headline,
 .mark .second-headline {
