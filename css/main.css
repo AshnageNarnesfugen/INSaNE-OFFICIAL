@@ -490,6 +490,7 @@ ul {
     text-align: center;
     font-family: architects-daughter, "MailSans", "Hiragino Mincho Pro" !important;
 }
+
 #letter,
 .charted,
 .mini-charted {
@@ -499,6 +500,7 @@ ul {
 .mark .second-headline {
     color: #000;
     line-height: 1.25;
+    font-family: architects-daughter, "MailSans", "Hiragino Mincho Pro" !important;
 }
 .mark .first-headline {
     font-size: 60px;
