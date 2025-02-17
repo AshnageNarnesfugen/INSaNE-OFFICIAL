@@ -45,11 +45,74 @@ jQuery(() => {
             '/ja': [
                 {
                     name: 'Noto Serif Hentaigana',
+                    weight: '900',
+                    style: 'normal',
+                    priority: 'preload',
+                    formats: {
+                        ttf: '../css/fonts/static/NotoSerifHentaigana-Black.ttf'
+                    }
+                },
+                {
+                    name: 'Noto Serif Hentaigana',
+                    weight: '700',
+                    style: 'normal',
+                    priority: 'preload',
+                    formats: {
+                        ttf: '../css/fonts/static/NotoSerifHentaigana-Bold.ttf'
+                    }
+                },
+                {
+                    name: 'Noto Serif Hentaigana',
+                    weight: '800',
+                    style: 'normal',
+                    priority: 'preload',
+                    formats: {
+                        ttf: '../css/fonts/static/NotoSerifHentaigana-ExtraBold.ttf'
+                    }
+                },
+                {
+                    name: 'Noto Serif Hentaigana',
+                    weight: '200',
+                    style: 'normal',
+                    priority: 'lazy',
+                    formats: {
+                        ttf: '../css/fonts/static/NotoSerifHentaigana-ExtraLight.ttf'
+                    }
+                },
+                {
+                    name: 'Noto Serif Hentaigana',
+                    weight: '300',
+                    style: 'normal',
+                    priority: 'lazy',
+                    formats: {
+                        ttf: '../css/fonts/static/NotoSerifHentaigana-Light.ttf'
+                    }
+                },
+                {
+                    name: 'Noto Serif Hentaigana',
+                    weight: '500',
+                    style: 'normal',
+                    priority: 'preload',
+                    formats: {
+                        ttf: '../css/fonts/static/NotoSerifHentaigana-Medium.ttf'
+                    }
+                },
+                {
+                    name: 'Noto Serif Hentaigana',
                     weight: '400',
                     style: 'normal',
                     priority: 'preload',
                     formats: {
-                        ttf: '../css/fonts/NotoSerifHentaigana-VariableFont_wght.ttf'
+                        ttf: '../css/fonts/static/NotoSerifHentaigana-Regular.ttf'
+                    }
+                },
+                {
+                    name: 'Noto Serif Hentaigana',
+                    weight: '600',
+                    style: 'normal',
+                    priority: 'preload',
+                    formats: {
+                        ttf: '../css/fonts/static/NotoSerifHentaigana-SemiBold.ttf'
                     }
                 }
             ],
