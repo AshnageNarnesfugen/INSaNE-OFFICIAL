@@ -2324,7 +2324,7 @@ jQuery(() => {
                     }
                 },
                 {
-                    name: 'Noto Serif Hentaigana',
+                    name: 'Hiragino Mincho Pro',
                     weight: '400',
                     style: 'normal',
                     formats: {
@@ -2375,7 +2375,7 @@ jQuery(() => {
         if (currentURL.includes('/ja')) {
             fontsToLoad = [
                 {
-                    name: 'Noto Serif Hentaigana',
+                    name: 'Hiragino Mincho Pro',
                     formats: {
                         ttf: '../css/fonts/NotoSerifHentaigana-VariableFont_wght.ttf'
                     }
@@ -2481,7 +2481,7 @@ jQuery(() => {
         if (currentURL.includes('/japan')) {
             fontsToLoad = [
                 {
-                    name: 'Noto Serif Hentaigana',
+                    name: 'Hiragino Mincho Pro',
                     weight: '400',
                     style: 'normal',
                     priority: 'preload',
