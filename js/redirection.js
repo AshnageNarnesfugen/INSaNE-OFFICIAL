@@ -250,7 +250,7 @@ jQuery(() => {
                 message: '私たちはあなたの経験を向上させるためにクッキーを使用します。このサイトを訪れ続けることで、あなたは私たちのクッキーの使用に同意することになります。',
                 buttonText: '同意する',
                 rejectText: '拒否する',
-                policyLink: '/プライバシーポリシー',
+                policyLink: '/puraibashi-porishi',
                 policyText: '私たちのクッキーポリシーについて詳しく知る'
             },
             pt: {
@@ -285,21 +285,21 @@ jQuery(() => {
                 message: 'Мы используем куки-файлы для улучшения вашего опыта. Продолжая посещать этот сайт, вы соглашаетесь на использование наших куки-файлов.',
                 buttonText: 'Я согласен',
                 rejectText: 'Я отказываюсь',
-                policyLink: '/политика-конфиденциальности',
+                policyLink: '/politika-konfidentsialnosti',
                 policyText: 'Узнайте больше о нашей политике в отношении файлов cookie'
             },
             zh: {
                 message: '我们使用cookies来提高您的体验。继续访问此网站即表示您同意我们使用cookies。',
                 buttonText: '我同意',
                 rejectText: '我拒绝',
-                policyLink: '/隐私政策',
+                policyLink: '/yinsi-zhengce',
                 policyText: '了解更多关于我们的Cookie政策'
             },
             kr: {
                 message: '우리는 당신의 경험을 향상시키기 위해 쿠키를 사용합니다. 이 사이트를 계속 방문함으로써 당신은 우리의 쿠키 사용에 동의하게 됩니다.',
                 buttonText: '동의합니다',
                 rejectText: '거절합니다',
-                policyLink: '/개인정보처리방침',
+                policyLink: '/gaeinjeongbocheolibangchim',
                 policyText: '우리의 쿠키 정책에 대해 더 알아보기'
             },
             ar: {
