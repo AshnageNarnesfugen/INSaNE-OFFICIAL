@@ -1767,7 +1767,7 @@
                         return 'Scarica';
                     case 'https://insane-bh.space/ru':
                         return 'Скачать';
-                    case 'https://insane-bh.space/cn':
+                    case 'https://insane-bh.space/zh':
                         return '下载';
                     case 'https://insane-bh.space/kr':
                         return '다운로드';
@@ -1881,7 +1881,7 @@
                 'PT': ['/pt', ['BR', 'AO', 'MZ', 'CV', 'GW', 'ST', 'GQ', 'TL']],
                 'JP': ['/jp', []],
                 'FR': ['/fr', ['BE', 'CA', 'CH', 'LU', 'MC', 'DZ', 'MA', 'TN']],
-                'CN': ['/cn', ['HK', 'MO', 'SG']],
+                'ZH': ['/zh', ['HK', 'MO', 'SG']],
                 'RU': ['/ru', ['BY', 'KZ', 'KG', 'TJ', 'TM']],
                 'DE': ['/de', ['AT', 'CH', 'LU', 'LI', 'BE']],
                 'IT': ['/it', ['CH', 'SM', 'VA']],

@@ -13,7 +13,7 @@
                 '/de': 'Herunterladen',
                 '/it': 'Scarica',
                 '/ru': 'Скачать',
-                '/cn': '下载',
+                '/zh': '下载',
                 '/kr': '다운로드'
             },
             defaultDownloadMessage: 'Download'

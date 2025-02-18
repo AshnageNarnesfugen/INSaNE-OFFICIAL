@@ -141,7 +141,7 @@ jQuery(() => {
         'de':  window.location.origin + '/de', // For German
         'it':  window.location.origin + '/it', // For Italian
         'ru':  window.location.origin + '/ru', // For Russian
-        'zh':  window.location.origin + '/cn', // For Chinese
+        'zh':  window.location.origin + '/zh', // For Chinese
         'ko':  window.location.origin + '/kr', // For Korean
         'ar':  window.location.origin + '/ar', // For Arabic
         'hi':  window.location.origin + '/hi' // For Hindi
@@ -208,7 +208,7 @@ jQuery(() => {
             '/de': 'Herunterladen',
             '/it': 'Scarica',
             '/ru': 'Скачать',
-            '/cn': '下载',
+            '/zh': '下载',
             '/kr': '다운로드',
             '/ar': 'تحميل',
             '/hi': 'डाउनलोड'

@@ -216,7 +216,7 @@ jQuery(() => {
         'PT': ['/pt', ['PT', 'BR', 'AO', 'MZ', 'CV', 'GW', 'ST', 'GQ', 'TL']],
         'JP': ['/jp', ['JP']],
         'FR': ['/fr', ['FR', 'BE', 'CA', 'CH', 'LU', 'MC', 'DZ', 'MA', 'TN']],
-        'CN': ['/cn', ['CN', 'HK', 'MO', 'SG']],
+        'ZH': ['/zh', ['ZH', 'HK', 'MO', 'SG']],
         'RU': ['/ru', ['RU', 'BY', 'KZ', 'KG', 'TJ', 'TM']],
         'DE': ['/de', ['DE', 'AT', 'CH', 'LU', 'LI', 'BE']],
         'IT': ['/it', ['IT', 'CH', 'SM', 'VA']],
@@ -288,7 +288,7 @@ jQuery(() => {
                 policyLink: '/политика-конфиденциальности',
                 policyText: 'Узнайте больше о нашей политике в отношении файлов cookie'
             },
-            cn: {
+            zh: {
                 message: '我们使用cookies来提高您的体验。继续访问此网站即表示您同意我们使用cookies。',
                 buttonText: '我同意',
                 rejectText: '我拒绝',
