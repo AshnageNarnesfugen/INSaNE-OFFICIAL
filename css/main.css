@@ -745,6 +745,7 @@ button[type="submit"]:hover {
 .arrow-btn:hover .arrow-down {
     border-top: 2px solid #fff;
     border-right: 2px solid #fff;
+    transform: rotate(225deg);
 }
 .center-one,
 .left-one,
