@@ -741,6 +741,11 @@ button[type="submit"]:hover {
     border-top: 2px solid #fff;
     border-right: 2px solid #fff;
 }
+
+.arrow-btn:hover .arrow-down {
+    border-top: 2px solid #fff;
+    border-right: 2px solid #fff;
+}
 .center-one,
 .left-one,
 .right-one {
@@ -750,13 +755,17 @@ button[type="submit"]:hover {
     display: grid;
     place-content: center;
 }
-.arrow-left,
-.arrow-down {
+.arrow-left {
     width: 10px;
     height: 10px;
     border-left: 2px solid #000;
     transform: rotate(45deg);
 }
+
+.arrow-down {
+    transform: rotate(225px);
+}
+
 .arrow-right,
 .arrow-up {
     width: 10px;
