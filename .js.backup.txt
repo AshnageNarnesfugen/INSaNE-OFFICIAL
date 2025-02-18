@@ -133,8 +133,8 @@
                 }
                 break;
             case 'JP':
-                if (window.location.pathname != '/ja') {
-                    window.location.href = `https://insane-bh.space/ja?country=${language}`;
+                if (window.location.pathname != '/jp') {
+                    window.location.href = `https://insane-bh.space/jp?country=${language}`;
                 }
                 break;
             case 'PT':
@@ -180,12 +180,12 @@
                         case 'JP':
                             Cookies.set('language', userCountry, {
                                 expires: 365,
-                                path: '/ja',
+                                path: '/jp',
                                 domain: 'insane-bh.space',
                                 secure: true,
                                 sameSite: 'Strict',
                             });
-                            window.location.href = `https://insane-bh.space/ja?country=${userCountry}`;
+                            window.location.href = `https://insane-bh.space/jp?country=${userCountry}`;
                             break;
                         case 'ES':
                         case 'MX':
@@ -320,8 +320,8 @@
                 }
                 break;
             case 'JP':
-                if (window.location.pathname !== '/ja') {
-                    window.location.href = `https://insane-bh.space/ja?country=${language}`;
+                if (window.location.pathname !== '/jp') {
+                    window.location.href = `https://insane-bh.space/jp?country=${language}`;
                 }
                 break;
             case 'PT':
@@ -371,12 +371,12 @@
                                     if (language !== userCountry) {
                                         Cookies.set('language', userCountry, {
                                             expires: 365,
-                                            path: '/ja',
+                                            path: '/jp',
                                             domain: 'insane-bh.space',
                                             secure: true,
                                             sameSite: 'Strict',
                                         });
-                                        window.location.href = `https://insane-bh.space/ja?country=${userCountry}`;
+                                        window.location.href = `https://insane-bh.space/jp?country=${userCountry}`;
                                     }
                                     break;
                                 case 'ES':
@@ -472,16 +472,16 @@
                                 window.location.href = `https://insane-bh.space/?country=US`;
                             }
                             break;
-                        case 'ja':
+                        case 'jp':
                             if (language !== 'JP') {
                                 Cookies.set('language', 'JP', {
                                     expires: 365,
-                                    path: '/ja',
+                                    path: '/jp',
                                     domain: 'insane-bh.space',
                                     secure: true,
                                     sameSite: 'Strict',
                                 });
-                                window.location.href = `https://insane-bh.space/ja?country=JP`;
+                                window.location.href = `https://insane-bh.space/jp?country=JP`;
                             }
                             break;
                         case 'pt':
@@ -574,7 +574,7 @@
                     case 'https://insane-bh.space/es':
                         downloadMSN = 'Descarga'
                         break;
-                    case 'https://insane-bh.space/ja':
+                    case 'https://insane-bh.space/jp':
                         downloadMSN = 'ダウンロード'
                         break;
                     case 'https://insane-bh.space/pt':
@@ -735,8 +735,8 @@
                 }
                 break;
             case 'JP':
-                if (window.location.pathname !== '/ja') {
-                    window.location.href = `https://insane-bh.space/ja?country=${language}`;
+                if (window.location.pathname !== '/jp') {
+                    window.location.href = `https://insane-bh.space/jp?country=${language}`;
                 }
                 break;
             case 'PT':
@@ -795,7 +795,7 @@
                 break;
             case 'JP':
                 if (language !== userCountry) {
-                    redirectToCountry('https://insane-bh.space/ja?country=', userCountry);
+                    redirectToCountry('https://insane-bh.space/jp?country=', userCountry);
                 }
                 break;
             case 'ES':
@@ -874,7 +874,7 @@
                     bodyMSGRejected: "Ha ocurrido un error. Por favor, inténtelo de nuevo."
                 };
                 break;
-            case 'https://insane-bh.space/ja':
+            case 'https://insane-bh.space/jp':
                 langMSG = {
                     notiMSGAccepted: "フォームが送信されました。",
                     bodyMSGAccepted: "おめでとうございます。弊社チームがお客様に近日中に連絡いたします。",
@@ -1074,7 +1074,7 @@
                     return 'Download';
                 case 'https://insane-bh.space/es':
                     return 'Descarga';
-                case 'https://insane-bh.space/ja':
+                case 'https://insane-bh.space/jp':
                     return 'ダウンロード';
                 case 'https://insane-bh.space/pt':
                     return 'Baixar';
@@ -1755,7 +1755,7 @@
                         return 'Download';
                     case 'https://insane-bh.space/es':
                         return 'Descarga';
-                    case 'https://insane-bh.space/ja':
+                    case 'https://insane-bh.space/jp':
                         return 'ダウンロード';
                     case 'https://insane-bh.space/pt':
                         return 'Baixar';
@@ -1879,7 +1879,7 @@
                 'US': ['/', ['CA', 'GB', 'AU', 'NZ', 'IE', 'ZA', 'IN', 'SG']],
                 'ES': ['/es', ['MX', 'AR', 'CO', 'PE', 'VE', 'CL', 'EC', 'GT', 'CU']],
                 'PT': ['/pt', ['BR', 'AO', 'MZ', 'CV', 'GW', 'ST', 'GQ', 'TL']],
-                'JP': ['/ja', []],
+                'JP': ['/jp', []],
                 'FR': ['/fr', ['BE', 'CA', 'CH', 'LU', 'MC', 'DZ', 'MA', 'TN']],
                 'CN': ['/cn', ['HK', 'MO', 'SG']],
                 'RU': ['/ru', ['BY', 'KZ', 'KG', 'TJ', 'TM']],
@@ -2372,7 +2372,7 @@ jQuery(() => {
         const currentURL = window.location.href.toLowerCase();
         let fontsToLoad = [];
 
-        if (currentURL.includes('/ja')) {
+        if (currentURL.includes('/jp')) {
             fontsToLoad = [
                 {
                     name: 'Hiragino Mincho Pro',
@@ -2594,7 +2594,7 @@ jQuery(() => {
         let fontsToLoad = [];
 
         const fontConfigs = {
-            '/ja': [
+            '/jp': [
                 {
                     name: 'Hiragino Mincho Pro',
                     style: 'normal',

@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let fontsToLoad = [];
 
     const fontConfigs = {
-        "/ja": [
+        "/jp": [
             {
                 name: "Hiragino Mincho Pro",
                 style: "normal",

@@ -194,7 +194,7 @@ jQuery(() => {
         'EN': ['/', ['US', 'CA', 'GB', 'AU', 'NZ', 'IE', 'ZA', 'IN', 'SG']],
         'ES': ['/es', ['ES', 'MX', 'AR', 'CO', 'PE', 'VE', 'CL', 'EC', 'GT', 'CU']],
         'PT': ['/pt', ['PT', 'BR', 'AO', 'MZ', 'CV', 'GW', 'ST', 'GQ', 'TL']],
-        'JP': ['/ja', ['JP']],
+        'JP': ['/jp', ['JP']],
         'FR': ['/fr', ['FR', 'BE', 'CA', 'CH', 'LU', 'MC', 'DZ', 'MA', 'TN']],
         'CN': ['/cn', ['CN', 'HK', 'MO', 'SG']],
         'RU': ['/ru', ['RU', 'BY', 'KZ', 'KG', 'TJ', 'TM']],
@@ -226,7 +226,7 @@ jQuery(() => {
                 policyLink: '/politica-de-privacidad',
                 policyText: 'Aprende más sobre nuestra política de cookies'
             },
-            ja: {
+            jp: {
                 message: '私たちはあなたの経験を向上させるためにクッキーを使用します。このサイトを訪れ続けることで、あなたは私たちのクッキーの使用に同意することになります。',
                 buttonText: '同意する',
                 rejectText: '拒否する',

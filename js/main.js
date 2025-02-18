@@ -58,7 +58,7 @@ jQuery(() => {
             'readMore': '阅读更多',
             'readLess': '阅读更少'
         },
-        'ja': {
+        'jp': {
             'readMore': 'もっと読む',
             'readLess': '読むのをやめる'
         },
@@ -119,7 +119,7 @@ jQuery(() => {
         'en': 'Dive into "INSaNE | A Broken Hero". Join Ashnage, a gravity-controller, on his epic quest against an alien invasion. Personal struggles, intense battles, deep mysteries await. Join now!!',
         'es': 'Sumérgete en "INSaNE | Un Héroe Roto". Únete a Ashnage, un controlador de gravedad, en su épica misión contra una invasión alienígena. Luchas personales, intensas batallas, profundos misterios te esperan. ¡¡Únete ahora!!',
         'pt': 'Mergulhe em "INSaNE | Um Herói Quebrado". Junte-se a Ashnage, um controlador de gravidade, em sua épica missão contra uma invasão alienígena. Lutas pessoais, intensas batalhas, profundos mistérios te esperam. Junte-se agora!!',
-        'ja': '「INSaNE | 壊れた英雄」に飛び込んでください。重力を制御するAshnageと一緒に、エイリアンの侵略に対する壮大なクエストに参加してください。個人的な闘争、激しい戦闘、深い謎が待っています。今すぐ参加してください!',
+        'jp': '「INSaNE | 壊れた英雄」に飛び込んでください。重力を制御するAshnageと一緒に、エイリアンの侵略に対する壮大なクエストに参加してください。個人的な闘争、激しい戦闘、深い謎が待っています。今すぐ参加してください!',
         'fr': 'Plongez dans "INSaNE | Un Héros Brisé". Rejoignez Ashnage, un contrôleur de gravité, dans sa quête épique contre une invasion extraterrestre. Des luttes personnelles, des batailles intenses, des mystères profonds vous attendent. Rejoignez-nous maintenant!!',
         'de': 'Tauchen Sie ein in "INSaNE | Ein Gebrochener Held". Begleiten Sie Ashnage, einen Schwerkraft-Controller, auf seiner epischen Quest gegen eine Alien-Invasion. Persönliche Kämpfe, intensive Schlachten, tiefe Geheimnisse warten. Mach jetzt mit!!',
         'it': 'Immergiti in "INSaNE | Un Eroe Spezzato". Unisciti a Ashnage, un controllore di gravità, nella sua epica missione contro un\'invasione aliena. Lotte personali, battaglie intense, profondi misteri ti aspettano. Unisciti ora!!',
@@ -136,7 +136,7 @@ jQuery(() => {
         'en':  window.location.origin + '/', // For English
         'es':  window.location.origin + '/es', // For Spanish
         'pt':  window.location.origin + '/pt', // For Portuguese
-        'ja':  window.location.origin + '/ja', // For Japanese
+        'jp':  window.location.origin + '/jp', // For Japanese
         'fr':  window.location.origin + '/fr', // For French
         'de':  window.location.origin + '/de', // For German
         'it':  window.location.origin + '/it', // For Italian
@@ -202,7 +202,7 @@ jQuery(() => {
         pathToMessageMap: {
             '/': 'Download',
             '/es': 'Descarga',
-            '/ja': 'ダウンロード',
+            '/jp': 'ダウンロード',
             '/pt': 'Baixar',
             '/fr': 'Télécharger',
             '/de': 'Herunterladen',

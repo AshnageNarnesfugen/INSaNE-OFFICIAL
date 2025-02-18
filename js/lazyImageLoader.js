@@ -7,7 +7,7 @@
             pathToMessageMap: {
                 '/': 'Download',
                 '/es': 'Descarga',
-                '/ja': 'ダウンロード',
+                '/jp': 'ダウンロード',
                 '/pt': 'Baixar',
                 '/fr': 'Télécharger',
                 '/de': 'Herunterladen',
