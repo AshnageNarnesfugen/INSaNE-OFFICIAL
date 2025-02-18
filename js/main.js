@@ -242,21 +242,33 @@ jQuery(() => {
     });
 
     var scrollBtn = $('.scroll-top-button');
-
+    var arrowIcon = scrollBtn.find('.arrow-btn'); // Selecciona el contenedor de la flecha
+    
     $(window).scroll(() => {
-        var y = $(this).scrollTop();
+        var y = $(window).scrollTop();
+    
         if (y > 500) {
-            $(scrollBtn).fadeIn().css('z-index', '111111');
+            scrollBtn.fadeIn().css('z-index', '111111').data('action', 'up');
+            arrowIcon.removeClass('arrow-down').addClass('arrow-up'); // Flecha hacia arriba
         } else {
-            $(scrollBtn).fadeOut();
+            scrollBtn.fadeIn().css('z-index', '111111').data('action', 'down');
+            arrowIcon.removeClass('arrow-up').addClass('arrow-down'); // Flecha hacia abajo
         }
     });
-
+    
     scrollBtn.click(() => {
-        $('body,html').animate({
-            scrollTop: $('html').offset().top
-        }, 1000);
+        var action = scrollBtn.data('action');
+    
+        if (action === 'up') {
+            $('html, body').animate({ scrollTop: 0 }, 1000);
+        } else {
+            var nextSection = $('section').first(); // Ajusta esto según la estructura de tu página
+            if (nextSection.length) {
+                $('html, body').animate({ scrollTop: nextSection.offset().top }, 1000);
+            }
+        }
     });
+    
 
     $("#esc3").parallaxie({
         speed: 0.8,

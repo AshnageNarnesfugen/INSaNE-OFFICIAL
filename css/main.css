@@ -108,6 +108,7 @@ textarea {
     border-bottom: 2px solid #000;
 }
 .arrow-up,
+.arrow-down,
 .right-col {
     border-top: 2px solid #000;
 }
@@ -749,7 +750,8 @@ button[type="submit"]:hover {
     display: grid;
     place-content: center;
 }
-.arrow-left {
+.arrow-left,
+.arrow-down {
     width: 10px;
     height: 10px;
     border-left: 2px solid #000;
