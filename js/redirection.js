@@ -162,7 +162,7 @@ jQuery(() => {
     
             function createBanner() {
                 var banner = $('<div>', {
-                    class: 'cookie-banner fixed-bottom bg-dark text-white text-center p-3',
+                    class: 'cookie-banner fixed-bottom text-white text-center p-3',
                 }).appendTo('body');
     
                 $('<p>', { class: 'd-block' })

@@ -126,6 +126,12 @@ textarea {
     -webkit-backdrop-filter: blur(50px);
     transition: opacity 500ms linear;
   }
+
+  .cookie-banner {
+    background-color: rgb(28, 28, 28, .9);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
   
   .intro_animation span {
     opacity: 0;
