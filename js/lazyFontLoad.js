@@ -114,7 +114,7 @@ document.addEventListener("DOMContentLoaded", () => {
         ],
         "/ar": [
             {
-                name: "Scheherezade New",
+                name: "Scheherazade New",
                 weight: "700",
                 style: "normal",
                 priority: "lazy",
@@ -123,7 +123,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             },
             {
-                name: "Scheherezade New",
+                name: "Scheherazade New",
                 weight: "500",
                 style: "normal",
                 priority: "lazy",
@@ -132,7 +132,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             },
             {
-                name: "Scheherezade New",
+                name: "Scheherazade New",
                 weight: "400",
                 style: "normal",
                 priority: "preload",
@@ -141,7 +141,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             },
             {
-                name: "Scheherezade New",
+                name: "Scheherazade New",
                 weight: "600",
                 style: "normal",
                 priority: "lazy",
