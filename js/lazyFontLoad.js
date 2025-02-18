@@ -65,7 +65,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             }
         ],
-        "hi": [
+        "/hi": [
             {
                 name: "Rajdhani",
                 weight: "700",
@@ -109,6 +109,44 @@ document.addEventListener("DOMContentLoaded", () => {
                 priority: "lazy",
                 formats: {
                     ttf: "../css/fonts/rajdhani/Rajdhani-SemiBold.ttf"
+                }
+            }
+        ],
+        "/ar": [
+            {
+                name: "Scheherezade New",
+                weight: "700",
+                style: "normal",
+                priority: "lazy",
+                formats: {
+                    ttf: "../css/fonts/scheherezadenew/ScheherezadeNew-Bold.ttf"
+                }
+            },
+            {
+                name: "Scheherezade New",
+                weight: "500",
+                style: "normal",
+                priority: "lazy",
+                formats: {
+                    ttf: "../css/fonts/scheherezadenew/ScheherezadeNew-Medium.ttf"
+                }
+            },
+            {
+                name: "Scheherezade New",
+                weight: "400",
+                style: "normal",
+                priority: "preload",
+                formats: {
+                    ttf: "../css/fonts/scheherezadenew/ScheherezadeNew-Regular.ttf"
+                }
+            },
+            {
+                name: "Scheherezade New",
+                weight: "600",
+                style: "normal",
+                priority: "lazy",
+                formats: {
+                    ttf: "../css/fonts/scheherezadenew/ScheherezadeNew-SemiBold.ttf"
                 }
             }
         ],
