@@ -54,7 +54,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             }
         ],
-        "/kr" : [
+        "/kr": [
             {
                 name: "Stylish Regular",
                 weight: "400",
@@ -62,6 +62,53 @@ document.addEventListener("DOMContentLoaded", () => {
                 priority: "preload", 
                 formats: {
                     ttf: "../css/fonts/Stylish-Regular.ttf"
+                }
+            }
+        ],
+        "hi": [
+            {
+                name: "Rajdhani",
+                weight: "700",
+                style: "normal",
+                priority: "lazy",
+                formats: {
+                    ttf: "../css/fonts/rajdhani/Rajdhani-Bold.ttf"
+                }
+            },
+            {
+                name: "Rajdhani",
+                weight: "300",
+                style: "normal",
+                priority: "lazy",
+                formats: {
+                    ttf: "../css/fonts/rajdhani/Rajdhani-Light.ttf"
+                }
+            },
+            {
+                name: "Rajdhani",
+                weight: "500",
+                style: "normal",
+                priority: "lazy",
+                formats: {
+                    ttf: "../css/fonts/rajdhani/Rajdhani-Medium.ttf"
+                }
+            },
+            {
+                name: "Rajdhani",
+                weight: "400",
+                style: "normal",
+                priority: "preload",
+                formats: {
+                    ttf: "../css/fonts/rajdhani/Rajdhani-Regular.ttf"
+                }
+            },
+            {
+                name: "Rajdhani",
+                weight: "600",
+                style: "normal",
+                priority: "lazy",
+                formats: {
+                    ttf: "../css/fonts/rajdhani/Rajdhani-SemiBold.ttf"
                 }
             }
         ],
