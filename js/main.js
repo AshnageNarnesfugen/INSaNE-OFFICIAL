@@ -242,33 +242,32 @@ jQuery(() => {
     });
 
     var scrollBtn = $('.scroll-top-button');
-    var arrowIcon = scrollBtn.find('.arrow-btn'); // Selecciona el contenedor de la flecha
-    
+    var arrowIcon = scrollBtn.find('.arrow-btn div'); // Target the arrow div inside .arrow-btn
+
     $(window).scroll(() => {
         var y = $(window).scrollTop();
-    
+
         if (y > 500) {
             scrollBtn.fadeIn().css('z-index', '111111').data('action', 'up');
-            arrowIcon.removeClass('arrow-down').addClass('arrow-up'); // Flecha hacia arriba
+            arrowIcon.removeClass('arrow-down').addClass('arrow-up'); // Change to up arrow
         } else {
             scrollBtn.fadeIn().css('z-index', '111111').data('action', 'down');
-            arrowIcon.removeClass('arrow-up').addClass('arrow-down'); // Flecha hacia abajo
+            arrowIcon.removeClass('arrow-up').addClass('arrow-down'); // Change to down arrow
         }
     });
-    
+
     scrollBtn.click(() => {
         var action = scrollBtn.data('action');
-    
+
         if (action === 'up') {
             $('html, body').animate({ scrollTop: 0 }, 1000);
         } else {
-            var nextSection = $('section').first(); // Ajusta esto según la estructura de tu página
+            var nextSection = $('section').first(); // Adjust this according to your structure
             if (nextSection.length) {
                 $('html, body').animate({ scrollTop: nextSection.offset().top }, 1000);
             }
         }
     });
-    
 
     $("#esc3").parallaxie({
         speed: 0.8,
