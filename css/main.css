@@ -33,7 +33,7 @@ select:focus {
 ::before {
     list-style: none;
     scroll-behavior: unset !important;
-    font-family: sharpsans-web, "MailSans", "Hiragino Mincho Pro", "Stylish Regular", "Rajdhani", "Scheherezade New";
+    font-family: sharpsans-web, "MailSans", "Hiragino Mincho Pro", "Stylish Regular", "Rajdhani", "Scheherazade New";
 }
 .burger_menu,
 .form-container,
@@ -130,7 +130,7 @@ textarea {
   .intro_animation span {
     opacity: 0;
     transition: opacity 1s linear;
-    font-family: architects-daughter, sharpsans-web, "MailSans", "Hiragino Mincho Pro", "Stylish Regular", "Rajdhani", "Scheherezade New";
+    font-family: architects-daughter, sharpsans-web, "MailSans", "Hiragino Mincho Pro", "Stylish Regular", "Rajdhani", "Scheherazade New";
   }
   
   .intro_title {
@@ -170,7 +170,7 @@ a:hover {
 }
 body,
 html {
-    font-family: sharpsans-web, "MailSans", "Hiragino Mincho Pro", "Stylish Regular", "Rajdhani", "Scheherezade New";
+    font-family: sharpsans-web, "MailSans", "Hiragino Mincho Pro", "Stylish Regular", "Rajdhani", "Scheherazade New";
     box-sizing: border-box;
     margin: 0;
     padding: 0;
@@ -489,19 +489,19 @@ ul {
     clip-path: polygon(0 0, 100% 0, 96% 50%, 100% 100%, 0 100%, 5% 51%);
     padding: 0 0.5em;
     text-align: center;
-    font-family: architects-daughter, "MailSans", "Hiragino Mincho Pro", "Stylish Regular", "Rajdhani", "Scheherezade New" !important;
+    font-family: architects-daughter, "MailSans", "Hiragino Mincho Pro", "Stylish Regular", "Rajdhani", "Scheherazade New" !important;
 }
 
 #letter,
 .charted,
 .mini-charted {
-    font-family: architects-daughter, "MailSans", "Hiragino Mincho Pro", "Stylish Regular", "Rajdhani", "Scheherezade New" !important;
+    font-family: architects-daughter, "MailSans", "Hiragino Mincho Pro", "Stylish Regular", "Rajdhani", "Scheherazade New" !important;
 }
 .mark .first-headline,
 .mark .second-headline {
     color: #000;
     line-height: 1.25;
-    font-family: architects-daughter, "MailSans", "Hiragino Mincho Pro", "Stylish Regular", "Rajdhani", "Scheherezade New" !important;
+    font-family: architects-daughter, "MailSans", "Hiragino Mincho Pro", "Stylish Regular", "Rajdhani", "Scheherazade New" !important;
 }
 .mark .first-headline {
     font-size: 60px;

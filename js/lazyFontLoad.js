@@ -119,7 +119,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 style: "normal",
                 priority: "lazy",
                 formats: {
-                    ttf: "../css/fonts/scheherezadenew/ScheherezadeNew-Bold.ttf"
+                    ttf: "../css/fonts/scheherazadenew/ScheherazadeNew-Bold.ttf"
                 }
             },
             {
@@ -128,7 +128,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 style: "normal",
                 priority: "lazy",
                 formats: {
-                    ttf: "../css/fonts/scheherezadenew/ScheherezadeNew-Medium.ttf"
+                    ttf: "../css/fonts/scheherazadenew/ScheherazadeNew-Medium.ttf"
                 }
             },
             {
@@ -137,7 +137,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 style: "normal",
                 priority: "preload",
                 formats: {
-                    ttf: "../css/fonts/scheherezadenew/ScheherezadeNew-Regular.ttf"
+                    ttf: "../css/fonts/scheherazadenew/ScheherazadeNew-Regular.ttf"
                 }
             },
             {
@@ -146,7 +146,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 style: "normal",
                 priority: "lazy",
                 formats: {
-                    ttf: "../css/fonts/scheherezadenew/ScheherezadeNew-SemiBold.ttf"
+                    ttf: "../css/fonts/scheherazadenew/ScheherazadeNew-SemiBold.ttf"
                 }
             }
         ],
