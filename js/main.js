@@ -58,7 +58,7 @@ jQuery(() => {
             'readMore': '阅读更多',
             'readLess': '阅读更少'
         },
-        'jp': {
+        'ja': {
             'readMore': 'もっと読む',
             'readLess': '読むのをやめる'
         },
