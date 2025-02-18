@@ -138,6 +138,10 @@ textarea {
     font-size: 60px;
   }
   
+    .text_red {
+        color: red;
+    }
+
   .intro_subtitle {
     color: white;
     font-size: 30px;
