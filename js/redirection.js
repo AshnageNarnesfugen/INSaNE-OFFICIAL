@@ -171,11 +171,9 @@ jQuery(() => {
                         $('<a>', {
                             href: texts.policyLink,
                             class: 'text-decoration-none text_red ms-2',
-                        })
-                        .append(
-                            $('<u>'), {
-                                text: texts.policyText
-                            })
+                        }).append(
+                            $('<u>').text(texts.policyText)  // Corrected this line
+                        )
                     )
                     .appendTo(banner);
     
