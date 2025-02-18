@@ -13,7 +13,7 @@ select:focus {
 .pdf-button {
     width: 100%;
     height: 100%;
-    background-color: red;
+    background-color: #e83b2e;
     color: #000;
     border-radius: 2.5px;
     text-align: center;
@@ -134,12 +134,12 @@ textarea {
   }
   
   .intro_title {
-    color: red;
+    color: #e83b2e;
     font-size: 60px;
   }
   
     .text_red {
-        color: red;
+        color: #e83b2e;
     }
 
   .intro_subtitle {
@@ -153,7 +153,7 @@ textarea {
 }
 .link-to:hover span,
 a:hover {
-    color: red;
+    color: #e83b2e;
 }
 .social-banner {
     width: 100%;
@@ -219,10 +219,10 @@ html {
     width: 100%;
 }
 ::-moz-selection {
-    background: red;
+    background: #e83b2e;
 }
 ::selection {
-    background: red;
+    background: #e83b2e;
 }
 .blur-load,
 .left-col {
@@ -479,7 +479,7 @@ ul {
     flex-wrap: wrap;
 }
 .comic-red {
-    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' viewBox='0 0 4 4'%3E%3Cpath fill='%239C92AC' fill-opacity='0.4' d='M1 3h1v1H1V3zm2-2h1v1H3V1z'%3E%3C/path%3E%3C/svg%3E") red;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' viewBox='0 0 4 4'%3E%3Cpath fill='%239C92AC' fill-opacity='0.4' d='M1 3h1v1H1V3zm2-2h1v1H3V1z'%3E%3C/path%3E%3C/svg%3E") #e83b2e;
 }
 .mark {
     width: 300px;
@@ -487,7 +487,7 @@ ul {
     left: 50%;
     transform: translate(-50%, -50%);
     display: grid;
-    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' viewBox='0 0 4 4'%3E%3Cpath fill='%239C92AC' fill-opacity='0.4' d='M1 3h1v1H1V3zm2-2h1v1H3V1z'%3E%3C/path%3E%3C/svg%3E") red;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' viewBox='0 0 4 4'%3E%3Cpath fill='%239C92AC' fill-opacity='0.4' d='M1 3h1v1H1V3zm2-2h1v1H3V1z'%3E%3C/path%3E%3C/svg%3E") #e83b2e;
     color: #000;
     -webkit-clip-path: polygon(0 0, 100% 0, 96% 50%, 100% 100%, 0 100%, 5% 51%);
     clip-path: polygon(0 0, 100% 0, 96% 50%, 100% 100%, 0 100%, 5% 51%);
@@ -577,7 +577,7 @@ a {
 .hamburger-menu {
     position: relative;
     transform: translateY(25px);
-    background: red;
+    background: #e83b2e;
     transition: 0s 0.3s;
 }
 .hamburger-menu.animate {
@@ -586,7 +586,7 @@ a {
 }
 .hamburger-menu:after,
 .hamburger-menu:before {
-    background: red;
+    background: #e83b2e;
     border: 2px solid #000;
     position: absolute;
     left: 0;
@@ -614,7 +614,7 @@ a {
     transition: 0.5s;
 }
 .list::first-letter {
-    color: red !important;
+    color: #e83b2e !important;
     font-size: 1.3em;
     font-stretch: ultra-expanded;
 }
@@ -1153,7 +1153,7 @@ span {
     position: relative;
 }
 .slide_main_title .portrait_subtitle {
-    color: red;
+    color: #e83b2e;
     letter-spacing: 1px;
     font-size: 20px;
 }
