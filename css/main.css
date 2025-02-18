@@ -718,7 +718,6 @@ button[type="submit"]:hover {
 }
 .arrow-btn {
     box-shadow: 4.5px 4.5px 0 0 rgba(0, 0, 0, 0.5);
-    z-index: 111111;
 }
 .img-style-box,
 .middle-size {
@@ -782,6 +781,7 @@ button[type="submit"]:hover {
     position: fixed;
     bottom: 10px;
     right: 10px;
+    z-index: 111111;
 }
 .custom-popup {
     bottom: 0;
