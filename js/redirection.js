@@ -216,7 +216,7 @@ jQuery(() => {
         'PT': ['/pt', ['PT', 'BR', 'AO', 'MZ', 'CV', 'GW', 'ST', 'GQ', 'TL']],
         'JP': ['/jp', ['JP']],
         'FR': ['/fr', ['FR', 'BE', 'CA', 'CH', 'LU', 'MC', 'DZ', 'MA', 'TN']],
-        'ZH': ['/zh', ['ZH', 'HK', 'MO', 'SG']],
+        'ZH': ['/zh', ['CN', 'HK', 'MO', 'SG']],
         'RU': ['/ru', ['RU', 'BY', 'KZ', 'KG', 'TJ', 'TM']],
         'DE': ['/de', ['DE', 'AT', 'CH', 'LU', 'LI', 'BE']],
         'IT': ['/it', ['IT', 'CH', 'SM', 'VA']],
