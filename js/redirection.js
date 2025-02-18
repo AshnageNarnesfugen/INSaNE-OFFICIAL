@@ -125,11 +125,11 @@ jQuery(() => {
         };
     }(jQuery));            
 
-    (function($) {
-        $.fn.cookieBanner = function(options) {
+    (function ($) {
+        $.fn.cookieBanner = function (options) {
             var settings = $.extend({
                 language: 'en',
-                expires: 365,  // Number of days until the cookie expires
+                expires: 365,
                 cookieName: 'cookie_consent',
                 customLangMessages: {
                     en: {
@@ -139,14 +139,13 @@ jQuery(() => {
                         policyLink: '/privacy-policy',
                         policyText: 'Learn more about our cookie policy'
                     }
-                    // Add more languages here...
                 },
-                onAccept: function() {
-                    console.log('Cookie Accepted')
-                },  // Function to execute when the user clicks "I Agree"
-                onReject: function() {
-                    console.log('Cookie Rejected')
-                }  // Function to execute when the user clicks "I Reject"
+                onAccept: function () {
+                    console.log('Cookie Accepted');
+                },
+                onReject: function () {
+                    console.log('Cookie Rejected');
+                }
             }, options);
     
             var languages = settings.customLangMessages;
@@ -160,35 +159,56 @@ jQuery(() => {
             }
     
             var texts = languages[language];
-            
-            this.init = function() {
-                return this.each(function() {
+    
+            function createBanner() {
+                var banner = $('<div>', {
+                    class: 'cookie-banner fixed-bottom bg-dark text-white text-center p-3',
+                }).appendTo('body');
+    
+                $('<p>', { class: 'd-block' })
+                    .text(texts.message)
+                    .append(
+                        $('<a>', {
+                            href: texts.policyLink,
+                            class: 'text-decoration-none text-white ms-2',
+                            text: texts.policyText
+                        })
+                    )
+                    .appendTo(banner);
+    
+                $('<button>', {
+                    class: 'cookie-accept btn btn-success ms-3',
+                    text: texts.buttonText
+                }).appendTo(banner);
+    
+                $('<button>', {
+                    class: 'cookie-reject btn btn-danger ms-2',
+                    text: texts.rejectText
+                }).appendTo(banner);
+            }
+    
+            return this.each(function () {
                 if (Cookies.get(settings.cookieName) === 'true') {
                     settings.onAccept();
                 } else if (Cookies.get(settings.cookieName) === undefined) {
-                        var banner = $('<div>', { class: 'cookie-banner fixed-bottom bg-dark text-white text-center p-3' }).appendTo(this);
-                        var message = $('<p>', { class: 'd-block' }).text(texts.message).appendTo(banner);
-                        var policyLink = $('<a>', { href: texts.policyLink, class: 'text-decoration-none text-white ms-2' }).text(texts.policyText).appendTo(message);
-                        var acceptButton = $('<button>', { class: 'cookie-accept btn btn-success ms-3' }).text(texts.buttonText).appendTo(banner);
-                        var rejectButton = $('<button>', { class: 'cookie-reject btn btn-danger ms-2' }).text(texts.rejectText).appendTo(banner);
-            
-                        $('body').on('click', '.cookie-accept', function() {
-                            Cookies.set(settings.cookieName, 'true', { expires: settings.expires });
-                            banner.remove();
-                            settings.onAccept();
-                        });
-            
-                        $('body').on('click', '.cookie-reject', function() {
-                            Cookies.set(settings.cookieName, 'false', { expires: settings.expires });
-                            settings.onReject();
-                            banner.remove();
-                        });
-                    }
-                });
-            }
-            return this.init();
+                    createBanner();
+    
+                    // Remove previous handlers to prevent multiple event bindings
+                    $('body').off('click', '.cookie-accept').on('click', '.cookie-accept', function () {
+                        Cookies.set(settings.cookieName, 'true', { expires: settings.expires });
+                        $('.cookie-banner').remove();
+                        settings.onAccept();
+                    });
+    
+                    $('body').off('click', '.cookie-reject').on('click', '.cookie-reject', function () {
+                        Cookies.set(settings.cookieName, 'false', { expires: settings.expires });
+                        $('.cookie-banner').remove();
+                        settings.onReject();
+                    });
+                }
+            });
         };
-    }(jQuery));
+    }(jQuery));    
 
     let customCases = {
         'EN': ['/', ['US', 'CA', 'GB', 'AU', 'NZ', 'IE', 'ZA', 'IN', 'SG']],
