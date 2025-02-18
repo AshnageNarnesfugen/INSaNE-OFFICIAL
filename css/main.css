@@ -718,6 +718,7 @@ button[type="submit"]:hover {
 }
 .arrow-btn {
     box-shadow: 4.5px 4.5px 0 0 rgba(0, 0, 0, 0.5);
+    z-index: 111111;
 }
 .img-style-box,
 .middle-size {
@@ -745,7 +746,7 @@ button[type="submit"]:hover {
 .arrow-btn:hover .arrow-down {
     border-top: 2px solid #fff;
     border-right: 2px solid #fff;
-    transform: rotate(225deg);
+    transform: rotate(130deg);
 }
 .center-one,
 .left-one,
