@@ -54,6 +54,17 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             }
         ],
+        "/kr" : [
+            {
+                name: "Stylish Regular",
+                weight: "400",
+                style: "normal",
+                priority: "preload", 
+                formats: {
+                    ttf: "../css/fonts/Stylish-Regular.ttf"
+                }
+            }
+        ],
         default: [
             {
                 name: "sharpsans-web",
