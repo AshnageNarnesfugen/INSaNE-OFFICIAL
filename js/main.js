@@ -262,7 +262,7 @@ jQuery(() => {
         if (action === 'up') {
             $('html, body').animate({ scrollTop: 0 }, 1000);
         } else {
-            var nextSection = $('section').first(); // Adjust this according to your structure
+            var nextSection = $('#quickresume').first(); // Adjust this according to your structure
             if (nextSection.length) {
                 $('html, body').animate({ scrollTop: nextSection.offset().top }, 1000);
             }
