@@ -318,7 +318,7 @@ jQuery(() => {
     var index = 0;
 
     const interval = () => {
-        container.shuffleLetters({
+        let animationTime = container.shuffleLetters({
             "step": 15, // Adjusted for a smoother transition
             "fps": 60,
             "text": data[index]
@@ -326,7 +326,7 @@ jQuery(() => {
 
         index = (index + 1) % data.length; // Loop back after the last item
 
-        setTimeout(interval, 2000); // Start next shuffle after animation finishes
+        setTimeout(interval, animationTime + 500); // Ensure full animation completion + small buffer
     };
 
     // Start the loop
