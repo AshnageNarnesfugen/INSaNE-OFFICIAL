@@ -117,11 +117,15 @@ $.fn.shuffleLetters = function(prop) {
     var options = $.extend({
         "step": 20, // How many times should the letters be changed
         "fps": 30, // Frames Per Second
-        "text": null // Use this text instead of the contents
+        "text": null, // Use this text instead of the contents
+        "dataAttr": /^data-.*/ // Regex pattern for detecting data attributes
     }, prop);
 
     return this.each(function() {
         var el = $(this);
+        var dataTextAttr = Object.keys(el[0].attributes).map(i => el[0].attributes[i])
+            .find(attr => options.dataAttr.test(attr.name));
+        var originalText = options.text !== null ? options.text : (dataTextAttr ? el.attr(dataTextAttr.name) : el.text());
         var textNodes = [];
 
         function extractTextNodes(node) {
@@ -134,82 +138,73 @@ $.fn.shuffleLetters = function(prop) {
             }
         }
 
-        if (options.text !== null) {
-            textNodes = [{ nodeValue: options.text }];
-        } else {
-            extractTextNodes(el[0]);
+        if (dataTextAttr) {
+            el.attr(dataTextAttr.name, originalText);
         }
+        extractTextNodes(el[0]);
 
+        var str = originalText.split('');
         var letters = [];
         var types = [];
 
-        textNodes.forEach((node, index) => {
-            var str = node.nodeValue.split('');
-            letters[index] = [];
-            types[index] = [];
-
-            for (var i = 0; i < str.length; i++) {
-                var ch = str[i];
-                switch (true) {
-                    case ch === " ":
-                        types[index][i] = "space";
-                        break;
-                    case /[a-z]/.test(ch):
-                        types[index][i] = "lowerLetter";
-                        break;
-                    case /[A-Z]/.test(ch):
-                        types[index][i] = "upperLetter";
-                        break;
-                    case /[0-9]/.test(ch):
-                        types[index][i] = "number";
-                        break;
-                    case /[\u3040-\u309F]/.test(ch):
-                        types[index][i] = "hiragana";
-                        break;
-                    case /[\u30A0-\u30FF]/.test(ch):
-                        types[index][i] = "katakana";
-                        break;
-                    case /[\u4E00-\u9FBF]/.test(ch):
-                        types[index][i] = "kanji";
-                        break;
-                    case /[\u4E00-\u9FFF]/.test(ch):
-                        types[index][i] = "chinese";
-                        break;
-                    case /[\uAC00-\uD7A3]/.test(ch):
-                        types[index][i] = "korean";
-                        break;
-                    case /[\u0410-\u044F]/.test(ch):
-                        types[index][i] = "russian";
-                        break;
-                    case /[\u0600-\u06FF]/.test(ch):
-                        types[index][i] = "arabic";
-                        break;
-                    case /[\u0900-\u097F]/.test(ch):
-                        types[index][i] = "hindi";
-                        break;
-                    default:
-                        types[index][i] = "symbol";
-                }
-                letters[index].push(i);
+        for (var i = 0; i < str.length; i++) {
+            var ch = str[i];
+            switch (true) {
+                case ch === " ":
+                    types[i] = "space";
+                    break;
+                case /[a-z]/.test(ch):
+                    types[i] = "lowerLetter";
+                    break;
+                case /[A-Z]/.test(ch):
+                    types[i] = "upperLetter";
+                    break;
+                case /[0-9]/.test(ch):
+                    types[i] = "number";
+                    break;
+                case /[\u3040-\u309F]/.test(ch):
+                    types[i] = "hiragana";
+                    break;
+                case /[\u30A0-\u30FF]/.test(ch):
+                    types[i] = "katakana";
+                    break;
+                case /[\u4E00-\u9FBF]/.test(ch):
+                    types[index][i] = "kanji";
+                    break;
+                case /[\u4E00-\u9FFF]/.test(ch):
+                    types[i] = "chinese";
+                    break;
+                case /[\uAC00-\uD7A3]/.test(ch):
+                    types[i] = "korean";
+                    break;
+                case /[\u0410-\u044F]/.test(ch):
+                    types[i] = "russian";
+                    break;
+                case /[\u0600-\u06FF]/.test(ch):
+                    types[i] = "arabic";
+                    break;
+                case /[\u0900-\u097F]/.test(ch):
+                    types[i] = "hindi";
+                    break;
+                default:
+                    types[i] = "symbol";
             }
-        });
+            letters.push(i);
+        }
 
         function shuffle(start) {
-            if (start > options.step) return;
+            if (start > options.step) {
+                el.text(originalText);
+                return;
+            }
 
-            textNodes.forEach((node, index) => {
-                var strCopy = node.nodeValue.split('');
-                letters[index].forEach((pos, i) => {
-                    if (i < start + options.step) {
-                        strCopy[pos] = $.fn.shuffleLetters.randomChar(types[index][pos]);
-                    }
-                });
-                if (options.text !== null) {
-                    el.text(strCopy.join(""));
-                } else {
-                    node.nodeValue = strCopy.join("");
+            var strCopy = originalText.split('');
+            letters.forEach((pos, i) => {
+                if (i < start + options.step) {
+                    strCopy[pos] = $.fn.shuffleLetters.randomChar(types[pos]);
                 }
             });
+            el.text(strCopy.join(""));
 
             setTimeout(() => shuffle(start + 1), 1000 / options.fps);
         }
