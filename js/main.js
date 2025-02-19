@@ -317,27 +317,25 @@ jQuery(() => {
     data = JSON.parse(data);
 
     let index = 0;
-    let isAnimating = false; // Prevents overlapping animations
 
-    const interval = () => {
-        if (isAnimating) return; // Skip if an animation is already running
-        isAnimating = true;
-
-        let shuffle = new ShuffleLetters(container, {
+    const runShuffle = () => {
+        // Step 1: Run shuffle animation
+        new ShuffleLetters(container, {
             step: 15,
             fps: 60,
             text: data[index]
         });
 
-        // Wait for animation duration before switching text
+        // Step 2: Wait for the animation to complete, then update the text
         setTimeout(() => {
-            index = (index + 1) % data.length; // Loop back when reaching the end
-            isAnimating = false; // Allow next animation
-        }, (15 / 60) * data[index].length * 1000); // Approximate animation duration
+            container.textContent = data[index]; // Ensure text is correctly updated
+            index = (index + 1) % data.length; // Move to the next text, looping back to the start
+        }, (15 / 60) * data[index].length * 1000 + 500); // Duration + extra delay
     };
 
-    interval(); // Start immediately
-    setInterval(interval, 4000);
+    // Start the animation immediately, then repeat every 4 seconds
+    runShuffle();
+    setInterval(runShuffle, 4000);
 
         class FormHandler {
             constructor(formId, ajaxUrl) {
