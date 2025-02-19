@@ -310,25 +310,34 @@ jQuery(() => {
     }
 
     setInterval(interval, 4000)*/
-        let container = document.getElementById("letter");
-        let data = container.getAttribute("data-array");
-    
-        if (!data) return; // Prevent errors if data-array is missing
-        data = JSON.parse(data);
-    
-        let index = 0;
-    
-        const interval = () => {
-            new ShuffleLetters(container, {
-                step: 15, // Adjusted from 30 to 15
-                fps: 60,
-                text: data[index]
-            });
-    
+    let container = document.getElementById("letter");
+    let data = container.getAttribute("data-array");
+
+    if (!data) return; // Prevent errors if data-array is missing
+    data = JSON.parse(data);
+
+    let index = 0;
+    let isAnimating = false; // Prevents overlapping animations
+
+    const interval = () => {
+        if (isAnimating) return; // Skip if an animation is already running
+        isAnimating = true;
+
+        let shuffle = new ShuffleLetters(container, {
+            step: 15,
+            fps: 60,
+            text: data[index]
+        });
+
+        // Wait for animation duration before switching text
+        setTimeout(() => {
             index = (index + 1) % data.length; // Loop back when reaching the end
-        };
-    
-        setInterval(interval, 4000);
+            isAnimating = false; // Allow next animation
+        }, (15 / 60) * data[index].length * 1000); // Approximate animation duration
+    };
+
+    interval(); // Start immediately
+    setInterval(interval, 4000);
 
         class FormHandler {
             constructor(formId, ajaxUrl) {
