@@ -48,7 +48,7 @@ $.fn.shuffleLetters = function(prop) {
                     types[i] = "katakana";
                     break;
                 case /[\u4E00-\u9FBF]/.test(ch):
-                    types[index][i] = "kanji";
+                    types[i] = "kanji";
                     break;
                 case /[\u4E00-\u9FFF]/.test(ch):
                     types[i] = "chinese";
