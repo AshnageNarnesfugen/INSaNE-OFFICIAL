@@ -290,7 +290,7 @@ jQuery(() => {
         repeat: 'repeat',
     })
 
-    /*let data = $('#letter').attr('data-array');
+    let data = $('#letter').attr('data-array');
     data = JSON.parse(data)
 
     var container = $("#letter")
@@ -309,28 +309,7 @@ jQuery(() => {
         }
     }
 
-    setInterval(interval, 4000)*/
-
-    let data = $('#letter').attr('data-array');
-    data = JSON.parse(data);
-
-    var container = $("#letter");
-    var index = 0;
-
-    const interval = () => {
-        let animationTime = container.shuffleLetters({
-            "step": 15, // Adjusted for a smoother transition
-            "fps": 60,
-            "text": data[index]
-        });
-
-        index = (index + 1) % data.length; // Loop back after the last item
-
-        setTimeout(interval, animationTime + 500); // Ensure full animation completion + small buffer
-    };
-
-    // Start the loop
-    interval();
+    setInterval(interval, 4000)
 
         class FormHandler {
             constructor(formId, ajaxUrl) {
