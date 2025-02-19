@@ -310,7 +310,6 @@ jQuery(() => {
     }
 
     setInterval(interval, 4000)*/
-    document.addEventListener("DOMContentLoaded", () => {
         let container = document.getElementById("letter");
         let data = container.getAttribute("data-array");
     
@@ -330,8 +329,6 @@ jQuery(() => {
         };
     
         setInterval(interval, 4000);
-    });
-    
 
         class FormHandler {
             constructor(formId, ajaxUrl) {
