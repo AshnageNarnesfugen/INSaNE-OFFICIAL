@@ -290,7 +290,7 @@ jQuery(() => {
         repeat: 'repeat',
     })
 
-    /*let data = $('#letter').attr('data-array');
+    let data = $('#letter').attr('data-array');
     data = JSON.parse(data)
 
     var container = $("#letter")
@@ -309,33 +309,7 @@ jQuery(() => {
         }
     }
 
-    setInterval(interval, 4000)*/
-    let container = document.getElementById("letter");
-    let data = container.getAttribute("data-array");
-
-    if (!data) return; // Prevent errors if data-array is missing
-    data = JSON.parse(data);
-
-    let index = 0;
-
-    const runShuffle = () => {
-        // Step 1: Run shuffle animation
-        new ShuffleLetters(container, {
-            step: 15,
-            fps: 60,
-            text: data[index]
-        });
-
-        // Step 2: Wait for the animation to complete, then update the text
-        setTimeout(() => {
-            container.textContent = data[index]; // Ensure text is correctly updated
-            index = (index + 1) % data.length; // Move to the next text, looping back to the start
-        }, (15 / 60) * data[index].length * 1000 + 500); // Duration + extra delay
-    };
-
-    // Start the animation immediately, then repeat every 4 seconds
-    runShuffle();
-    setInterval(runShuffle, 4000);
+    setInterval(interval, 4000)
 
         class FormHandler {
             constructor(formId, ajaxUrl) {
@@ -457,55 +431,58 @@ jQuery(() => {
     // Usage
     let formHandler = new FormHandler('#former-form', 'https://formsubmit.co/ajax/70a19f04e48d9da8774f32b49b924edf');
 
-        class SectionShuffler {
-            constructor() {
-                this.observerConfig = {
-                    root: null,
-                    rootMargin: '0px',
-                    threshold: 0.5
-                };
-                this.observer = new IntersectionObserver(this.handleIntersection.bind(this), this.observerConfig);
-                this.sections = this.getShuffleSections();
-            }
-        
-            getShuffleSections() {
-                const sections = [];
-                document.querySelectorAll('.shuffle-section').forEach(section => {
-                    const titles = [...section.querySelectorAll('[data-text]')].map(el => ({
-                        element: el,
-                        text: el.getAttribute('data-text'),
-                    }));
-                    if (titles.length > 0) {
-                        sections.push({
-                            element: section,
-                            titles: titles,
-                        });
-                    }
-                });
-                return sections;
-            }
-        
-            init() {
-                this.sections.forEach(section => {
-                    this.observer.observe(section.element);
-                });
-            }
-        
-            handleIntersection(entries) {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        const section = this.sections.find(s => s.element === entry.target);
-                        section.titles.forEach(title => {
-                            new ShuffleLetters(title.element, {
-                                step: 30,
-                                fps: 60,
-                                text: title.text
-                            });
-                        });
-                    }
-                });
-            }
+    class SectionShuffler {
+        constructor() {
+            this.observerConfig = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.5
+            };
+            this.observer = new IntersectionObserver(this.handleIntersection.bind(this), this.observerConfig);
+            this.sections = this.getShuffleSections();
         }
+
+        getShuffleSections() {
+            const sections = [];
+            $('.shuffle-section').each((index, element) => {
+                const section = $(element);
+                const titles = section.find('[data-text]').map((idx, el) => {
+                    return {
+                        element: $(el),
+                        text: $(el).attr('data-text'),
+                    };
+                }).get();
+                if (titles.length > 0) {
+                    sections.push({
+                        element: section,
+                        titles: titles,
+                    });
+                }
+            });
+            return sections;
+        }
+
+        init() {
+            this.sections.forEach(section => {
+                this.observer.observe(section.element[0]);
+            });
+        }
+
+        handleIntersection(entries, observer) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const section = this.sections.find(s => s.element[0] === entry.target);
+                    section.titles.forEach(title => {
+                        title.element.shuffleLetters({
+                            step: 30,
+                            fps: 60,
+                            text: title.text
+                        });
+                    });
+                }
+            });
+        }
+    }
 
         const shuffler = new SectionShuffler();
         shuffler.init();
