@@ -290,7 +290,7 @@ jQuery(() => {
         repeat: 'repeat',
     })
 
-    let data = $('#letter').attr('data-array');
+    /*let data = $('#letter').attr('data-array');
     data = JSON.parse(data)
 
     var container = $("#letter")
@@ -309,7 +309,29 @@ jQuery(() => {
         }
     }
 
-    setInterval(interval, 4000)
+    setInterval(interval, 4000)*/
+    document.addEventListener("DOMContentLoaded", () => {
+        let container = document.getElementById("letter");
+        let data = container.getAttribute("data-array");
+    
+        if (!data) return; // Prevent errors if data-array is missing
+        data = JSON.parse(data);
+    
+        let index = 0;
+    
+        const interval = () => {
+            new ShuffleLetters(container, {
+                step: 15, // Adjusted from 30 to 15
+                fps: 60,
+                text: data[index]
+            });
+    
+            index = (index + 1) % data.length; // Loop back when reaching the end
+        };
+    
+        setInterval(interval, 4000);
+    });
+    
 
         class FormHandler {
             constructor(formId, ajaxUrl) {
