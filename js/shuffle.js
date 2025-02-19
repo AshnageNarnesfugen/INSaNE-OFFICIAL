@@ -117,15 +117,12 @@ $.fn.shuffleLetters = function(prop) {
     var options = $.extend({
         "step": 20, // How many times should the letters be changed
         "fps": 30, // Frames Per Second
-        "text": null, // Use this text instead of the contents
-        "dataAttr": /^data-.*/ // Regex pattern for detecting data attributes
+        "text": null // Use this text instead of the contents
     }, prop);
 
     return this.each(function() {
         var el = $(this);
-        var dataTextAttr = Object.keys(el[0].attributes).map(i => el[0].attributes[i])
-            .find(attr => options.dataAttr.test(attr.name));
-        var originalText = options.text !== null ? options.text : (dataTextAttr ? el.attr(dataTextAttr.name) : el.text());
+        var originalText = options.text !== null ? options.text : el.text();
         var textNodes = [];
 
         function extractTextNodes(node) {
@@ -138,9 +135,6 @@ $.fn.shuffleLetters = function(prop) {
             }
         }
 
-        if (dataTextAttr) {
-            el.attr(dataTextAttr.name, originalText);
-        }
         extractTextNodes(el[0]);
 
         var str = originalText.split('');
