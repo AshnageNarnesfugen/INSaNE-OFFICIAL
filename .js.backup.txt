@@ -2977,3 +2977,18 @@ $.fn.shuffleLetters.randomChar = function(type) {
     };
     return pools[type] ? pools[type][Math.floor(Math.random() * pools[type].length)] : "";
 };*/
+
+<div class="space_sec section shuffle-section" id="download-pdf">
+            <div class="container gx-0">
+                <div class="row gx-0">
+                    <h2 class="mini-charted text-dark" data-text="¿Wanna read the first 2 chapters?">
+                        ¿Wanna read the first 2 chapters?
+                    </h2>
+                </div>
+                <div class="row d-grid py-5 gx-0 justify-content-center align-content-center">
+                    <a href="./pdf/INSaNE - chapter 1 and 2 english.pdf" download>
+                        <span class="pdf-button">Get PDF</span>
+                    </a>
+                </div>
+            </div>
+        </div>
