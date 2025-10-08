@@ -1,5 +1,5 @@
 jQuery(() => {
-    (function($) {
+    /*(function($) {
         $.fn.cookieManager = function(customCases, targetPage) {
             var cookieManager = {
                 baseUrl: targetPage,
@@ -212,7 +212,147 @@ jQuery(() => {
                 }
             });
         };
-    }(jQuery));    
+    }(jQuery));*/
+
+    (function($) {
+        $.fn.cookieManager = function(customCases, targetPage) {
+            var cookieManager = {
+                baseUrl: targetPage,
+                hasDefaultCaseExecuted: false,
+                langCases: customCases,
+
+                acceptedFunctionalityCookie: function() {
+                    // ✅ Verificar si ya se redireccionó anteriormente
+                    if (Cookies.get('languageRedirected') === 'true') {
+                        console.log('Redirección ya realizada anteriormente. No se redireccionará de nuevo.');
+                        return;
+                    }
+
+                    const urlParams = new URLSearchParams(window.location.search);
+                    if (urlParams.has('language') && urlParams.has('browserLanguage')) {
+                        return;
+                    }
+
+                    var language = Cookies.get('language');
+                    console.log(language);
+
+                    var userCountry = null;
+
+                    for (let [key, value] of Object.entries(this.langCases)) {
+                        if (key === language) {
+                            userCountry = value[1].includes(data.country) ? data.country : null;
+                            if (window.location.pathname !== value[0]) {
+                                // ✅ Establecer la cookie para evitar futuras redirecciones
+                                Cookies.set('languageRedirected', 'true', {
+                                    expires: 365,
+                                    path: '/',
+                                    domain: this.baseUrl,
+                                    secure: true,
+                                    sameSite: 'Strict',
+                                });
+
+                                window.location.href = `${this.baseUrl}${value[0]}?language=${language}&country=${userCountry}`;
+                            }
+                            return;
+                        }
+                    }
+
+                    // Continúa con la lógica de redirección si no se ha redireccionado antes
+                    $.getJSON('https://ipapi.co/json/')
+                        .done((data) => {
+                            const browserLanguage = (navigator.language || navigator.userLanguage).split('-')[0].toUpperCase();
+                            this.performRedirection(data, language, browserLanguage);
+                        })
+                        .fail((jqXHR, textStatus, errorThrown) => {
+                            console.error('Failed to retrieve country code:', textStatus, errorThrown);
+                            const browserLanguage = (navigator.language || navigator.userLanguage).split('-')[0].toUpperCase();
+                            this.performRedirection({}, language, browserLanguage);
+                        });
+                },
+
+                performRedirection: function(data, language, browserLanguage) {
+                    let userCountry = data.country_code;
+                    for (let [key, value] of Object.entries(this.langCases)) {
+                        if (key === userCountry || value[1].includes(userCountry)) {
+                            if (language !== userCountry) {
+                                this.redirectToCountry(`${this.baseUrl}`, key, data, browserLanguage);
+                            }
+                            return;
+                        }
+                    }
+
+                    // Default Case
+                    if (this.hasDefaultCaseExecuted) {
+                        console.log('Country code not supported');
+                    } else {
+                        this.hasDefaultCaseExecuted = true;
+                        this.redirectToCountry(`${this.baseUrl}`, userCountry, data, browserLanguage);
+                    }
+                },
+
+                redirectToCountry: function(baseUrl, lang, data, browserLanguage) {
+                    const finalLang = lang || browserLanguage;
+                    let userCountry = null;
+
+                    for (let [key, value] of Object.entries(this.langCases)) {
+                        if (key === finalLang) {
+                            if (value[1].includes(data.country)) {
+                                userCountry = data.country;
+                            }
+                            break;
+                        }
+                    }
+
+                    Cookies.set('language', finalLang, {
+                        expires: 365,
+                        path: '/',
+                        domain: this.baseUrl,
+                        secure: true,
+                        sameSite: 'Strict',
+                    });
+
+                    if (userCountry) {
+                        Cookies.set('country', userCountry, {
+                            expires: 365,
+                            path: '/',
+                            domain: this.baseUrl,
+                            secure: true,
+                            sameSite: 'Strict',
+                        });
+                    }
+
+                    // ✅ Establecer la cookie para evitar futuras redirecciones
+                    Cookies.set('languageRedirected', 'true', {
+                        expires: 365,
+                        path: '/',
+                        domain: this.baseUrl,
+                        secure: true,
+                        sameSite: 'Strict',
+                    });
+
+                    data.browserLanguage = browserLanguage;
+                    let params = new URLSearchParams(data).toString();
+
+                    let redirectPath = "";
+                    for (let [key, value] of Object.entries(this.langCases)) {
+                        if (key === finalLang) {
+                            redirectPath = value[0];
+                            break;
+                        }
+                    }
+
+                    const formattedBaseUrl = baseUrl.endsWith('/') ? baseUrl.slice(0, -1) : baseUrl;
+                    const formattedRedirectPath = redirectPath.startsWith('/') ? redirectPath.slice(1) : redirectPath;
+
+                    window.location.href = formattedBaseUrl + '/' + formattedRedirectPath + '?language=' + finalLang + '&country=' + userCountry + '&' + params;
+                }
+            };
+
+            return this.each(function() {
+                cookieManager.acceptedFunctionalityCookie();
+            });
+        };
+    }(jQuery));
 
     let customCases = {
         'EN': ['/', ['US', 'CA', 'GB', 'AU', 'NZ', 'IE', 'ZA', 'IN', 'SG']],
@@ -327,4 +467,5 @@ jQuery(() => {
             $(document).cookieManager(customCases, targetPage);
         }
     }).init();
+
 })
