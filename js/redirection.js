@@ -123,7 +123,7 @@ jQuery(() => {
                 cookieManager.acceptedFunctionalityCookie();
             });
         };
-    }(jQuery));            
+    }(jQuery));  */          
 
     (function ($) {
         $.fn.cookieBanner = function (options) {
@@ -212,7 +212,7 @@ jQuery(() => {
                 }
             });
         };
-    }(jQuery));*/
+    }(jQuery));
 
     (function($) {
         $.fn.cookieManager = function(customCases, targetPage) {
@@ -469,3 +469,4 @@ jQuery(() => {
     }).init();
 
 })
+
