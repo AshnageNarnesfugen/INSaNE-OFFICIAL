@@ -40,8 +40,10 @@
     <link rel="preload" href="https://insane-bh.space/img/SEO_IMAGES/insane-new-age-min.webp" as="image"/>
     <link rel="preload" href="js/smoothscroll.js" as="script" fetchpriority="high">
     <link rel="preload" href="js/lazyFontLoad.js" as="script" fetchpriority="high">
+    <link rel="preload" href="js/accesibilityMenu.js" as="script" fetchpriority="high">
     <script src="js/smoothscroll.js"></script>
     <script src="js/lazyFontLoad.js"></script>
+    <script src="js/accesibilityMenu.js"></script>
     <script type="text/javascript">
         SmoothScroll({
             animationTime: 1000,
@@ -55,6 +57,8 @@
     <link rel="stylesheet" href="css/bootstrap.css">
     <link rel="preload" href="css/main.min.css" as="style">
     <link rel="stylesheet" href="css/main.min.css">
+    <link rel="preload" href="css/accesibilityMenu.css" as="style">
+    <link rel="stylesheet" href="css/accesibilityMenu.css">
     <link rel="manifest" href="manifest.json">
     <link rel="icon" type="image/png" href="./img/webiconspace-removebg-preview.png">
     <link rel="shortcut icon" type="image/png" href="./img/webiconspace-removebg-preview.png">
@@ -167,6 +171,17 @@
                 <span class="intro_title">INSaNE</span>
                 <span class="intro_subtitle">A Broken Hero</span>
               </div>
+            <div class="accessibility-menu">
+                <button data-action="textSize">Tamaño texto</button>
+                <button data-action="highlightLinks">Resaltar links</button>
+                <button data-action="letterSpacing">Espaciado letras</button>
+                <button data-action="saturation">Saturación</button>
+                <button data-action="cursor">Cursor/Línea guía</button>
+                <button data-action="font">Fuente dislexia</button>
+                <button data-action="reset">Reset</button>
+            </div>
+
+            <div class="focus-line" id="focus-line"></div>
         </header>
         <section class="space_sec section" id="esc1">
             <div class="row gx-0 w-100 h-100 backdrop">

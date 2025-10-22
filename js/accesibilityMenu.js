@@ -1,256 +1,125 @@
-class AccessibilityMenu {
-    constructor() {
-        this.originalStyles = {
-            fontSize: $('body').css('font-size'),
-            letterSpacing: $('body').css('letter-spacing'),
-            filter: $('body').css('filter'),
-            cursor: $('body').css('cursor'),
-            fontFamily: $('body').css('font-family'),
-            color: $('body').css('color'),
-            backgroundColor: $('body').css('background-color')
-        };
-        this.previewElement = 'body';
-        this.themes = this.loadThemes();
-        this.createMenu();
+// --- ESTADO CENTRAL ---
+const state = {
+  textSize: 0, // 0-16px, 1-18px, 2-20px
+  highlightLinks: false,
+  letterSpacing: 0, // 0-normal,1-1px,2-2px
+  saturation: 1, // 1-normal,0-grayscale
+  cursor: 0, // 0-normal,1-cursor+line
+  font: 0 // 0-default,1-dyslexic,2-arial
+};
+
+const defaults = {
+  textSize: '16px',
+  highlightLinks: false,
+  letterSpacing: 'normal',
+  saturation: 1,
+  cursor: 0,
+  font: "var(--font-default, 'Arial')"
+};
+
+const $focusLine = $('#focus-line');
+
+// --- FUNCIONES MODULARES ---
+const actions = {
+  textSize() {
+    state.textSize = (state.textSize + 1) % 3;
+    const sizes = ['16px', '18px', '20px'];
+    $('body').css('font-size', sizes[state.textSize]);
+  },
+
+  highlightLinks() {
+    state.highlightLinks = !state.highlightLinks;
+    const $links = $('a');
+    if (state.highlightLinks) {
+      $('body').addClass('highlighted-links');
+      const bg = $('body').css('background-color');
+      const color = getContrastingColor(bg);
+      $links.css('color', color);
+    } else {
+      $('body').removeClass('highlighted-links');
+      $links.css('color', '');
     }
+  },
 
-    createMenu() {
-        const menu = $('<div>').attr('id', 'accessibilityMenu').addClass('position-fixed bottom-0 start-0 p-3 bg-light');
-        $('body').append(menu);
+  letterSpacing() {
+    state.letterSpacing = (state.letterSpacing + 1) % 3;
+    const spacing = ['normal', '1px', '2px'];
+    $('body').css('letter-spacing', spacing[state.letterSpacing]);
+  },
 
-        this.createSelect('Apply changes to', ['body', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p'], value => this.setPreviewElement(value));
-        this.createSlider('Change Text Size', value => this.changeTextSize(value));
-        this.createButton('Highlight Links', () => this.highlightLinks());
-        this.createSlider('Change Text Spacing', value => this.changeTextSpacing(value));
-        this.createSlider('Change Saturation', value => this.changeSaturation(value));
-        this.createToggle('Change Cursor Focus', checked => this.changeCursorFocus(checked));
-        this.createToggle('Dyslexia Friendly Font', checked => this.dyslexiaFriendlyFont(checked));
-        this.createToggle('Color Contrast', checked => this.colorContrast(checked));
-        this.createToggle('Grayscale', checked => this.grayscale(checked));
-        this.createButton('Text to Speech', () => this.textToSpeech());
-        this.createToggle('Keyboard Navigation', checked => this.keyboardNavigation(checked));
-        this.createToggle('Dark Mode', checked => this.darkMode(checked));
-        this.createToggle('Alt Text for Images', checked => this.altTextForImages(checked));
-        this.createButton('Apply Changes', () => this.applyChanges());
-        this.createButton('Reset', () => this.reset());
-        this.createButton('User Guide', () => this.userGuide());
-        this.createSelect('Themes', Object.keys(this.themes), value => this.applyTheme(value));
-        this.createInput('Save Theme As', value => this.saveTheme(value));
+  saturation() {
+    state.saturation = state.saturation === 1 ? 0 : 1;
+    $('body').css('filter', `saturate(${state.saturation})`);
+  },
+
+  cursor() {
+    state.cursor = (state.cursor + 1) % 2;
+    if (state.cursor === 1) {
+      $('body').css('cursor',
+        "url(\"data:image/svg+xml;utf8,<svg height='40' width='40' xmlns='http://www.w3.org/2000/svg'><circle cx='20' cy='20' r='10' fill='black'/></svg>\") 20 20, auto"
+      );
+      $focusLine.show();
+      $(document).on('mousemove', moveFocusLine);
+    } else {
+      resetCursor();
     }
+  },
 
-    createButton(name, callback) {
-        const button = $('<button>').text(name).click(callback);
-        $('#accessibilityMenu').append(button);
+  font() {
+    state.font = (state.font + 1) % 3;
+    switch (state.font) {
+      case 0:
+        $('body').css('font-family', defaults.font);
+        break;
+      case 1:
+        $('body').css('font-family', "'OpenDyslexic', 'Arial', sans-serif");
+        break;
+      case 2:
+        $('body').css('font-family', "'Arial', sans-serif");
+        break;
     }
+  },
 
-    createSlider(name, callback) {
-        const slider = $('<input>').attr({
-            type: 'range',
-            min: '0',
-            max: '100',
-            value: '50',
-            class: 'slider',
-            id: `${name.replace(' ', '')}Slider`
-        }).on('input', function() {
-            callback(this.value);
-        });
+  reset() {
+    state.textSize = 0;
+    state.highlightLinks = false;
+    state.letterSpacing = 0;
+    state.saturation = 1;
+    state.font = 0;
 
-        const label = $('<label>').text(name).append(slider);
-        $('#accessibilityMenu').append(label);
-    }
+    resetCursor();
 
-    createToggle(name, callback) {
-        const toggle = $('<input>').attr({
-            type: 'checkbox',
-            class: 'toggle',
-            id: `${name.replace(' ', '')}Toggle`
-        }).change(function() {
-            callback(this.checked);
-        });
+    $('body').css({
+      'font-size': defaults.textSize,
+      'letter-spacing': defaults.letterSpacing,
+      'filter': `saturate(${defaults.saturation})`,
+      'font-family': defaults.font
+    });
 
-        const label = $('<label>').text(name).append(toggle);
-        $('#accessibilityMenu').append(label);
-    }
+    $('body').removeClass('highlighted-links');
+    $('a').css('color', '');
+  }
+};
 
-    createSelect(name, options, callback) {
-        const select = $('<select>').on('change', function() {
-            callback(this.value);
-        });
-
-        options.forEach(option => {
-            const optionElement = $('<option>').attr('value', option).text(option);
-            select.append(optionElement);
-        });
-
-        const label = $('<label>').text(name).append(select);
-        $('#accessibilityMenu').append(label);
-    }
-
-    createInput(name, callback) {
-        const input = $('<input>').attr('type', 'text').on('change', function() {
-            callback(this.value);
-        });
-
-        const label = $('<label>').text(name).append(input);
-        $('#accessibilityMenu').append(label);
-    }
-
-    setPreviewElement(value) {
-        this.previewElement = value;
-        this.reset();
-    }
-
-    changeTextSize(value) {
-        $(this.previewElement).not('#accessibilityMenu, #accessibilityMenu *').css('font-size', `${value}%`);
-        localStorage.setItem('textSize', value);
-    }
-
-    highlightLinks() {
-        $('a').not('#accessibilityMenu, #accessibilityMenu *').css('background-color', 'yellow');
-    }
-
-    changeTextSpacing(value) {
-        $(this.previewElement).not('#accessibilityMenu, #accessibilityMenu *').css('letter-spacing', `${value}px`);
-        localStorage.setItem('textSpacing', value);
-    }
-
-    changeSaturation(value) {
-        $(this.previewElement).not('#accessibilityMenu, #accessibilityMenu *').css('filter', `saturate(${value}%)`);
-        localStorage.setItem('saturation', value);
-    }
-
-    changeCursorFocus(checked) {
-        $(this.previewElement).not('#accessibilityMenu, #accessibilityMenu *').css('cursor', checked ? 'zoom-in' : this.originalStyles.cursor);
-        localStorage.setItem('cursorFocus', checked);
-    }
-
-    dyslexiaFriendlyFont(checked) {
-        $(this.previewElement).not('#accessibilityMenu, #accessibilityMenu *').css('font-family', checked ? 'Comic Sans MS, sans-serif' : this.originalStyles.fontFamily);
-        localStorage.setItem('dyslexiaFont', checked);
-    }
-
-    colorContrast(checked) {
-        $(this.previewElement).css('filter', checked ? 'contrast(200%)' : this.originalStyles.filter);
-        localStorage.setItem('colorContrast', checked);
-    }
-
-    grayscale(checked) {
-        $(this.previewElement).css('filter', checked ? 'grayscale(100%)' : this.originalStyles.filter);
-        localStorage.setItem('grayscale', checked);
-    }
-
-    textToSpeech() {
-        const text = $(this.previewElement).text();
-        const msg = new SpeechSynthesisUtterance(text);
-        const previewElement = this.previewElement;
-        msg.onstart = function(event) {
-            $(previewElement).css('background-color', 'yellow');
-        };
-        msg.onend = function(event) {
-            $(previewElement).css('background-color', '');
-        };
-        window.speechSynthesis.speak(msg);
-    }
-
-    keyboardNavigation(checked) {
-        if (checked) {
-            $('a').attr('tabindex', '0');
-        } else {
-            $('a').removeAttr('tabindex');
-        }
-        localStorage.setItem('keyboardNavigation', checked);
-    }
-
-    darkMode(checked) {
-        if (checked) {
-            $(this.previewElement).css({
-                'color': '#fff',
-                'background-color': '#000'
-            });
-        } else {
-            $(this.previewElement).css({
-                'color': this.originalStyles.color,
-                'background-color': this.originalStyles.backgroundColor
-            });
-        }
-        localStorage.setItem('darkMode', checked);
-    }
-
-    altTextForImages(checked) {
-        if (checked) {
-            $('img').each(function() {
-                const altText = $(this).attr('alt');
-                $(this).attr('title', altText);
-            });
-        } else {
-            $('img').removeAttr('title');
-        }
-        localStorage.setItem('altTextForImages', checked);
-    }
-
-    applyChanges() {
-        $(this.previewElement).css({
-            'font-size': `${$('#textSizeSlider').val()}%`,
-            'letter-spacing': `${$('#textSpacingSlider').val()}px`,
-            'filter': `saturate(${$('#saturationSlider').val()}%)`,
-            'cursor': $('#cursorFocusToggle').is(':checked') ? 'zoom-in' : this.originalStyles.cursor,
-            'font-family': $('#dyslexiaFontToggle').is(':checked') ? 'Comic Sans MS, sans-serif' : this.originalStyles.fontFamily,
-            'color': $('#darkModeToggle').is(':checked') ? '#fff' : this.originalStyles.color,
-            'background-color': $('#darkModeToggle').is(':checked') ? '#000' : this.originalStyles.backgroundColor
-        });
-    }
-
-    reset() {
-        $(this.previewElement).css(this.originalStyles);
-        $('a').css('background-color', '');
-        $('.slider').val('50');
-        $('.toggle').prop('checked', false);
-        localStorage.clear();
-    }
-
-    userGuide() {
-        alert('This is a user guide. It would provide step-by-step instructions on how to use each feature.');
-    }
-
-    loadThemes() {
-        const themes = localStorage.getItem('themes');
-        return themes ? JSON.parse(themes) : {};
-    }
-
-    applyTheme(name) {
-        const theme = this.themes[name];
-        if (!theme) return;
-
-        $('#textSizeSlider').val(theme.textSize);
-        $('#textSpacingSlider').val(theme.textSpacing);
-        $('#saturationSlider').val(theme.saturation);
-        $('#cursorFocusToggle').prop('checked', theme.cursorFocus);
-        $('#dyslexiaFontToggle').prop('checked', theme.dyslexiaFont);
-        $('#colorContrastToggle').prop('checked', theme.colorContrast);
-        $('#grayscaleToggle').prop('checked', theme.grayscale);
-        $('#darkModeToggle').prop('checked', theme.darkMode);
-        $('#altTextForImagesToggle').prop('checked', theme.altTextForImages);
-
-        this.applyChanges();
-    }
-
-    saveTheme(name) {
-        this.themes[name] = {
-            textSize: $('#textSizeSlider').val(),
-            textSpacing: $('#textSpacingSlider').val(),
-            saturation: $('#saturationSlider').val(),
-            cursorFocus: $('#cursorFocusToggle').is(':checked'),
-            dyslexiaFont: $('#dyslexiaFontToggle').is(':checked'),
-            colorContrast: $('#colorContrastToggle').is(':checked'),
-            grayscale: $('#grayscaleToggle').is(':checked'),
-            darkMode: $('#darkModeToggle').is(':checked'),
-            altTextForImages: $('#altTextForImagesToggle').is(':checked')
-        };
-
-        localStorage.setItem('themes', JSON.stringify(this.themes));
-    }
+// --- FUNCIONES AUXILIARES ---
+function moveFocusLine(e) {
+  $focusLine.css('top', `${e.clientY - 25}px`);
 }
 
-jQuery(() => {
-    new AccessibilityMenu();
+function resetCursor() {
+  $('body').css('cursor', 'auto');
+  $focusLine.hide();
+  $(document).off('mousemove', moveFocusLine);
+}
+
+function getContrastingColor(rgb) {
+  const [r, g, b] = rgb.match(/\d+/g).map(Number);
+  const yiq = (r * 299 + g * 587 + b * 114) / 1000;
+  return yiq >= 128 ? '#000' : '#fff';
+}
+
+// --- EVENTO GENERAL PARA BOTONES ---
+$('.accessibility-menu button').on('click', function () {
+  const action = $(this).data('action');
+  if (actions[action]) actions[action]();
 });
