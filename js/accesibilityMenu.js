@@ -1,4 +1,4 @@
-jQuery(() => {
+(function( $ ){
     // --- ESTADO CENTRAL ---
     const state = {
         textSize: 0, // 0-16px, 1-18px, 2-20px
@@ -124,5 +124,5 @@ jQuery(() => {
     const action = $(this).data('action');
     if (actions[action]) actions[action]();
     });
-})
+}( jQuery ));
 
