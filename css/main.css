@@ -1304,7 +1304,7 @@ span {
 }
 
 .faq-question h3 {
-  color: #9594A9;
+  color: #ffffff;
   transition: color .4s ease-in-out;
 }
 
@@ -1316,14 +1316,14 @@ span {
 }
 
 .faq-item {
-  border-bottom: 2px solid #9594A9;
+  border-bottom: 2px solid #ffffff;
   padding: 10px 0;
   box-sizing: border-box;
   transition: border .4s ease-in-out;
 }
 
 .faq-item #Rounded_Rectangle_33_copy_4_1_ {
-  fill: #9594A9;
+  fill: #ffffff;
   transition: fill .4s ease-in-out;
 }
 
