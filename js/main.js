@@ -25,6 +25,7 @@ jQuery(() => {
     }, 1000);
     
     // Define your translations
+    /*
     var translations = {
         'en': {
             'readMore': 'Read More',
@@ -91,7 +92,68 @@ jQuery(() => {
         $('.read-more-content').css({'height': '0'})
         $('#show-btn').html(`<p class="${customClass}">${translations[pageLanguage]['readMore']}</p>`)
         $('#show-btn').attr('aria-label', translations[pageLanguage]['readMore'])
-    })
+    })*/
+
+    // Definir traducciones
+    var translations = {
+    'en': { 'readMore': 'Read More', 'readLess': 'Read Less' },
+    'es': { 'readMore': 'Leer Más', 'readLess': 'Leer Menos' },
+    'pt': { 'readMore': 'Ler Mais', 'readLess': 'Ler Menos' },
+    'fr': { 'readMore': 'Lire la suite', 'readLess': 'Lire moins' },
+    'it': { 'readMore': 'Leggi di più', 'readLess': 'Leggi di meno' },
+    'de': { 'readMore': 'Weiterlesen', 'readLess': 'Weniger lesen' },
+    'ru': { 'readMore': 'Читать далее', 'readLess': 'Читать меньше' },
+    'zh': { 'readMore': '阅读更多', 'readLess': '阅读更少' },
+    'ja': { 'readMore': 'もっと読む', 'readLess': '読むのをやめる' },
+    'ko': { 'readMore': '더 읽기', 'readLess': '적게 읽기' },
+    'ar': { 'readMore': 'اقرأ أكثر', 'readLess': 'أقرأ أقل' },
+    'hi': { 'readMore': 'और पढ़ें', 'readLess': 'कम पढ़ें' }
+    };
+
+    // Idioma de la página (asume que <html lang="..."> está definido)
+    var pageLanguage = $('html').attr('lang') || 'en';
+
+    // Elementos
+    const customClass = 'fw-bold text-dark';
+    const $btn = $('#show-btn');
+    const $content = $('.read-more-content');
+
+    // Estado inicial
+    let expanded = false;
+    $btn.html(`<p class="${customClass}">${translations[pageLanguage]['readMore']}</p>`);
+    $btn.attr('aria-label', translations[pageLanguage]['readMore']);
+    gsap.set($content, { height: 0, overflow: 'hidden' });
+
+    // Evento de clic
+    $btn.on('click', function() {
+    if (!expanded) {
+        // Expandir contenido
+        gsap.to($content, {
+        height: 'auto',
+        duration: 0.8,
+        ease: 'power2.out',
+        onStart: () => $content.css('overflow', 'hidden'),
+        onComplete: () => $content.css('overflow', 'visible')
+        });
+
+        $btn.html(`<p class="${customClass}">${translations[pageLanguage]['readLess']}</p>`);
+        $btn.attr('aria-label', translations[pageLanguage]['readLess']);
+        expanded = true;
+    } else {
+        // Contraer contenido
+        gsap.to($content, {
+        height: 0,
+        duration: 0.8,
+        ease: 'power2.in',
+        onStart: () => $content.css('overflow', 'hidden')
+        });
+
+        $btn.html(`<p class="${customClass}">${translations[pageLanguage]['readMore']}</p>`);
+        $btn.attr('aria-label', translations[pageLanguage]['readMore']);
+        expanded = false;
+    }
+    });
+
 
     var currentYear = new Date().getFullYear();
     $('footer').html(function(i, oldHtml) {
