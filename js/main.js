@@ -322,125 +322,133 @@ jQuery(() => {
 
     setInterval(interval, 4000)
 
-        class FormHandler {
-            constructor(formId, ajaxUrl) {
-                this.form = $(formId);
-                this.ajaxUrl = ajaxUrl;
-                this.notifSuccess = this.sanitizeJSON(this.form.attr('data-notif-success'));
-                this.notifError = this.sanitizeJSON(this.form.attr('data-notif-error'));
-                this.tyMsg = this.form.attr('data-tymsg'); // Keep as-is
-                this.errMsg = this.form.attr('data-errmsg'); // Keep as-is
-                this.cookieSubmittedMSN = this.form.attr('data-cookiesubmittedmsn'); // Keep as-is
         
-                this.checkRegistrationStatus();
-                this.form.on('submit', (e) => this.handleSubmit(e));
+
+    class FormHandler {
+        constructor(formId, ajaxUrl) {
+            this.form = $(formId);
+            this.ajaxUrl = ajaxUrl;
+            this.notifSuccess = this.sanitizeJSON(this.form.attr('data-notif-success'));
+            this.notifError = this.sanitizeJSON(this.form.attr('data-notif-error'));
+            this.tyMsg = this.form.attr('data-tymsg'); 
+            this.errMsg = this.form.attr('data-errmsg'); 
+            this.cookieSubmittedMSN = this.form.attr('data-cookiesubmittedmsn'); 
+            
+            this.checkRegistrationStatus();
+            this.form.on('submit', (e) => this.handleSubmit(e));
+        }
+
+        sanitize(input) {
+            if (typeof input !== 'string') return '';
+            input = input.replace(/<script.*?>.*?<\/script>/gi, '')
+                        .replace(/<iframe.*?>.*?<\/iframe>/gi, '')
+                        .replace(/<object.*?>.*?<\/object>/gi, '')
+                        .replace(/<embed.*?>.*?<\/embed>/gi, '')
+                        .replace(/<applet.*?>.*?<\/applet>/gi, '')
+                        .replace(/<meta.*?>/gi, '')
+                        .replace(/<link.*?>/gi, '');
+            input = input.replace(/\bon[a-z]+\s*=\s*(['"]).*?\1/gi, '');
+            input = input.replace(/javascript:/gi, '');
+            return input.replace(/&/g, "&amp;")
+                        .replace(/</g, "&lt;")
+                        .replace(/>/g, "&gt;")
+                        .replace(/"/g, "&quot;")
+                        .replace(/'/g, "&#x27;")
+                        .replace(/\//g, "&#x2F;");
+        }
+
+        sanitizeJSON(jsonString) {
+            try {
+                return JSON.parse(jsonString).map(item => this.sanitize(item));
+            } catch (e) {
+                return ["Invalid Data", "Invalid Data"];
             }
-        
-            /**
-             * Advanced sanitizer function to prevent multiple types of XSS attacks.
-             */
-            sanitize(input) {
-                if (typeof input !== 'string') return '';
-                
-                // Remove script tags, iframes, objects, and other risky elements
-                input = input.replace(/<script.*?>.*?<\/script>/gi, '')
-                             .replace(/<iframe.*?>.*?<\/iframe>/gi, '')
-                             .replace(/<object.*?>.*?<\/object>/gi, '')
-                             .replace(/<embed.*?>.*?<\/embed>/gi, '')
-                             .replace(/<applet.*?>.*?<\/applet>/gi, '')
-                             .replace(/<meta.*?>/gi, '')
-                             .replace(/<link.*?>/gi, '');
-        
-                // Remove JavaScript event handlers (e.g., onclick, onmouseover, etc.)
-                input = input.replace(/\bon[a-z]+\s*=\s*(['"]).*?\1/gi, '');
-        
-                // Prevent JavaScript URL-based attacks (e.g., `javascript:alert(1)`)
-                input = input.replace(/javascript:/gi, '');
-        
-                // Encode HTML special characters to prevent injection
-                return input.replace(/&/g, "&amp;")
-                            .replace(/</g, "&lt;")
-                            .replace(/>/g, "&gt;")
-                            .replace(/"/g, "&quot;")
-                            .replace(/'/g, "&#x27;")
-                            .replace(/\//g, "&#x2F;");
+        }
+
+        checkRegistrationStatus() {
+            if (Cookies.get('registered') === 'true') {
+                this.form.hide();
+                $('.form-container').html(this.cookieSubmittedMSN);
             }
-        
-            /**
-             * Sanitizes JSON input by ensuring all elements are properly escaped.
-             */
-            sanitizeJSON(jsonString) {
-                try {
-                    return JSON.parse(jsonString).map(item => this.sanitize(item));
-                } catch (e) {
-                    return ["Invalid Data", "Invalid Data"];
+        }
+
+        sendNotification(type, title, body) {
+            Notification.requestPermission().then(perm => {
+                if (perm === "granted") {
+                    new Notification(this.sanitize(title), {
+                        body: this.sanitize(body),
+                        icon: "img/webiconspace-removebg-preview.png"
+                    });
                 }
-            }
-        
-            checkRegistrationStatus() {
-                if (Cookies.get('registered') === 'true') {
-                    this.form.css('display', 'none');
-                    $('.form-container').html(this.cookieSubmittedMSN); // Keep formatting
+            });
+        }
+
+        getFormData() {
+            return this.form.serializeArray().reduce((obj, item) => {
+                obj[item.name] = this.sanitize(item.value);
+                return obj;
+            }, {});
+        }
+
+        submitForm() {
+            $.ajax({
+                method: 'POST',
+                url: this.ajaxUrl,
+                dataType: 'json',
+                accepts: 'application/json',
+                data: this.getFormData(),
+                success: (data) => {
+                    this.handleResponse('Accepted', data);
+                },
+                error: (err) => {
+                    this.handleResponse('Rejected', err);
                 }
-            }
-        
-            sendNotification(type, title, body) {
-                Notification.requestPermission().then(perm => {
-                    if (perm === "granted") {
-                        new Notification(this.sanitize(title), {
-                            body: this.sanitize(body),
-                            icon: "img/webiconspace-removebg-preview.png"
-                        });
-                    }
-                });
-            }
-        
-            getFormData() {
-                return this.form.serializeArray().reduce((obj, item) => {
-                    obj[item.name] = this.sanitize(item.value); // Sanitize user input only
-                    return obj;
-                }, {});
-            }
-        
-            submitForm() {
-                $.ajax({
-                    method: 'POST',
-                    url: this.ajaxUrl,
-                    dataType: 'json',
-                    accepts: 'application/json',
-                    data: this.getFormData(),
-                    success: (data) => {
-                        this.handleResponse('Accepted', data);
-                    },
-                    error: (err) => {
-                        this.handleResponse('Rejected', err);
-                    }
-                });
-            }
-        
-            handleResponse(type, response) {
+            });
+        }
+
+        handleResponse(type, response) {
+            const container = $('.form-container');
+            const tl = gsap.timeline({ defaults: { ease: "power2.out", duration: 0.6 } });
+
+            // Animación de salida del formulario
+            tl.to(this.form, { opacity: 0, y: -30, duration: 0.5 })
+            .set(this.form, { display: 'none' })
+            .add(() => {
                 if (type === 'Accepted') {
                     this.sendNotification(type, this.notifSuccess[0], this.notifSuccess[1]);
-                    this.form.css('display', 'none');
-                    $('.form-container').html(this.tyMsg); // Keep formatting
-        
-                    // Set a cookie to mark that the user has registered
+                    container.html(this.tyMsg);
                     Cookies.set('registered', 'true', { expires: 365 });
                 } else {
                     this.sendNotification(type, this.notifError[0], this.notifError[1]);
-                    this.form.css('display', 'none');
-                    $('.form-container').html(this.errMsg); // Keep formatting
+                    container.html(this.errMsg);
                 }
-            }
-        
-            handleSubmit(e) {
-                e.preventDefault();
-                this.submitForm();
-            }
+            })
+            // Animación de entrada del mensaje
+            .fromTo(container.children(), 
+                    { opacity: 0, y: 30 }, 
+                    { opacity: 1, y: 0, duration: 0.8, ease: "power3.out" });
         }
-        
-    // Usage
-    let formHandler = new FormHandler('#former-form', 'https://formsubmit.co/ajax/70a19f04e48d9da8774f32b49b924edf');
+
+        handleSubmit(e) {
+            e.preventDefault();
+
+            // Animación sutil del botón al enviar
+            const submitBtn = this.form.find('button[type="submit"]');
+            gsap.fromTo(submitBtn, 
+                { scale: 1 }, 
+                { scale: 0.9, duration: 0.15, yoyo: true, repeat: 1, ease: "power1.inOut" }
+            );
+
+            this.submitForm();
+        }
+    }
+
+    // Uso
+    let formHandler = new FormHandler(
+        '#former-form', 
+        'https://formsubmit.co/ajax/70a19f04e48d9da8774f32b49b924edf'
+    );
+
 
     class SectionShuffler {
         constructor() {
