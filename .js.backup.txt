@@ -2992,3 +2992,73 @@ $.fn.shuffleLetters.randomChar = function(type) {
                 </div>
             </div>
         </div>
+
+        // Define your translations
+    /*
+    var translations = {
+        'en': {
+            'readMore': 'Read More',
+            'readLess': 'Read Less'
+        },
+        'es': {
+            'readMore': 'Leer Más',
+            'readLess': 'Leer Menos'
+        },
+        'pt': {
+            'readMore': 'Ler Mais',
+            'readLess': 'Ler Menos'
+        },
+        'fr': {
+            'readMore': 'Lire la suite',
+            'readLess': 'Lire moins'
+        },
+        'it': {
+            'readMore': 'Leggi di più',
+            'readLess': 'Leggi di meno'
+        },
+        'de': {
+            'readMore': 'Weiterlesen',
+            'readLess': 'Weniger lesen'
+        },
+        'ru': {
+            'readMore': 'Читать далее',
+            'readLess': 'Читать меньше'
+        },
+        'zh': {
+            'readMore': '阅读更多',
+            'readLess': '阅读更少'
+        },
+        'ja': {
+            'readMore': 'もっと読む',
+            'readLess': '読むのをやめる'
+        },
+        'ko': {
+            'readMore': '더 읽기',
+            'readLess': '적게 읽기'
+        },
+        'ar': {
+            'readMore': 'اقرأ أكثر',
+            'readLess': 'أقرأ أقل'
+        },
+        'hi': {
+            'readMore': 'और पढ़ें',
+            'readLess': 'कम पढ़ें'
+        }
+    }
+
+    // Get the language of the page
+    var pageLanguage = $('html').attr('lang'); // Assuming you've set the language in a <html lang="..."> attribute
+
+    const customClass = 'fw-bold text-dark'
+    $('#show-btn').html(`<p class="${customClass}">${translations[pageLanguage]['readMore']}</p>`)
+    $('#show-btn').attr('aria-label', translations[pageLanguage]['readMore'])
+
+    $('#show-btn').clickToggle(() => {
+        $('.read-more-content').css({'height': '100%'})
+        $('#show-btn').html(`<p class="${customClass}">${translations[pageLanguage]['readLess']}</p>`)
+        $('#show-btn').attr('aria-label', translations[pageLanguage]['readLess'])
+    }, () => {
+        $('.read-more-content').css({'height': '0'})
+        $('#show-btn').html(`<p class="${customClass}">${translations[pageLanguage]['readMore']}</p>`)
+        $('#show-btn').attr('aria-label', translations[pageLanguage]['readMore'])
+    })*/
