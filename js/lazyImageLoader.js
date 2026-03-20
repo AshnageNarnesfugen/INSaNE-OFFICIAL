@@ -70,7 +70,7 @@
                 }
 
                 const $container = $img.parent();
-                const $cursor = $('<div class="custom-cursor-pill">' + settings.cursorText + '</div>').appendTo($container);
+                const $cursor = $(`<div class="custom-cursor-pill">${ settings.cursorText }</div>`).appendTo($container);
 
                 // --- Lógica de GSAP para el seguimiento ---
                 $container.on('mousemove', (e) => {
