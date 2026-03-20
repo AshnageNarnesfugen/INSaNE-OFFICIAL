@@ -157,7 +157,7 @@
             });
         }
 
-        function setupModalImage($img) {
+        /*function setupModalImage($img) {
             $img.on('click', () => {
                 const src = $img.attr('src');
                 const $modal = $(
@@ -177,6 +177,83 @@
                 $modal.on('click', () => {
                     $modal.hide().remove();
                     $('body').css('overflow', 'visible');
+                });
+            });
+        }*/
+
+        function setupModalImage($img) {
+            $img.on('click', () => {
+                const src = $img.attr('src');
+                const $modal = $(
+                    `<div class="modal active">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <img class="modal-img img-fluid inherit" src="${src}" ondragstart="return false;">
+                                <a class="download-btn" href="${src}" download>${downloadMSN}</a>
+                            </div>
+                        </div>
+                        <div class="modal-cursor-pill"></div>
+                    </div>`
+                );
+
+                const $modalCursor = $modal.find('.modal-cursor-pill');
+                const $modalImg = $modal.find('.modal-img');
+                const closeText = "Close Image"; // Puedes mover esto a settings si gustas
+
+                // Aplicamos estilos base a la pildorita del modal (similares a la previa)
+                $modalCursor.css({
+                    'position': 'fixed', // Usamos fixed porque el modal es fullscreen
+                    'pointer-events': 'none',
+                    'padding': '8px 16px',
+                    'background': 'rgba(0, 0, 0, 0.6)',
+                    'backdrop-filter': 'blur(4px)',
+                    '-webkit-backdrop-filter': 'blur(4px)',
+                    'color': '#fff',
+                    'border-radius': '50px',
+                    'font-size': '14px',
+                    'font-weight': '500',
+                    'z-index': '10001',
+                    'opacity': 0,
+                    'transform': 'translate(-50%, -50%)'
+                });
+
+                $modal.appendTo('body').show();
+                $('body').css('overflow', 'hidden');
+
+                // --- SEGUIMIENTO DEL CURSOR EN EL MODAL ---
+                $modal.on('mousemove', (e) => {
+                    // Detectar si el cursor está sobre la imagen para cambiar el texto
+                    const isOverImage = $(e.target).closest('.modal-img').length > 0;
+                    $modalCursor.text(isOverImage ? downloadMSN : closeText);
+
+                    gsap.to($modalCursor, {
+                        x: e.clientX,
+                        y: e.clientY,
+                        duration: 0.15,
+                        ease: "power2.out",
+                        opacity: 1
+                    });
+                });
+
+                // Ocultar cursor nativo al entrar al modal
+                $modal.css('cursor', 'none');
+
+                // --- LÓGICA DE CIERRE (Solo al clickear el fondo) ---
+                $modal.on('click', function(e) {
+                    // Si el clic NO fue en la imagen ni en el botón de descarga
+                    if (!$(e.target).closest('.modal-img, .download-btn').length) {
+                        $modal.remove();
+                        $('body').css('overflow', 'visible');
+                    }
+                });
+
+                // Si hacen clic en la imagen dentro del modal, también puede disparar la descarga
+                $modalImg.on('click', (e) => {
+                    e.stopPropagation(); // Evita que cierre el modal
+                    const link = document.createElement('a');
+                    link.href = src;
+                    link.download = '';
+                    link.click();
                 });
             });
         }
