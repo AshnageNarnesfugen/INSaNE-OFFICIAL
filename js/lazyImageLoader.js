@@ -16,7 +16,8 @@
                 '/zh': '下载',
                 '/kr': '다운로드'
             },
-            defaultDownloadMessage: 'Download'
+            defaultDownloadMessage: 'Download',
+            cursorText: 'Open Image'
         }, options);
 
         const observer = new IntersectionObserver(handleIntersection, settings);
