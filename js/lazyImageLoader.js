@@ -28,7 +28,10 @@
             $('<style id="lazy-loader-styles">')
                 .prop('type', 'text/css')
                 .html(`
-                    .blur-load { position: relative; overflow: hidden; cursor: none; }
+                    .blur-load { position: relative; overflow: hidden; }
+                    .blur-load * {
+                        cursor: none;
+                    }
                     .custom-cursor-pill {
                         top: 0;
                         left: 0;
