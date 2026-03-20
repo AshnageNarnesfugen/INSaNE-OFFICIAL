@@ -75,34 +75,33 @@
                 const $container = $img.parent();
                 const $cursor = $(`<div class="custom-cursor-pill">${ settings.cursorText }</div>`).appendTo($container);
 
-                // --- Lógica de GSAP para el seguimiento ---
-                $container.on('mousemove', (e) => {
-                    const rect = $container[0].getBoundingClientRect();
-                    const x = e.clientX - rect.left;
-                    const y = e.clientY - rect.top;
-
-                    gsap.to($cursor, {
-                        x: x,
-                        y: y,
-                        duration: 0.3,
-                        ease: "power2.out"
-                    });
-                });
-
-                $container.on('mouseenter', () => {
-                    gsap.to($cursor, { opacity: 1, scale: 1, duration: 0.2 });
-                });
-
-                $container.on('mouseleave', () => {
-                    gsap.to($cursor, { opacity: 0, scale: 0.5, duration: 0.2 });
-                });
-    
                 $img.attr('src', 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1MDAiIGhlaWdodD0iNTAwIiB2aWV3Qm94PSIwIDAgNTAwIDUwMCI+DQogIDxyZWN0IGZpbGw9InRyYW5zcGFyZW50IiB3aWR0aD0iNTAwIiBoZWlnaHQ9IjUwMCIvPg0KICA8dGV4dCBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDI1NS41KSIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMzAiIGR5PSIxMC41IiBmb250LXdlaWdodD0iYm9sZCIgeD0iNTAlIiB5PSI1MCUiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkxvYWRpbmcuLi48L3RleHQ+DQo8L3N2Zz4=')
     
                 observer.observe(img);
     
                 if (dataModule === 'true') {
                     setupModalImage($img);
+                    // --- Lógica de GSAP para el seguimiento ---
+                    $container.on('mousemove', (e) => {
+                        const rect = $container[0].getBoundingClientRect();
+                        const x = e.clientX - rect.left;
+                        const y = e.clientY - rect.top;
+
+                        gsap.to($cursor, {
+                            x: x,
+                            y: y,
+                            duration: 0.3,
+                            ease: "power2.out"
+                        });
+                    });
+
+                    $container.on('mouseenter', () => {
+                        gsap.to($cursor, { opacity: 1, scale: 1, duration: 0.2 });
+                    });
+
+                    $container.on('mouseleave', () => {
+                        gsap.to($cursor, { opacity: 0, scale: 0.5, duration: 0.2 });
+                    });
                 }
     
                 return imageLoadPromise($img);
