@@ -189,7 +189,7 @@
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <img class="modal-img img-fluid inherit" src="${src}" ondragstart="return false;">
-                                <a class="download-btn" href="${src}" download>${downloadMSN}</a>
+                                <!--<a class="download-btn" href="${src}" download>${downloadMSN}</a>-->
                             </div>
                         </div>
                         <div class="modal-cursor-pill"></div>
@@ -202,6 +202,8 @@
 
                 // Aplicamos estilos base a la pildorita del modal (similares a la previa)
                 $modalCursor.css({
+                    "top": 0,
+                    "left": 0,
                     'position': 'fixed', // Usamos fixed porque el modal es fullscreen
                     'pointer-events': 'none',
                     'padding': '8px 16px',
