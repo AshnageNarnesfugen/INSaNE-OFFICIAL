@@ -415,19 +415,31 @@
             document.addEventListener(visibilityChange, () => handleVisibilityChange(videoElement), false);
         }
 
+        // --- CORRECCIÓN: HANDLE INTERSECTION (SCROLL PLAY/PAUSE) ---
         function handleIntersection(entries) {
             entries.forEach(entry => {
                 const video = $(entry.target);
+                const videoEl = video[0];
+
                 if (entry.isIntersecting) {
+                    // 1. Carga inicial si no está cargado
                     if (video.attr('data-loaded') !== 'true') {
                         video.data('posters', []);
                         lazyLoadVideo(video);
                         lazyLoadPoster(video);
                         video.attr('data-loaded', 'true');
                     }
+                    
+                    // 2. REPRODUCIR AL REGRESAR (Si el usuario ya le dio play antes)
+                    if (video.attr('data-user-started') === 'true' && videoEl.paused) {
+                        videoEl.play();
+                        video.attr('data-paused', 'false');
+                        updateUIState(video, false);
+                    }
                 } else {
-                    if (!video[0].paused && video.attr('data-user-started') === 'true') {
-                        video[0].pause();
+                    // 3. PAUSAR AL SALIR
+                    if (!videoEl.paused && video.attr('data-user-started') === 'true') {
+                        videoEl.pause();
                         video.attr('data-paused', 'true');
                         updateUIState(video, true);
                     }
@@ -501,11 +513,16 @@
             const $btn = $overlay.find('.play-button');
             const $shape = $btn.find('.button-shape');
 
-            const filterState = { blur: isPaused ? 0 : 10, opacity: isPaused ? 0 : 0.7 };
+            const filterState = { 
+                blur: isPaused ? 0 : 10, 
+                opacity: isPaused ? 0 : 0.7 
+            };
+
             gsap.to(filterState, {
                 blur: isPaused ? 10 : 0,
                 opacity: isPaused ? 0.7 : 0,
                 duration: 0.6,
+                overwrite: "auto",
                 onUpdate: () => {
                     $overlay.css({
                         'background-color': `rgba(0, 0, 0, ${filterState.opacity})`,
@@ -536,7 +553,7 @@
             const $wrapper = video.parent();
             const $playBtn = overlay.find('.play-button');
             const videoEl = video[0];
-            let isGifActive = false; // Bandera para controlar el estado del póster
+            let isGifActive = false;
 
             if (!isMobile) {
                 $wrapper.css('cursor', 'none').find('*').css('cursor', 'none');
@@ -551,7 +568,6 @@
                     });
                 });
 
-                // --- LÓGICA DE HOVER CORREGIDA (Sobre el Wrapper) ---
                 $wrapper.on('mouseenter', function() {
                     if (videoEl.paused && !isGifActive) {
                         const posters = video.data('posters');
