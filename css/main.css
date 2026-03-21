@@ -1485,3 +1485,24 @@ h3.faq-title {
 .dynamic-video-wrapper, .dynamic-video-wrapper * {
     cursor: none !important;
 }
+
+.video-loading-indicator {
+    position: absolute;
+    inset: 0;
+    color: white;
+    font-size: 1.5rem;
+    font-family: sans-serif; /* O tu fuente */
+    z-index: 5;
+    background-color: rgba(0, 0, 0, 0.7); /* Ligeramente oscuro durante la carga */
+    backdrop-filter: blur(10px); /* Desenfoque inicial durante la carga */
+}
+
+.dot-loading {
+    display: flex;
+    margin-left: 5px; /* Separación del texto "Loading" */
+}
+
+.dot-loading span {
+    font-weight: bold;
+    display: inline-block;
+}
