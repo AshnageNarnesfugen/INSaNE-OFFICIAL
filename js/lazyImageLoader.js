@@ -1,6 +1,6 @@
 (function($) {
     $.fn.lazyImageLoader = function(options) {
-        const settings = $.extend({
+        const settings = $.extend(true, {
             root: null,
             rootMargin: '0px',
             threshold: 0.1,
@@ -61,9 +61,9 @@
         }
 
         const observer = new IntersectionObserver(handleIntersection, settings);
-        const downloadMSN = getPathtomessagemap(downloadTextpath);
-        const openMSN = getPathtomessagemap(openTextpath)
-        const closeMSN = getPathtomessagemap(closeTextpath)
+        const downloadMSN = getPathtomessagemap().downloadTextpath;
+        const openMSN = getPathtomessagemap().openTextpath;
+        const closeMSN = getPathtomessagemap().closeTextpath;
 
                 // --- Estilos necesarios para la funcionalidad ---
         if (!$('#lazy-loader-styles').length) {
