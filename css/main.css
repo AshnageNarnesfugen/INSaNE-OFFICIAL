@@ -1432,4 +1432,6 @@ h3.faq-title {
 .play-button {
     pointer-events: auto; /* Permite interacción directa si se desea */
     z-index: 10;
+    top: 0;
+    left: 0;
 }
