@@ -10,19 +10,52 @@ jQuery(() => {
         });
         return this;
     };
-    setTimeout(function () {
-        $(".intro_animation").css("opacity", "0");
-            setTimeout(function () {
-                $(".intro_animation").css("display", "none");
-            }, 500);
-        }, 5000);
-          
-    setTimeout(function () {
-        $(".intro_title").css("opacity", 1);
-            setTimeout(function () {
-                $(".intro_subtitle").css("opacity", 1);
-            }, 1000);
-    }, 1000);
+
+    // Creamos una línea de tiempo para controlar la secuencia
+    const tl = gsap.timeline();
+
+    // 1. Configuración inicial (aseguramos que sea visible antes de empezar)
+    gsap.set(".intro_animation", { display: "grid", opacity: 1 });
+    gsap.set([".intro_title", ".intro_subtitle"], { opacity: 0, y: 20 });
+
+    tl.to(".intro_animation", {
+        backgroundColor: "rgba(0, 0, 0, 1)", // Iniciamos en negro sólido
+        duration: 0
+    })
+
+    // 2. Aparece el título principal con un ligero movimiento hacia arriba
+    .to(".intro_title", {
+        opacity: 1,
+        y: 0,
+        duration: 1.2,
+        ease: "power3.out"
+    }, "+=0.5")
+
+    // 3. Aparece el subtítulo poco después
+    .to(".intro_subtitle", {
+        opacity: 1,
+        y: 0,
+        duration: 1,
+        ease: "power2.out"
+    }, "-=0.5")
+
+    // 4. EL CLÍMAX: Transición del fondo y el blur
+    // Pasamos de opaco a 0.8 y animamos el backdrop-filter
+    .to(".intro_animation", {
+        backgroundColor: "rgba(0, 0, 0, 0.8)",
+        backdropFilter: "blur(20px)",
+        webkitBackdropFilter: "blur(20px)",
+        duration: 2,
+        ease: "none"
+    }, "+=1")
+
+    // 5. Salida elegante: Desvanecemos todo y finalmente ocultamos
+    .to(".intro_animation", {
+        opacity: 0,
+        duration: 1.5,
+        ease: "power2.inOut",
+        onComplete: () => $(".intro_animation").css("display", "none")
+    }, "+=2");
 
     // Definir traducciones
     var translations = {

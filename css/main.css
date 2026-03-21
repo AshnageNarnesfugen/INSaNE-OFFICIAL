@@ -124,7 +124,6 @@ textarea {
     background: rgba(0, 0, 0, 0.8);
     backdrop-filter: blur(50px);
     -webkit-backdrop-filter: blur(50px);
-    transition: opacity 500ms linear;
   }
 
   .cookie-banner {
@@ -135,7 +134,6 @@ textarea {
   
   .intro_animation span {
     opacity: 0;
-    transition: opacity 1s linear;
     font-family: architects-daughter, sharpsans-web, "MailSans", "Hiragino Mincho Pro", "Stylish Regular", "Rajdhani", "Scheherazade New";
   }
   
