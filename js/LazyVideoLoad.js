@@ -285,8 +285,7 @@
             const videoElement = $video[0];
             $video.attr('id', `video-${Math.random().toString(36).substr(2, 9)}`);
 
-            // Wrapper dinámico con clase de blur inicial
-            const $wrapper = $video.wrap('<div class="dynamic-video-wrapper is-video-blur"></div>').parent();
+            const $wrapper = $video.wrap('<div class="dynamic-video-wrapper"></div>').parent();
             $wrapper.css({
                 'width': settings.startWidth,
                 'border-radius': settings.startRadius,
@@ -387,18 +386,30 @@
             return overlay;
         }
 
-        // Nueva función para centralizar el estado visual (Blur y Botón)
+        // --- LÓGICA DE TRANSICIÓN DE ESTADOS (Overlay & Botón) ---
         function updateUIState(video, isPaused) {
-            const $wrapper = video.parent();
-            const $btn = $wrapper.find('.play-button');
+            const $overlay = video.parent().find('.video-overlay');
+            const $btn = $overlay.find('.play-button');
             const $shape = $btn.find('.button-shape');
 
             if (isPaused) {
-                $wrapper.addClass('is-video-blur');
+                // Volver al estado con Blur y Oscuridad
+                gsap.to($overlay, {
+                    backgroundColor: "rgba(0, 0, 0, 0.7)",
+                    backdropFilter: "blur(10px)",
+                    webkitBackdropFilter: "blur(10px)",
+                    duration: 0.5
+                });
                 $btn.removeClass('is-playing-state').addClass('is-paused-state');
                 gsap.to($shape, { rotate: 45, borderRadius: "2px", duration: 0.4 });
             } else {
-                $wrapper.removeClass('is-video-blur');
+                // Volver Transparente y sin Blur
+                gsap.to($overlay, {
+                    backgroundColor: "rgba(0, 0, 0, 0)",
+                    backdropFilter: "blur(0px)",
+                    webkitBackdropFilter: "blur(0px)",
+                    duration: 0.5
+                });
                 $btn.removeClass('is-paused-state').addClass('is-playing-state');
                 gsap.to($shape, { rotate: 0, borderRadius: "8px", duration: 0.4 });
             }
