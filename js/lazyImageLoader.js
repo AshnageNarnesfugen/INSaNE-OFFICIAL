@@ -5,23 +5,65 @@
             rootMargin: '0px',
             threshold: 0.1,
             pathToMessageMap: {
-                '/': 'Download',
-                '/es': 'Descarga',
-                '/jp': 'ダウンロード',
-                '/pt': 'Baixar',
-                '/fr': 'Télécharger',
-                '/de': 'Herunterladen',
-                '/it': 'Scarica',
-                '/ru': 'Скачать',
-                '/zh': '下载',
-                '/kr': '다운로드'
-            },
-            defaultDownloadMessage: 'Download',
-            cursorText: 'Open Image'
+                downloadText: {
+                    '/': 'Download',
+                    '/es': 'Descarga',
+                    '/jp': 'ダウンロード',
+                    '/pt': 'Baixar',
+                    '/fr': 'Télécharger',
+                    '/de': 'Herunterladen',
+                    '/it': 'Scarica',
+                    '/ru': 'Скачать',
+                    '/zh': '下载',
+                    '/kr': '다운로드',
+                    '/ar': 'تحميل',
+                    '/hi': 'डाउनलोड करना',
+                },
+                openText: {
+                    '/': 'Open Image',
+                    '/es': 'Abrir Imagen',
+                    '/jp': '画像を開く',
+                    '/pt': 'Abrir imagem',
+                    '/fr': "Ouvrir l'image",
+                    '/de': 'Bild öffnen',
+                    '/it': 'Apri immagine',
+                    '/ru': 'Открыть изображение',
+                    '/zh': '打开图片',
+                    '/kr': '이미지 열기',
+                    '/ar': 'فتح الصورة',
+                    '/hi': 'इमेज खोलें',
+                },
+                closeText: {
+                    '/': 'Close Image',
+                    '/es': 'Cerrar Imagen',
+                    '/jp': '画像を閉じる',
+                    '/pt': 'Fechar imagem',
+                    '/fr': "Fermer l'image",
+                    '/de': 'Bild schließen',
+                    '/it': 'Chiudi immagine',
+                    '/ru': 'Закрыть изображение',
+                    '/zh': '关闭图片',
+                    '/kr': '이미지 닫기',
+                    '/ar': 'إغلاق الصورة',
+                    '/hi': 'इमेज बंद करें',
+                },
+            }
         }, options);
 
+        function getPathtomessagemap() {
+            const url = new URL(window.location.href);
+            const path = url.pathname;
+            return {
+                downloadTextpath: settings.pathToMessageMap.downloadText[path],
+                openTextpath: settings.pathToMessageMap.openText[path],
+                closeTextpath: settings.pathToMessageMap.closeText[path]
+            };              
+        }
+
         const observer = new IntersectionObserver(handleIntersection, settings);
-        const downloadMSN = getDownloadMSN();
+        const downloadMSN = getPathtomessagemap(downloadTextpath);
+        const openMSN = getPathtomessagemap(openTextpath)
+        const closeMSN = getPathtomessagemap(closeTextpath)
 
                 // --- Estilos necesarios para la funcionalidad ---
         if (!$('#lazy-loader-styles').length) {
@@ -73,7 +115,7 @@
                 }
 
                 const $container = $img.parent();
-                const $cursor = $(`<div class="custom-cursor-pill">${ settings.cursorText }</div>`).appendTo($container);
+                const $cursor = $(`<div class="custom-cursor-pill">${ openMSN }</div>`).appendTo($container);
 
                 $img.attr('src', 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1MDAiIGhlaWdodD0iNTAwIiB2aWV3Qm94PSIwIDAgNTAwIDUwMCI+DQogIDxyZWN0IGZpbGw9InRyYW5zcGFyZW50IiB3aWR0aD0iNTAwIiBoZWlnaHQ9IjUwMCIvPg0KICA8dGV4dCBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDI1NS41KSIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMzAiIGR5PSIxMC41IiBmb250LXdlaWdodD0iYm9sZCIgeD0iNTAlIiB5PSI1MCUiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkxvYWRpbmcuLi48L3RleHQ+DQo8L3N2Zz4=')
     
@@ -173,7 +215,6 @@
 
                 const $modalCursor = $modal.find('.modal-cursor-pill');
                 const $modalImg = $modal.find('.modal-img');
-                const closeText = "Close Image"; // Puedes mover esto a settings si gustas
 
                 // Aplicamos estilos base a la pildorita del modal (similares a la previa)
                 $modalCursor.css({
@@ -201,7 +242,7 @@
                 $modal.on('mousemove', (e) => {
                     // Detectar si el cursor está sobre la imagen para cambiar el texto
                     const isOverImage = $(e.target).closest('.modal-img').length > 0;
-                    $modalCursor.text(isOverImage ? downloadMSN : closeText);
+                    $modalCursor.text(isOverImage ? downloadMSN : closeMSN);
 
                     gsap.to($modalCursor, {
                         x: e.clientX,
@@ -236,11 +277,7 @@
             });
         }
 
-        function getDownloadMSN() {
-            const url = new URL(window.location.href);
-            const path = url.pathname;
-            return settings.pathToMessageMap[path] || settings.defaultDownloadMessage;              
-        }
+        
 
         return this.each(function() {
             const imagePromises = loadImages.call($(this));
