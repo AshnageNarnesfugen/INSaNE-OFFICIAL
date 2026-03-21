@@ -1,4 +1,4 @@
-(function($) {
+/*(function($) {
     $.fn.lazyVideoLoader = function(options) {
         const settings = $.extend({
             root: null,
@@ -226,6 +226,228 @@
                 video.prop('controls', false);
                 video.attr('poster', posters[0]);
             });
+        }
+
+        return this.each(function() {
+            loadVideos($(this));
+        });
+    };
+}(jQuery));*/
+
+(function($) {
+    $.fn.lazyVideoLoader = function(options) {
+        const settings = $.extend({
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1,
+            // Configuración de animación de expansión
+            startWidth: "80%",
+            endWidth: "100%",
+            startRadius: "40px",
+            endRadius: "0px",
+            gsapStart: "top bottom",
+            gsapEnd: "top 10%"
+        }, options);
+
+        // Inicializar ScrollTrigger
+        if (typeof gsap !== "undefined" && typeof ScrollTrigger !== "undefined") {
+            gsap.registerPlugin(ScrollTrigger);
+        }
+
+        const observer = new IntersectionObserver(handleIntersection, settings);
+        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
+        // Page Visibility API
+        let hidden, visibilityChange;
+        if (typeof document.hidden !== "undefined") {
+            hidden = "hidden"; visibilityChange = "visibilitychange";
+        } else if (typeof document.msHidden !== "undefined") {
+            hidden = "msHidden"; visibilityChange = "msvisibilitychange";
+        } else if (typeof document.webkitHidden !== "undefined") {
+            hidden = "webkitHidden"; visibilityChange = "webkitvisibilitychange";
+        }
+
+        function handleVisibilityChange(videoElement) {
+            const video = $(videoElement);
+            const $btn = video.parent().find('.play-button');
+            if (document[hidden]) {
+                if (!video[0].paused && video.attr('data-user-started') === 'true') {
+                    video[0].pause();
+                    updateBtnState($btn, video[0], true);
+                }
+            } else {
+                if (video[0].paused && video.attr('data-user-started') === 'true') {
+                    const entry = observer.takeRecords().find(e => e.target === videoElement);
+                    if (entry && entry.isIntersecting) {
+                        video[0].play();
+                        updateBtnState($btn, video[0], false);
+                    }
+                }
+            }
+        }
+
+        function loadVideos($video) {
+            const videoElement = $video[0];
+            $video.attr('id', `video-${Math.random().toString(36).substr(2, 9)}`);
+
+            // --- WRAPPER DINÁMICO ---
+            const $wrapper = $video.wrap('<div class="dynamic-video-wrapper"></div>').parent();
+            $wrapper.css({
+                'width': settings.startWidth,
+                'border-radius': settings.startRadius,
+                'margin': '0 auto',
+                'overflow': 'hidden',
+                'position': 'relative',
+                'background': '#000'
+            });
+
+            // --- ANIMACIÓN GSAP (Expansión) ---
+            if (typeof gsap !== "undefined") {
+                gsap.to($wrapper, {
+                    width: settings.endWidth,
+                    borderRadius: settings.endRadius,
+                    ease: "none",
+                    scrollTrigger: {
+                        trigger: $wrapper,
+                        start: settings.gsapStart,
+                        end: settings.gsapEnd,
+                        scrub: true
+                    }
+                });
+            }
+
+            observer.observe(videoElement);
+            document.addEventListener(visibilityChange, () => handleVisibilityChange(videoElement), false);
+        }
+
+        function handleIntersection(entries) {
+            entries.forEach(entry => {
+                const video = $(entry.target);
+                if (entry.isIntersecting) {
+                    if (video.attr('data-loaded') !== 'true') {
+                        video.data('posters', []);
+                        lazyLoadVideo(video);
+                        lazyLoadPoster(video);
+                        video.attr('data-loaded', 'true');
+                    }
+                } else {
+                    if (!video[0].paused) {
+                        video[0].pause();
+                        const $btn = video.parent().find('.play-button');
+                        updateBtnState($btn, video[0], true);
+                    }
+                }
+            });
+        }
+
+        function fetchVideoSource(src) {
+            return fetch(src).then(r => r.blob()).then(b => URL.createObjectURL(b)).catch(() => '');
+        }
+
+        function lazyLoadPoster(video) {
+            const posterData = video.attr('data-poster');
+            if (posterData) {
+                let posterObject;
+                try { posterObject = JSON.parse(posterData); } catch { return; }
+                const posterPriorityList = Object.keys(posterObject).sort();
+                loadPostersFromPriorityList(video, posterObject, posterPriorityList, 0);
+            }
+        }
+
+        function loadPostersFromPriorityList(video, posterObject, posterPriorityList, index = 0) {
+            if (index >= posterPriorityList.length) return;
+            fetch(posterObject[posterPriorityList[index]]).then(r => r.blob()).then(blob => {
+                const url = URL.createObjectURL(blob);
+                video.data('posters').push(url);
+                if (index === 0) video.attr('poster', url);
+                loadPostersFromPriorityList(video, posterObject, posterPriorityList, index + 1);
+            });
+        }
+
+        function lazyLoadVideo(video) {
+            const sources = video.find('source');
+            const overlay = createOverlay(video);
+            video.prop('controls', false);
+        
+            const promises = sources.map((index, el) => {
+                return fetchVideoSource($(el).attr('data-src')).then(url => {
+                    if (url) { $(el).attr('src', url); return url; }
+                    throw new Error();
+                });
+            }).get();
+        
+            $.when.apply($, promises).then(() => {
+                video[0].load();
+                setupInteractiveButton(overlay, video);
+            });
+        }
+
+        function createOverlay(video) {
+            const overlay = $('<div>', { class: 'video-overlay' });
+            video.parent().append(overlay);
+            return overlay;
+        }
+
+        function updateBtnState($btn, el, forcePause = false) {
+            const $shape = $btn.find('.button-shape');
+            if (el.paused || forcePause) {
+                $btn.removeClass('is-playing-state').addClass('is-paused-state');
+                gsap.to($shape, { rotate: 45, borderRadius: "2px", duration: 0.4, ease: "back.out(1.7)" });
+            } else {
+                $btn.removeClass('is-paused-state').addClass('is-playing-state');
+                gsap.to($shape, { rotate: 0, borderRadius: "6px", duration: 0.4, ease: "back.out(1.7)" });
+            }
+        }
+
+        function setupInteractiveButton(overlay, video) {
+            const buttonHTML = `
+                <div class="play-button-overlay d-flex align-items-center justify-content-center">
+                    <button class="play-button btn-custom-video is-paused-state" aria-label="Toggle Play">
+                        <div class="button-shape">
+                            <span class="icon-symbol"></span>
+                        </div>
+                    </button>
+                </div>`;
+
+            overlay.html(buttonHTML);
+            const $wrapper = video.parent();
+            const $playBtn = overlay.find('.play-button');
+            const videoEl = video[0];
+
+            // --- LÓGICA MAGNÉTICA Y CURSOR ---
+            if (!isMobile) {
+                $wrapper.css('cursor', 'none').find('*').css('cursor', 'none');
+
+                $wrapper.on('mousemove', function(e) {
+                    const rect = $wrapper[0].getBoundingClientRect();
+                    gsap.to($playBtn, {
+                        x: (e.clientX - rect.left) - ($playBtn.outerWidth() / 2),
+                        y: (e.clientY - rect.top) - ($playBtn.outerHeight() / 2),
+                        duration: 0.5,
+                        ease: "power3.out",
+                        overwrite: "auto"
+                    });
+                });
+
+                // Click en cualquier parte del video
+                $wrapper.on('click', function() {
+                    if (videoEl.paused) {
+                        videoEl.play();
+                        video.attr('data-user-started', 'true');
+                    } else {
+                        videoEl.pause();
+                    }
+                    updateBtnState($playBtn, videoEl);
+                });
+            } else {
+                $playBtn.on('click', (e) => {
+                    e.stopPropagation();
+                    videoEl.paused ? videoEl.play() : videoEl.pause();
+                    updateBtnState($playBtn, videoEl);
+                });
+            }
+
+            video.on('ended', () => updateBtnState($playBtn, videoEl, true));
         }
 
         return this.each(function() {

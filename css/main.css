@@ -1434,4 +1434,54 @@ h3.faq-title {
     z-index: 10;
     top: 0;
     left: 0;
+    position: absolute !important;
+}
+
+.btn-custom-video {
+    background: #dc3545; /* Rojo similar a btn-danger */
+    border: none;
+    width: 60px;
+    height: 60px;
+    padding: 0;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.3s ease;
+    z-index: 100;
+}
+
+.button-shape {
+    width: 40px;
+    height: 40px;
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* Inicia como rombo (rotado 45deg) */
+    transform: rotate(45deg);
+}
+
+/* Icono Play (Triángulo cuando está pausado) */
+.is-paused-state .icon-symbol {
+    width: 0; 
+    height: 0; 
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    border-left: 15px solid #dc3545;
+    transform: rotate(-45deg); /* Compensa la rotación del padre */
+    margin-left: 5px;
+}
+
+/* Icono Pausa (Dos barras cuando está reproduciendo) */
+.is-playing-state .icon-symbol {
+    width: 15px;
+    height: 15px;
+    border-left: 5px solid #dc3545;
+    border-right: 5px solid #dc3545;
+    background: transparent;
+}
+
+.dynamic-video-wrapper, .dynamic-video-wrapper * {
+    cursor: none !important;
 }
