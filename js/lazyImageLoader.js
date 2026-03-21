@@ -189,7 +189,6 @@
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <img class="modal-img img-fluid inherit" src="${src}" ondragstart="return false;">
-                                <!--<a class="download-btn" href="${src}" download>${downloadMSN}</a>-->
                             </div>
                         </div>
                         <div class="modal-cursor-pill"></div>
@@ -239,6 +238,7 @@
 
                 // Ocultar cursor nativo al entrar al modal
                 $modal.css('cursor', 'none');
+                $modal.children().css('cursor', 'none');
 
                 // --- LÓGICA DE CIERRE (Solo al clickear el fondo) ---
                 $modal.on('click', function(e) {
