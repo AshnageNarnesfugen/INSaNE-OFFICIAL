@@ -157,30 +157,6 @@
             });
         }
 
-        /*function setupModalImage($img) {
-            $img.on('click', () => {
-                const src = $img.attr('src');
-                const $modal = $(
-                    `<div class="modal active">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                <img class="modal-img img-fluid inherit" src="${src}" ondragstart="return false;">
-                                <a class="download-btn" href="${src}" download>${downloadMSN}</a>
-                                </div>
-                            </div>
-                        </div>`
-                );
-    
-                $modal.appendTo('body').show();
-                $('body').css('overflow', 'hidden');
-    
-                $modal.on('click', () => {
-                    $modal.hide().remove();
-                    $('body').css('overflow', 'visible');
-                });
-            });
-        }*/
-
         function setupModalImage($img) {
             $img.on('click', () => {
                 const src = $img.attr('src');
@@ -238,7 +214,7 @@
 
                 // Ocultar cursor nativo al entrar al modal
                 $modal.css('cursor', 'none');
-                $modal.children().css('cursor', 'none');
+                $modalImg.css('cursor', 'none');
 
                 // --- LÓGICA DE CIERRE (Solo al clickear el fondo) ---
                 $modal.on('click', function(e) {
