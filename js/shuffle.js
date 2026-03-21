@@ -66,6 +66,15 @@ $.fn.shuffleLetters = function(prop) {
                 case /[\u0900-\u097F]/.test(ch):
                     types[i] = "hindi";
                     break;
+                // Thai: U+0E00–U+0E7F
+                case /[\u0E00-\u0E7F]/.test(ch):
+                    types[i] = "thai";
+                    break;
+                // Vietnamese: latin base + combining diacritics block U+0300–U+036F
+                // and Vietnamese-specific precomposed chars U+1E00–U+1EFF
+                case /[\u1E00-\u1EFF\u0300-\u036F]/.test(ch):
+                    types[i] = "vietnamese";
+                    break;
                 default:
                     types[i] = "symbol";
             }
@@ -110,7 +119,12 @@ $.fn.shuffleLetters.randomChar = function(type) {
         korean: "가각간갇갈감갑값갓갔강갖같갚갛개객갠갤갬갭갯갰갱갸갹갼걀걋걍걔걘걜",
         russian: "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдеёжзийклмнопрстуфхцчшщъыьэюя",
         arabic: "ءآأؤإئابةتثجحخدذرزسشصضطظعغفقكلمنهوىيـًٌٍَُِّْ٠١٢٣٤٥٦٧٨٩",
-        hindi: "अआइईउऊऋएऐऑओऔकखगघङचछजझञटठडढणतथदधनपफबभमयरलवशषसह़ािीुूृेैॉोौ्ॐऽ।॥"
+        hindi: "अआइईउऊऋएऐऑओऔकखगघङचछजझञटठडढणतथदधनपफबभमयरलवशषसह़ािीुूृेैॉोौ्ॐऽ।॥",
+        // พยัญชนะ + สระ + วรรณยุกต์ไทย
+        thai: "กขฃคฅฆงจฉชซฌญฎฏฐฑฒณดตถทธนบปผฝพฟภมยรลวศษสหฬอฮาิีึืุูเแโใไๆ็่้๊๋์ํ๐๑๒๓๔๕๖๗๘๙",
+        // Vocales vietnamitas precompuestas (U+1E00–U+1EFF) — el bloque completo
+        // cubre todas las combinaciones de diacríticos apilados del vietnamita
+        vietnamese: "àáâãèéêìíòóôõùúýăđơưạảấầẩẫậắằẳẵặẹẻẽếềểễệỉịọỏốồổỗộớờởỡợụủứừửữựỳỵỷỹ"
     };
     return pools[type] ? pools[type][Math.floor(Math.random() * pools[type].length)] : "";
 };

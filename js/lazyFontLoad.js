@@ -150,6 +150,113 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             }
         ],
+
+        // ── Thai ─────────────────────────────────────────────────────────────
+        // Sarabun: fuente oficial tailandesa, excelente legibilidad en pantalla,
+        // cubre todos los pesos. Descarga desde Google Fonts o bundles propios.
+        "/th": [
+            {
+                name: "Sarabun",
+                weight: "400",
+                style: "normal",
+                priority: "preload",
+                formats: {
+                    ttf: "../css/fonts/sarabun/Sarabun-Regular.ttf"
+                }
+            },
+            {
+                name: "Sarabun",
+                weight: "700",
+                style: "normal",
+                priority: "lazy",
+                formats: {
+                    ttf: "../css/fonts/sarabun/Sarabun-Bold.ttf"
+                }
+            },
+            {
+                name: "Sarabun",
+                weight: "300",
+                style: "normal",
+                priority: "lazy",
+                formats: {
+                    ttf: "../css/fonts/sarabun/Sarabun-Light.ttf"
+                }
+            },
+            {
+                name: "Sarabun",
+                weight: "500",
+                style: "normal",
+                priority: "lazy",
+                formats: {
+                    ttf: "../css/fonts/sarabun/Sarabun-Medium.ttf"
+                }
+            },
+            {
+                name: "Sarabun",
+                weight: "600",
+                style: "normal",
+                priority: "lazy",
+                formats: {
+                    ttf: "../css/fonts/sarabun/Sarabun-SemiBold.ttf"
+                }
+            }
+        ],
+
+        // ── Vietnamese ───────────────────────────────────────────────────────
+        // Be Vietnam Pro: diseñada específicamente para vietnamita, métricas
+        // verticales generosas para los diacríticos apilados, moderna y legible.
+        "/vi": [
+            {
+                name: "Be Vietnam Pro",
+                weight: "400",
+                style: "normal",
+                priority: "preload",
+                formats: {
+                    ttf: "../css/fonts/bevietnam/BeVietnamPro-Regular.ttf"
+                }
+            },
+            {
+                name: "Be Vietnam Pro",
+                weight: "700",
+                style: "normal",
+                priority: "lazy",
+                formats: {
+                    ttf: "../css/fonts/bevietnam/BeVietnamPro-Bold.ttf"
+                }
+            },
+            {
+                name: "Be Vietnam Pro",
+                weight: "300",
+                style: "normal",
+                priority: "lazy",
+                formats: {
+                    ttf: "../css/fonts/bevietnam/BeVietnamPro-Light.ttf"
+                }
+            },
+            {
+                name: "Be Vietnam Pro",
+                weight: "500",
+                style: "normal",
+                priority: "lazy",
+                formats: {
+                    ttf: "../css/fonts/bevietnam/BeVietnamPro-Medium.ttf"
+                }
+            },
+            {
+                name: "Be Vietnam Pro",
+                weight: "600",
+                style: "normal",
+                priority: "lazy",
+                formats: {
+                    ttf: "../css/fonts/bevietnam/BeVietnamPro-SemiBold.ttf"
+                }
+            }
+        ],
+
+        // ── ms / id / tl ─────────────────────────────────────────────────────
+        // Usan latín puro — caen al `default` (sharpsans-web) automáticamente.
+        // No necesitan entrada propia salvo que quieras diferenciación visual.
+
         default: [
             {
                 name: "sharpsans-web",

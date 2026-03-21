@@ -6,46 +6,61 @@
             threshold: 0.1,
             pathToMessageMap: {
                 downloadText: {
-                    '/': 'Download',
-                    '/es': 'Descarga',
-                    '/jp': 'ダウンロード',
-                    '/pt': 'Baixar',
-                    '/fr': 'Télécharger',
-                    '/de': 'Herunterladen',
-                    '/it': 'Scarica',
-                    '/ru': 'Скачать',
-                    '/zh': '下载',
-                    '/kr': '다운로드',
-                    '/ar': 'تحميل',
-                    '/hi': 'डाउनलोड करना',
+                    '/':    'Download',
+                    '/es':  'Descarga',
+                    '/jp':  'ダウンロード',
+                    '/pt':  'Baixar',
+                    '/fr':  'Télécharger',
+                    '/de':  'Herunterladen',
+                    '/it':  'Scarica',
+                    '/ru':  'Скачать',
+                    '/zh':  '下载',
+                    '/kr':  '다운로드',
+                    '/ar':  'تحميل',
+                    '/hi':  'डाउनलोड करना',
+                    '/th':  'ดาวน์โหลด',
+                    '/ms':  'Muat Turun',
+                    '/id':  'Unduh',
+                    '/tl':  'I-download',
+                    '/vi':  'Tải Xuống',
                 },
                 openText: {
-                    '/': 'Open Image',
-                    '/es': 'Abrir Imagen',
-                    '/jp': '画像を開く',
-                    '/pt': 'Abrir imagem',
-                    '/fr': "Ouvrir l'image",
-                    '/de': 'Bild öffnen',
-                    '/it': 'Apri immagine',
-                    '/ru': 'Открыть изображение',
-                    '/zh': '打开图片',
-                    '/kr': '이미지 열기',
-                    '/ar': 'فتح الصورة',
-                    '/hi': 'इमेज खोलें',
+                    '/':    'Open Image',
+                    '/es':  'Abrir Imagen',
+                    '/jp':  '画像を開く',
+                    '/pt':  'Abrir imagem',
+                    '/fr':  "Ouvrir l'image",
+                    '/de':  'Bild öffnen',
+                    '/it':  'Apri immagine',
+                    '/ru':  'Открыть изображение',
+                    '/zh':  '打开图片',
+                    '/kr':  '이미지 열기',
+                    '/ar':  'فتح الصورة',
+                    '/hi':  'इमेज खोलें',
+                    '/th':  'เปิดรูปภาพ',
+                    '/ms':  'Buka Imej',
+                    '/id':  'Buka Gambar',
+                    '/tl':  'Buksan ang Larawan',
+                    '/vi':  'Mở Hình Ảnh',
                 },
                 closeText: {
-                    '/': 'Close Image',
-                    '/es': 'Cerrar Imagen',
-                    '/jp': '画像を閉じる',
-                    '/pt': 'Fechar imagem',
-                    '/fr': "Fermer l'image",
-                    '/de': 'Bild schließen',
-                    '/it': 'Chiudi immagine',
-                    '/ru': 'Закрыть изображение',
-                    '/zh': '关闭图片',
-                    '/kr': '이미지 닫기',
-                    '/ar': 'إغلاق الصورة',
-                    '/hi': 'इमेज बंद करें',
+                    '/':    'Close Image',
+                    '/es':  'Cerrar Imagen',
+                    '/jp':  '画像を閉じる',
+                    '/pt':  'Fechar imagem',
+                    '/fr':  "Fermer l'image",
+                    '/de':  'Bild schließen',
+                    '/it':  'Chiudi immagine',
+                    '/ru':  'Закрыть изображение',
+                    '/zh':  '关闭图片',
+                    '/kr':  '이미지 닫기',
+                    '/ar':  'إغلاق الصورة',
+                    '/hi':  'इमेज बंद करें',
+                    '/th':  'ปิดรูปภาพ',
+                    '/ms':  'Tutup Imej',
+                    '/id':  'Tutup Gambar',
+                    '/tl':  'Isara ang Larawan',
+                    '/vi':  'Đóng Hình Ảnh',
                 },
             }
         }, options);
@@ -65,7 +80,7 @@
         const openMSN = getPathtomessagemap().openTextpath;
         const closeMSN = getPathtomessagemap().closeTextpath;
 
-                // --- Estilos necesarios para la funcionalidad ---
+        // --- Estilos necesarios para la funcionalidad ---
         if (!$('#lazy-loader-styles').length) {
             $('<style id="lazy-loader-styles">')
                 .prop('type', 'text/css')
@@ -115,7 +130,7 @@
                 }
 
                 const $container = $img.parent();
-                const $cursor = $(`<div class="custom-cursor-pill">${ openMSN }</div>`).appendTo($container);
+                const $cursor = $(`<div class="custom-cursor-pill">${openMSN}</div>`).appendTo($container);
 
                 $img.attr('src', 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1MDAiIGhlaWdodD0iNTAwIiB2aWV3Qm94PSIwIDAgNTAwIDUwMCI+DQogIDxyZWN0IGZpbGw9InRyYW5zcGFyZW50IiB3aWR0aD0iNTAwIiBoZWlnaHQ9IjUwMCIvPg0KICA8dGV4dCBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDI1NS41KSIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMzAiIGR5PSIxMC41IiBmb250LXdlaWdodD0iYm9sZCIgeD0iNTAlIiB5PSI1MCUiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkxvYWRpbmcuLi48L3RleHQ+DQo8L3N2Zz4=')
     
@@ -176,7 +191,7 @@
                 },
                 success: (blob) => {
                     $imgElement.attr('src', URL.createObjectURL(blob));
-                    setImageDimensions($imgElement, src); // Call the function to set dimensions
+                    setImageDimensions($imgElement, src);
                     $imgElement.parent().addClass('loaded');
                 },
                 error: () => console.error(`Failed to load image: ${src}`)
@@ -216,11 +231,10 @@
                 const $modalCursor = $modal.find('.modal-cursor-pill');
                 const $modalImg = $modal.find('.modal-img');
 
-                // Aplicamos estilos base a la pildorita del modal (similares a la previa)
                 $modalCursor.css({
                     "top": 0,
                     "left": 0,
-                    'position': 'fixed', // Usamos fixed porque el modal es fullscreen
+                    'position': 'fixed',
                     'pointer-events': 'none',
                     'padding': '8px 16px',
                     'background': 'rgba(0, 0, 0, 0.6)',
@@ -240,7 +254,6 @@
 
                 // --- SEGUIMIENTO DEL CURSOR EN EL MODAL ---
                 $modal.on('mousemove', (e) => {
-                    // Detectar si el cursor está sobre la imagen para cambiar el texto
                     const isOverImage = $(e.target).closest('.modal-img').length > 0;
                     $modalCursor.text(isOverImage ? downloadMSN : closeMSN);
 
@@ -253,22 +266,19 @@
                     });
                 });
 
-                // Ocultar cursor nativo al entrar al modal
                 $modal.css('cursor', 'none');
                 $modalImg.css('cursor', 'none');
 
                 // --- LÓGICA DE CIERRE (Solo al clickear el fondo) ---
                 $modal.on('click', function(e) {
-                    // Si el clic NO fue en la imagen ni en el botón de descarga
                     if (!$(e.target).closest('.modal-img, .download-btn').length) {
                         $modal.remove();
                         $('body').css('overflow', 'visible');
                     }
                 });
 
-                // Si hacen clic en la imagen dentro del modal, también puede disparar la descarga
                 $modalImg.on('click', (e) => {
-                    e.stopPropagation(); // Evita que cierre el modal
+                    e.stopPropagation();
                     const link = document.createElement('a');
                     link.href = src;
                     link.download = '';
@@ -276,8 +286,6 @@
                 });
             });
         }
-
-        
 
         return this.each(function() {
             const imagePromises = loadImages.call($(this));

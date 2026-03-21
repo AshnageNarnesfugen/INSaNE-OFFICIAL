@@ -21,3 +21,8 @@ Sitemap: https://insane-bh.space/kr/sitemap.xml
 Sitemap: https://insane-bh.space/it/sitemap.xml
 Sitemap: https://insane-bh.space/ar/sitemap.xml
 Sitemap: https://insane-bh.space/hi/sitemap.xml
+Sitemap: https://insane-bh.space/id/sitemap.xml
+Sitemap: https://insane-bh.space/ms/sitemap.xml
+Sitemap: https://insane-bh.space/th/sitemap.xml
+Sitemap: https://insane-bh.space/tl/sitemap.xml
+Sitemap: https://insane-bh.space/vi/sitemap.xml

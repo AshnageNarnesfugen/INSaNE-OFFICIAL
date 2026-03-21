@@ -58,18 +58,23 @@ jQuery(() => {
 
     // Definir traducciones
     var translations = {
-        'en': { 'readMore': 'Read More', 'readLess': 'Read Less' },
-        'es': { 'readMore': 'Leer Más', 'readLess': 'Leer Menos' },
-        'pt': { 'readMore': 'Ler Mais', 'readLess': 'Ler Menos' },
-        'fr': { 'readMore': 'Lire la suite', 'readLess': 'Lire moins' },
-        'it': { 'readMore': 'Leggi di più', 'readLess': 'Leggi di meno' },
-        'de': { 'readMore': 'Weiterlesen', 'readLess': 'Weniger lesen' },
-        'ru': { 'readMore': 'Читать далее', 'readLess': 'Читать меньше' },
-        'zh': { 'readMore': '阅读更多', 'readLess': '阅读更少' },
-        'ja': { 'readMore': 'もっと読む', 'readLess': '読むのをやめる' },
-        'ko': { 'readMore': '더 읽기', 'readLess': '적게 읽기' },
-        'ar': { 'readMore': 'اقرأ أكثر', 'readLess': 'أقرأ أقل' },
-        'hi': { 'readMore': 'और पढ़ें', 'readLess': 'कम पढ़ें' }
+        'en': { 'readMore': 'Read More',           'readLess': 'Read Less'            },
+        'es': { 'readMore': 'Leer Más',             'readLess': 'Leer Menos'           },
+        'pt': { 'readMore': 'Ler Mais',             'readLess': 'Ler Menos'            },
+        'fr': { 'readMore': 'Lire la suite',        'readLess': 'Lire moins'           },
+        'it': { 'readMore': 'Leggi di più',         'readLess': 'Leggi di meno'        },
+        'de': { 'readMore': 'Weiterlesen',          'readLess': 'Weniger lesen'        },
+        'ru': { 'readMore': 'Читать далее',         'readLess': 'Читать меньше'        },
+        'zh': { 'readMore': '阅读更多',              'readLess': '阅读更少'              },
+        'ja': { 'readMore': 'もっと読む',            'readLess': '読むのをやめる'        },
+        'ko': { 'readMore': '더 읽기',               'readLess': '적게 읽기'             },
+        'ar': { 'readMore': 'اقرأ أكثر',            'readLess': 'أقرأ أقل'             },
+        'hi': { 'readMore': 'और पढ़ें',              'readLess': 'कम पढ़ें'             },
+        'th': { 'readMore': 'อ่านเพิ่มเติม',         'readLess': 'อ่านน้อยลง'           },
+        'ms': { 'readMore': 'Baca Lagi',            'readLess': 'Baca Kurang'          },
+        'id': { 'readMore': 'Baca Selengkapnya',    'readLess': 'Baca Lebih Sedikit'   },
+        'tl': { 'readMore': 'Magbasa Pa',           'readLess': 'Basahin Nang Kaunti'  },
+        'vi': { 'readMore': 'Đọc Thêm',             'readLess': 'Đọc Ít Hơn'           }
     };
 
     // Idioma de la página
@@ -154,7 +159,7 @@ jQuery(() => {
 
     $('.share-btn').on('click', function() {
     var platform = $(this).attr('data-platform');
-    var language = $(this).attr('data-language'); // Assuming each button also has a 'data-language' attribute
+    var language = $(this).attr('data-language');
 
     var shareUrl = '';
 
@@ -171,27 +176,38 @@ jQuery(() => {
         'zh': '深入"INSaNE | 一个破碎的英雄"。加入Ashnage，一个重力控制器，在他对抗外星入侵的史诗般的任务中。个人的斗争，激烈的战斗，深深的秘密等待着你。现在就加入!!',
         'ko': '"INSaNE | 부서진 영웅"에 뛰어들어보세요. 중력 컨트롤러인 Ashnage와 함께 외계인 침략에 대한 서사시적인 퀘스트에 참여하세요. 개인적인 싸움, 격렬한 전투, 깊은 미스터리가 기다리고 있습니다. 지금 바로 참여하세요!!',
         'ar': 'انغمس في "جنون | بطل مكسور". انضم إلى Ashnage، المتحكم في الجاذبية، في سعيه الملحمي ضد الغزو الفضائي. صراعات شخصية ومعارك شديدة وأسرار عميقة في انتظارك. نضم الان!!',
-        'hi': 'डाइव इंटू "INSaNE | ए ब्रोकन हीरो". एलियन इनवेशन के खिलाफ उनकी महाकाव्यिक प्रेषण में आश्नाज, एक ग्रैविटी-नियंत्रक, के साथ जुड़ें। व्यक्तिगत संघर्ष, तीव्र युद्ध, गहरे रहस्यों का इंतजार है। अभी शामिल हों!!'
+        'hi': 'डाइव इंटू "INSaNE | ए ब्रोकन हीरो". एलियन इनवेशन के खिलाफ उनकी महाकाव्यिक प्रेषण में आश्नाज, एक ग्रैविटी-नियंत्रक, के साथ जुड़ें। व्यक्तिगत संघर्ष, तीव्र युद्ध, गहरे रहस्यों का इंतजार है। अभी शामिल हों!!',
+        'th': 'ดำดิ่งสู่ "INSaNE | วีรบุรุษผู้แตกสลาย" ร่วมเดินทางกับ Ashnage ผู้ควบคุมแรงโน้มถ่วงในการผจญภัยอันยิ่งใหญ่ต่อต้านการรุกรานของมนุษย์ต่างดาว ความขัดแย้งส่วนตัว การต่อสู้อันดุเดือด และความลึกลับที่รอคุณอยู่ เข้าร่วมตอนนี้!!',
+        'ms': 'Selami "INSaNE | Wira Yang Patah". Sertai Ashnage, pengawal graviti, dalam pengembaraan epik menentang serangan alien. Konflik peribadi, pertempuran sengit, misteri mendalam menanti. Sertai sekarang!!',
+        'id': 'Selami "INSaNE | Pahlawan yang Terluka". Bergabunglah dengan Ashnage, pengendali gravitasi, dalam petualangan epik melawan invasi alien. Konflik pribadi, pertempuran sengit, misteri mendalam menanti. Bergabunglah sekarang!!',
+        'tl': 'Sumabak sa "INSaNE | Isang Sirang Bayani". Samahan si Ashnage, kontroler ng grabidad, sa kanyang epikong pakikipagsapalaran laban sa pagsalakay ng alien. Mga personal na pakikibaka, matinding labanan, malalim na misteryo ang naghihintay. Sumali na!!',
+        'vi': 'Khám phá "INSaNE | Người Hùng Gãy Nát". Hãy cùng Ashnage, người kiểm soát trọng lực, trong hành trình sử thi chống lại cuộc xâm lăng ngoài hành tinh. Những đấu tranh nội tâm, trận chiến căng thẳng, bí ẩn sâu xa đang chờ đón. Tham gia ngay!!'
     };
 
     var invitationalText = invitationalTexts[language];
+
     // Different main page URLs for different languages
     let urls = {
-        'en':  window.location.origin + '/', // For English
-        'es':  window.location.origin + '/es', // For Spanish
-        'pt':  window.location.origin + '/pt', // For Portuguese
-        'jp':  window.location.origin + '/jp', // For Japanese
-        'fr':  window.location.origin + '/fr', // For French
-        'de':  window.location.origin + '/de', // For German
-        'it':  window.location.origin + '/it', // For Italian
-        'ru':  window.location.origin + '/ru', // For Russian
-        'zh':  window.location.origin + '/zh', // For Chinese
-        'ko':  window.location.origin + '/kr', // For Korean
-        'ar':  window.location.origin + '/ar', // For Arabic
-        'hi':  window.location.origin + '/hi' // For Hindi
+        'en':  window.location.origin + '/',
+        'es':  window.location.origin + '/es',
+        'pt':  window.location.origin + '/pt',
+        'jp':  window.location.origin + '/jp',
+        'fr':  window.location.origin + '/fr',
+        'de':  window.location.origin + '/de',
+        'it':  window.location.origin + '/it',
+        'ru':  window.location.origin + '/ru',
+        'zh':  window.location.origin + '/zh',
+        'ko':  window.location.origin + '/kr',
+        'ar':  window.location.origin + '/ar',
+        'hi':  window.location.origin + '/hi',
+        'th':  window.location.origin + '/th',
+        'ms':  window.location.origin + '/ms',
+        'id':  window.location.origin + '/id',
+        'tl':  window.location.origin + '/tl',
+        'vi':  window.location.origin + '/vi'
     };
 
-    var url = urls[language]; // Get the URL based on the language
+    var url = urls[language];
 
     switch (platform) {
         case 'facebook':
@@ -207,11 +223,9 @@ jQuery(() => {
             shareUrl = 'https://www.reddit.com/submit?url=' + encodeURIComponent(url) + '&title=' + encodeURIComponent(invitationalText);
             break;
         default:
-            // If platform is not recognized, do nothing or handle the error here
             return;
     }
 
-    // Open the sharing URL in a new window
     window.open(shareUrl, '_blank');
 });
 
@@ -220,42 +234,42 @@ jQuery(() => {
     // Create a class with a function to set the title property
     class DynamicTitleHandler {
         static setTitleForLinks() {
-            // Select all anchor tags with class "dynamic-title"
             $('a').each(function() {
                 const $this = $(this);
                 const content = $this.text().trim();
 
-                // Check if the content is proper for the title property
                 if (content.length > 0) {
-                    // Set the title property to the inner content
                     $this.attr('title', content);
                 } else {
-                    // If the content is not suitable for the title property, return and ignore the tag
                     return;
                 }
             });
         }
     }
 
-    // Call the function to set titles for all anchor tags with class "dynamic-title"
     DynamicTitleHandler.setTitleForLinks();
     
     $('video').lazyVideoLoader();
 
     $('img').lazyImageLoader({
         pathToMessageMap: {
-            '/': 'Download',
-            '/es': 'Descarga',
-            '/jp': 'ダウンロード',
-            '/pt': 'Baixar',
-            '/fr': 'Télécharger',
-            '/de': 'Herunterladen',
-            '/it': 'Scarica',
-            '/ru': 'Скачать',
-            '/zh': '下载',
-            '/kr': '다운로드',
-            '/ar': 'تحميل',
-            '/hi': 'डाउनलोड'
+            '/':    'Download',
+            '/es':  'Descarga',
+            '/jp':  'ダウンロード',
+            '/pt':  'Baixar',
+            '/fr':  'Télécharger',
+            '/de':  'Herunterladen',
+            '/it':  'Scarica',
+            '/ru':  'Скачать',
+            '/zh':  '下载',
+            '/kr':  '다운로드',
+            '/ar':  'تحميل',
+            '/hi':  'डाउनलोड',
+            '/th':  'ดาวน์โหลด',
+            '/ms':  'Muat Turun',
+            '/id':  'Unduh',
+            '/tl':  'I-download',
+            '/vi':  'Tải Xuống'
         },
         defaultDownloadMessage: 'Download'
     });
@@ -286,17 +300,17 @@ jQuery(() => {
     });
 
     var scrollBtn = $('.scroll-top-button');
-    var arrowIcon = scrollBtn.find('.arrow-btn div'); // Target the arrow div inside .arrow-btn
+    var arrowIcon = scrollBtn.find('.arrow-btn div');
 
     $(window).scroll(() => {
         var y = $(window).scrollTop();
 
         if (y > 500) {
             scrollBtn.fadeIn().css('z-index', '111111').data('action', 'up');
-            arrowIcon.removeClass('arrow-down').addClass('arrow-up'); // Change to up arrow
+            arrowIcon.removeClass('arrow-down').addClass('arrow-up');
         } else {
             scrollBtn.fadeIn().css('z-index', '111111').data('action', 'down');
-            arrowIcon.removeClass('arrow-up').addClass('arrow-down'); // Change to down arrow
+            arrowIcon.removeClass('arrow-up').addClass('arrow-down');
         }
     });
 
@@ -306,7 +320,7 @@ jQuery(() => {
         if (action === 'up') {
             $('html, body').animate({ scrollTop: 0 }, 1000);
         } else {
-            var nextSection = $('#quickresume').first(); // Adjust this according to your structure
+            var nextSection = $('#quickresume').first();
             if (nextSection.length) {
                 $('html, body').animate({ scrollTop: nextSection.offset().top }, 1000);
             }
@@ -341,7 +355,7 @@ jQuery(() => {
     var index = 0
     const interval = () => {
         container.shuffleLetters({
-            "step": 30, // adjusted from 30 to 15
+            "step": 30,
             "fps": 60,
             "text": data[index]
         });
@@ -361,21 +375,17 @@ jQuery(() => {
                 this.ajaxUrl = ajaxUrl;
                 this.notifSuccess = this.sanitizeJSON(this.form.attr('data-notif-success'));
                 this.notifError = this.sanitizeJSON(this.form.attr('data-notif-error'));
-                this.tyMsg = this.form.attr('data-tymsg'); // Keep as-is
-                this.errMsg = this.form.attr('data-errmsg'); // Keep as-is
-                this.cookieSubmittedMSN = this.form.attr('data-cookiesubmittedmsn'); // Keep as-is
+                this.tyMsg = this.form.attr('data-tymsg');
+                this.errMsg = this.form.attr('data-errmsg');
+                this.cookieSubmittedMSN = this.form.attr('data-cookiesubmittedmsn');
         
                 this.checkRegistrationStatus();
                 this.form.on('submit', (e) => this.handleSubmit(e));
             }
         
-            /**
-             * Advanced sanitizer function to prevent multiple types of XSS attacks.
-             */
             sanitize(input) {
                 if (typeof input !== 'string') return '';
                 
-                // Remove script tags, iframes, objects, and other risky elements
                 input = input.replace(/<script.*?>.*?<\/script>/gi, '')
                              .replace(/<iframe.*?>.*?<\/iframe>/gi, '')
                              .replace(/<object.*?>.*?<\/object>/gi, '')
@@ -384,13 +394,9 @@ jQuery(() => {
                              .replace(/<meta.*?>/gi, '')
                              .replace(/<link.*?>/gi, '');
         
-                // Remove JavaScript event handlers (e.g., onclick, onmouseover, etc.)
                 input = input.replace(/\bon[a-z]+\s*=\s*(['"]).*?\1/gi, '');
-        
-                // Prevent JavaScript URL-based attacks (e.g., `javascript:alert(1)`)
                 input = input.replace(/javascript:/gi, '');
         
-                // Encode HTML special characters to prevent injection
                 return input.replace(/&/g, "&amp;")
                             .replace(/</g, "&lt;")
                             .replace(/>/g, "&gt;")
@@ -399,9 +405,6 @@ jQuery(() => {
                             .replace(/\//g, "&#x2F;");
             }
         
-            /**
-             * Sanitizes JSON input by ensuring all elements are properly escaped.
-             */
             sanitizeJSON(jsonString) {
                 try {
                     return JSON.parse(jsonString).map(item => this.sanitize(item));
@@ -413,7 +416,7 @@ jQuery(() => {
             checkRegistrationStatus() {
                 if (Cookies.get('registered') === 'true') {
                     this.form.css('display', 'none');
-                    $('.form-container').html(this.cookieSubmittedMSN); // Keep formatting
+                    $('.form-container').html(this.cookieSubmittedMSN);
                 }
             }
         
@@ -430,7 +433,7 @@ jQuery(() => {
         
             getFormData() {
                 return this.form.serializeArray().reduce((obj, item) => {
-                    obj[item.name] = this.sanitize(item.value); // Sanitize user input only
+                    obj[item.name] = this.sanitize(item.value);
                     return obj;
                 }, {});
             }
@@ -455,14 +458,12 @@ jQuery(() => {
                 if (type === 'Accepted') {
                     this.sendNotification(type, this.notifSuccess[0], this.notifSuccess[1]);
                     this.form.css('display', 'none');
-                    $('.form-container').html(this.tyMsg); // Keep formatting
-        
-                    // Set a cookie to mark that the user has registered
+                    $('.form-container').html(this.tyMsg);
                     Cookies.set('registered', 'true', { expires: 365 });
                 } else {
                     this.sendNotification(type, this.notifError[0], this.notifError[1]);
                     this.form.css('display', 'none');
-                    $('.form-container').html(this.errMsg); // Keep formatting
+                    $('.form-container').html(this.errMsg);
                 }
             }
         
@@ -472,7 +473,6 @@ jQuery(() => {
             }
         }
         
-    // Usage
     let formHandler = new FormHandler('#former-form', 'https://formsubmit.co/ajax/70a19f04e48d9da8774f32b49b924edf');
 
     class SectionShuffler {
@@ -532,15 +532,11 @@ jQuery(() => {
         shuffler.init();
         
 
-   // Obtén el valor del parámetro "sectionScrollID" de la URL
    var sectionScrollID = getUrlParameter('sectionScrollID');
 
-   // Verifica si el parámetro está presente y no es nulo
    if (sectionScrollID) {
-       // Encuentra el elemento con el ID correspondiente
        var targetElement = $('#' + sectionScrollID);
 
-       // Realiza un scroll suave hasta el elemento centrado en la ventana
        if (targetElement.length > 0) {
            var windowHeight = $(window).height();
            var elementHeight = targetElement.height();
@@ -548,11 +544,10 @@ jQuery(() => {
            
            $('html, body').animate({
                scrollTop: scrollTo
-           }, 1000); // Cambia 1000 a la duración en milisegundos que desees para la animación
+           }, 1000);
        }
    }
 
-   // Función para obtener el valor de un parámetro de la URL
    function getUrlParameter(name) {
        name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
        var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
@@ -585,10 +580,9 @@ jQuery(() => {
     $('.owl-dot').click(function () {
         owl.trigger('to.owl.carousel', [$(this).index(), 300]);
     });
-    // Al inicio del DOM ready
+
     var startTime = new Date().getTime();
 
-    // Al final del DOM ready
     $(window).on('load', function() {
         var endTime = new Date().getTime();
         var loadTime = endTime - startTime;
