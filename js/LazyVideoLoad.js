@@ -293,7 +293,6 @@
             root: null,
             rootMargin: '0px',
             threshold: 0.1,
-            // Parámetros de expansión GSAP
             startWidth: "80%",
             endWidth: "100%",
             startRadius: "40px",
@@ -318,18 +317,23 @@
             hidden = "webkitHidden"; visibilityChange = "webkitvisibilitychange";
         }
 
+        // --- LÓGICA DE CAMBIO DE PESTAÑA (TAB) ---
         function handleVisibilityChange(videoElement) {
             const video = $(videoElement);
+            const videoEl = videoElement;
+
             if (document[hidden]) {
-                if (!video[0].paused && video.attr('data-user-started') === 'true') {
-                    video[0].pause();
-                    video.attr('data-paused', 'true');
+                // Si el video está reproduciéndose, lo pausamos automáticamente
+                if (!videoEl.paused) {
+                    videoEl.pause();
+                    video.attr('data-autopaused', 'true'); // Marcamos que fue pausa automática
                     updateUIState(video, true);
                 }
             } else {
-                if (video.attr('data-paused') === 'true' && video.attr('data-user-started') === 'true') {
-                    video[0].play();
-                    video.attr('data-paused', 'false');
+                // Solo reanudar si fue pausado automáticamente y el usuario no lo pausó antes
+                if (video.attr('data-autopaused') === 'true' && video.attr('data-user-started') === 'true') {
+                    videoEl.play();
+                    video.removeAttr('data-autopaused'); // Limpiamos la bandera
                     updateUIState(video, false);
                 }
             }
@@ -337,9 +341,8 @@
 
         function loadVideos($video) {
             const videoElement = $video[0];
-            $video.attr('id', `video-${Math.random().toString(36).substr(2, 9)}`);
-
             const $wrapper = $video.wrap('<div class="dynamic-video-wrapper"></div>').parent();
+            
             $wrapper.css({
                 'width': settings.startWidth,
                 'border-radius': settings.startRadius,
@@ -367,10 +370,11 @@
             document.addEventListener(visibilityChange, () => handleVisibilityChange(videoElement), false);
         }
 
+        // --- LÓGICA DE INTERSECCIÓN (SCROLL) ---
         function handleIntersection(entries) {
             entries.forEach(entry => {
                 const video = $(entry.target);
-                const videoEl = video[0];
+                const videoEl = entry.target;
 
                 if (entry.isIntersecting) {
                     if (video.attr('data-loaded') !== 'true') {
@@ -379,15 +383,18 @@
                         lazyLoadPoster(video);
                         video.attr('data-loaded', 'true');
                     }
-                    if (video.attr('data-user-started') === 'true' && videoEl.paused) {
+                    
+                    // Solo reanudar si el video fue autopausado por salir de pantalla
+                    if (video.attr('data-autopaused') === 'true' && video.attr('data-user-started') === 'true') {
                         videoEl.play();
-                        video.attr('data-paused', 'false');
+                        video.removeAttr('data-autopaused');
                         updateUIState(video, false);
                     }
                 } else {
-                    if (!videoEl.paused && video.attr('data-user-started') === 'true') {
+                    // Si el video se está reproduciendo y sale de pantalla, pausa automática
+                    if (!videoEl.paused) {
                         videoEl.pause();
-                        video.attr('data-paused', 'true');
+                        video.attr('data-autopaused', 'true');
                         updateUIState(video, true);
                     }
                 }
@@ -511,17 +518,8 @@
                     });
                 });
 
-                // --- DETALLITO: ANIMACIÓN DE ENTRADA/SALIDA DEL BOTÓN ---
                 $wrapper.on('mouseenter', function() {
-                    // 1. Aparecer botón (Opacidad 1, Escala 1)
-                    gsap.to($playBtn, { 
-                        opacity: 1, 
-                        scale: 1, 
-                        duration: 0.4, 
-                        ease: "back.out(1.7)" // Pequeño efecto de rebote al entrar
-                    });
-
-                    // 2. Lógica de Hover GIF existente
+                    gsap.to($playBtn, { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(1.7)" });
                     if (videoEl.paused && !isGifActive) {
                         const posters = video.data('posters');
                         if (posters && posters.length > 1) {
@@ -530,15 +528,7 @@
                         }
                     }
                 }).on('mouseleave', function() {
-                    // 3. Desaparecer botón (Opacidad 0, Escala pequeña)
-                    gsap.to($playBtn, { 
-                        opacity: 0, 
-                        scale: 0.5, 
-                        duration: 0.4, 
-                        ease: "power2.in" 
-                    });
-
-                    // 4. Lógica de Hover GIF existente
+                    gsap.to($playBtn, { opacity: 0, scale: 0.5, duration: 0.4, ease: "power2.in" });
                     if (isGifActive) {
                         const posters = video.data('posters');
                         if (posters && posters.length > 0) {
@@ -552,23 +542,28 @@
                     if (videoEl.paused) {
                         videoEl.play();
                         video.attr('data-user-started', 'true');
+                        video.removeAttr('data-autopaused'); // Importante: el usuario tomó el control
                         updateUIState(video, false);
                     } else {
                         videoEl.pause();
+                        video.attr('data-user-started', 'false'); // Marcamos que el usuario quiso pausar
+                        video.removeAttr('data-autopaused'); // Quitamos autopaused para que no se reanude solo
                         updateUIState(video, true);
                     }
                 });
             } else {
-                // Móvil: Asegurar que el botón es visible por defecto
                 gsap.set($playBtn, { opacity: 1, scale: 1 });
                 $playBtn.on('click', function(e) {
                     e.stopPropagation();
                     if (videoEl.paused) {
                         videoEl.play();
                         video.attr('data-user-started', 'true');
+                        video.removeAttr('data-autopaused');
                         updateUIState(video, false);
                     } else {
                         videoEl.pause();
+                        video.attr('data-user-started', 'false');
+                        video.removeAttr('data-autopaused');
                         updateUIState(video, true);
                     }
                 });
@@ -576,11 +571,11 @@
 
             video.on('ended', function() {
                 video.attr('data-user-started', 'false');
+                video.removeAttr('data-autopaused');
                 updateUIState(video, true);
                 isGifActive = false;
                 const posters = video.data('posters');
                 if (posters) video.attr('poster', posters[0]);
-                // Ocultar botón al terminar si el mouse no está encima
                 gsap.to($playBtn, { opacity: 0, scale: 0.5, duration: 0.4 });
             });
         }
