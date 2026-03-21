@@ -1391,3 +1391,45 @@ h3.faq-title {
   #question-6.faq-item:hover {
     border-bottom: 2px solid #e83b2e !important;
   }
+
+  /* Este es el contenedor que el JS crea automáticamente */
+.dynamic-video-wrapper {
+    display: block;
+    position: relative;
+    width: 80%;           /* Estado inicial */
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 50px;  /* Estado inicial redondeado */
+    overflow: hidden;     /* Crucial para el border-radius */
+    background-color: #000;
+}
+
+.dynamic-video-wrapper video {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Forzar que nada tenga cursor dentro del área */
+.dynamic-video-wrapper, 
+.dynamic-video-wrapper * {
+    cursor: none !important;
+}
+
+/* Ajuste para que el botón se mueva libremente */
+.play-button-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none; /* Permite que el click llegue al wrapper */
+}
+
+.play-button {
+    pointer-events: auto; /* Permite interacción directa si se desea */
+    z-index: 10;
+}
