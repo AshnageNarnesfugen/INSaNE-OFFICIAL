@@ -240,7 +240,6 @@
             root: null,
             rootMargin: '0px',
             threshold: 0.1,
-            // Configuración de animación de expansión
             startWidth: "80%",
             endWidth: "100%",
             startRadius: "40px",
@@ -249,7 +248,6 @@
             gsapEnd: "top 10%"
         }, options);
 
-        // Inicializar ScrollTrigger
         if (typeof gsap !== "undefined" && typeof ScrollTrigger !== "undefined") {
             gsap.registerPlugin(ScrollTrigger);
         }
@@ -257,7 +255,6 @@
         const observer = new IntersectionObserver(handleIntersection, settings);
         const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
-        // Page Visibility API
         let hidden, visibilityChange;
         if (typeof document.hidden !== "undefined") {
             hidden = "hidden"; visibilityChange = "visibilitychange";
@@ -269,19 +266,17 @@
 
         function handleVisibilityChange(videoElement) {
             const video = $(videoElement);
-            const $btn = video.parent().find('.play-button');
             if (document[hidden]) {
                 if (!video[0].paused && video.attr('data-user-started') === 'true') {
                     video[0].pause();
-                    updateBtnState($btn, video[0], true);
+                    video.attr('data-paused', 'true');
+                    updateUIState(video, true);
                 }
             } else {
-                if (video[0].paused && video.attr('data-user-started') === 'true') {
-                    const entry = observer.takeRecords().find(e => e.target === videoElement);
-                    if (entry && entry.isIntersecting) {
-                        video[0].play();
-                        updateBtnState($btn, video[0], false);
-                    }
+                if (video.attr('data-paused') === 'true' && video.attr('data-user-started') === 'true') {
+                    video[0].play();
+                    video.attr('data-paused', 'false');
+                    updateUIState(video, false);
                 }
             }
         }
@@ -290,8 +285,8 @@
             const videoElement = $video[0];
             $video.attr('id', `video-${Math.random().toString(36).substr(2, 9)}`);
 
-            // --- WRAPPER DINÁMICO ---
-            const $wrapper = $video.wrap('<div class="dynamic-video-wrapper"></div>').parent();
+            // Wrapper dinámico con clase de blur inicial
+            const $wrapper = $video.wrap('<div class="dynamic-video-wrapper is-video-blur"></div>').parent();
             $wrapper.css({
                 'width': settings.startWidth,
                 'border-radius': settings.startRadius,
@@ -301,7 +296,6 @@
                 'background': '#000'
             });
 
-            // --- ANIMACIÓN GSAP (Expansión) ---
             if (typeof gsap !== "undefined") {
                 gsap.to($wrapper, {
                     width: settings.endWidth,
@@ -330,11 +324,16 @@
                         lazyLoadPoster(video);
                         video.attr('data-loaded', 'true');
                     }
+                    if (video.attr('data-paused') === 'true' && video.attr('data-user-started') === 'true') {
+                        video[0].play();
+                        video.attr('data-paused', 'false');
+                        updateUIState(video, false);
+                    }
                 } else {
-                    if (!video[0].paused) {
+                    if (!video[0].paused && video.attr('data-user-started') === 'true') {
                         video[0].pause();
-                        const $btn = video.parent().find('.play-button');
-                        updateBtnState($btn, video[0], true);
+                        video.attr('data-paused', 'true');
+                        updateUIState(video, true);
                     }
                 }
             });
@@ -378,7 +377,7 @@
         
             $.when.apply($, promises).then(() => {
                 video[0].load();
-                setupInteractiveButton(overlay, video);
+                setupPlayButton(overlay, video);
             });
         }
 
@@ -388,33 +387,36 @@
             return overlay;
         }
 
-        function updateBtnState($btn, el, forcePause = false) {
+        // Nueva función para centralizar el estado visual (Blur y Botón)
+        function updateUIState(video, isPaused) {
+            const $wrapper = video.parent();
+            const $btn = $wrapper.find('.play-button');
             const $shape = $btn.find('.button-shape');
-            if (el.paused || forcePause) {
+
+            if (isPaused) {
+                $wrapper.addClass('is-video-blur');
                 $btn.removeClass('is-playing-state').addClass('is-paused-state');
-                gsap.to($shape, { rotate: 45, borderRadius: "2px", duration: 0.4, ease: "back.out(1.7)" });
+                gsap.to($shape, { rotate: 45, borderRadius: "2px", duration: 0.4 });
             } else {
+                $wrapper.removeClass('is-video-blur');
                 $btn.removeClass('is-paused-state').addClass('is-playing-state');
-                gsap.to($shape, { rotate: 0, borderRadius: "6px", duration: 0.4, ease: "back.out(1.7)" });
+                gsap.to($shape, { rotate: 0, borderRadius: "8px", duration: 0.4 });
             }
         }
 
-        function setupInteractiveButton(overlay, video) {
-            const buttonHTML = `
+        function setupPlayButton(overlay, video) {
+            const playButtonTemplate = `
                 <div class="play-button-overlay d-flex align-items-center justify-content-center">
-                    <button class="play-button btn-custom-video is-paused-state" aria-label="Toggle Play">
-                        <div class="button-shape">
-                            <span class="icon-symbol"></span>
-                        </div>
+                    <button class="play-button btn-custom-video is-paused-state" aria-label="Play Button">
+                        <div class="button-shape"><span class="icon-symbol"></span></div>
                     </button>
                 </div>`;
 
-            overlay.html(buttonHTML);
+            overlay.html(playButtonTemplate);
             const $wrapper = video.parent();
             const $playBtn = overlay.find('.play-button');
             const videoEl = video[0];
 
-            // --- LÓGICA MAGNÉTICA Y CURSOR ---
             if (!isMobile) {
                 $wrapper.css('cursor', 'none').find('*').css('cursor', 'none');
 
@@ -423,31 +425,40 @@
                     gsap.to($playBtn, {
                         x: (e.clientX - rect.left) - ($playBtn.outerWidth() / 2),
                         y: (e.clientY - rect.top) - ($playBtn.outerHeight() / 2),
-                        duration: 0.5,
-                        ease: "power3.out",
+                        duration: 0.6,
+                        ease: "power2.out",
                         overwrite: "auto"
                     });
                 });
 
-                // Click en cualquier parte del video
                 $wrapper.on('click', function() {
                     if (videoEl.paused) {
                         videoEl.play();
                         video.attr('data-user-started', 'true');
+                        updateUIState(video, false);
                     } else {
                         videoEl.pause();
+                        updateUIState(video, true);
                     }
-                    updateBtnState($playBtn, videoEl);
                 });
             } else {
-                $playBtn.on('click', (e) => {
+                $playBtn.on('click', function(e) {
                     e.stopPropagation();
-                    videoEl.paused ? videoEl.play() : videoEl.pause();
-                    updateBtnState($playBtn, videoEl);
+                    if (videoEl.paused) {
+                        videoEl.play();
+                        video.attr('data-user-started', 'true');
+                        updateUIState(video, false);
+                    } else {
+                        videoEl.pause();
+                        updateUIState(video, true);
+                    }
                 });
             }
 
-            video.on('ended', () => updateBtnState($playBtn, videoEl, true));
+            video.on('ended', function() {
+                video.attr('data-user-started', 'false');
+                updateUIState(video, true);
+            });
         }
 
         return this.each(function() {

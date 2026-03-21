@@ -53,6 +53,7 @@ jQuery(() => {
     $btn.html(`<p class="${customClass}">${translations[pageLanguage]['readMore']}</p>`);
     $btn.attr('aria-label', translations[pageLanguage]['readMore']);
     gsap.set($content, { height: 0, overflow: 'hidden' });
+    gsap.registerPlugin(ScrollTrigger);
 
     // Evento de clic
     $btn.on('click', function() {
