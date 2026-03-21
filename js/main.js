@@ -44,7 +44,6 @@ jQuery(() => {
     .to(".intro_animation", {
         backgroundColor: "rgba(0, 0, 0, 0.8)",
         backdropFilter: "blur(20px)",
-        webkitBackdropFilter: "blur(20px)",
         duration: 2,
         ease: "none"
     }, "+=1")
