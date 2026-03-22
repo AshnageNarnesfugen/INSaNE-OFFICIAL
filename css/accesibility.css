@@ -304,22 +304,17 @@ body.a11y-reading-mask-1 #a11y-reading-mask { display: block; }
 
 #a11y-mask-top,
 #a11y-mask-bottom {
-    position: fixed;
-    left: 0;
-    width: 100%;
+    /* Posición y tamaño los establece GSAP en ensureMaskEls() */
     pointer-events: none;
     z-index: 99991;
-    /* Fondo semitransparente + blur sobre el contenido debajo */
+    /* Fondo semitransparente + blur sobre el contenido */
     background: rgba(0, 0, 0, 0.82);
     backdrop-filter: blur(6px);
     -webkit-backdrop-filter: blur(6px);
-    display: none;
-    /* Transición suave al moverse con el cursor */
-    transition: top 0.04s linear, height 0.04s linear,
-                bottom 0.04s linear;
+    /* display y transforms los gestiona GSAP — no definir aquí */
 }
 body.a11y-reading-mask-1 #a11y-mask-top,
-body.a11y-reading-mask-1 #a11y-mask-bottom { display: block; }
+body.a11y-reading-mask-1 #a11y-mask-bottom { /* display gestionado por GSAP */ }
 
 /* ── 7. Dyslexia — 2 niveles ────────────────────────────────── */
 @font-face {
