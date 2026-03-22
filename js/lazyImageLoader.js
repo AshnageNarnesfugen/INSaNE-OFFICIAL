@@ -7,17 +7,15 @@
         }, options);
 
         function getPathtomessagemap() {
-            // Read at call time — data-loader has resolved by now
-            const msgs = ((window.INSaNE_DATA || {})['path-messages'] || {}).messages || {
+            // Always read from INSaNE_DATA at call time.
+            // Intentionally ignores settings.pathToMessageMap — main.min.js passes
+            // a stale hardcoded EN-only object via options that would override the JSON.
+            const map = ((window.INSaNE_DATA || {})['path-messages'] || {}).messages || {
                 downloadText: { '/': 'Download' },
                 openText:     { '/': 'Open Image' },
                 closeText:    { '/': 'Close Image' }
             };
-            // Only use settings.pathToMessageMap if it has the expected structure
-            const override = settings.pathToMessageMap;
-            const map = (override && override.downloadText) ? override : msgs;
             const path = window.location.pathname.replace(/\/$/, '') || '/';
-            console.log('[lazyImageLoader] path:', path, '| downloadText available:', !!map.downloadText, '| result:', map.downloadText[path] || map.downloadText['/']);
             return {
                 downloadTextpath: map.downloadText[path] || map.downloadText['/'],
                 openTextpath:     map.openText[path]     || map.openText['/'],
