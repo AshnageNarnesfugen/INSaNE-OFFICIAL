@@ -78,7 +78,18 @@ jQuery(() => {
         }
     }
 
-    waitForCookies(function() {
+    // Wait for BOTH js-cookie AND data-loader JSONs before booting.
+    // Without this, cookie-banner.json may not be loaded yet when the
+    // banner renders — causing it to fall back to English inline strings.
+    function boot(cb) {
+        if (window.INSaNE_DATA_READY) {
+            window.INSaNE_DATA_READY.then(() => waitForCookies(cb));
+        } else {
+            waitForCookies(cb);
+        }
+    }
+
+    boot(function() {
 
     // ═══════════════════════════════════════════════════════════
     //  CONSTANTS
@@ -779,5 +790,5 @@ jQuery(() => {
     // e.g. window.GDPRConsent.allows('analytics')
     window.GDPRConsent = GDPRConsent;
 
-    }); // end waitForCookies
+    }); // end boot
 });
