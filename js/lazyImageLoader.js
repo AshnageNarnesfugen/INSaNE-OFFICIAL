@@ -4,24 +4,21 @@
             root: null,
             rootMargin: '0px',
             threshold: 0.1,
-            pathToMessageMap: (function() {
-                const msgs = ((window.INSaNE_DATA || {})['path-messages'] || {}).messages || null;
-                if (msgs) return msgs;
-                // Inline fallback (en only) if JSON not loaded
-                return {
-                    downloadText: { '/': 'Download' },
-                    openText:     { '/': 'Open Image' },
-                    closeText:    { '/': 'Close Image' }
-                };
-            }())
         }, options);
 
         function getPathtomessagemap() {
+            // Read at call time — data-loader has resolved by now
+            const msgs = ((window.INSaNE_DATA || {})['path-messages'] || {}).messages || {
+                downloadText: { '/': 'Download' },
+                openText:     { '/': 'Open Image' },
+                closeText:    { '/': 'Close Image' }
+            };
+            const map = settings.pathToMessageMap || msgs;
             const path = new URL(window.location.href).pathname;
             return {
-                downloadTextpath: settings.pathToMessageMap.downloadText[path] || settings.pathToMessageMap.downloadText['/'],
-                openTextpath:     settings.pathToMessageMap.openText[path]     || settings.pathToMessageMap.openText['/'],
-                closeTextpath:    settings.pathToMessageMap.closeText[path]    || settings.pathToMessageMap.closeText['/']
+                downloadTextpath: map.downloadText[path] || map.downloadText['/'],
+                openTextpath:     map.openText[path]     || map.openText['/'],
+                closeTextpath:    map.closeText[path]    || map.closeText['/']
             };
         }
 
