@@ -13,27 +13,37 @@
     bottom: 24px;
     left: 24px;
     z-index: 99999;
-    width: 48px;
-    height: 48px;
+    width: 52px;
+    height: 52px;
     border-radius: 50%;
-    background: #e83b2e;
+    /* Azul — color universalmente asociado a accesibilidad */
+    background: #1a6fb5;
     border: none;
     color: #fff;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 4px 16px rgba(0,0,0,0.5);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 4px 16px rgba(26,111,181,0.55);
+    transition: transform 0.2s ease, box-shadow 0.25s ease,
+                background 0.35s ease, color 0.35s ease;
     pointer-events: auto;
     padding: 0;
     outline: none;
-    /* Asegurar que quede encima del panel */
     isolation: isolate;
 }
 #a11y-toggle:hover {
     transform: scale(1.08);
-    box-shadow: 0 6px 20px rgba(232,59,46,0.55);
+    box-shadow: 0 6px 22px rgba(26,111,181,0.7);
+}
+/* Panel abierto — amarillo Billie Eilish, icono negro */
+#a11y-toggle.a11y-open-state {
+    background: #f5d800;
+    color: #000;
+    box-shadow: 0 4px 20px rgba(245,216,0,0.6);
+}
+#a11y-toggle.a11y-open-state:hover {
+    box-shadow: 0 6px 26px rgba(245,216,0,0.75);
 }
 #a11y-toggle:focus-visible {
     outline: 3px solid #fff;

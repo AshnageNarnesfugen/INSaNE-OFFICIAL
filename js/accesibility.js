@@ -296,8 +296,49 @@
         'reading-mask':    `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="9" width="20" height="6" rx="1" fill="currentColor" stroke="none" opacity="0.3"/><line x1="2" y1="9" x2="22" y2="9"/><line x1="2" y1="15" x2="22" y2="15"/><rect x="2" y="2" width="20" height="7" fill="currentColor" stroke="none" opacity="0.6"/><rect x="2" y="15" width="20" height="7" fill="currentColor" stroke="none" opacity="0.6"/></svg>`,
         'dyslexia':        `<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><text x="1" y="18" font-size="16" font-family="serif" font-weight="bold" font-style="italic">Df</text></svg>`,
         'reset':           `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>`,
-        'close':           `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>`,
-        'open':            `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>`,
+        // ── Standard accessibility person — upright, white ──────
+        // Used when panel is CLOSED (blue button)
+        'open': `<svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"
+                      xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <!-- Head -->
+            <circle cx="12" cy="4.5" r="2.2"/>
+            <!-- Body — arms horizontal (standard ISA icon) -->
+            <path d="M12 7.5
+                     C12 7.5 12 10 12 11.5
+                     L7.5 11
+                     M12 11.5
+                     L16.5 11
+                     M12 11.5
+                     L12 16.5
+                     L9.5 21
+                     M12 16.5
+                     L14.5 21"
+                  fill="none" stroke="currentColor" stroke-width="1.8"
+                  stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>`,
+
+        // ── Billie Eilish crooked person — tilted, black ─────────
+        // Used when panel is OPEN (yellow button)
+        // Shoulders drop diagonally left, head tilts, stance asymmetric
+        'close': `<svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"
+                       xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <!-- Head — tilted right -->
+            <circle cx="13" cy="4.2" r="2.2"/>
+            <!-- Neck + torso diagonal -->
+            <!-- Left shoulder drops low, right shoulder high — the "crooked" silhouette -->
+            <path d="M13 6.4
+                     L12.5 9.5
+                     L7 12.5
+                     M12.5 9.5
+                     L17.5 8.5
+                     M12.5 9.5
+                     L11 14.5
+                     L8.5 20
+                     M11 14.5
+                     L13.5 19.5"
+                  fill="none" stroke="currentColor" stroke-width="1.8"
+                  stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>`,
     };
 
     // ── Build DOM ────────────────────────────────────────────────
@@ -372,12 +413,35 @@
             const isOpen = panel.classList.toggle('a11y-open');
             toggle.setAttribute('aria-expanded', String(isOpen));
             toggle.setAttribute('aria-label', isOpen ? t.closeLabel : t.openLabel);
-            toggle.innerHTML = isOpen ? ICONS.close : ICONS.open;
+
+            if (isOpen) {
+                // Swap to crooked person icon + yellow state
+                toggle.classList.add('a11y-open-state');
+                toggle.innerHTML = ICONS.close;
+                // GSAP: wiggle the button on open — the person "twists"
+                gsap.fromTo(toggle,
+                    { rotate: 0, scale: 1 },
+                    { rotate: -12, scale: 1.15, duration: 0.18, ease: 'power2.out',
+                      yoyo: true, repeat: 1,
+                      onComplete: () => gsap.set(toggle, { rotate: 0, scale: 1 }) }
+                );
+            } else {
+                // Back to upright person + blue state
+                toggle.classList.remove('a11y-open-state');
+                toggle.innerHTML = ICONS.open;
+                gsap.fromTo(toggle,
+                    { rotate: 0, scale: 1 },
+                    { rotate: 6, scale: 0.92, duration: 0.15, ease: 'power2.out',
+                      yoyo: true, repeat: 1,
+                      onComplete: () => gsap.set(toggle, { rotate: 0, scale: 1 }) }
+                );
+            }
         });
 
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape' && panel.classList.contains('a11y-open')) {
                 panel.classList.remove('a11y-open');
+                toggle.classList.remove('a11y-open-state');
                 toggle.setAttribute('aria-expanded', 'false');
                 toggle.setAttribute('aria-label', t.openLabel);
                 toggle.innerHTML = ICONS.open;
@@ -388,6 +452,7 @@
         document.addEventListener('click', (e) => {
             if (!panel.contains(e.target) && !toggle.contains(e.target)) {
                 panel.classList.remove('a11y-open');
+                toggle.classList.remove('a11y-open-state');
                 toggle.setAttribute('aria-expanded', 'false');
                 toggle.innerHTML = ICONS.open;
             }
