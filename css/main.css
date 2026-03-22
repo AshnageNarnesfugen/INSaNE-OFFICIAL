@@ -6,9 +6,7 @@ select:focus {
     outline: none !important;
 }
 
-*:focus {
-    outline: none;
-}
+/* *:focus outline removed — breaks keyboard nav and a11y menu *:focus-visible */
 
 .pdf-button {
     width: 100%;
@@ -114,7 +112,7 @@ textarea {
 }
 .intro_animation {
     position: fixed;
-    z-index: 11111111111111111111111111111111111;
+    z-index: 2147483647;
     inset: 0;
     height: inherit;
     width: inherit;
@@ -1330,63 +1328,14 @@ h3.faq-title {
   font-weight: 300;
 }
 
-#question-1:hover .faq-question h3,
-  #question-1 .faq-question.faq-active-highlight h3 {
+/* FAQ hover/active — colapsado de 24 reglas a 2 */
+  .faq-item:hover .faq-question h3,
+  .faq-item .faq-question.faq-active-highlight h3 {
     color: #e83b2e !important;
   }
-  
-  #question-1.faq-item.faq-active-tab,
-  #question-1.faq-item:hover {
-    border-bottom: 2px solid #e83b2e !important;
-  }
-  
-  #question-2:hover .faq-question h3,
-  #question-2 .faq-question.faq-active-highlight h3 {
-    color: #e83b2e !important;
-  }
-  
-  #question-2.faq-item.faq-active-tab,
-  #question-2.faq-item:hover {
-    border-bottom: 2px solid #e83b2e !important;
-  }
-  
-  #question-3:hover .faq-question h3,
-  #question-3 .faq-question.faq-active-highlight h3 {
-    color: #e83b2e !important;
-  }
-  
-  #question-3.faq-item.faq-active-tab,
-  #question-3.faq-item:hover {
-    border-bottom: 2px solid #e83b2e !important;
-  }
-  
-  #question-4:hover .faq-question h3,
-  #question-4 .faq-question.faq-active-highlight h3 {
-    color: #e83b2e !important;
-  }
-  
-  #question-4.faq-item.faq-active-tab,
-  #question-4.faq-item:hover {
-    border-bottom: 2px solid #e83b2e !important;
-  }
-  
-  #question-5:hover .faq-question h3,
-  #question-5 .faq-question.faq-active-highlight h3 {
-    color: #e83b2e !important;
-  }
-  
-  #question-5.faq-item.faq-active-tab,
-  #question-5.faq-item:hover {
-    border-bottom: 2px solid #e83b2e !important;
-  }
-  
-  #question-6:hover .faq-question h3,
-  #question-6 .faq-question.faq-active-highlight h3 {
-    color: #e83b2e !important;
-  }
-  
-  #question-6.faq-item.faq-active-tab,
-  #question-6.faq-item:hover {
+
+  .faq-item.faq-active-tab,
+  .faq-item:hover {
     border-bottom: 2px solid #e83b2e !important;
   }
 
