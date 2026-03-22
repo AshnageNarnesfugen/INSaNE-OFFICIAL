@@ -51,8 +51,15 @@
         {
             key: 'saturation',
             label: () => t.saturation,
-            maxStage: 3,
-            stageClasses: ['a11y-saturation-1','a11y-saturation-2','a11y-saturation-3'],
+            maxStage: 6,
+            stageClasses: [
+                'a11y-saturation-1', // bajo  −
+                'a11y-saturation-2', // bajo  −−
+                'a11y-saturation-3', // B&N
+                'a11y-saturation-4', // alto  +
+                'a11y-saturation-5', // alto  ++
+                'a11y-saturation-6', // hyper +++
+            ],
         },
         {
             key: 'big-cursor',
