@@ -826,9 +826,38 @@
     });
 
     // If page loads with #privacy-policy hash (shared link or direct navigation)
-    // Synchronous — no network call needed
+    // Wait for consent flow to complete first — otherwise the privacy policy
+    // modal opens under/behind the GDPR panel on first visit
     if (window.location.hash === '#privacy-policy') {
-        openModal(getRegionByLang());
+        // INSaNE_DATA_READY ensures JSON is loaded before modal opens.
+        // We also wait for GDPRConsent to finish (if it exists) so the
+        // modal doesn't appear simultaneously with the cookie panel.
+        const openWhenReady = () => {
+            // If GDPR panel is currently visible, wait for it to be dismissed
+            if (document.getElementById('gdpr-panel') &&
+                document.getElementById('gdpr-panel').style.display !== 'none') {
+                // Poll until panel is gone
+                const poll = setInterval(() => {
+                    const panel = document.getElementById('gdpr-panel');
+                    if (!panel || panel.style.display === 'none' ||
+                        getComputedStyle(panel).display === 'none') {
+                        clearInterval(poll);
+                        openModal(getRegionByLang());
+                    }
+                }, 150);
+            } else {
+                openModal(getRegionByLang());
+            }
+        };
+
+        // Wait for data-loader to finish, then open
+        if (window.INSaNE_DATA_READY) {
+            window.INSaNE_DATA_READY.then(openWhenReady);
+        } else {
+            // data-loader.js not present — open after short delay to let
+            // consent flow initialize first
+            setTimeout(openWhenReady, 800);
+        }
     }
 
     // ═══════════════════════════════════════════════════════════
@@ -859,7 +888,32 @@
 
     $(document).on('click', policySelector, function(e) {
         e.preventDefault();
-        window.PrivacyPolicy.open();
+        // If the GDPR panel is open, close it first then open the modal
+        // so they don't stack on top of each other
+        const gdprPanel = document.getElementById('gdpr-panel');
+        if (gdprPanel && gdprPanel.style.display !== 'none' &&
+            getComputedStyle(gdprPanel).display !== 'none') {
+            // Animate panel out first, then open privacy policy
+            if (window.gsap) {
+                gsap.to('#gdpr-card', {
+                    opacity: 0, y: 30, duration: 0.25, ease: 'power2.in',
+                    onComplete: () => {
+                        gsap.to('#gdpr-backdrop', {
+                            opacity: 0, duration: 0.2,
+                            onComplete: () => {
+                                gdprPanel.style.display = 'none';
+                                window.PrivacyPolicy.open();
+                            }
+                        });
+                    }
+                });
+            } else {
+                gdprPanel.style.display = 'none';
+                window.PrivacyPolicy.open();
+            }
+        } else {
+            window.PrivacyPolicy.open();
+        }
     });
 
 })();
