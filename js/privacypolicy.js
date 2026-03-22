@@ -5,7 +5,7 @@
  * - Detects user country via ipapi.co (same call already cached)
  * - Shows policy adapted to local law
  * - Modal opens over current page (no reload)
- * - URL changes to /privacy-policy via history.pushState (shareable)
+ * - URL changes to /#privacy-policy via replaceState (hash — no server request)
  * - Back button / Escape closes the modal and restores the URL
  * - Links in cookie banners / GDPR panel trigger this modal
  * - GSAP animated open/close
@@ -1046,10 +1046,13 @@
         $('#pp-body').html(buildPolicy(region, lang));
         $('#pp-region-badge').text(REGION_LABELS[region] || 'General Policy');
 
-        // URL aesthetics — pushState so back button works
-        const originalURL = window.location.href;
+        // URL aesthetics — replaceState with hash
+        // hash (#) never triggers a server request or GitHub Pages 404
+        // replaceState (not pushState) so the back button exits the page
+        // entirely rather than toggling the modal open/closed in history
+        const originalURL   = window.location.href;
         const originalTitle = document.title;
-        history.pushState({ pp: true, originalURL }, 'Privacy Policy', POLICY_PATH);
+        history.replaceState({ pp: true, originalURL }, 'Privacy Policy', '#privacy-policy');
         document.title = `Privacy Policy — ${SITE.name}`;
 
         // Store so closeModal can restore
@@ -1072,8 +1075,8 @@
         const originalURL   = $('#pp-overlay').data('originalURL')   || window.location.origin + '/';
         const originalTitle = $('#pp-overlay').data('originalTitle') || document.title;
 
-        // Restore URL
-        history.pushState(null, originalTitle, originalURL);
+        // Restore URL — remove the hash cleanly
+        history.replaceState(null, originalTitle, originalURL.replace('#privacy-policy', '') || window.location.pathname);
         document.title = originalTitle;
 
         // Animate out
@@ -1095,15 +1098,17 @@
         $(document).off('keydown.pp');
     }
 
-    // Handle browser back button
-    window.addEventListener('popstate', function(e) {
-        if ($('#pp-overlay').is(':visible')) {
+    // Handle browser back button / hash change
+    // hashchange fires when the hash is removed (back button after opening modal)
+    window.addEventListener('hashchange', function() {
+        if (window.location.hash !== '#privacy-policy' && $('#pp-overlay').is(':visible')) {
             closeModal();
         }
     });
 
-    // If page loads directly on any localized privacy policy path (shared link)
-    if (POLICY_PATHS.has(window.location.pathname)) {
+    // If page loads with #privacy-policy hash (shared link or direct navigation)
+    // Works correctly on GitHub Pages — no server request, no 404
+    if (window.location.hash === '#privacy-policy') {
         // Detect region then open modal
         $.getJSON('https://ipapi.co/json/')
             .done((data) => {
@@ -1145,12 +1150,14 @@
         close: closeModal,
     };
 
-    // ── Intercept ALL localized privacy policy links ────────────
-    // Builds a CSS attribute selector that matches every known path.
-    // Works for links added dynamically (GDPR panel, cookie banner, footer).
-    const policySelector = [...POLICY_PATHS]
-        .map(p => `a[href="${p}"], a[href$="${p}"]`)
-        .join(', ');
+    // ── Intercept privacy policy links ──────────────────────────
+    // Primary: catches #privacy-policy hash links (GDPR panel, cookie banner)
+    // Fallback: also catches the localized paths from redirection.js in case
+    //           any HTML still has the old-style href — opens modal instead of 404
+    const policySelector = [
+        'a[href="#privacy-policy"]',
+        ...[...POLICY_PATHS].map(p => `a[href="${p}"]`)
+    ].join(', ');
 
     $(document).on('click', policySelector, function(e) {
         e.preventDefault();
