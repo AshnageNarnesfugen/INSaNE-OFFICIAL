@@ -1,10 +1,5 @@
 /* ============================================================
-   ACCESSIBILITY MENU — INSaNE | A Broken Hero
-   v2 — Fixes:
-   - Posición inferior izquierda
-   - filter en ::before del body (no rompe position:fixed)
-   - Staged states (múltiples niveles por botón)
-   - Click area correcta en botón circular
+   ACCESSIBILITY MENU — INSaNE | A Broken Hero  v3
    ============================================================ */
 
 /* ── Botón flotante ─────────────────────────────────────────── */
@@ -25,11 +20,9 @@
     justify-content: center;
     box-shadow: 0 4px 16px rgba(0,0,0,0.45);
     transition: transform 0.2s ease, box-shadow 0.2s ease;
-    /* Crítico: evita que el SVG interno intercepte el click */
     pointer-events: auto;
     padding: 0;
     outline: none;
-    /* Área mínima de toque recomendada WCAG (44x44px) ya cubierta */
 }
 #a11y-toggle:hover {
     transform: scale(1.08);
@@ -39,11 +32,8 @@
     outline: 3px solid #fff;
     outline-offset: 3px;
 }
-/* Crítico: el SVG no debe capturar eventos — el botón los gestiona */
 #a11y-toggle svg,
-#a11y-toggle svg * {
-    pointer-events: none;
-}
+#a11y-toggle svg * { pointer-events: none; }
 
 /* ── Panel ──────────────────────────────────────────────────── */
 #a11y-panel {
@@ -51,7 +41,7 @@
     bottom: 88px;
     left: 24px;
     z-index: 99999;
-    width: 230px;
+    width: 260px;
     background: #111;
     border: 1px solid rgba(255,255,255,0.1);
     border-radius: 12px;
@@ -61,9 +51,7 @@
     flex-direction: column;
     gap: 4px;
 }
-#a11y-panel.a11y-open {
-    display: flex;
-}
+#a11y-panel.a11y-open { display: flex; }
 #a11y-panel h2 {
     font-size: 11px;
     font-weight: 700;
@@ -76,183 +64,178 @@
     background: none;
 }
 
-/* ── Botones ────────────────────────────────────────────────── */
+/* Grid 2 columnas igual que Softtek */
+#a11y-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+}
+
+/* ── Botones de feature ─────────────────────────────────────── */
 .a11y-btn {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    gap: 10px;
-    width: 100%;
-    padding: 9px 10px;
-    border-radius: 8px;
-    border: 1px solid transparent;
-    background: transparent;
+    justify-content: center;
+    gap: 6px;
+    padding: 12px 8px 10px;
+    border-radius: 10px;
+    border: 1px solid rgba(255,255,255,0.08);
+    background: rgba(255,255,255,0.04);
     color: #fff;
-    font-size: 13px;
+    font-size: 11px;
     font-weight: 500;
     cursor: pointer;
-    transition: background 0.15s, border-color 0.15s;
-    text-align: left;
+    transition: background 0.15s, border-color 0.15s, color 0.15s;
+    text-align: center;
     line-height: 1.2;
+    min-height: 72px;
 }
-.a11y-btn:hover { background: rgba(255,255,255,0.07); }
+.a11y-btn:hover { background: rgba(255,255,255,0.09); }
 .a11y-btn:focus-visible {
     outline: 2px solid #e83b2e;
     outline-offset: 2px;
 }
-/* Nivel 1 — primera activación */
-.a11y-btn.a11y-stage-1 {
-    background: rgba(232,59,46,0.12);
-    border-color: rgba(232,59,46,0.4);
-    color: #ff7b72;
-}
-/* Nivel 2 — segunda activación */
-.a11y-btn.a11y-stage-2 {
-    background: rgba(232,59,46,0.25);
-    border-color: rgba(232,59,46,0.7);
-    color: #e83b2e;
-}
-/* Nivel 3 — tercera activación (máximo) */
-.a11y-btn.a11y-stage-3 {
-    background: rgba(232,59,46,0.4);
-    border-color: #e83b2e;
-    color: #fff;
-}
 .a11y-btn svg,
 .a11y-btn svg * { pointer-events: none; }
-.a11y-btn svg { flex-shrink: 0; opacity: 0.7; }
-.a11y-btn.a11y-stage-1 svg,
-.a11y-btn.a11y-stage-2 svg,
-.a11y-btn.a11y-stage-3 svg { opacity: 1; }
 
-/* Badge de nivel visible en el botón */
-.a11y-badge {
-    margin-left: auto;
-    font-size: 10px;
-    font-weight: 700;
-    background: rgba(232,59,46,0.3);
-    color: #e83b2e;
-    border-radius: 4px;
-    padding: 1px 5px;
-    min-width: 20px;
-    text-align: center;
-    display: none;
-}
-.a11y-stage-1 .a11y-badge,
-.a11y-stage-2 .a11y-badge,
-.a11y-stage-3 .a11y-badge { display: inline-block; }
-
-.a11y-separator {
-    height: 1px;
-    background: rgba(255,255,255,0.08);
-    margin: 6px 0;
-}
-#a11y-reset {
-    color: rgba(255,255,255,0.45);
-    font-size: 12px;
+/* Icono contenedor — fondo pill oscuro como Softtek */
+.a11y-icon-wrap {
+    display: flex;
+    align-items: center;
     justify-content: center;
+    width: 52px;
+    height: 36px;
+    border-radius: 20px;
+    background: #1a1a1a;
+    transition: background 0.15s;
+}
+
+/* Stage indicators — líneas bajo el icono */
+.a11y-stages {
+    display: flex;
+    gap: 3px;
+    margin-top: 2px;
+}
+.a11y-stage-dot {
+    width: 16px;
+    height: 2px;
+    border-radius: 2px;
+    background: rgba(255,255,255,0.2);
+    transition: background 0.2s;
+}
+.a11y-stage-dot.active { background: #fff; }
+
+/* Estado activo stage 1 */
+.a11y-btn.a11y-stage-1 .a11y-icon-wrap {
+    background: #1e3a2e;
+    border: 1px solid rgba(0,200,120,0.3);
+}
+.a11y-btn.a11y-stage-1 { color: #00c878; border-color: rgba(0,200,120,0.2); }
+
+/* Estado activo stage 2 */
+.a11y-btn.a11y-stage-2 .a11y-icon-wrap {
+    background: #1a2e1a;
+    border: 1px solid rgba(0,200,120,0.5);
+}
+.a11y-btn.a11y-stage-2 { color: #00e88a; border-color: rgba(0,200,120,0.35); }
+
+/* Estado activo stage 3 */
+.a11y-btn.a11y-stage-3 .a11y-icon-wrap {
+    background: #0f2a1f;
+    border: 1px solid #00c878;
+}
+.a11y-btn.a11y-stage-3 { color: #00ffaa; border-color: rgba(0,200,120,0.5); }
+
+/* ── Botón Reset — ancho completo ───────────────────────────── */
+#a11y-reset {
+    grid-column: 1 / -1;
+    flex-direction: row;
+    justify-content: center;
+    gap: 8px;
+    min-height: 40px;
+    padding: 10px;
+    color: rgba(255,255,255,0.5);
+    font-size: 13px;
+    border-color: transparent;
+    background: transparent;
+    margin-top: 2px;
 }
 #a11y-reset:hover { color: #fff; background: rgba(255,255,255,0.05); }
+#a11y-reset .a11y-icon-wrap { display: none; }
+#a11y-reset .a11y-stages { display: none; }
 
+.a11y-separator {
+    grid-column: 1 / -1;
+    height: 1px;
+    background: rgba(255,255,255,0.08);
+    margin: 4px 0;
+}
 
 /* ============================================================
-   FEATURE STATES — STAGED
-   Nomenclatura: a11y-{feature}-{nivel}
+   FEATURE STATES
    ============================================================ */
 
 /* ── 1. Bigger Text — 3 niveles ─────────────────────────────── */
-body.a11y-bigger-text-1 p,
-body.a11y-bigger-text-1 li,
-body.a11y-bigger-text-1 .faq-title,
-body.a11y-bigger-text-1 .faq-answer p,
-body.a11y-bigger-text-1 label,
-body.a11y-bigger-text-1 input,
-body.a11y-bigger-text-1 textarea,
-body.a11y-bigger-text-1 button:not(.a11y-btn):not(#a11y-toggle) {
-    font-size: 1.15em !important; line-height: 1.65 !important;
-}
-body.a11y-bigger-text-2 p,
-body.a11y-bigger-text-2 li,
-body.a11y-bigger-text-2 .faq-title,
-body.a11y-bigger-text-2 .faq-answer p,
-body.a11y-bigger-text-2 label,
-body.a11y-bigger-text-2 input,
-body.a11y-bigger-text-2 textarea,
-body.a11y-bigger-text-2 button:not(.a11y-btn):not(#a11y-toggle) {
-    font-size: 1.3em !important; line-height: 1.75 !important;
-}
-body.a11y-bigger-text-3 p,
-body.a11y-bigger-text-3 li,
-body.a11y-bigger-text-3 .faq-title,
-body.a11y-bigger-text-3 .faq-answer p,
-body.a11y-bigger-text-3 label,
-body.a11y-bigger-text-3 input,
-body.a11y-bigger-text-3 textarea,
-body.a11y-bigger-text-3 button:not(.a11y-btn):not(#a11y-toggle) {
-    font-size: 1.5em !important; line-height: 1.9 !important;
-}
+body.a11y-bigger-text-1 p, body.a11y-bigger-text-1 li,
+body.a11y-bigger-text-1 .faq-title, body.a11y-bigger-text-1 .faq-answer p,
+body.a11y-bigger-text-1 label, body.a11y-bigger-text-1 input,
+body.a11y-bigger-text-1 textarea { font-size: 1.15em !important; line-height: 1.65 !important; }
+
+body.a11y-bigger-text-2 p, body.a11y-bigger-text-2 li,
+body.a11y-bigger-text-2 .faq-title, body.a11y-bigger-text-2 .faq-answer p,
+body.a11y-bigger-text-2 label, body.a11y-bigger-text-2 input,
+body.a11y-bigger-text-2 textarea { font-size: 1.3em !important; line-height: 1.75 !important; }
+
+body.a11y-bigger-text-3 p, body.a11y-bigger-text-3 li,
+body.a11y-bigger-text-3 .faq-title, body.a11y-bigger-text-3 .faq-answer p,
+body.a11y-bigger-text-3 label, body.a11y-bigger-text-3 input,
+body.a11y-bigger-text-3 textarea { font-size: 1.5em !important; line-height: 1.9 !important; }
 
 /* ── 2. Highlight Links — 2 niveles ─────────────────────────── */
-body.a11y-highlight-links-1 a:not(.a11y-btn):not(#a11y-toggle) {
-    background: rgba(255,235,59,0.3) !important;
+body.a11y-highlight-links-1 a:not(.a11y-btn) {
+    background: rgba(255,235,59,0.25) !important;
     text-decoration: underline !important;
-    border-radius: 3px;
-    padding: 0 2px;
+    border-radius: 3px; padding: 0 2px;
 }
-body.a11y-highlight-links-2 a:not(.a11y-btn):not(#a11y-toggle) {
-    background: #ffeb3b !important;
-    color: #000 !important;
+body.a11y-highlight-links-2 a:not(.a11y-btn) {
+    background: #ffeb3b !important; color: #000 !important;
     text-decoration: underline !important;
-    border-radius: 3px;
-    padding: 0 2px;
+    border-radius: 3px; padding: 0 2px;
     outline: 2px solid #f57f17;
 }
 
 /* ── 3. Text Spacing — 3 niveles ────────────────────────────── */
-body.a11y-text-spacing-1 p,
-body.a11y-text-spacing-1 li,
-body.a11y-text-spacing-1 .faq-title,
-body.a11y-text-spacing-1 .faq-answer p {
-    letter-spacing: 0.06em !important;
-    word-spacing: 0.08em !important;
-    line-height: 1.6 !important;
+body.a11y-text-spacing-1 p, body.a11y-text-spacing-1 li,
+body.a11y-text-spacing-1 .faq-title, body.a11y-text-spacing-1 .faq-answer p {
+    letter-spacing: 0.06em !important; word-spacing: 0.08em !important; line-height: 1.6 !important;
 }
-body.a11y-text-spacing-2 p,
-body.a11y-text-spacing-2 li,
-body.a11y-text-spacing-2 .faq-title,
-body.a11y-text-spacing-2 .faq-answer p {
-    letter-spacing: 0.12em !important;
-    word-spacing: 0.16em !important;
-    line-height: 1.8 !important;
+body.a11y-text-spacing-2 p, body.a11y-text-spacing-2 li,
+body.a11y-text-spacing-2 .faq-title, body.a11y-text-spacing-2 .faq-answer p {
+    letter-spacing: 0.12em !important; word-spacing: 0.16em !important; line-height: 1.8 !important;
 }
-body.a11y-text-spacing-3 p,
-body.a11y-text-spacing-3 li,
-body.a11y-text-spacing-3 .faq-title,
-body.a11y-text-spacing-3 .faq-answer p {
-    letter-spacing: 0.2em !important;
-    word-spacing: 0.25em !important;
-    line-height: 2.1 !important;
+body.a11y-text-spacing-3 p, body.a11y-text-spacing-3 li,
+body.a11y-text-spacing-3 .faq-title, body.a11y-text-spacing-3 .faq-answer p {
+    letter-spacing: 0.2em !important; word-spacing: 0.25em !important; line-height: 2.1 !important;
 }
 
 /* ── 4. Saturation — 3 niveles ──────────────────────────────── */
 /*
-   FIX CRÍTICO: position:fixed se rompe cuando filter se aplica
-   al body directamente porque crea un nuevo stacking context.
-   Solución: aplicar el filtro en un pseudo-elemento ::before
-   que cubre toda la pantalla, en lugar del body mismo.
-   Así los elementos fixed siguen siendo fixed respecto al viewport.
+   FIX position:fixed:
+   filter en el body crea un stacking context nuevo que rompe
+   position:fixed en todos sus hijos. Usamos body::before con
+   backdrop-filter y pointer-events:none como overlay en su lugar.
 */
 body.a11y-saturation-1::before,
 body.a11y-saturation-2::before,
 body.a11y-saturation-3::before {
     content: '';
     position: fixed;
-    inset: 0; /* top:0 right:0 bottom:0 left:0 */
-    z-index: 99990; /* debajo del panel (99999) pero encima de todo */
-    pointer-events: none; /* no intercepta clicks */
+    inset: 0;
+    z-index: 99990;
+    pointer-events: none;
 }
 body.a11y-saturation-1::before {
-    background: transparent;
-    /* Saturación reducida via mix-blend-mode */
     backdrop-filter: saturate(0.4);
     -webkit-backdrop-filter: saturate(0.4);
 }
@@ -261,23 +244,44 @@ body.a11y-saturation-2::before {
     -webkit-backdrop-filter: saturate(0.1);
 }
 body.a11y-saturation-3::before {
-    /* Escala de grises completa */
     backdrop-filter: saturate(0) brightness(1.05);
     -webkit-backdrop-filter: saturate(0) brightness(1.05);
 }
-/* El panel y toggle nunca se ven afectados al estar encima */
 
-/* ── 5. Big Cursor — 2 niveles ──────────────────────────────── */
+/* ── 5. Big Cursor — 1 nivel ────────────────────────────────── */
 body.a11y-big-cursor-1,
-body.a11y-big-cursor-1 *:not(.cursor-container):not(.cursor-container *):not(.dynamic-video-wrapper):not(.dynamic-video-wrapper *) {
-    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cpath d='M6 2l20 12-8 2-5 9z' fill='white' stroke='black' stroke-width='1.5'/%3E%3C/svg%3E") 6 2, auto !important;
-}
-body.a11y-big-cursor-2,
-body.a11y-big-cursor-2 *:not(.cursor-container):not(.cursor-container *):not(.dynamic-video-wrapper):not(.dynamic-video-wrapper *) {
-    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 48 48'%3E%3Cpath d='M8 3l30 18-12 3-7 13z' fill='white' stroke='black' stroke-width='2'/%3E%3C/svg%3E") 8 3, auto !important;
+body.a11y-big-cursor-1 *:not(.cursor-container *):not(.dynamic-video-wrapper *) {
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Cpath d='M7 3l26 15-10 3-6 11z' fill='white' stroke='black' stroke-width='1.8'/%3E%3C/svg%3E") 7 3, auto !important;
 }
 
-/* ── 6. Dyslexia Friendly — 2 niveles ──────────────────────── */
+/* ── 6. Reading Mask — 1 nivel ──────────────────────────────── */
+/*
+   Overlay que oscurece toda la pantalla excepto una franja
+   horizontal que sigue al cursor. Implementado via JS con
+   un elemento #a11y-reading-mask posicionado fixed.
+   El CSS solo define el elemento base.
+*/
+#a11y-reading-mask {
+    position: fixed;
+    inset: 0;
+    z-index: 99991;
+    pointer-events: none;
+    display: none;
+    /* La máscara se dibuja como gradiente radial vertical via JS */
+    background: linear-gradient(
+        to bottom,
+        rgba(0,0,0,0.85) 0%,
+        rgba(0,0,0,0.85) var(--mask-top, 45%),
+        transparent var(--mask-top, 45%),
+        transparent var(--mask-bottom, 55%),
+        rgba(0,0,0,0.85) var(--mask-bottom, 55%),
+        rgba(0,0,0,0.85) 100%
+    );
+    transition: --mask-top 0.05s, --mask-bottom 0.05s;
+}
+body.a11y-reading-mask-1 #a11y-reading-mask { display: block; }
+
+/* ── 7. Dyslexia Friendly — 2 niveles ──────────────────────── */
 @font-face {
     font-family: 'OpenDyslexic';
     src: url('https://cdn.jsdelivr.net/npm/open-dyslexic@1.0.3/ttf/OpenDyslexic-Regular.ttf') format('truetype');
@@ -288,29 +292,17 @@ body.a11y-big-cursor-2 *:not(.cursor-container):not(.cursor-container *):not(.dy
     src: url('https://cdn.jsdelivr.net/npm/open-dyslexic@1.0.3/ttf/OpenDyslexic-Bold.ttf') format('truetype');
     font-weight: 700; font-style: normal; font-display: swap;
 }
-/* Nivel 1: solo espaciado amigable para dislexia */
-body.a11y-dyslexia-1 p,
-body.a11y-dyslexia-1 li,
-body.a11y-dyslexia-1 .faq-title,
-body.a11y-dyslexia-1 .faq-answer p,
+body.a11y-dyslexia-1 p, body.a11y-dyslexia-1 li,
+body.a11y-dyslexia-1 .faq-title, body.a11y-dyslexia-1 .faq-answer p,
 body.a11y-dyslexia-1 .content-text {
-    letter-spacing: 0.05em !important;
-    word-spacing: 0.15em !important;
-    line-height: 1.9 !important;
+    letter-spacing: 0.05em !important; word-spacing: 0.15em !important; line-height: 1.9 !important;
 }
-/* Nivel 2: fuente OpenDyslexic + espaciado */
-body.a11y-dyslexia-2 p,
-body.a11y-dyslexia-2 li,
-body.a11y-dyslexia-2 .faq-title,
-body.a11y-dyslexia-2 .faq-answer p,
-body.a11y-dyslexia-2 .content-text,
-body.a11y-dyslexia-2 label,
-body.a11y-dyslexia-2 input,
-body.a11y-dyslexia-2 textarea {
+body.a11y-dyslexia-2 p, body.a11y-dyslexia-2 li,
+body.a11y-dyslexia-2 .faq-title, body.a11y-dyslexia-2 .faq-answer p,
+body.a11y-dyslexia-2 .content-text, body.a11y-dyslexia-2 label,
+body.a11y-dyslexia-2 input, body.a11y-dyslexia-2 textarea {
     font-family: 'OpenDyslexic', sans-serif !important;
-    letter-spacing: 0.05em !important;
-    word-spacing: 0.15em !important;
-    line-height: 1.9 !important;
+    letter-spacing: 0.05em !important; word-spacing: 0.15em !important; line-height: 1.9 !important;
 }
 
 /* ── Focus visible global (WCAG 2.1 AA) ────────────────────── */
