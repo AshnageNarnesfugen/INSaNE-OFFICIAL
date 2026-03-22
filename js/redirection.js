@@ -776,8 +776,26 @@ jQuery(() => {
                     // From /data/i18n/cookie-banner.json
                     const msgs = ((window.INSaNE_DATA || {})['cookie-banner'] || {}).messages || {};
                     if (Object.keys(msgs).length) return msgs;
-                    // Inline en fallback if JSON not loaded
-                    return { en: { message: 'We use cookies to enhance your experience.', buttonText: 'I Agree', rejectText: 'I Reject', policyLink: '#privacy-policy', policyText: 'Learn more about our cookie policy' } };
+                    // Full inline fallback — all 17 langs — if JSON not loaded or fetch failed
+                    return {
+                        en: { message: 'We use cookies to enhance your experience. By continuing to visit this site you agree to our use of cookies.', buttonText: 'I Agree', rejectText: 'I Reject', policyLink: '#privacy-policy', policyText: 'Learn more about our cookie policy' },
+                        es: { message: 'Usamos cookies para mejorar su experiencia. Al continuar visitando este sitio, acepta nuestro uso de cookies.', buttonText: 'Estoy de acuerdo', rejectText: 'Yo rechazo', policyLink: '#privacy-policy', policyText: 'Aprende más sobre nuestra política de cookies' },
+                        pt: { message: 'Usamos cookies para melhorar sua experiência. Ao continuar a visitar este site, você concorda com o uso de nossos cookies.', buttonText: 'Eu concordo', rejectText: 'Eu rejeito', policyLink: '#privacy-policy', policyText: 'Saiba mais sobre nossa política de cookies' },
+                        fr: { message: "Nous utilisons des cookies pour améliorer votre expérience. En continuant à visiter ce site, vous acceptez notre utilisation des cookies.", buttonText: "Je suis d'accord", rejectText: 'Je refuse', policyLink: '#privacy-policy', policyText: 'En savoir plus sur notre politique de cookies' },
+                        de: { message: 'Wir verwenden Cookies, um Ihre Erfahrung zu verbessern.', buttonText: 'Ich stimme zu', rejectText: 'Ich lehne ab', policyLink: '#privacy-policy', policyText: 'Erfahren Sie mehr über unsere Cookie-Richtlinie' },
+                        it: { message: 'Utilizziamo i cookie per migliorare la tua esperienza.', buttonText: "Sono d'accordo", rejectText: 'Rifiuto', policyLink: '#privacy-policy', policyText: 'Per saperne di più sulla nostra politica sui cookie' },
+                        ru: { message: 'Мы используем куки-файлы для улучшения вашего опыта.', buttonText: 'Я согласен', rejectText: 'Я отказываюсь', policyLink: '#privacy-policy', policyText: 'Узнайте больше о нашей политике' },
+                        zh: { message: '我们使用cookies来提高您的体验。', buttonText: '我同意', rejectText: '我拒绝', policyLink: '#privacy-policy', policyText: '了解更多关于我们的Cookie政策' },
+                        jp: { message: '私たちはあなたの経験を向上させるためにクッキーを使用します。', buttonText: '同意する', rejectText: '拒否する', policyLink: '#privacy-policy', policyText: '私たちのクッキーポリシーについて詳しく知る' },
+                        kr: { message: '우리는 쿠키를 사용합니다.', buttonText: '동의합니다', rejectText: '거절합니다', policyLink: '#privacy-policy', policyText: '우리의 쿠키 정책에 대해 더 알아보기' },
+                        ar: { message: 'نستخدم ملفات تعريف الارتباط لتعزيز تجربتك.', buttonText: 'أوافق', rejectText: 'أرفض', policyLink: '#privacy-policy', policyText: 'تعرف على المزيد حول سياسة ملفات تعريف الارتباط' },
+                        hi: { message: 'हम कुकीज़ का उपयोग आपके अनुभव को बेहतर बनाने के लिए करते हैं।', buttonText: 'मैं सहमत हूँ', rejectText: 'मैं असहमत हूँ', policyLink: '#privacy-policy', policyText: 'हमारी कुकी पॉलिसी के बारे में और अधिक जानें' },
+                        th: { message: 'เราใช้คุกกี้เพื่อปรับปรุงประสบการณ์ของคุณ', buttonText: 'ยอมรับ', rejectText: 'ปฏิเสธ', policyLink: '#privacy-policy', policyText: 'เรียนรู้เพิ่มเติมเกี่ยวกับนโยบายคุกกี้' },
+                        ms: { message: 'Kami menggunakan kuki untuk meningkatkan pengalaman anda.', buttonText: 'Saya Setuju', rejectText: 'Saya Tolak', policyLink: '#privacy-policy', policyText: 'Ketahui lebih lanjut tentang dasar kuki kami' },
+                        id: { message: 'Kami menggunakan cookie untuk meningkatkan pengalaman Anda.', buttonText: 'Saya Setuju', rejectText: 'Saya Tolak', policyLink: '#privacy-policy', policyText: 'Pelajari lebih lanjut tentang kebijakan cookie kami' },
+                        tl: { message: 'Gumagamit kami ng cookies upang mapahusay ang iyong karanasan.', buttonText: 'Sumasang-ayon Ako', rejectText: 'Tinatanggihan Ko', policyLink: '#privacy-policy', policyText: 'Matuto pa tungkol sa aming patakaran sa cookies' },
+                        vi: { message: 'Chúng tôi sử dụng cookie để nâng cao trải nghiệm của bạn.', buttonText: 'Tôi Đồng Ý', rejectText: 'Tôi Từ Chối', policyLink: '#privacy-policy', policyText: 'Tìm hiểu thêm về chính sách cookie của chúng tôi' },
+                    };
                 }()),
                 onAccept() {
                     $(document).cookieManager(customCases, targetPage);

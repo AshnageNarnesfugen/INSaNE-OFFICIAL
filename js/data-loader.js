@@ -6,7 +6,7 @@
  * so every JS file can read data synchronously without async refactors.
  *
  * Load order in HTML footer (must be FIRST deferred script):
- *   <script src="js/data-loader.js" defer></script>
+ *   
  *   <script src="js/cookie.js" defer></script>
  *   ... rest of scripts
  *
