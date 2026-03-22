@@ -2,26 +2,21 @@
     'use strict';
 
     // ── Traducciones ─────────────────────────────────────────────
-    const i18n = {
-        en: { title:'Accessibility Menu', biggerText:'Bigger text', highlightLinks:'Highlight Links', textSpacing:'Text Spacing', saturation:'Saturation', cursor:'Cursor', readingMask:'Reading Mask', dyslexia:'Dyslexia Friendly', reset:'Reset', openLabel:'Open Accessibility Menu', closeLabel:'Close Accessibility Menu' },
-        es: { title:'Menú de Accesibilidad', biggerText:'Texto grande', highlightLinks:'Resaltar enlaces', textSpacing:'Espaciado', saturation:'Saturación', cursor:'Cursor', readingMask:'Máscara lectora', dyslexia:'Modo dislexia', reset:'Restablecer', openLabel:'Abrir menú de accesibilidad', closeLabel:'Cerrar menú de accesibilidad' },
-        pt: { title:'Menu de Acessibilidade', biggerText:'Texto maior', highlightLinks:'Destacar links', textSpacing:'Espaçamento', saturation:'Saturação', cursor:'Cursor', readingMask:'Máscara de leitura', dyslexia:'Modo dislexia', reset:'Redefinir', openLabel:'Abrir menu de acessibilidade', closeLabel:'Fechar menu de acessibilidade' },
-        fr: { title:"Menu d'accessibilité", biggerText:'Texte plus grand', highlightLinks:'Surligner liens', textSpacing:'Espacement', saturation:'Saturation', cursor:'Curseur', readingMask:'Masque de lecture', dyslexia:'Mode dyslexie', reset:'Réinitialiser', openLabel:"Ouvrir le menu d'accessibilité", closeLabel:"Fermer le menu d'accessibilité" },
-        de: { title:'Barrierefreiheitsmenü', biggerText:'Größerer Text', highlightLinks:'Links hervorheben', textSpacing:'Textabstand', saturation:'Sättigung', cursor:'Cursor', readingMask:'Lesemaske', dyslexia:'Legasthenie', reset:'Zurücksetzen', openLabel:'Barrierefreiheitsmenü öffnen', closeLabel:'Barrierefreiheitsmenü schließen' },
-        it: { title:'Menu Accessibilità', biggerText:'Testo più grande', highlightLinks:'Evidenzia link', textSpacing:'Spaziatura', saturation:'Saturazione', cursor:'Cursore', readingMask:'Maschera di lettura', dyslexia:'Modalità dislessia', reset:'Ripristina', openLabel:'Apri menu accessibilità', closeLabel:'Chiudi menu accessibilità' },
-        ru: { title:'Меню доступности', biggerText:'Крупный текст', highlightLinks:'Выделить ссылки', textSpacing:'Интервал', saturation:'Насыщенность', cursor:'Курсор', readingMask:'Маска чтения', dyslexia:'Режим дислексии', reset:'Сбросить', openLabel:'Открыть меню доступности', closeLabel:'Закрыть меню доступности' },
-        zh: { title:'无障碍菜单', biggerText:'放大文字', highlightLinks:'高亮链接', textSpacing:'文字间距', saturation:'饱和度', cursor:'光标', readingMask:'阅读遮罩', dyslexia:'阅读障碍模式', reset:'重置', openLabel:'打开无障碍菜单', closeLabel:'关闭无障碍菜单' },
-        ja: { title:'アクセシビリティ', biggerText:'文字を大きく', highlightLinks:'リンク強調', textSpacing:'文字間隔', saturation:'彩度', cursor:'カーソル', readingMask:'リーディングマスク', dyslexia:'難読症モード', reset:'リセット', openLabel:'アクセシビリティメニューを開く', closeLabel:'アクセシビリティメニューを閉じる' },
-        ko: { title:'접근성 메뉴', biggerText:'큰 텍스트', highlightLinks:'링크 강조', textSpacing:'텍스트 간격', saturation:'채도', cursor:'커서', readingMask:'읽기 마스크', dyslexia:'난독증 모드', reset:'초기화', openLabel:'접근성 메뉴 열기', closeLabel:'접근성 메뉴 닫기' },
-        ar: { title:'قائمة إمكانية الوصول', biggerText:'نص أكبر', highlightLinks:'تمييز الروابط', textSpacing:'تباعد النص', saturation:'التشبع', cursor:'المؤشر', readingMask:'قناع القراءة', dyslexia:'وضع عسر القراءة', reset:'إعادة تعيين', openLabel:'فتح قائمة إمكانية الوصول', closeLabel:'إغلاق قائمة إمكانية الوصول' },
-        hi: { title:'अभिगम्यता मेनू', biggerText:'बड़ा टेक्स्ट', highlightLinks:'लिंक हाइलाइट', textSpacing:'स्पेसिंग', saturation:'संतृप्ति', cursor:'कर्सर', readingMask:'रीडिंग मास्क', dyslexia:'डिस्लेक्सिया', reset:'रीसेट', openLabel:'अभिगम्यता मेनू खोलें', closeLabel:'अभिगम्यता मेनू बंद करें' },
-        th: { title:'เมนูการเข้าถึง', biggerText:'ข้อความใหญ่', highlightLinks:'เน้นลิงก์', textSpacing:'ระยะห่าง', saturation:'ความอิ่มตัว', cursor:'เคอร์เซอร์', readingMask:'หน้ากากอ่าน', dyslexia:'โหมดดิสเล็กเซีย', reset:'รีเซ็ต', openLabel:'เปิดเมนูการเข้าถึง', closeLabel:'ปิดเมนูการเข้าถึง' },
-        ms: { title:'Menu Kebolehcapaian', biggerText:'Teks Besar', highlightLinks:'Sorot Pautan', textSpacing:'Jarak Teks', saturation:'Ketepuan', cursor:'Kursor', readingMask:'Topeng Bacaan', dyslexia:'Mod Disleksia', reset:'Set Semula', openLabel:'Buka Menu Kebolehcapaian', closeLabel:'Tutup Menu Kebolehcapaian' },
-        id: { title:'Menu Aksesibilitas', biggerText:'Teks Lebih Besar', highlightLinks:'Sorot Tautan', textSpacing:'Spasi Teks', saturation:'Saturasi', cursor:'Kursor', readingMask:'Masker Baca', dyslexia:'Mode Disleksia', reset:'Reset', openLabel:'Buka Menu Aksesibilitas', closeLabel:'Tutup Menu Aksesibilitas' },
-        tl: { title:'Accessibility Menu', biggerText:'Mas Malaking Text', highlightLinks:'I-highlight Links', textSpacing:'Espasyo ng Text', saturation:'Saturation', cursor:'Cursor', readingMask:'Reading Mask', dyslexia:'Dyslexia Mode', reset:'I-reset', openLabel:'Buksan ang Accessibility Menu', closeLabel:'Isara ang Accessibility Menu' },
-        vi: { title:'Menu Trợ Năng', biggerText:'Văn bản lớn hơn', highlightLinks:'Làm nổi bật liên kết', textSpacing:'Giãn cách', saturation:'Độ bão hòa', cursor:'Con trỏ', readingMask:'Mặt nạ đọc', dyslexia:'Chế độ khó đọc', reset:'Đặt lại', openLabel:'Mở menu trợ năng', closeLabel:'Đóng menu trợ năng' },
+    // i18n loaded from /data/i18n/accessibility.json via data-loader.js
+    // Falls back to English inline if JSON not yet available
+    const _i18nData = ((window.INSaNE_DATA || {})['accessibility'] || {}).i18n || {};
+    const _i18nFallback = {
+        title:'Accessibility Menu', biggerText:'Bigger text',
+        highlightLinks:'Highlight Links', textSpacing:'Text Spacing',
+        saturation:'Saturation', cursor:'Cursor', readingMask:'Reading Mask',
+        dyslexia:'Dyslexia Friendly', reset:'Reset',
+        openLabel:'Open Accessibility Menu', closeLabel:'Close Accessibility Menu'
     };
-
+    const i18n = new Proxy(_i18nData, {
+        get(target, lang) {
+            return target[lang] || _i18nFallback;
+        }
+    });
     const pageLang = document.documentElement.lang || 'en';
     const t = i18n[pageLang] || i18n['en'];
 

@@ -7,8 +7,7 @@
  *
  * Load order in HTML footer (must be FIRST deferred script):
  *   <script src="js/data-loader.js" defer></script>
- *   <script src="js/data-loader.js" defer></script>
-<script src="js/cookie.js" defer></script>
+ *   <script src="js/cookie.js" defer></script>
  *   ... rest of scripts
  *
  * Usage in any script:
@@ -27,8 +26,8 @@
     // Key = how it's accessed via window.INSaNE_DATA[key]
     const MANIFEST = [
         { key: 'privacy-policy', url: '/data/i18n/privacy-policy.json' },
+        { key: 'accessibility',  url: '/data/i18n/accessibility.json'  },
         // Future entries — uncomment as each JS is migrated:
-        // { key: 'accessibility',  url: '/data/i18n/accessibility.json'  },
         // { key: 'cookie-banner',  url: '/data/i18n/cookie-banner.json'  },
         // { key: 'gdpr-panel',     url: '/data/i18n/gdpr-panel.json'     },
         // { key: 'lang-cases',     url: '/data/config/lang-cases.json'   },
