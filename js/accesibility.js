@@ -116,51 +116,73 @@
     }
 
     // ── Reading Mask logic ───────────────────────────────────────
-    // Crea un overlay fixed con gradiente que deja visible solo
-    // una franja horizontal de ~80px alrededor del cursor
-    const MASK_HEIGHT = 80; // px — altura de la franja visible
-    let maskEl = null;
+    // 3 elementos separados para poder aplicar backdrop-filter:blur()
+    // en las franjas oscuras. Un gradiente sobre un solo elemento
+    // no permite blur parcial — backdrop-filter necesita su propio
+    // elemento con área definida.
+    //
+    //  #a11y-mask-top    → franja oscura superior  (0 → cursorY - HALF)
+    //  [hueco visible]   → cursorY - HALF → cursorY + HALF
+    //  #a11y-mask-bottom → franja oscura inferior  (cursorY + HALF → 100vh)
+
+    const MASK_HEIGHT = 80; // px — altura de la franja visible sin blur
+
+    let maskContainer = null;
+    let maskTop       = null;
+    let maskBottom    = null;
     let maskMoveHandler = null;
 
-    function ensureMaskEl() {
-        if (!maskEl) {
-            maskEl = document.createElement('div');
-            maskEl.id = 'a11y-reading-mask';
-            document.body.appendChild(maskEl);
+    function ensureMaskEls() {
+        if (!maskContainer) {
+            maskContainer = document.createElement('div');
+            maskContainer.id = 'a11y-reading-mask';
+
+            maskTop = document.createElement('div');
+            maskTop.id = 'a11y-mask-top';
+
+            maskBottom = document.createElement('div');
+            maskBottom.id = 'a11y-mask-bottom';
+
+            document.body.appendChild(maskContainer);
+            document.body.appendChild(maskTop);
+            document.body.appendChild(maskBottom);
         }
-        return maskEl;
     }
 
     function updateMask(e) {
-        const el = ensureMaskEl();
-        const vh = window.innerHeight;
-        const y = e.clientY;
+        const y    = e.clientY;
+        const half = MASK_HEIGHT / 2;
 
-        // Calcular los porcentajes de la franja visible
-        const topPct    = Math.max(0, ((y - MASK_HEIGHT / 2) / vh) * 100).toFixed(2);
-        const bottomPct = Math.min(100, ((y + MASK_HEIGHT / 2) / vh) * 100).toFixed(2);
+        // Franja superior: desde el top de la pantalla hasta justo antes de la zona visible
+        const topHeight = Math.max(0, y - half);
+        maskTop.style.top    = '0px';
+        maskTop.style.height = topHeight + 'px';
 
-        el.style.background = `linear-gradient(
-            to bottom,
-            rgba(0,0,0,0.88) 0%,
-            rgba(0,0,0,0.88) ${topPct}%,
-            transparent ${topPct}%,
-            transparent ${bottomPct}%,
-            rgba(0,0,0,0.88) ${bottomPct}%,
-            rgba(0,0,0,0.88) 100%
-        )`;
+        // Franja inferior: desde justo después de la zona visible hasta el final
+        const bottomStart = Math.min(window.innerHeight, y + half);
+        maskBottom.style.top    = bottomStart + 'px';
+        maskBottom.style.height = (window.innerHeight - bottomStart) + 'px';
     }
 
     function toggleReadingMask(active) {
-        const el = ensureMaskEl();
+        ensureMaskEls();
+
         if (active) {
-            el.style.display = 'block';
+            maskContainer.style.display = 'block';
+            maskTop.style.display    = 'block';
+            maskBottom.style.display = 'block';
+
             if (!maskMoveHandler) {
+                // Inicializar en el centro de la pantalla hasta que el cursor se mueva
+                updateMask({ clientY: window.innerHeight / 2 });
                 maskMoveHandler = (e) => updateMask(e);
                 document.addEventListener('mousemove', maskMoveHandler, { passive: true });
             }
         } else {
-            el.style.display = 'none';
+            maskContainer.style.display = 'none';
+            maskTop.style.display    = 'none';
+            maskBottom.style.display = 'none';
+
             if (maskMoveHandler) {
                 document.removeEventListener('mousemove', maskMoveHandler);
                 maskMoveHandler = null;
