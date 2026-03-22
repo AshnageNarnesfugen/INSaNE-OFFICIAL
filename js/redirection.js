@@ -4,7 +4,7 @@
  * Includes:
  *  1. cookieManager  — language-based geo-redirect
  *  2. GDPRConsent    — granular EU/EEA cookie panel (GSAP animated)
- *  3. cookieBanner   — simple accept/reject for non-EU users
+ *  2. GDPRConsent    — granular cookie consent panel (GSAP animated, global)
  *
  * Cookie categories:
  *  - necessary   : always active (session, language, redirect)
@@ -95,40 +95,8 @@ jQuery(() => {
     //  CONSTANTS
     // ═══════════════════════════════════════════════════════════
 
-    // EU/EEA language detection — no IP call needed before consent.
-    // We detect by html[lang] and navigator.language.
-    // Privacy-first: ambiguous languages (de, fr, es, pt) always show GDPR.
-    // False positives (GDPR shown to non-EU) are acceptable.
-    // False negatives (GDPR not shown to EU user) are the problem to avoid.
-    const EU_LANG_CODES = new Set([
-        // Exclusively EU/EEA languages
-        'pl','cs','sk','hu','ro','bg','hr','sl','lt','lv','et', // Central/Eastern EU
-        'fi','sv','da',                                          // Nordic EU
-        'el','mt','ga',                                          // Greek, Maltese, Irish
-        'is','nb','nn',                                          // Iceland, Norway (EEA)
-        // Shared with non-EU but privacy-first = show GDPR anyway
-        'de','fr','nl','it','es','pt','ca','eu','gl',
-        // UK
-        'en-gb','en-ie',
-    ]);
-
-    function detectEUByLanguage() {
-        // Use ONLY html[lang] — set per-page by the site, reflects the actual
-        // language version the user is viewing, not the browser UI language.
-        //
-        // navigator.language / navigator.languages deliberately excluded:
-        // a Vietnamese user with Chrome set to Spanish would incorrectly
-        // trigger GDPR. html[lang] is the correct signal — it's what we control.
-        const htmlLang = (document.documentElement.lang || '').toLowerCase();
-        if (!htmlLang) return false;
-        if (EU_LANG_CODES.has(htmlLang)) return true;
-        if (EU_LANG_CODES.has(htmlLang.split('-')[0])) return true;
-        if (htmlLang.startsWith('en-gb') || htmlLang.startsWith('en-ie')) return true;
-        return false;
-    }
 
     const CONSENT_COOKIE   = 'insane_gdpr_consent';   // stores JSON for EU
-    const SIMPLE_COOKIE    = 'my_cookie_consent';      // 'true'/'false' for non-EU
     const CONSENT_VERSION  = '1';                      // bump to re-ask on policy change
     const CONSENT_EXPIRES  = 365;
 
@@ -258,7 +226,9 @@ jQuery(() => {
             };
         }
 
-        const pageLang = window.location.pathname.split('/')[1] || 'en';
+        const _rawLang  = window.location.pathname.split('/')[1] || 'en';
+        const _normMap  = { jp: 'ja', kr: 'ko' };
+        const pageLang  = _normMap[_rawLang] || _rawLang;
         const t = getGdprLabels(pageLang);
 
         // ── Read / write consent ───────────────────────────────
@@ -515,14 +485,6 @@ jQuery(() => {
              * Check if the current user is in the EU/EEA.
              * Calls back with (isEU: bool, countryCode: string|null)
              */
-            detectEU(callback) {
-                // No network call — detect by html[lang] + navigator.language.
-                // Called synchronously — no async needed, no IP sent to third parties
-                // before the user has given consent.
-                const isEU = detectEUByLanguage();
-                callback(isEU, null);
-            },
-
             /**
              * Show the GDPR panel if consent has not been given yet.
              * onConsent(consentObject) called after user makes a choice.
@@ -598,97 +560,6 @@ jQuery(() => {
     //  Minimal accept/reject — same visual style as before
     // ═══════════════════════════════════════════════════════════
 
-    (function($) {
-        $.fn.cookieBanner = function(options) {
-            const settings = $.extend({
-                expires:    CONSENT_EXPIRES,
-                cookieName: SIMPLE_COOKIE,
-                customLangMessages: {
-                    en: {
-                        message:    'We use cookies to enhance your experience. By continuing to visit this site you agree to our use of cookies.',
-                        buttonText: 'I Agree',
-                        rejectText: 'I Reject',
-                        policyLink: '#privacy-policy',
-                        policyText: 'Learn more about our cookie policy'
-                    }
-                },
-                onAccept: function() {},
-                onReject: function() {}
-            }, options);
-
-            const languages = settings.customLangMessages;
-            let lang        = window.location.pathname.split('/')[1];
-            if (!languages[lang]) lang = 'en';
-            const texts = languages[lang];
-
-            function createBanner() {
-                const banner = $('<div>', {
-                    id: 'simple-cookie-banner',
-                    class: 'cookie-banner fixed-bottom text-white text-center p-3',
-                    style: 'opacity:0; transform:translateY(20px);'
-                }).appendTo('body');
-
-                $('<p>', { class: 'd-block' })
-                    .text(texts.message)
-                    .append(
-                        $('<a>', {
-                            href:  texts.policyLink,
-                            class: 'text-decoration-none text_red ms-2',
-                        }).append($('<strong>').append($('<u>').text(texts.policyText)))
-                    )
-                    .appendTo(banner);
-
-                $('<button>', { class: 'cookie-accept btn btn-success ms-3', text: texts.buttonText }).appendTo(banner);
-                $('<button>', { class: 'cookie-reject btn btn-danger ms-2',  text: texts.rejectText  }).appendTo(banner);
-
-                // Animate in
-                gsap.to('#simple-cookie-banner', {
-                    opacity: 1,
-                    y: 0,
-                    duration: 0.5,
-                    ease: 'power2.out',
-                    delay: 0.3
-                });
-            }
-
-            function dismissBanner(accepted) {
-                gsap.to('#simple-cookie-banner', {
-                    opacity: 0,
-                    y: 20,
-                    duration: 0.35,
-                    ease: 'power2.in',
-                    onComplete: () => {
-                        $('#simple-cookie-banner').remove();
-                        if (accepted) settings.onAccept();
-                        else          settings.onReject();
-                    }
-                });
-            }
-
-            return this.each(function() {
-                const consent = Cookies.get(settings.cookieName);
-                if (consent === 'true') {
-                    settings.onAccept();
-                } else if (consent === undefined) {
-                    createBanner();
-
-                    $('body')
-                        .off('click', '.cookie-accept')
-                        .on('click',  '.cookie-accept', function() {
-                            Cookies.set(settings.cookieName, 'true', { expires: settings.expires });
-                            dismissBanner(true);
-                        });
-
-                    $('body')
-                        .off('click', '.cookie-reject')
-                        .on('click',  '.cookie-reject', function() {
-                            Cookies.set(settings.cookieName, 'false', { expires: settings.expires });
-                            dismissBanner(false);
-                        });
-                }
-            });
-        };
-    }(jQuery));
 
 
     // ═══════════════════════════════════════════════════════════
@@ -731,61 +602,24 @@ jQuery(() => {
     //  BOOT — decide EU vs non-EU flow
     // ═══════════════════════════════════════════════════════════
 
-    GDPRConsent.detectEU((isEU, countryCode) => {
-
-        if (isEU) {
-            // ── EU/EEA path: show granular GDPR panel ──────────
-            GDPRConsent.init((consent) => {
-                // Only run the geo-redirect if functional cookies are allowed
-                // (redirect = functional preference storage)
-                if (consent.functional) {
-                    $(document).cookieManager(customCases, targetPage);
-                }
-                // Fire GTM / analytics only if analytics consent given
-                if (consent.analytics) {
-                    // Place analytics init here if needed
-                    // e.g. window.dataLayer.push({ event: 'analytics_consent_granted' })
-                }
-            });
-
-        } else {
-            // ── Non-EU path: simple accept/reject banner ───────
-            if (Cookies.get(SIMPLE_COOKIE) === 'true') {
-                $(document).cookieManager(customCases, targetPage);
-            }
-
-            $('body').cookieBanner({
-                expires:    CONSENT_EXPIRES,
-                cookieName: SIMPLE_COOKIE,
-                customLangMessages: (function() {
-                    // From /data/i18n/cookie-banner.json
-                    const msgs = ((window.INSaNE_DATA || {})['cookie-banner'] || {}).messages || {};
-                    if (Object.keys(msgs).length) return msgs;
-                    // Full inline fallback — all 17 langs — if JSON not loaded or fetch failed
-                    return {
-                        en: { message: 'We use cookies to enhance your experience. By continuing to visit this site you agree to our use of cookies.', buttonText: 'I Agree', rejectText: 'I Reject', policyLink: '#privacy-policy', policyText: 'Learn more about our cookie policy' },
-                        es: { message: 'Usamos cookies para mejorar su experiencia. Al continuar visitando este sitio, acepta nuestro uso de cookies.', buttonText: 'Estoy de acuerdo', rejectText: 'Yo rechazo', policyLink: '#privacy-policy', policyText: 'Aprende más sobre nuestra política de cookies' },
-                        pt: { message: 'Usamos cookies para melhorar sua experiência. Ao continuar a visitar este site, você concorda com o uso de nossos cookies.', buttonText: 'Eu concordo', rejectText: 'Eu rejeito', policyLink: '#privacy-policy', policyText: 'Saiba mais sobre nossa política de cookies' },
-                        fr: { message: "Nous utilisons des cookies pour améliorer votre expérience. En continuant à visiter ce site, vous acceptez notre utilisation des cookies.", buttonText: "Je suis d'accord", rejectText: 'Je refuse', policyLink: '#privacy-policy', policyText: 'En savoir plus sur notre politique de cookies' },
-                        de: { message: 'Wir verwenden Cookies, um Ihre Erfahrung zu verbessern.', buttonText: 'Ich stimme zu', rejectText: 'Ich lehne ab', policyLink: '#privacy-policy', policyText: 'Erfahren Sie mehr über unsere Cookie-Richtlinie' },
-                        it: { message: 'Utilizziamo i cookie per migliorare la tua esperienza.', buttonText: "Sono d'accordo", rejectText: 'Rifiuto', policyLink: '#privacy-policy', policyText: 'Per saperne di più sulla nostra politica sui cookie' },
-                        ru: { message: 'Мы используем куки-файлы для улучшения вашего опыта.', buttonText: 'Я согласен', rejectText: 'Я отказываюсь', policyLink: '#privacy-policy', policyText: 'Узнайте больше о нашей политике' },
-                        zh: { message: '我们使用cookies来提高您的体验。', buttonText: '我同意', rejectText: '我拒绝', policyLink: '#privacy-policy', policyText: '了解更多关于我们的Cookie政策' },
-                        jp: { message: '私たちはあなたの経験を向上させるためにクッキーを使用します。', buttonText: '同意する', rejectText: '拒否する', policyLink: '#privacy-policy', policyText: '私たちのクッキーポリシーについて詳しく知る' },
-                        kr: { message: '우리는 쿠키를 사용합니다.', buttonText: '동의합니다', rejectText: '거절합니다', policyLink: '#privacy-policy', policyText: '우리의 쿠키 정책에 대해 더 알아보기' },
-                        ar: { message: 'نستخدم ملفات تعريف الارتباط لتعزيز تجربتك.', buttonText: 'أوافق', rejectText: 'أرفض', policyLink: '#privacy-policy', policyText: 'تعرف على المزيد حول سياسة ملفات تعريف الارتباط' },
-                        hi: { message: 'हम कुकीज़ का उपयोग आपके अनुभव को बेहतर बनाने के लिए करते हैं।', buttonText: 'मैं सहमत हूँ', rejectText: 'मैं असहमत हूँ', policyLink: '#privacy-policy', policyText: 'हमारी कुकी पॉलिसी के बारे में और अधिक जानें' },
-                        th: { message: 'เราใช้คุกกี้เพื่อปรับปรุงประสบการณ์ของคุณ', buttonText: 'ยอมรับ', rejectText: 'ปฏิเสธ', policyLink: '#privacy-policy', policyText: 'เรียนรู้เพิ่มเติมเกี่ยวกับนโยบายคุกกี้' },
-                        ms: { message: 'Kami menggunakan kuki untuk meningkatkan pengalaman anda.', buttonText: 'Saya Setuju', rejectText: 'Saya Tolak', policyLink: '#privacy-policy', policyText: 'Ketahui lebih lanjut tentang dasar kuki kami' },
-                        id: { message: 'Kami menggunakan cookie untuk meningkatkan pengalaman Anda.', buttonText: 'Saya Setuju', rejectText: 'Saya Tolak', policyLink: '#privacy-policy', policyText: 'Pelajari lebih lanjut tentang kebijakan cookie kami' },
-                        tl: { message: 'Gumagamit kami ng cookies upang mapahusay ang iyong karanasan.', buttonText: 'Sumasang-ayon Ako', rejectText: 'Tinatanggihan Ko', policyLink: '#privacy-policy', policyText: 'Matuto pa tungkol sa aming patakaran sa cookies' },
-                        vi: { message: 'Chúng tôi sử dụng cookie để nâng cao trải nghiệm của bạn.', buttonText: 'Tôi Đồng Ý', rejectText: 'Tôi Từ Chối', policyLink: '#privacy-policy', policyText: 'Tìm hiểu thêm về chính sách cookie của chúng tôi' },
-                    };
-                }()),
-                onAccept() {
-                    $(document).cookieManager(customCases, targetPage);
-                }
-            });
+    // ── GDPR panel for all users — one consent flow globally ──
+    GDPRConsent.init((consent) => {
+        if (consent.functional) {
+            $(document).cookieManager(customCases, targetPage);
+        }
+        if (consent.analytics) {
+            // Load GTM only after analytics consent — GDPR compliant
+            // GTM must be removed from index.html <head> for this to work
+            (function(w,d,s,l,i){
+                w[l]=w[l]||[];
+                w[l].push({'gtm.start': new Date().getTime(), event:'gtm.js'});
+                var f=d.getElementsByTagName(s)[0],
+                    j=d.createElement(s),
+                    dl=l!='dataLayer'?'&l='+l:'';
+                j.async=true;
+                j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;
+                f.parentNode.insertBefore(j,f);
+            })(window,document,'script','dataLayer','GTM-KP3R25CS');
         }
     });
 

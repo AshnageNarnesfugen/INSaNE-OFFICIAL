@@ -730,12 +730,10 @@
         $('#pp-manage-cookies').on('click', function() {
             closeModal();
             setTimeout(() => {
-                // Remove consent cookie so GDPRConsent.init() shows the panel again
-                // No page reload — just re-invoke the consent flow directly
+                // Everyone gets the GDPR panel — no branching needed
                 if (window.GDPRConsent) {
                     try { Cookies.remove('insane_gdpr_consent', { path: '/' }); } catch(_) {}
                     window.GDPRConsent.init(function(consent) {
-                        // Re-run cookieManager if functional consent given
                         if (consent.functional && window._cookieManagerReady) {
                             window._cookieManagerReady(consent);
                         }
