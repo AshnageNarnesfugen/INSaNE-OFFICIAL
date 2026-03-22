@@ -333,14 +333,7 @@
     // ═══════════════════════════════════════════════════════════
 
     function buildPolicy(region, lang) {
-        // Normalize path-based lang codes to standard ISO codes
-        // redirection.js uses 'jp', 'kr', 'zh' as path segments but
-        // cookie table and translations use ISO 639-1: 'ja', 'ko', 'zh'
-        const LANG_NORMALIZE = {
-            jp: 'ja', kr: 'ko',
-            // rest already match or are handled by fallback
-        };
-        const L = LANG_NORMALIZE[lang] || lang || 'en';
+        const L = lang || 'en';
         const policies = {
             eu:      policyEU(L),
             gb:      policyGB(L),
@@ -964,21 +957,68 @@
         `).appendTo('head');
     }
 
+    // ── Centralised language detection ──────────────────────────
+    // Priority: 1) html[lang] attribute  2) pathname segment  3) 'en'
+    // html[lang] is set per-page in every HTML file and is the most reliable.
+    // pathname is a fallback for the root '/' page where lang attr may be 'en'
+    // but the cookie says something else.
+    function getLang() {
+        const LANG_NORMALIZE = { jp: 'ja', kr: 'ko' };
+        // 1. html[lang] — set correctly in every language HTML
+        const htmlLang = (document.documentElement.lang || '').toLowerCase().split('-')[0];
+        if (htmlLang && htmlLang !== 'en') {
+            return LANG_NORMALIZE[htmlLang] || htmlLang;
+        }
+        // 2. pathname segment — /es, /fr, /jp, etc.
+        const pathLang = window.location.pathname.split('/')[1] || '';
+        if (pathLang) {
+            return LANG_NORMALIZE[pathLang] || pathLang;
+        }
+        // 3. language cookie set by cookieManager
+        const cookieLang = (Cookies.get('language') || '').toUpperCase();
+        const COOKIE_TO_LANG = {
+            ES:'es', PT:'pt', FR:'fr', DE:'de', IT:'it', RU:'ru',
+            ZH:'zh', JP:'ja', KR:'ko', AR:'ar', HI:'hi',
+            TH:'th', MS:'ms', ID:'id', TL:'tl', VI:'vi',
+        };
+        if (COOKIE_TO_LANG[cookieLang]) return COOKIE_TO_LANG[cookieLang];
+        return 'en';
+    }
+
+    // ── Localised footer strings ─────────────────────────────────
+    const FOOTER_STRINGS = {
+        en: { updated: 'Last updated', manage: 'Manage Cookie Preferences' },
+        es: { updated: 'Última actualización', manage: 'Gestionar preferencias de cookies' },
+        fr: { updated: 'Dernière mise à jour', manage: 'Gérer les préférences de cookies' },
+        de: { updated: 'Zuletzt aktualisiert', manage: 'Cookie-Einstellungen verwalten' },
+        it: { updated: 'Ultimo aggiornamento', manage: 'Gestisci le preferenze sui cookie' },
+        pt: { updated: 'Última atualização', manage: 'Gerenciar preferências de cookies' },
+        ru: { updated: 'Последнее обновление', manage: 'Управление настройками файлов cookie' },
+        zh: { updated: '最后更新', manage: '管理Cookie偏好' },
+        ja: { updated: '最終更新', manage: 'Cookie設定を管理' },
+        ko: { updated: '마지막 업데이트', manage: '쿠키 기본 설정 관리' },
+        ar: { updated: 'آخر تحديث', manage: 'إدارة تفضيلات ملفات تعريف الارتباط' },
+        hi: { updated: 'अंतिम अपडेट', manage: 'कुकी प्राथमिकताएं प्रबंधित करें' },
+        th: { updated: 'อัปเดตล่าสุด', manage: 'จัดการการตั้งค่าคุกกี้' },
+        ms: { updated: 'Kemaskini terakhir', manage: 'Urus pilihan kuki' },
+        id: { updated: 'Terakhir diperbarui', manage: 'Kelola preferensi cookie' },
+        tl: { updated: 'Huling na-update', manage: 'Pamahalaan ang mga kagustuhan sa cookie' },
+        vi: { updated: 'Cập nhật lần cuối', manage: 'Quản lý tùy chọn cookie' },
+    };
+
     function buildModal() {
         if (modalBuilt) return;
         injectStyles();
 
-        const lang = window.location.pathname.split('/')[1] || 'en';
-        const lastUpdated = `Last updated: ${SITE.updated}`;
-
+        // DOM built language-agnostic — text injected on each open via updateModalLang()
         const overlay = $(`
             <div id="pp-overlay" role="dialog" aria-modal="true"
                  aria-label="Privacy Policy">
                 <div id="pp-modal">
                     <div id="pp-header">
                         <div style="display:flex;align-items:center;gap:10px;min-width:0;">
-                            <h1>Privacy Policy</h1>
-                            <span id="pp-region-badge">Detecting region…</span>
+                            <h1 id="pp-title">Privacy Policy</h1>
+                            <span id="pp-region-badge">…</span>
                         </div>
                         <button id="pp-close" aria-label="Close">
                             <svg width="14" height="14" viewBox="0 0 24 24"
@@ -989,13 +1029,11 @@
                         </button>
                     </div>
                     <div id="pp-body">
-                        <p style="color:rgba(255,255,255,0.4);font-size:13px;">
-                            Loading policy for your region…
-                        </p>
+                        <p style="color:rgba(255,255,255,0.4);font-size:13px;">…</p>
                     </div>
                     <div id="pp-footer">
-                        <span id="pp-updated">${lastUpdated}</span>
-                        <button id="pp-manage-cookies">Manage Cookie Preferences</button>
+                        <span id="pp-updated"></span>
+                        <button id="pp-manage-cookies"></button>
                     </div>
                 </div>
             </div>
@@ -1003,25 +1041,20 @@
 
         $('body').append(overlay);
 
-        // Close button
         $('#pp-close').on('click', closeModal);
 
-        // Click outside modal = close
         $('#pp-overlay').on('click', function(e) {
             if (e.target === this) closeModal();
         });
 
-        // Escape key
         $(document).on('keydown.pp', function(e) {
             if (e.key === 'Escape') closeModal();
         });
 
-        // Manage cookies button — re-opens GDPR panel or scrolls to banner
         $('#pp-manage-cookies').on('click', function() {
             closeModal();
             setTimeout(() => {
                 if (window.GDPRConsent) {
-                    // Clear existing consent to force re-show
                     Cookies.remove('insane_gdpr_consent');
                     window.location.reload();
                 }
@@ -1029,6 +1062,13 @@
         });
 
         modalBuilt = true;
+    }
+
+    // Updates all language-dependent text in the modal shell on every open
+    function updateModalLang(lang) {
+        const f = FOOTER_STRINGS[lang] || FOOTER_STRINGS['en'];
+        $('#pp-updated').text(`${f.updated}: ${SITE.updated}`);
+        $('#pp-manage-cookies').text(f.manage);
     }
 
     // Region badge labels
@@ -1040,11 +1080,14 @@
 
     function openModal(region, countryCode) {
         buildModal();
-        const lang = window.location.pathname.split('/')[1] || 'en';
+        const lang = getLang();  // reliable across all 17 pages
 
-        // Populate content
+        // Populate body content in correct language
         $('#pp-body').html(buildPolicy(region, lang));
         $('#pp-region-badge').text(REGION_LABELS[region] || 'General Policy');
+
+        // Update modal shell strings (footer, title) in correct language
+        updateModalLang(lang);
 
         // URL aesthetics — replaceState with hash
         // hash (#) never triggers a server request or GitHub Pages 404
