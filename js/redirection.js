@@ -113,33 +113,18 @@ jQuery(() => {
     ]);
 
     function detectEUByLanguage() {
-        // Priority 1: html[lang] attribute — set per-page
+        // Use ONLY html[lang] — set per-page by the site, reflects the actual
+        // language version the user is viewing, not the browser UI language.
+        //
+        // navigator.language / navigator.languages deliberately excluded:
+        // a Vietnamese user with Chrome set to Spanish would incorrectly
+        // trigger GDPR. html[lang] is the correct signal — it's what we control.
         const htmlLang = (document.documentElement.lang || '').toLowerCase();
-        if (htmlLang) {
-            // Exact match (e.g. 'de', 'fr') or regional (e.g. 'en-gb', 'de-at')
-            if (EU_LANG_CODES.has(htmlLang) || EU_LANG_CODES.has(htmlLang.split('-')[0])) {
-                return true;
-            }
-            // en-gb / en-ie specific check
-            if (htmlLang.startsWith('en-gb') || htmlLang.startsWith('en-ie')) return true;
-        }
-        // Priority 2: navigator.language (browser UI language)
-        const navLang = (navigator.language || navigator.userLanguage || '').toLowerCase();
-        if (navLang) {
-            if (EU_LANG_CODES.has(navLang) || EU_LANG_CODES.has(navLang.split('-')[0])) {
-                return true;
-            }
-            if (navLang.startsWith('en-gb') || navLang.startsWith('en-ie')) return true;
-        }
-        // Priority 3: navigator.languages array (all user-preferred languages)
-        const langs = navigator.languages || [];
-        return langs.some(l => {
-            const ll = l.toLowerCase();
-            return EU_LANG_CODES.has(ll) ||
-                   EU_LANG_CODES.has(ll.split('-')[0]) ||
-                   ll.startsWith('en-gb') ||
-                   ll.startsWith('en-ie');
-        });
+        if (!htmlLang) return false;
+        if (EU_LANG_CODES.has(htmlLang)) return true;
+        if (EU_LANG_CODES.has(htmlLang.split('-')[0])) return true;
+        if (htmlLang.startsWith('en-gb') || htmlLang.startsWith('en-ie')) return true;
+        return false;
     }
 
     const CONSENT_COOKIE   = 'insane_gdpr_consent';   // stores JSON for EU
