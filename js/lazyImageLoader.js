@@ -13,7 +13,9 @@
                 openText:     { '/': 'Open Image' },
                 closeText:    { '/': 'Close Image' }
             };
-            const map = settings.pathToMessageMap || msgs;
+            // Only use settings.pathToMessageMap if it has the expected structure
+            const override = settings.pathToMessageMap;
+            const map = (override && override.downloadText) ? override : msgs;
             const path = new URL(window.location.href).pathname;
             return {
                 downloadTextpath: map.downloadText[path] || map.downloadText['/'],
