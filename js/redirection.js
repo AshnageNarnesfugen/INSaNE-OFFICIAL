@@ -14,6 +14,55 @@
  * EU detection: ISO 3166-1 country codes for EU + EEA members
  */
 
+// ── Inline geo-IP helper (post-consent only) ────────────────
+// JSONP — bypasses CORS. One call per page load via shared Promise.
+// Only called after user has given functional cookie consent.
+;(function() {
+    const CB   = '__ipapi_' + Math.random().toString(36).slice(2, 7);
+    const URL  = 'https://ipapi.co/json/?callback=' + CB;
+    const WAIT = 6000;
+    let _p = null;
+
+    window.fetchGeoIP = function() {
+        if (window.__geoip) return Promise.resolve(window.__geoip);
+        if (_p) return _p;
+        _p = new Promise(function(resolve) {
+            var done = false;
+            var fb   = { country_code: null, country: null };
+            var t    = setTimeout(function() {
+                if (done) return;
+                done = true;
+                cleanup();
+                resolve(fb);
+            }, WAIT);
+            function cleanup() {
+                clearTimeout(t);
+                delete window[CB];
+                var el = document.getElementById('__ipapi_s');
+                if (el) el.parentNode.removeChild(el);
+            }
+            window[CB] = function(data) {
+                if (done) return;
+                done = true;
+                cleanup();
+                window.__geoip = data;
+                resolve(data);
+            };
+            var s    = document.createElement('script');
+            s.id     = '__ipapi_s';
+            s.src    = URL;
+            s.onerror = function() {
+                if (done) return;
+                done = true;
+                cleanup();
+                resolve(fb);
+            };
+            document.head.appendChild(s);
+        });
+        return _p;
+    };
+}());
+
 jQuery(() => {
 
     // ── Defensive check: ensure js-cookie (Cookies) is loaded ───
@@ -128,8 +177,8 @@ jQuery(() => {
                             const browserLang = (navigator.language || navigator.userLanguage).split('-')[0].toUpperCase();
                             this._performRedirection(data, language, browserLang);
                         })
-                        .catch((_, status, err) => {
-                            console.error('[CookieManager] IP fetch error:', status, err);
+                        .catch(() => {
+                            console.warn('[CookieManager] IP fetch failed — using browser language.');
                             const browserLang = (navigator.language || navigator.userLanguage).split('-')[0].toUpperCase();
                             this._performRedirection({}, language, browserLang);
                         });
