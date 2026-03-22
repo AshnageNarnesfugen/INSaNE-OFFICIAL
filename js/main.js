@@ -251,28 +251,7 @@ jQuery(() => {
     
     $('video').lazyVideoLoader();
 
-    $('img').lazyImageLoader({
-        pathToMessageMap: {
-            '/':    'Download',
-            '/es':  'Descarga',
-            '/jp':  'ダウンロード',
-            '/pt':  'Baixar',
-            '/fr':  'Télécharger',
-            '/de':  'Herunterladen',
-            '/it':  'Scarica',
-            '/ru':  'Скачать',
-            '/zh':  '下载',
-            '/kr':  '다운로드',
-            '/ar':  'تحميل',
-            '/hi':  'डाउनलोड',
-            '/th':  'ดาวน์โหลด',
-            '/ms':  'Muat Turun',
-            '/id':  'Unduh',
-            '/tl':  'I-download',
-            '/vi':  'Tải Xuống'
-        },
-        defaultDownloadMessage: 'Download'
-    });
+    $('img').lazyImageLoader();
 
     $(".menu-wrapper").clickToggle(() => {
         $(".burger_menu").css({
