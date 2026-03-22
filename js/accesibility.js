@@ -115,78 +115,167 @@
         });
     }
 
-    // ── Reading Mask logic ───────────────────────────────────────
-    // 3 elementos separados para poder aplicar backdrop-filter:blur()
-    // en las franjas oscuras. Un gradiente sobre un solo elemento
-    // no permite blur parcial — backdrop-filter necesita su propio
-    // elemento con área definida.
+    // ── Reading Mask logic — GSAP optimized ─────────────────────
     //
-    //  #a11y-mask-top    → franja oscura superior  (0 → cursorY - HALF)
-    //  [hueco visible]   → cursorY - HALF → cursorY + HALF
-    //  #a11y-mask-bottom → franja oscura inferior  (cursorY + HALF → 100vh)
+    // POR QUÉ EL APPROACH ANTERIOR TENÍA BAJOS FPS:
+    // Modificar `top` y `height` en mousemove dispara layout reflow
+    // en cada evento — el browser recalcula posiciones de todos los
+    // elementos del DOM hasta 200+ veces por segundo.
+    //
+    // SOLUCIÓN — 3 cambios clave:
+    //
+    // 1. transform: scaleY() en lugar de top/height
+    //    Los transforms solo afectan el composite layer (GPU),
+    //    sin reflow ni repaint del DOM.
+    //
+    // 2. gsap.quickSetter
+    //    Función de setter cacheada que bypasea el overhead de
+    //    gsap.set() por frame — mínimo de procesamiento JS.
+    //
+    // 3. gsap.ticker en lugar de mousemove directo
+    //    mousemove guarda la posición (solo una variable).
+    //    gsap.ticker la consume exactamente 1 vez por frame
+    //    en sincronía con requestAnimationFrame (60fps máximo).
+    //    Además aplica lerp para suavizar el movimiento.
+    //
+    // Estructura de elementos:
+    //  #a11y-mask-top    → height=100vh, transform-origin: top
+    //                      scaleY va de 0 a 1 (encoge desde arriba)
+    //  #a11y-mask-bottom → height=100vh, transform-origin: bottom
+    //                      scaleY va de 0 a 1 (encoge desde abajo)
+    //  El hueco visible entre ellos = la franja de lectura
 
-    const MASK_HEIGHT = 80; // px — altura de la franja visible sin blur
+    const MASK_HALF = 44;   // px — mitad de la franja visible (total 88px)
+    const LERP      = 0.12; // suavizado por frame — más bajo = más suave
 
-    let maskContainer = null;
-    let maskTop       = null;
-    let maskBottom    = null;
-    let maskMoveHandler = null;
+    let maskContainer    = null;
+    let maskTop          = null;
+    let maskBottom       = null;
+    let maskTickerActive = false;
+
+    // Posición objetivo (cursor) y actual (interpolada)
+    let targetY  = -1;
+    let currentY = -1;
+
+    // quickSetters — se inicializan una vez al crear los elementos
+    let setTopScale    = null;
+    let setBottomScale = null;
 
     function ensureMaskEls() {
-        if (!maskContainer) {
-            maskContainer = document.createElement('div');
-            maskContainer.id = 'a11y-reading-mask';
+        if (maskContainer) return;
 
-            maskTop = document.createElement('div');
-            maskTop.id = 'a11y-mask-top';
+        maskContainer = document.createElement('div');
+        maskContainer.id = 'a11y-reading-mask';
 
-            maskBottom = document.createElement('div');
-            maskBottom.id = 'a11y-mask-bottom';
+        maskTop = document.createElement('div');
+        maskTop.id = 'a11y-mask-top';
 
-            document.body.appendChild(maskContainer);
-            document.body.appendChild(maskTop);
-            document.body.appendChild(maskBottom);
-        }
+        maskBottom = document.createElement('div');
+        maskBottom.id = 'a11y-mask-bottom';
+
+        // GSAP set: posición base + forzar GPU layer desde el inicio
+        gsap.set(maskTop, {
+            position: 'fixed',
+            top: 0, left: 0,
+            width: '100%',
+            height: '100vh',
+            transformOrigin: 'top center',
+            scaleY: 0,
+            force3D: true,
+            display: 'none',
+        });
+
+        gsap.set(maskBottom, {
+            position: 'fixed',
+            bottom: 0, left: 0,
+            width: '100%',
+            height: '100vh',
+            transformOrigin: 'bottom center',
+            scaleY: 0,
+            force3D: true,
+            display: 'none',
+        });
+
+        document.body.appendChild(maskContainer);
+        document.body.appendChild(maskTop);
+        document.body.appendChild(maskBottom);
+
+        // Crear quickSetters una sola vez
+        setTopScale    = gsap.quickSetter(maskTop,    'scaleY');
+        setBottomScale = gsap.quickSetter(maskBottom, 'scaleY');
     }
 
-    function updateMask(e) {
-        const y    = e.clientY;
-        const half = MASK_HEIGHT / 2;
+    // Solo guarda el targetY — no toca el DOM
+    function onMaskMouseMove(e) {
+        targetY = e.clientY;
+        if (currentY < 0) currentY = targetY; // evitar salto en primer frame
+    }
 
-        // Franja superior: desde el top de la pantalla hasta justo antes de la zona visible
-        const topHeight = Math.max(0, y - half);
-        maskTop.style.top    = '0px';
-        maskTop.style.height = topHeight + 'px';
+    // Corre 1 vez por frame via gsap.ticker (sincronizado con rAF)
+    function maskTick() {
+        if (targetY < 0) return;
 
-        // Franja inferior: desde justo después de la zona visible hasta el final
-        const bottomStart = Math.min(window.innerHeight, y + half);
-        maskBottom.style.top    = bottomStart + 'px';
-        maskBottom.style.height = (window.innerHeight - bottomStart) + 'px';
+        const vh = window.innerHeight;
+
+        // Lerp: currentY se acerca a targetY suavemente cada frame
+        currentY += (targetY - currentY) * LERP;
+
+        // scaleY de la franja superior:
+        // qué fracción de 100vh ocupa el área desde el top hasta el inicio de la ventana
+        const topScale    = Math.max(0, Math.min(1, (currentY - MASK_HALF) / vh));
+
+        // scaleY de la franja inferior:
+        // qué fracción de 100vh ocupa el área desde el fin de la ventana hasta el bottom
+        const bottomScale = Math.max(0, Math.min(1, (vh - currentY - MASK_HALF) / vh));
+
+        // quickSetter: 0 overhead — directo al transform del GPU layer
+        setTopScale(topScale);
+        setBottomScale(bottomScale);
     }
 
     function toggleReadingMask(active) {
         ensureMaskEls();
 
         if (active) {
-            maskContainer.style.display = 'block';
-            maskTop.style.display    = 'block';
-            maskBottom.style.display = 'block';
-
-            if (!maskMoveHandler) {
-                // Inicializar en el centro de la pantalla hasta que el cursor se mueva
-                updateMask({ clientY: window.innerHeight / 2 });
-                maskMoveHandler = (e) => updateMask(e);
-                document.addEventListener('mousemove', maskMoveHandler, { passive: true });
+            if (currentY < 0) {
+                targetY  = window.innerHeight / 2;
+                currentY = targetY;
             }
+
+            gsap.set([maskTop, maskBottom], { display: 'block' });
+            // Fade in suave al activar
+            gsap.fromTo([maskTop, maskBottom],
+                { opacity: 0 },
+                { opacity: 1, duration: 0.35, ease: 'power2.out' }
+            );
+
+            document.addEventListener('mousemove', onMaskMouseMove, { passive: true });
+
+            if (!maskTickerActive) {
+                gsap.ticker.add(maskTick);
+                maskTickerActive = true;
+            }
+
         } else {
-            maskContainer.style.display = 'none';
-            maskTop.style.display    = 'none';
-            maskBottom.style.display = 'none';
+            // Fade out antes de ocultar
+            gsap.to([maskTop, maskBottom], {
+                opacity: 0,
+                duration: 0.25,
+                ease: 'power2.in',
+                onComplete: () => {
+                    gsap.set([maskTop, maskBottom], { display: 'none' });
+                }
+            });
 
-            if (maskMoveHandler) {
-                document.removeEventListener('mousemove', maskMoveHandler);
-                maskMoveHandler = null;
+            document.removeEventListener('mousemove', onMaskMouseMove);
+
+            if (maskTickerActive) {
+                gsap.ticker.remove(maskTick);
+                maskTickerActive = false;
             }
+
+            targetY  = -1;
+            currentY = -1;
         }
     }
 
