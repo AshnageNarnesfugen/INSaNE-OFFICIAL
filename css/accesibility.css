@@ -1,0 +1,241 @@
+/* ============================================================
+   ACCESSIBILITY MENU — INSaNE | A Broken Hero
+   Compatible con: GSAP, shuffleLetters, lazyImageLoader,
+                   lazyVideoLoader, Bootstrap, fuentes custom
+   ============================================================ */
+
+/* ── Botón flotante de apertura ─────────────────────────────── */
+#a11y-toggle {
+    position: fixed;
+    bottom: 80px;
+    right: 20px;
+    z-index: 99998;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: #e83b2e;
+    border: 2px solid rgba(255,255,255,0.2);
+    color: #fff;
+    font-size: 22px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    outline: none;
+}
+#a11y-toggle:hover {
+    transform: scale(1.08);
+    box-shadow: 0 6px 20px rgba(232,59,46,0.5);
+}
+#a11y-toggle:focus-visible {
+    outline: 3px solid #fff;
+    outline-offset: 3px;
+}
+
+/* ── Panel del menú ─────────────────────────────────────────── */
+#a11y-panel {
+    position: fixed;
+    bottom: 140px;
+    right: 20px;
+    z-index: 99999;
+    width: 220px;
+    background: #111;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px;
+    padding: 16px 12px 12px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+    display: none; /* toggled via JS */
+    flex-direction: column;
+    gap: 4px;
+}
+#a11y-panel.a11y-open {
+    display: flex;
+}
+
+/* Título del panel */
+#a11y-panel h2 {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+    margin: 0 0 8px 4px;
+    padding: 0;
+    border: none;
+    background: none;
+}
+
+/* ── Botones de funcionalidad ───────────────────────────────── */
+.a11y-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding: 9px 10px;
+    border-radius: 8px;
+    border: 1px solid transparent;
+    background: transparent;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s;
+    text-align: left;
+    line-height: 1.2;
+}
+.a11y-btn:hover {
+    background: rgba(255,255,255,0.07);
+}
+.a11y-btn:focus-visible {
+    outline: 2px solid #e83b2e;
+    outline-offset: 2px;
+}
+.a11y-btn.a11y-active {
+    background: rgba(232,59,46,0.15);
+    border-color: rgba(232,59,46,0.5);
+    color: #e83b2e;
+}
+.a11y-btn svg {
+    flex-shrink: 0;
+    opacity: 0.7;
+}
+.a11y-btn.a11y-active svg {
+    opacity: 1;
+}
+
+/* Separador antes de Reset */
+.a11y-separator {
+    height: 1px;
+    background: rgba(255,255,255,0.08);
+    margin: 6px 0;
+}
+
+/* Botón Reset */
+#a11y-reset {
+    color: rgba(255,255,255,0.45);
+    font-size: 12px;
+    justify-content: center;
+}
+#a11y-reset:hover {
+    color: #fff;
+    background: rgba(255,255,255,0.05);
+}
+
+
+/* ============================================================
+   FEATURE STATES — clases aplicadas al <body>
+   ============================================================ */
+
+/* ── 1. Bigger Text ─────────────────────────────────────────── */
+/* Aumenta el font-size base. Excluimos los títulos shuffle para
+   no interferir con el efecto de letras de GSAP */
+body.a11y-bigger-text p,
+body.a11y-bigger-text li,
+body.a11y-bigger-text td,
+body.a11y-bigger-text label,
+body.a11y-bigger-text input,
+body.a11y-bigger-text textarea,
+body.a11y-bigger-text button:not(.a11y-btn):not(#a11y-toggle),
+body.a11y-bigger-text .faq-title,
+body.a11y-bigger-text .faq-answer p {
+    font-size: 1.2em !important;
+    line-height: 1.7 !important;
+}
+
+/* ── 2. Highlight Links ─────────────────────────────────────── */
+body.a11y-highlight-links a:not(.a11y-btn) {
+    background: #ffeb3b !important;
+    color: #000 !important;
+    text-decoration: underline !important;
+    border-radius: 3px;
+    padding: 0 2px;
+    outline: 2px solid #f57f17;
+}
+/* Nav links */
+body.a11y-highlight-links .menu-nav a {
+    background: #ffeb3b !important;
+    color: #000 !important;
+}
+
+/* ── 3. Text Spacing ────────────────────────────────────────── */
+/* Solo en párrafos y elementos de texto, nunca en #letter
+   (shuffleLetters) para no romper el efecto de animación */
+body.a11y-text-spacing p,
+body.a11y-text-spacing li,
+body.a11y-text-spacing .faq-title,
+body.a11y-text-spacing .faq-answer p,
+body.a11y-text-spacing input,
+body.a11y-text-spacing textarea {
+    letter-spacing: 0.12em !important;
+    word-spacing: 0.16em !important;
+    line-height: 1.8 !important;
+}
+
+/* ── 4. Saturation ──────────────────────────────────────────── */
+/* Aplicado al body completo via CSS filter — no toca elementos
+   individuales ni interfiere con GSAP transforms */
+body.a11y-low-saturation {
+    filter: saturate(0.2);
+}
+/* Excluir el panel y botón del efecto */
+body.a11y-low-saturation #a11y-panel,
+body.a11y-low-saturation #a11y-toggle {
+    filter: saturate(5); /* compensar */
+}
+
+/* ── 5. Big Cursor ──────────────────────────────────────────── */
+/* Cursor grande en toda la página excepto las zonas con
+   cursor:none del lazyImageLoader y lazyVideoLoader */
+body.a11y-big-cursor,
+body.a11y-big-cursor * {
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Cpath d='M8 4l24 14-10 2-6 10z' fill='white' stroke='black' stroke-width='2'/%3E%3C/svg%3E") 8 4, auto !important;
+}
+/* Restablecer cursor:none en zonas que lo necesitan */
+body.a11y-big-cursor .cursor-container,
+body.a11y-big-cursor .cursor-container *,
+body.a11y-big-cursor .dynamic-video-wrapper,
+body.a11y-big-cursor .dynamic-video-wrapper * {
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Cpath d='M8 4l24 14-10 2-6 10z' fill='white' stroke='black' stroke-width='2'/%3E%3C/svg%3E") 8 4, auto !important;
+}
+
+/* ── 6. Dyslexia Friendly ───────────────────────────────────── */
+/* OpenDyslexic via CDN — solo afecta texto de lectura,
+   no los títulos animados por shuffleLetters */
+@font-face {
+    font-family: 'OpenDyslexic';
+    src: url('https://cdn.jsdelivr.net/npm/open-dyslexic@1.0.3/ttf/OpenDyslexic-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'OpenDyslexic';
+    src: url('https://cdn.jsdelivr.net/npm/open-dyslexic@1.0.3/ttf/OpenDyslexic-Bold.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+body.a11y-dyslexia p,
+body.a11y-dyslexia li,
+body.a11y-dyslexia .faq-title,
+body.a11y-dyslexia .faq-answer p,
+body.a11y-dyslexia label,
+body.a11y-dyslexia input,
+body.a11y-dyslexia textarea,
+body.a11y-dyslexia .content-text,
+body.a11y-dyslexia .char-list-item {
+    font-family: 'OpenDyslexic', sans-serif !important;
+    letter-spacing: 0.05em !important;
+    word-spacing: 0.15em !important;
+    line-height: 1.9 !important;
+}
+
+/* ── Focus visible global (WCAG 2.1 AA) ────────────────────── */
+/* Asegura que el foco sea siempre visible en todo el sitio */
+*:focus-visible {
+    outline: 3px solid #e83b2e !important;
+    outline-offset: 3px !important;
+}
