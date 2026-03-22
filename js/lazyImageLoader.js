@@ -1,5 +1,20 @@
 (function($) {
     $.fn.lazyImageLoader = function(options) {
+        const $elements = this;
+
+        // If data-loader is present, wait for JSONs before initialising.
+        // This ensures path-messages (and other data) is available when
+        // getPathtomessagemap() reads INSaNE_DATA.
+        if (window.INSaNE_DATA_READY) {
+            window.INSaNE_DATA_READY.then(() => initLoader($elements, options));
+        } else {
+            initLoader($elements, options);
+        }
+
+        return this;
+    };
+
+    function initLoader($elements, options) {
         const settings = $.extend(true, {
             root: null,
             rootMargin: '0px',
@@ -7,19 +22,13 @@
         }, options);
 
         function getPathtomessagemap() {
-            // Always read from INSaNE_DATA at call time.
-            // Intentionally ignores settings.pathToMessageMap — main.min.js passes
-            // a stale hardcoded EN-only object via options that would override the JSON.
             const raw = (window.INSaNE_DATA || {})['path-messages'];
-            console.log('[lazyImageLoader] INSaNE_DATA keys:', Object.keys(window.INSaNE_DATA || {}));
-            console.log('[lazyImageLoader] path-messages raw:', raw);
             const map = (raw || {}).messages || {
                 downloadText: { '/': 'Download' },
                 openText:     { '/': 'Open Image' },
                 closeText:    { '/': 'Close Image' }
             };
             const path = window.location.pathname.replace(/\/$/, '') || '/';
-            console.log('[lazyImageLoader] path:', path, '| /es entry:', map.downloadText && map.downloadText['/es']);
             return {
                 downloadTextpath: map.downloadText[path] || map.downloadText['/'],
                 openTextpath:     map.openText[path]     || map.openText['/'],
@@ -249,11 +258,11 @@
             });
         }
 
-        return this.each(function() {
+        $elements.each(function() {
             const imagePromises = loadImages.call($(this));
             Promise.all(imagePromises)
                 .then(() => console.log('All images loaded successfully'))
                 .catch(error => console.error('Failed to load images:', error));
         });
-    };
+    } // end initLoader
 }(jQuery));
