@@ -32,8 +32,7 @@
         { key: 'lang-cases',     url: '/data/config/lang-cases.json'   },
         { key: 'fonts',          url: '/data/config/fonts.json'        },
         { key: 'char-pools',     url: '/data/config/char-pools.json'   },
-        // Future entries — uncomment as each JS is migrated:
-        // { key: 'path-messages',  url: '/data/config/path-messages.json'},
+        { key: 'path-messages',  url: '/data/config/path-messages.json'},
     ];
 
     // Initialize the global namespace immediately — scripts that run before

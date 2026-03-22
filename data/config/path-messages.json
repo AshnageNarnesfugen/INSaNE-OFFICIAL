@@ -1,0 +1,62 @@
+{
+  "_comment": "INSaNE | A Broken Hero — UI text for image viewer (download/open/close). Loaded into window.INSaNE_DATA['path-messages']",
+  "messages": {
+    "downloadText": {
+      "/": "Download",
+      "/es": "Descarga",
+      "/jp": "ダウンロード",
+      "/pt": "Baixar",
+      "/fr": "Télécharger",
+      "/de": "Herunterladen",
+      "/it": "Scarica",
+      "/ru": "Скачать",
+      "/zh": "下载",
+      "/kr": "다운로드",
+      "/ar": "تحميل",
+      "/hi": "डाउनलोड करना",
+      "/th": "ดาวน์โหลด",
+      "/ms": "Muat Turun",
+      "/id": "Unduh",
+      "/tl": "I-download",
+      "/vi": "Tải Xuống"
+    },
+    "openText": {
+      "/": "Open Image",
+      "/es": "Abrir Imagen",
+      "/jp": "画像を開く",
+      "/pt": "Abrir imagem",
+      "/fr": "Ouvrir l'image",
+      "/de": "Bild öffnen",
+      "/it": "Apri immagine",
+      "/ru": "Открыть изображение",
+      "/zh": "打开图片",
+      "/kr": "이미지 열기",
+      "/ar": "فتح الصورة",
+      "/hi": "इमेज खोलें",
+      "/th": "เปิดรูปภาพ",
+      "/ms": "Buka Imej",
+      "/id": "Buka Gambar",
+      "/tl": "Buksan ang Larawan",
+      "/vi": "Mở Hình Ảnh"
+    },
+    "closeText": {
+      "/": "Close Image",
+      "/es": "Cerrar Imagen",
+      "/jp": "画像を閉じる",
+      "/pt": "Fechar imagem",
+      "/fr": "Fermer l'image",
+      "/de": "Bild schließen",
+      "/it": "Chiudi immagine",
+      "/ru": "Закрыть изображение",
+      "/zh": "关闭图片",
+      "/kr": "이미지 닫기",
+      "/ar": "إغلاق الصورة",
+      "/hi": "इमेज बंद करें",
+      "/th": "ปิดรูปภาพ",
+      "/ms": "Tutup Imej",
+      "/id": "Tutup Gambar",
+      "/tl": "Isara ang Larawan",
+      "/vi": "Đóng Hình Ảnh"
+    }
+  }
+}

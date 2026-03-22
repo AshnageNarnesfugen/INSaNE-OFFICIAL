@@ -4,81 +4,40 @@
             root: null,
             rootMargin: '0px',
             threshold: 0.1,
-            pathToMessageMap: {
-                downloadText: {
-                    '/':    'Download',
-                    '/es':  'Descarga',
-                    '/jp':  'ダウンロード',
-                    '/pt':  'Baixar',
-                    '/fr':  'Télécharger',
-                    '/de':  'Herunterladen',
-                    '/it':  'Scarica',
-                    '/ru':  'Скачать',
-                    '/zh':  '下载',
-                    '/kr':  '다운로드',
-                    '/ar':  'تحميل',
-                    '/hi':  'डाउनलोड करना',
-                    '/th':  'ดาวน์โหลด',
-                    '/ms':  'Muat Turun',
-                    '/id':  'Unduh',
-                    '/tl':  'I-download',
-                    '/vi':  'Tải Xuống',
-                },
-                openText: {
-                    '/':    'Open Image',
-                    '/es':  'Abrir Imagen',
-                    '/jp':  '画像を開く',
-                    '/pt':  'Abrir imagem',
-                    '/fr':  "Ouvrir l'image",
-                    '/de':  'Bild öffnen',
-                    '/it':  'Apri immagine',
-                    '/ru':  'Открыть изображение',
-                    '/zh':  '打开图片',
-                    '/kr':  '이미지 열기',
-                    '/ar':  'فتح الصورة',
-                    '/hi':  'इमेज खोलें',
-                    '/th':  'เปิดรูปภาพ',
-                    '/ms':  'Buka Imej',
-                    '/id':  'Buka Gambar',
-                    '/tl':  'Buksan ang Larawan',
-                    '/vi':  'Mở Hình Ảnh',
-                },
-                closeText: {
-                    '/':    'Close Image',
-                    '/es':  'Cerrar Imagen',
-                    '/jp':  '画像を閉じる',
-                    '/pt':  'Fechar imagem',
-                    '/fr':  "Fermer l'image",
-                    '/de':  'Bild schließen',
-                    '/it':  'Chiudi immagine',
-                    '/ru':  'Закрыть изображение',
-                    '/zh':  '关闭图片',
-                    '/kr':  '이미지 닫기',
-                    '/ar':  'إغلاق الصورة',
-                    '/hi':  'इमेज बंद करें',
-                    '/th':  'ปิดรูปภาพ',
-                    '/ms':  'Tutup Imej',
-                    '/id':  'Tutup Gambar',
-                    '/tl':  'Isara ang Larawan',
-                    '/vi':  'Đóng Hình Ảnh',
-                },
-            }
+            pathToMessageMap: (function() {
+                const msgs = ((window.INSaNE_DATA || {})['path-messages'] || {}).messages || null;
+                if (msgs) return msgs;
+                // Inline fallback (en only) if JSON not loaded
+                return {
+                    downloadText: { '/': 'Download' },
+                    openText:     { '/': 'Open Image' },
+                    closeText:    { '/': 'Close Image' }
+                };
+            }())
         }, options);
 
         function getPathtomessagemap() {
-            const url = new URL(window.location.href);
-            const path = url.pathname;
+            const path = new URL(window.location.href).pathname;
             return {
-                downloadTextpath: settings.pathToMessageMap.downloadText[path],
-                openTextpath: settings.pathToMessageMap.openText[path],
-                closeTextpath: settings.pathToMessageMap.closeText[path]
-            };              
+                downloadTextpath: settings.pathToMessageMap.downloadText[path] || settings.pathToMessageMap.downloadText['/'],
+                openTextpath:     settings.pathToMessageMap.openText[path]     || settings.pathToMessageMap.openText['/'],
+                closeTextpath:    settings.pathToMessageMap.closeText[path]    || settings.pathToMessageMap.closeText['/']
+            };
         }
 
-        const observer = new IntersectionObserver(handleIntersection, settings);
+        // ── Solo pasar las opciones que IntersectionObserver entiende ────────
+        // Antes se pasaba el objeto settings completo, lo que causaba que
+        // IntersectionObserver recibiera keys desconocidas (pathToMessageMap, etc.)
+        const observerOptions = {
+            root:       settings.root,
+            rootMargin: settings.rootMargin,
+            threshold:  settings.threshold
+        };
+        const observer = new IntersectionObserver(handleIntersection, observerOptions);
+
         const downloadMSN = getPathtomessagemap().downloadTextpath;
-        const openMSN = getPathtomessagemap().openTextpath;
-        const closeMSN = getPathtomessagemap().closeTextpath;
+        const openMSN     = getPathtomessagemap().openTextpath;
+        const closeMSN    = getPathtomessagemap().closeTextpath;
 
         // --- Estilos necesarios para la funcionalidad ---
         if (!$('#lazy-loader-styles').length) {
@@ -86,12 +45,9 @@
                 .prop('type', 'text/css')
                 .html(`
                     .cursor-container { position: relative; overflow: hidden; }
-                    .cursor-container * {
-                        cursor: none;
-                    }
+                    .cursor-container * { cursor: none; }
                     .custom-cursor-pill {
-                        top: 0;
-                        left: 0;
+                        top: 0; left: 0;
                         position: absolute;
                         pointer-events: none;
                         padding: 8px 16px;
@@ -112,19 +68,15 @@
 
         function loadImages() {
             return this.map((index, img) => {
-                const $img = $(img);
-                const dataSrc = $img.attr('data-src');
+                const $img       = $(img);
+                const dataSrc    = $img.attr('data-src');
                 const dataModule = $img.attr('data-module');
-                const dataBlur = $img.attr('data-blur');
-    
-                if (!dataSrc || (!dataModule && dataModule !== 'true')) {
-                    return;
-                }
-    
-                $img.on('dragstart', function() {
-                    return false;
-                })
-    
+                const dataBlur   = $img.attr('data-blur');
+
+                if (!dataSrc || (!dataModule && dataModule !== 'true')) return;
+
+                $img.on('dragstart', () => false);
+
                 if (dataBlur === 'true' && !$img.parent().hasClass('blur-load')) {
                     $img.wrap('<div class="blur-load"></div>');
                 }
@@ -132,136 +84,143 @@
                 const $container = $img.parent();
                 const $cursor = $(`<div class="custom-cursor-pill">${openMSN}</div>`).appendTo($container);
 
-                $img.attr('src', 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1MDAiIGhlaWdodD0iNTAwIiB2aWV3Qm94PSIwIDAgNTAwIDUwMCI+DQogIDxyZWN0IGZpbGw9InRyYW5zcGFyZW50IiB3aWR0aD0iNTAwIiBoZWlnaHQ9IjUwMCIvPg0KICA8dGV4dCBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDI1NS41KSIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMzAiIGR5PSIxMC41IiBmb250LXdlaWdodD0iYm9sZCIgeD0iNTAlIiB5PSI1MCUiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkxvYWRpbmcuLi48L3RleHQ+DQo8L3N2Zz4=')
-    
+                // Placeholder SVG inline mientras el observer no ha disparado
+                $img.attr('src', 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1MDAiIGhlaWdodD0iNTAwIiB2aWV3Qm94PSIwIDAgNTAwIDUwMCI+DQogIDxyZWN0IGZpbGw9InRyYW5zcGFyZW50IiB3aWR0aD0iNTAwIiBoZWlnaHQ9IjUwMCIvPg0KICA8dGV4dCBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDI1NS41KSIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMzAiIGR5PSIxMC41IiBmb250LXdlaWdodD0iYm9sZCIgeD0iNTAlIiB5PSI1MCUiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkxvYWRpbmcuLi48L3RleHQ+DQo8L3N2Zz4=');
+
                 observer.observe(img);
-    
+
                 if (dataModule === 'true') {
                     setupModalImage($img);
-                    // --- Lógica de GSAP para el seguimiento ---
-                    $container.addClass('cursor-container')
+                    $container.addClass('cursor-container');
                     $container.on('mousemove', (e) => {
                         const rect = $container[0].getBoundingClientRect();
-                        const x = e.clientX - rect.left;
-                        const y = e.clientY - rect.top;
-
                         gsap.to($cursor, {
-                            x: x,
-                            y: y,
+                            x: e.clientX - rect.left,
+                            y: e.clientY - rect.top,
                             duration: 0.3,
-                            ease: "power2.out"
+                            ease: 'power2.out'
                         });
                     });
-
-                    $container.on('mouseenter', () => {
-                        gsap.to($cursor, { opacity: 1, scale: 1, duration: 0.2 });
-                    });
-
-                    $container.on('mouseleave', () => {
-                        gsap.to($cursor, { opacity: 0, scale: 0.5, duration: 0.2 });
-                    });
+                    $container.on('mouseenter', () => gsap.to($cursor, { opacity: 1, scale: 1, duration: 0.2 }));
+                    $container.on('mouseleave', () => gsap.to($cursor, { opacity: 0, scale: 0.5, duration: 0.2 }));
                 }
-    
+
                 return imageLoadPromise($img);
             }).get();
         }
 
-        function handleIntersection(entries, observer) {
+        function handleIntersection(entries, obs) {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    const imgElement = entry.target;
-                    lazyLoadImage($(imgElement));
-                    observer.unobserve(imgElement);
+                    lazyLoadImage($(entry.target));
+                    obs.unobserve(entry.target);
                 }
             });
         }
 
-        function lazyLoadImage($imgElement) {
-            const src = $imgElement.attr('data-src');
-    
-            if (src && (src.startsWith('data:') || src.startsWith('http://') || src.startsWith('https://'))) {
-                $imgElement.parent().addClass('loaded');
-                return Promise.resolve();
-            }
-    
-            return $.ajax({
-                url: src,
-                xhrFields: {
-                    responseType: 'blob'
-                },
-                success: (blob) => {
-                    $imgElement.attr('src', URL.createObjectURL(blob));
-                    setImageDimensions($imgElement, src);
-                    $imgElement.parent().addClass('loaded');
-                },
-                error: () => console.error(`Failed to load image: ${src}`)
+        // ── CAMBIO CRÍTICO DE PERFORMANCE ────────────────────────────────────
+        //
+        // ANTES (versión anterior):
+        //   fetch(src) → .blob() → URL.createObjectURL(blob) → img.src = objectURL
+        //
+        //   Problemas:
+        //   1. El browser descarga la imagen DOS veces (fetch + render)
+        //   2. Los objectURLs no se persisten en caché entre sesiones
+        //   3. Consume el doble de RAM (blob en memoria + imagen decodificada)
+        //   4. No aprovecha HTTP/2 multiplexing ni CDN caching headers
+        //   5. El download en el modal apuntaba a un blob:// efímero
+        //
+        // AHORA:
+        //   img.src = data-src directamente
+        //
+        //   Beneficios:
+        //   ✓ Una sola descarga, el browser la cachea con sus headers normales
+        //   ✓ HTTP/2 push y CDN funcionan correctamente
+        //   ✓ Mitad de uso de RAM
+        //   ✓ El download del modal usa la URL real (funciona offline con caché)
+        //   ✓ LCP mejora porque el browser puede priorizar la imagen crítica
+        // ─────────────────────────────────────────────────────────────────────
+        function lazyLoadImage($img) {
+            const src = $img.attr('data-src');
+            if (!src) return;
+
+            $img.on('load', function() {
+                setImageDimensions($img, src);
+                $img.parent().addClass('loaded');
             });
+            $img.on('error', function() {
+                console.error(`Failed to load image: ${src}`);
+            });
+
+            // Asignación directa — dispara la descarga nativa del browser
+            $img.attr('src', src);
         }
 
         function setImageDimensions($imgElement, src) {
-            let img = new Image();
+            // Respetar dimensiones hardcodeadas en el HTML (evitan CLS)
+            // Solo calcular dinámicamente si no están definidas
+            if ($imgElement.attr('width') && $imgElement.attr('height')) return;
+
+            const img = new Image();
             img.onload = function() {
                 $imgElement.attr('width', this.width);
                 $imgElement.attr('height', this.height);
-            }
+            };
             img.src = src;
         }
 
         function imageLoadPromise($img) {
             return new Promise((resolve, reject) => {
-                $img.on('load', () => resolve());
-                $img.on('error', () => reject(new Error(`Failed to load image: ${$img.src}`)));
+                $img.on('load',  () => resolve());
+                $img.on('error', () => reject(new Error(`Failed to load image: ${$img.attr('data-src')}`)));
             });
         }
 
         function setupModalImage($img) {
             $img.on('click', () => {
                 const src = $img.attr('src');
-                const $modal = $(
-                    `<div class="modal active">
+                const $modal = $(`
+                    <div class="modal active">
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <img class="modal-img img-fluid inherit" src="${src}" ondragstart="return false;">
                             </div>
                         </div>
                         <div class="modal-cursor-pill"></div>
-                    </div>`
-                );
+                    </div>
+                `);
 
                 const $modalCursor = $modal.find('.modal-cursor-pill');
-                const $modalImg = $modal.find('.modal-img');
+                const $modalImg    = $modal.find('.modal-img');
 
                 $modalCursor.css({
-                    "top": 0,
-                    "left": 0,
-                    'position': 'fixed',
+                    top: 0, left: 0,
+                    position: 'fixed',
                     'pointer-events': 'none',
-                    'padding': '8px 16px',
-                    'background': 'rgba(0, 0, 0, 0.6)',
+                    padding: '8px 16px',
+                    background: 'rgba(0,0,0,0.6)',
                     'backdrop-filter': 'blur(4px)',
                     '-webkit-backdrop-filter': 'blur(4px)',
-                    'color': '#fff',
+                    color: '#fff',
                     'border-radius': '50px',
                     'font-size': '14px',
                     'font-weight': '500',
                     'z-index': '10001',
-                    'opacity': 0,
-                    'transform': 'translate(-50%, -50%)'
+                    opacity: 0,
+                    transform: 'translate(-50%,-50%)'
                 });
 
                 $modal.appendTo('body').show();
                 $('body').css('overflow', 'hidden');
 
-                // --- SEGUIMIENTO DEL CURSOR EN EL MODAL ---
                 $modal.on('mousemove', (e) => {
                     const isOverImage = $(e.target).closest('.modal-img').length > 0;
                     $modalCursor.text(isOverImage ? downloadMSN : closeMSN);
-
                     gsap.to($modalCursor, {
                         x: e.clientX,
                         y: e.clientY,
                         duration: 0.15,
-                        ease: "power2.out",
+                        ease: 'power2.out',
                         opacity: 1
                     });
                 });
@@ -269,7 +228,6 @@
                 $modal.css('cursor', 'none');
                 $modalImg.css('cursor', 'none');
 
-                // --- LÓGICA DE CIERRE (Solo al clickear el fondo) ---
                 $modal.on('click', function(e) {
                     if (!$(e.target).closest('.modal-img, .download-btn').length) {
                         $modal.remove();
@@ -277,6 +235,8 @@
                     }
                 });
 
+                // La URL real permite que el atributo download funcione
+                // correctamente incluso con caché offline
                 $modalImg.on('click', (e) => {
                     e.stopPropagation();
                     const link = document.createElement('a');
@@ -289,7 +249,6 @@
 
         return this.each(function() {
             const imagePromises = loadImages.call($(this));
-
             Promise.all(imagePromises)
                 .then(() => console.log('All images loaded successfully'))
                 .catch(error => console.error('Failed to load images:', error));
