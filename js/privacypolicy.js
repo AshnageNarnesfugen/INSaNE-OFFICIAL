@@ -63,23 +63,49 @@
         '/chinh-sach-bao-mat',           // VI
     ]);
 
-    // ── Country → region mapping ────────────────────────────────
-    const EU_EEA = new Set([
-        'AT','BE','BG','HR','CY','CZ','DK','EE','FI','FR','DE',
-        'GR','HU','IE','IT','LV','LT','LU','MT','NL','PL','PT',
-        'RO','SK','SI','ES','SE','IS','LI','NO'
-    ]);
+    // Region is determined by html[lang] + navigator.language — no IP needed.
+    // See getRegionByLang() below.
 
-    function getRegion(cc) {
-        if (!cc) return 'default';
-        if (EU_EEA.has(cc))  return 'eu';
-        if (cc === 'GB')     return 'gb';
-        if (cc === 'CH')     return 'ch';
-        if (cc === 'BR')     return 'br';
-        if (cc === 'US')     return 'us';
-        if (cc === 'CA')     return 'ca';
-        if (cc === 'AU')     return 'au';
-        return 'default';
+    // Region detection by html[lang] + navigator.language — no IP call.
+    // Maps page language to the most relevant legal framework.
+    // Shows the correct policy without any network request.
+    function getRegionByLang() {
+        const lang = getLang(); // already normalized (jp→ja, kr→ko)
+
+        // EU/EEA languages → GDPR
+        const EU_LANGS = new Set([
+            'de','fr','nl','it','es','pt','pl','cs','sk','hu','ro',
+            'bg','hr','sl','lt','lv','et','fi','sv','da','el','mt',
+            'ga','is','nb','nn','ca','eu','gl',
+        ]);
+        if (EU_LANGS.has(lang)) return 'eu';
+
+        // UK-specific — check html[lang] for en-GB
+        const htmlLang = (document.documentElement.lang || '').toLowerCase();
+        const navLang  = (navigator.language || '').toLowerCase();
+        if (htmlLang.startsWith('en-gb') || htmlLang.startsWith('en-ie') ||
+            navLang.startsWith('en-gb')  || navLang.startsWith('en-ie')) {
+            return 'gb';
+        }
+
+        // Language-to-region hints (best effort without IP)
+        const LANG_REGION = {
+            pt: 'br',   // Portuguese pages most likely Brazil in practice
+                        // (PT users get 'eu' via EU_LANGS above)
+            zh: 'default',
+            ja: 'default',
+            ko: 'default',
+            ar: 'default',
+            hi: 'default',
+            th: 'default',
+            ms: 'default',
+            id: 'default',
+            tl: 'default',
+            vi: 'default',
+            ru: 'default',
+        };
+
+        return LANG_REGION[lang] || 'default';
     }
 
     // ── Cookie table (same for all regions, descriptions vary) ──
@@ -1078,7 +1104,7 @@
         au: 'AU — Privacy Act', default: 'General Policy'
     };
 
-    function openModal(region, countryCode) {
+    function openModal(region) {
         buildModal();
         const lang = getLang();  // reliable across all 17 pages
 
@@ -1150,15 +1176,9 @@
     });
 
     // If page loads with #privacy-policy hash (shared link or direct navigation)
-    // Works correctly on GitHub Pages — no server request, no 404
+    // Synchronous — no network call needed
     if (window.location.hash === '#privacy-policy') {
-        // Detect region then open modal
-        window.fetchGeoIP()
-            .then((data) => {
-                const region = getRegion(data.country_code);
-                openModal(region, data.country_code);
-            })
-            .catch(() => openModal('default', null));
+        openModal(getRegionByLang());
     }
 
     // ═══════════════════════════════════════════════════════════
@@ -1171,24 +1191,9 @@
      */
     window.PrivacyPolicy = {
         open() {
-            // Try to reuse country already detected by GDPRConsent
-            let knownCC = null;
-            try {
-                const consent = JSON.parse(Cookies.get('insane_gdpr_consent') || '{}');
-                // consent doesn't store CC directly — re-detect
-            } catch {}
-
-            if (window._ipapi_country) {
-                // Already cached from redirection.js boot
-                openModal(getRegion(window._ipapi_country), window._ipapi_country);
-            } else {
-                window.fetchGeoIP()
-                    .then((data) => {
-                        window._ipapi_country = data.country_code;
-                        openModal(getRegion(data.country_code), data.country_code);
-                    })
-                    .catch(() => openModal('default', null));
-            }
+            // No IP call — detect region from html[lang] + navigator.language.
+            // Fast, synchronous, GDPR-compliant (no data sent before consent).
+            openModal(getRegionByLang());
         },
         close: closeModal,
     };
