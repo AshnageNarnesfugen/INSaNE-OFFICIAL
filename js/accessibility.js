@@ -2,9 +2,9 @@
     'use strict';
 
     // ── Traducciones ─────────────────────────────────────────────
-    // i18n loaded from /data/i18n/accessibility.json via data-loader.js
-    // Falls back to English inline if JSON not yet available
-    const _i18nData = ((window.INSaNE_DATA || {})['accessibility'] || {}).i18n || {};
+    // Read from window.INSaNE_DATA at init time (not at parse time)
+    // so data-loader.js has had time to fetch the JSON first.
+    // Fallback covers the edge case where data-loader is absent.
     const _i18nFallback = {
         title:'Accessibility Menu', biggerText:'Bigger text',
         highlightLinks:'Highlight Links', textSpacing:'Text Spacing',
@@ -12,13 +12,15 @@
         dyslexia:'Dyslexia Friendly', reset:'Reset',
         openLabel:'Open Accessibility Menu', closeLabel:'Close Accessibility Menu'
     };
-    const i18n = new Proxy(_i18nData, {
-        get(target, lang) {
-            return target[lang] || _i18nFallback;
-        }
-    });
-    const pageLang = document.documentElement.lang || 'en';
-    const t = i18n[pageLang] || i18n['en'];
+
+    function getT(pageLang) {
+        const data = ((window.INSaNE_DATA || {})['accessibility'] || {}).i18n || {};
+        return data[pageLang] || data['en'] || _i18nFallback;
+    }
+
+    // t is a mutable closure variable — set in init() after JSON loads
+    // All functions that reference t.xxx will get the correct language
+    let t = _i18nFallback;
 
     // ── Feature definitions ──────────────────────────────────────
     // maxStage: cuántos clicks antes de volver a 0
@@ -499,16 +501,30 @@
 
     // ── Init ─────────────────────────────────────────────────────
     function init() {
+        const pageLang = (document.documentElement.lang || 'en').toLowerCase().split('-')[0];
+        // Resolve translations now — data-loader has completed by this point
+        t = getT(pageLang);
         preloadDyslexicFont();
         buildMenu();
         setupToggle();
         setupFeatureButtons();
     }
 
+    function boot() {
+        // Wait for data-loader to finish fetching JSONs before building the menu
+        // so translations are available when buildMenu() reads them
+        if (window.INSaNE_DATA_READY) {
+            window.INSaNE_DATA_READY.then(init);
+        } else {
+            // data-loader.js not present — init directly
+            init();
+        }
+    }
+
     if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', init);
+        document.addEventListener('DOMContentLoaded', boot);
     } else {
-        init();
+        boot();
     }
 
 })();
