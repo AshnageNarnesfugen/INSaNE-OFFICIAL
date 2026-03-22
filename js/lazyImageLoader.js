@@ -16,7 +16,8 @@
             // Only use settings.pathToMessageMap if it has the expected structure
             const override = settings.pathToMessageMap;
             const map = (override && override.downloadText) ? override : msgs;
-            const path = new URL(window.location.href).pathname;
+            const path = window.location.pathname.replace(/\/$/, '') || '/';
+            console.log('[lazyImageLoader] path:', path, '| downloadText available:', !!map.downloadText, '| result:', map.downloadText[path] || map.downloadText['/']);
             return {
                 downloadTextpath: map.downloadText[path] || map.downloadText['/'],
                 openTextpath:     map.openText[path]     || map.openText['/'],
