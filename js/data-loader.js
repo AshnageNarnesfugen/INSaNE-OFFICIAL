@@ -31,8 +31,8 @@
         { key: 'gdpr-panel',     url: '/data/i18n/gdpr-panel.json'     },
         { key: 'lang-cases',     url: '/data/config/lang-cases.json'   },
         { key: 'fonts',          url: '/data/config/fonts.json'        },
+        { key: 'char-pools',     url: '/data/config/char-pools.json'   },
         // Future entries — uncomment as each JS is migrated:
-        // { key: 'char-pools',     url: '/data/config/char-pools.json'   },
         // { key: 'path-messages',  url: '/data/config/path-messages.json'},
     ];
 

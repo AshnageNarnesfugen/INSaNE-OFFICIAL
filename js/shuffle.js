@@ -107,24 +107,12 @@ $.fn.shuffleLetters = function(prop) {
 };
 
 $.fn.shuffleLetters.randomChar = function(type) {
-    const pools = {
+    // Character pools — from /data/config/char-pools.json via data-loader.js
+    // Falls back to lowerLetter inline if JSON not loaded
+    const pools = ((window.INSaNE_DATA || {})['char-pools'] || {}).pools || {
         lowerLetter: "abcdefghijklmnopqrstuvwxyz0123456789",
         upperLetter: "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
-        number: "0123456789",
-        symbol: ",.?/\\(^)![]{}*&^%$#'\"",
-        hiragana: "あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわをん",
-        katakana: "アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン",
-        kanji: "亜哀挨愛曖悪握圧扱宛嵐安案暗以衣位囲医依委威為畏胃尉異移萎偉椅彙意違維慰遺緯射捨赦謝詐社車舎者尺借酌釈爵若樹受呪寿授需儒舟酒収宗就縦従縮熟純処初所暑署書諸除傷償勝称笑賞上",
-        chinese: "的一是在不了有和人这中大为上个国我以要他时来用们生到作地于出就分对成会可主发年动同工也能下过子说产种面而方后多定行学法所民得经",
-        korean: "가각간갇갈감갑값갓갔강갖같갚갛개객갠갤갬갭갯갰갱갸갹갼걀걋걍걔걘걜",
-        russian: "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдеёжзийклмнопрстуфхцчшщъыьэюя",
-        arabic: "ءآأؤإئابةتثجحخدذرزسشصضطظعغفقكلمنهوىيـًٌٍَُِّْ٠١٢٣٤٥٦٧٨٩",
-        hindi: "अआइईउऊऋएऐऑओऔकखगघङचछजझञटठडढणतथदधनपफबभमयरलवशषसह़ािीुूृेैॉोौ्ॐऽ।॥",
-        // พยัญชนะ + สระ + วรรณยุกต์ไทย
-        thai: "กขฃคฅฆงจฉชซฌญฎฏฐฑฒณดตถทธนบปผฝพฟภมยรลวศษสหฬอฮาิีึืุูเแโใไๆ็่้๊๋์ํ๐๑๒๓๔๕๖๗๘๙",
-        // Vocales vietnamitas precompuestas (U+1E00–U+1EFF) — el bloque completo
-        // cubre todas las combinaciones de diacríticos apilados del vietnamita
-        vietnamese: "àáâãèéêìíòóôõùúýăđơưạảấầẩẫậắằẳẵặẹẻẽếềểễệỉịọỏốồổỗộớờởỡợụủứừửữựỳỵỷỹ"
+        number: "0123456789"
     };
     return pools[type] ? pools[type][Math.floor(Math.random() * pools[type].length)] : "";
 };
