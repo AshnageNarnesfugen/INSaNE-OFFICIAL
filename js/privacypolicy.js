@@ -1153,12 +1153,12 @@
     // Works correctly on GitHub Pages — no server request, no 404
     if (window.location.hash === '#privacy-policy') {
         // Detect region then open modal
-        $.getJSON('https://ipapi.co/json/')
-            .done((data) => {
+        window.fetchGeoIP()
+            .then((data) => {
                 const region = getRegion(data.country_code);
                 openModal(region, data.country_code);
             })
-            .fail(() => openModal('default', null));
+            .catch(() => openModal('default', null));
     }
 
     // ═══════════════════════════════════════════════════════════
@@ -1182,12 +1182,12 @@
                 // Already cached from redirection.js boot
                 openModal(getRegion(window._ipapi_country), window._ipapi_country);
             } else {
-                $.getJSON('https://ipapi.co/json/')
-                    .done((data) => {
+                window.fetchGeoIP()
+                    .then((data) => {
                         window._ipapi_country = data.country_code;
                         openModal(getRegion(data.country_code), data.country_code);
                     })
-                    .fail(() => openModal('default', null));
+                    .catch(() => openModal('default', null));
             }
         },
         close: closeModal,
