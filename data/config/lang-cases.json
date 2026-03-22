@@ -1,0 +1,179 @@
+{
+  "_comment": "INSaNE | A Broken Hero — Language routing cases. Loaded into window.INSaNE_DATA['lang-cases']",
+  "cases": {
+    "EN": {
+      "path": "/",
+      "countries": [
+        "US",
+        "CA",
+        "AU",
+        "NZ",
+        "IE",
+        "ZA",
+        "SG"
+      ]
+    },
+    "ES": {
+      "path": "/es",
+      "countries": [
+        "ES",
+        "MX",
+        "AR",
+        "CO",
+        "PE",
+        "VE",
+        "CL",
+        "EC",
+        "GT",
+        "CU"
+      ]
+    },
+    "PT": {
+      "path": "/pt",
+      "countries": [
+        "PT",
+        "BR",
+        "AO",
+        "MZ",
+        "CV",
+        "GW",
+        "ST",
+        "GQ",
+        "TL"
+      ]
+    },
+    "JP": {
+      "path": "/jp",
+      "countries": [
+        "JP"
+      ]
+    },
+    "FR": {
+      "path": "/fr",
+      "countries": [
+        "FR",
+        "BE",
+        "CA",
+        "CH",
+        "LU",
+        "MC",
+        "DZ",
+        "MA",
+        "TN"
+      ]
+    },
+    "ZH": {
+      "path": "/zh",
+      "countries": [
+        "CN",
+        "HK",
+        "MO",
+        "SG",
+        "TW"
+      ]
+    },
+    "RU": {
+      "path": "/ru",
+      "countries": [
+        "RU",
+        "BY",
+        "KZ",
+        "KG",
+        "TJ",
+        "TM"
+      ]
+    },
+    "DE": {
+      "path": "/de",
+      "countries": [
+        "DE",
+        "AT",
+        "CH",
+        "LU",
+        "LI",
+        "BE"
+      ]
+    },
+    "IT": {
+      "path": "/it",
+      "countries": [
+        "IT",
+        "CH",
+        "SM",
+        "VA"
+      ]
+    },
+    "KR": {
+      "path": "/kr",
+      "countries": [
+        "KR"
+      ]
+    },
+    "AR": {
+      "path": "/ar",
+      "countries": [
+        "SA",
+        "EG",
+        "IQ",
+        "DZ",
+        "SD",
+        "MA",
+        "TN",
+        "OM",
+        "JO",
+        "AE",
+        "LB",
+        "LY",
+        "MR",
+        "KW",
+        "QA",
+        "BH",
+        "YE",
+        "PS",
+        "SO",
+        "KM",
+        "DJ",
+        "EH"
+      ]
+    },
+    "HI": {
+      "path": "/hi",
+      "countries": [
+        "IN",
+        "FJ",
+        "MU"
+      ]
+    },
+    "TH": {
+      "path": "/th",
+      "countries": [
+        "TH"
+      ]
+    },
+    "MS": {
+      "path": "/ms",
+      "countries": [
+        "MY",
+        "BN"
+      ]
+    },
+    "ID": {
+      "path": "/id",
+      "countries": [
+        "ID"
+      ]
+    },
+    "TL": {
+      "path": "/tl",
+      "countries": [
+        "PH"
+      ]
+    },
+    "VI": {
+      "path": "/vi",
+      "countries": [
+        "VN"
+      ]
+    }
+  }
+}

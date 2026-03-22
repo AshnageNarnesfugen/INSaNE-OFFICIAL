@@ -249,107 +249,21 @@ jQuery(() => {
     const GDPRConsent = (function() {
 
         // ── i18n labels for the GDPR panel ────────────────────
-        const LABELS = {
-            en: {
-                title:       'Cookie Preferences',
-                intro:       'We use cookies to improve your experience. You can choose which categories you allow. Necessary cookies are always active.',
-                necessary:   'Necessary',
-                necessaryD:  'Required for the site to function. Cannot be disabled.',
-                analytics:   'Analytics',
-                analyticsD:  'Help us understand how visitors interact with the site (no personal data sold).',
-                functional:  'Functional',
-                functionalD: 'Remember your preferences such as language and layout.',
-                acceptAll:   'Accept All',
-                saveChoice:  'Save My Choices',
-                rejectAll:   'Reject All',
-                policy:      'Privacy Policy',
-                policyLink:  '/privacy-policy',
-                alwaysOn:    'Always on',
-            },
-            es: {
-                title:       'Preferencias de Cookies',
-                intro:       'Usamos cookies para mejorar tu experiencia. Puedes elegir qué categorías permitir. Las cookies necesarias siempre están activas.',
-                necessary:   'Necesarias',
-                necessaryD:  'Imprescindibles para el funcionamiento del sitio.',
-                analytics:   'Analíticas',
-                analyticsD:  'Nos ayudan a entender cómo los visitantes interactúan con el sitio.',
-                functional:  'Funcionales',
-                functionalD: 'Recuerdan tus preferencias como idioma y diseño.',
-                acceptAll:   'Aceptar todas',
-                saveChoice:  'Guardar mi elección',
-                rejectAll:   'Rechazar todas',
-                policy:      'Política de privacidad',
-                policyLink:  '/politica-de-privacidad',
-                alwaysOn:    'Siempre activo',
-            },
-            fr: {
-                title:       'Préférences de cookies',
-                intro:       'Nous utilisons des cookies pour améliorer votre expérience. Vous pouvez choisir les catégories à autoriser.',
-                necessary:   'Nécessaires',
-                necessaryD:  'Indispensables au fonctionnement du site.',
-                analytics:   'Analytiques',
-                analyticsD:  'Nous aident à comprendre comment les visiteurs utilisent le site.',
-                functional:  'Fonctionnels',
-                functionalD: 'Mémorisent vos préférences comme la langue et la mise en page.',
-                acceptAll:   'Tout accepter',
-                saveChoice:  'Enregistrer mes choix',
-                rejectAll:   'Tout refuser',
-                policy:      'Politique de confidentialité',
-                policyLink:  '/politique-de-confidentialite',
-                alwaysOn:    'Toujours actif',
-            },
-            de: {
-                title:       'Cookie-Einstellungen',
-                intro:       'Wir verwenden Cookies, um Ihre Erfahrung zu verbessern. Sie können wählen, welche Kategorien Sie zulassen.',
-                necessary:   'Notwendig',
-                necessaryD:  'Für den Betrieb der Website erforderlich.',
-                analytics:   'Analytisch',
-                analyticsD:  'Helfen uns zu verstehen, wie Besucher die Website nutzen.',
-                functional:  'Funktional',
-                functionalD: 'Speichern Ihre Einstellungen wie Sprache und Layout.',
-                acceptAll:   'Alle akzeptieren',
-                saveChoice:  'Meine Auswahl speichern',
-                rejectAll:   'Alle ablehnen',
-                policy:      'Datenschutzbestimmungen',
-                policyLink:  '/datenschutz-bestimmungen',
-                alwaysOn:    'Immer aktiv',
-            },
-            it: {
-                title:       'Preferenze Cookie',
-                intro:       'Utilizziamo i cookie per migliorare la tua esperienza. Puoi scegliere quali categorie consentire.',
-                necessary:   'Necessari',
-                necessaryD:  'Indispensabili per il funzionamento del sito.',
-                analytics:   'Analitici',
-                analyticsD:  'Ci aiutano a capire come i visitatori interagiscono con il sito.',
-                functional:  'Funzionali',
-                functionalD: 'Ricordano le tue preferenze come lingua e layout.',
-                acceptAll:   'Accetta tutto',
-                saveChoice:  'Salva le mie scelte',
-                rejectAll:   'Rifiuta tutto',
-                policy:      'Privacy Policy',
-                policyLink:  '/politica-sulla-privacy',
-                alwaysOn:    'Sempre attivo',
-            },
-            pt: {
-                title:       'Preferências de Cookies',
-                intro:       'Usamos cookies para melhorar sua experiência. Você pode escolher quais categorias permitir.',
-                necessary:   'Necessários',
-                necessaryD:  'Indispensáveis para o funcionamento do site.',
-                analytics:   'Analíticos',
-                analyticsD:  'Nos ajudam a entender como os visitantes interagem com o site.',
-                functional:  'Funcionais',
-                functionalD: 'Lembram suas preferências como idioma e layout.',
-                acceptAll:   'Aceitar tudo',
-                saveChoice:  'Salvar minhas escolhas',
-                rejectAll:   'Rejeitar tudo',
-                policy:      'Política de Privacidade',
-                policyLink:  '/politica-de-privacidade',
-                alwaysOn:    'Sempre ativo',
-            },
-        };
+        // GDPR panel labels — from /data/i18n/gdpr-panel.json
+        function getGdprLabels(lang) {
+            const data = ((window.INSaNE_DATA || {})['gdpr-panel'] || {}).labels || {};
+            return data[lang] || data['en'] || {
+                title:'Cookie Preferences', intro:'We use cookies to improve your experience.',
+                necessary:'Necessary', necessaryD:'Required for the site to function.',
+                analytics:'Analytics', analyticsD:'Help us understand how visitors interact.',
+                functional:'Functional', functionalD:'Remember your preferences.',
+                acceptAll:'Accept All', saveChoice:'Save My Choices', rejectAll:'Reject All',
+                policy:'Privacy Policy', policyLink:'#privacy-policy', alwaysOn:'Always on'
+            };
+        }
 
         const pageLang = window.location.pathname.split('/')[1] || 'en';
-        const t = LABELS[pageLang] || LABELS['en'];
+        const t = getGdprLabels(pageLang);
 
         // ── Read / write consent ───────────────────────────────
         function getConsent() {
@@ -785,25 +699,35 @@ jQuery(() => {
     //  LANGUAGE CASES
     // ═══════════════════════════════════════════════════════════
 
-    const customCases = {
-        'EN': ['/',    ['US', 'CA', 'AU', 'NZ', 'IE', 'ZA', 'SG']],
-        'ES': ['/es',  ['ES', 'MX', 'AR', 'CO', 'PE', 'VE', 'CL', 'EC', 'GT', 'CU']],
-        'PT': ['/pt',  ['PT', 'BR', 'AO', 'MZ', 'CV', 'GW', 'ST', 'GQ', 'TL']],
-        'JP': ['/jp',  ['JP']],
-        'FR': ['/fr',  ['FR', 'BE', 'CA', 'CH', 'LU', 'MC', 'DZ', 'MA', 'TN']],
-        'ZH': ['/zh',  ['CN', 'HK', 'MO', 'SG', 'TW']],
-        'RU': ['/ru',  ['RU', 'BY', 'KZ', 'KG', 'TJ', 'TM']],
-        'DE': ['/de',  ['DE', 'AT', 'CH', 'LU', 'LI', 'BE']],
-        'IT': ['/it',  ['IT', 'CH', 'SM', 'VA']],
-        'KR': ['/kr',  ['KR']],
-        'AR': ['/ar',  ['SA', 'EG', 'IQ', 'DZ', 'SD', 'MA', 'TN', 'OM', 'JO', 'AE', 'LB', 'LY', 'MR', 'KW', 'QA', 'BH', 'YE', 'PS', 'SO', 'KM', 'DJ', 'EH']],
-        'HI': ['/hi',  ['IN', 'FJ', 'MU']],
-        'TH': ['/th',  ['TH']],
-        'MS': ['/ms',  ['MY', 'BN']],
-        'ID': ['/id',  ['ID']],
-        'TL': ['/tl',  ['PH']],
-        'VI': ['/vi',  ['VN']],
-    };
+    // Language routing cases — from /data/config/lang-cases.json
+    function buildCustomCases() {
+        const raw = ((window.INSaNE_DATA || {})['lang-cases'] || {}).cases || {};
+        if (Object.keys(raw).length) {
+            return Object.fromEntries(
+                Object.entries(raw).map(([k, v]) => [k, [v.path, v.countries]])
+            );
+        }
+        return {
+            'EN': ['/',    ['US', 'CA', 'AU', 'NZ', 'IE', 'ZA', 'SG']],
+            'ES': ['/es',  ['ES', 'MX', 'AR', 'CO', 'PE', 'VE', 'CL', 'EC', 'GT', 'CU']],
+            'PT': ['/pt',  ['PT', 'BR', 'AO', 'MZ', 'CV', 'GW', 'ST', 'GQ', 'TL']],
+            'JP': ['/jp',  ['JP']],
+            'FR': ['/fr',  ['FR', 'BE', 'CA', 'CH', 'LU', 'MC', 'DZ', 'MA', 'TN']],
+            'ZH': ['/zh',  ['CN', 'HK', 'MO', 'SG', 'TW']],
+            'RU': ['/ru',  ['RU', 'BY', 'KZ', 'KG', 'TJ', 'TM']],
+            'DE': ['/de',  ['DE', 'AT', 'CH', 'LU', 'LI', 'BE']],
+            'IT': ['/it',  ['IT', 'CH', 'SM', 'VA']],
+            'KR': ['/kr',  ['KR']],
+            'AR': ['/ar',  ['SA', 'EG', 'IQ', 'DZ', 'SD', 'MA', 'TN', 'OM', 'JO', 'AE', 'LB', 'LY', 'MR', 'KW', 'QA', 'BH', 'YE', 'PS', 'SO', 'KM', 'DJ', 'EH']],
+            'HI': ['/hi',  ['IN', 'FJ', 'MU']],
+            'TH': ['/th',  ['TH']],
+            'MS': ['/ms',  ['MY', 'BN']],
+            'ID': ['/id',  ['ID']],
+            'TL': ['/tl',  ['PH']],
+            'VI': ['/vi',  ['VN']],
+        };
+    }
+    const customCases = buildCustomCases();
 
     const targetPage = window.location.origin;
 
@@ -837,25 +761,13 @@ jQuery(() => {
             $('body').cookieBanner({
                 expires:    CONSENT_EXPIRES,
                 cookieName: SIMPLE_COOKIE,
-                customLangMessages: {
-                    en: { message: 'We use cookies to enhance your experience. By continuing to visit this site you agree to our use of cookies.', buttonText: 'I Agree', rejectText: 'I Reject', policyLink: '#privacy-policy', policyText: 'Learn more about our cookie policy' },
-                    es: { message: 'Usamos cookies para mejorar su experiencia. Al continuar visitando este sitio, acepta nuestro uso de cookies.', buttonText: 'Estoy de acuerdo', rejectText: 'Yo rechazo', policyLink: '#privacy-policy', policyText: 'Aprende más sobre nuestra política de cookies' },
-                    jp: { message: '私たちはあなたの経験を向上させるためにクッキーを使用します。', buttonText: '同意する', rejectText: '拒否する', policyLink: '#privacy-policy', policyText: '私たちのクッキーポリシーについて詳しく知る' },
-                    pt: { message: 'Usamos cookies para melhorar sua experiência. Ao continuar a visitar este site, você concorda com o uso de nossos cookies.', buttonText: 'Eu concordo', rejectText: 'Eu rejeito', policyLink: '#privacy-policy', policyText: 'Saiba mais sobre nossa política de cookies' },
-                    fr: { message: 'Nous utilisons des cookies pour améliorer votre expérience. En continuant à visiter ce site, vous acceptez notre utilisation des cookies.', buttonText: "Je suis d'accord", rejectText: 'Je refuse', policyLink: '#privacy-policy', policyText: 'En savoir plus sur notre politique de cookies' },
-                    de: { message: 'Wir verwenden Cookies, um Ihre Erfahrung zu verbessern.', buttonText: 'Ich stimme zu', rejectText: 'Ich lehne ab', policyLink: '#privacy-policy', policyText: 'Erfahren Sie mehr über unsere Cookie-Richtlinie' },
-                    it: { message: 'Utilizziamo i cookie per migliorare la tua esperienza.', buttonText: "Sono d'accordo", rejectText: 'Rifiuto', policyLink: '#privacy-policy', policyText: 'Per saperne di più sulla nostra politica sui cookie' },
-                    ru: { message: 'Мы используем куки-файлы для улучшения вашего опыта.', buttonText: 'Я согласен', rejectText: 'Я отказываюсь', policyLink: '#privacy-policy', policyText: 'Узнайте больше о нашей политике' },
-                    zh: { message: '我们使用cookies来提高您的体验。', buttonText: '我同意', rejectText: '我拒绝', policyLink: '#privacy-policy', policyText: '了解更多关于我们的Cookie政策' },
-                    kr: { message: '우리는 쿠키를 사용합니다.', buttonText: '동의합니다', rejectText: '거절합니다', policyLink: '#privacy-policy', policyText: '우리의 쿠키 정책에 대해 더 알아보기' },
-                    ar: { message: 'نستخدم ملفات تعريف الارتباط لتعزيز تجربتك.', buttonText: 'أوافق', rejectText: 'أرفض', policyLink: '#privacy-policy', policyText: 'تعرف على المزيد حول سياسة ملفات تعريف الارتباط' },
-                    hi: { message: 'हम कुकीज़ का उपयोग आपके अनुभव को बेहतर बनाने के लिए करते हैं।', buttonText: 'मैं सहमत हूँ', rejectText: 'मैं असहमत हूँ', policyLink: '#privacy-policy', policyText: 'हमारी कुकी पॉलिसी के बारे में और अधिक जानें' },
-                    th: { message: 'เราใช้คุกกี้เพื่อปรับปรุงประสบการณ์ของคุณ', buttonText: 'ยอมรับ', rejectText: 'ปฏิเสธ', policyLink: '#privacy-policy', policyText: 'เรียนรู้เพิ่มเติมเกี่ยวกับนโยบายคุกกี้' },
-                    ms: { message: 'Kami menggunakan kuki untuk meningkatkan pengalaman anda.', buttonText: 'Saya Setuju', rejectText: 'Saya Tolak', policyLink: '#privacy-policy', policyText: 'Ketahui lebih lanjut tentang dasar kuki kami' },
-                    id: { message: 'Kami menggunakan cookie untuk meningkatkan pengalaman Anda.', buttonText: 'Saya Setuju', rejectText: 'Saya Tolak', policyLink: '#privacy-policy', policyText: 'Pelajari lebih lanjut tentang kebijakan cookie kami' },
-                    tl: { message: 'Gumagamit kami ng cookies upang mapahusay ang iyong karanasan.', buttonText: 'Sumasang-ayon Ako', rejectText: 'Tinatanggihan Ko', policyLink: '#privacy-policy', policyText: 'Matuto pa tungkol sa aming patakaran sa cookies' },
-                    vi: { message: 'Chúng tôi sử dụng cookie để nâng cao trải nghiệm của bạn.', buttonText: 'Tôi Đồng Ý', rejectText: 'Tôi Từ Chối', policyLink: '#privacy-policy', policyText: 'Tìm hiểu thêm về chính sách cookie của chúng tôi' },
-                },
+                customLangMessages: (function() {
+                    // From /data/i18n/cookie-banner.json
+                    const msgs = ((window.INSaNE_DATA || {})['cookie-banner'] || {}).messages || {};
+                    if (Object.keys(msgs).length) return msgs;
+                    // Inline en fallback if JSON not loaded
+                    return { en: { message: 'We use cookies to enhance your experience.', buttonText: 'I Agree', rejectText: 'I Reject', policyLink: '#privacy-policy', policyText: 'Learn more about our cookie policy' } };
+                }()),
                 onAccept() {
                     $(document).cookieManager(customCases, targetPage);
                 }
