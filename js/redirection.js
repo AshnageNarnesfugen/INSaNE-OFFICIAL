@@ -625,6 +625,12 @@ jQuery(() => {
                     return;
                 }
 
+                // Remove consent and reopen panel — no reload needed
+                // Reuse existing panel if already in DOM, otherwise build fresh
+                const existing2 = $('#gdpr-panel');
+                if (existing2.length) {
+                    existing2.remove();
+                }
                 const panel = buildPanel();
                 showPanel(panel);
 

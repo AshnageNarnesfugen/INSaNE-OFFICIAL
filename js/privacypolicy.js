@@ -730,9 +730,16 @@
         $('#pp-manage-cookies').on('click', function() {
             closeModal();
             setTimeout(() => {
+                // Remove consent cookie so GDPRConsent.init() shows the panel again
+                // No page reload — just re-invoke the consent flow directly
                 if (window.GDPRConsent) {
-                    Cookies.remove('insane_gdpr_consent');
-                    window.location.reload();
+                    try { Cookies.remove('insane_gdpr_consent', { path: '/' }); } catch(_) {}
+                    window.GDPRConsent.init(function(consent) {
+                        // Re-run cookieManager if functional consent given
+                        if (consent.functional && window._cookieManagerReady) {
+                            window._cookieManagerReady(consent);
+                        }
+                    });
                 }
             }, 400);
         });
@@ -754,31 +761,26 @@
         au: 'AU — Privacy Act', default: 'General Policy'
     };
 
-    function openModal(region) {
-        buildModal();
-        const lang = getLang();  // reliable across all 17 pages
+    // onClose callback — set when opening from GDPR panel context
+    let _onCloseCallback = null;
 
-        // Populate body content in correct language
+    function openModal(region, options) {
+        _onCloseCallback = (options && options.onClose) || null;
+        buildModal();
+        const lang = getLang();
+
         $('#pp-body').html(buildPolicy(region, lang));
         $('#pp-region-badge').text(REGION_LABELS[region] || 'General Policy');
-
-        // Update modal shell strings (footer, title) in correct language
         updateModalLang(lang);
 
-        // URL aesthetics — replaceState with hash
-        // hash (#) never triggers a server request or GitHub Pages 404
-        // replaceState (not pushState) so the back button exits the page
-        // entirely rather than toggling the modal open/closed in history
         const originalURL   = window.location.href;
         const originalTitle = document.title;
         history.replaceState({ pp: true, originalURL }, 'Privacy Policy', '#privacy-policy');
         document.title = `Privacy Policy — ${SITE.name}`;
 
-        // Store so closeModal can restore
         $('#pp-overlay').data('originalURL', originalURL);
         $('#pp-overlay').data('originalTitle', originalTitle);
 
-        // Animate in
         $('#pp-overlay').css('display', 'flex');
         gsap.fromTo('#pp-overlay', { opacity: 0 }, { opacity: 1, duration: 0.3, ease: 'power2.out' });
         gsap.fromTo('#pp-modal',
@@ -786,7 +788,6 @@
             { opacity: 1, y: 0, scale: 1, duration: 0.45, ease: 'back.out(1.3)', delay: 0.05 }
         );
 
-        // Focus for a11y
         setTimeout(() => $('#pp-close').focus(), 300);
     }
 
@@ -794,11 +795,9 @@
         const originalURL   = $('#pp-overlay').data('originalURL')   || window.location.origin + '/';
         const originalTitle = $('#pp-overlay').data('originalTitle') || document.title;
 
-        // Restore URL — remove the hash cleanly
         history.replaceState(null, originalTitle, originalURL.replace('#privacy-policy', '') || window.location.pathname);
         document.title = originalTitle;
 
-        // Animate out
         gsap.to('#pp-modal', {
             opacity: 0, y: 30, scale: 0.97,
             duration: 0.28, ease: 'power2.in'
@@ -809,8 +808,13 @@
             delay: 0.1,
             onComplete: () => {
                 $('#pp-overlay').css('display', 'none');
-                // Scroll body back to top inside modal for next open
                 $('#pp-body').scrollTop(0);
+                // Fire onClose callback if set (e.g. restore GDPR panel)
+                if (_onCloseCallback) {
+                    const cb = _onCloseCallback;
+                    _onCloseCallback = null;
+                    cb();
+                }
             }
         });
 
@@ -869,10 +873,8 @@
      * Automatically detects region via IP (cached from GDPRConsent if available).
      */
     window.PrivacyPolicy = {
-        open() {
-            // No IP call — detect region from html[lang] + navigator.language.
-            // Fast, synchronous, GDPR-compliant (no data sent before consent).
-            openModal(getRegionByLang());
+        open(options) {
+            openModal(getRegionByLang(), options || {});
         },
         close: closeModal,
     };
@@ -888,31 +890,43 @@
 
     $(document).on('click', policySelector, function(e) {
         e.preventDefault();
-        // If the GDPR panel is open, close it first then open the modal
-        // so they don't stack on top of each other
+
         const gdprPanel = document.getElementById('gdpr-panel');
-        if (gdprPanel && gdprPanel.style.display !== 'none' &&
-            getComputedStyle(gdprPanel).display !== 'none') {
-            // Animate panel out first, then open privacy policy
+        const gdprWasOpen = gdprPanel &&
+            gdprPanel.style.display !== 'none' &&
+            getComputedStyle(gdprPanel).display !== 'none';
+
+        if (gdprWasOpen) {
+            // Temporarily hide GDPR panel — NOT closing it, just moving it
+            // behind the privacy policy modal. It will be restored when
+            // the privacy policy modal is closed.
             if (window.gsap) {
-                gsap.to('#gdpr-card', {
-                    opacity: 0, y: 30, duration: 0.25, ease: 'power2.in',
+                gsap.to(['#gdpr-card', '#gdpr-backdrop'], {
+                    opacity: 0, duration: 0.2, ease: 'power2.in',
                     onComplete: () => {
-                        gsap.to('#gdpr-backdrop', {
-                            opacity: 0, duration: 0.2,
-                            onComplete: () => {
-                                gdprPanel.style.display = 'none';
-                                window.PrivacyPolicy.open();
-                            }
+                        gdprPanel.style.visibility = 'hidden';
+                        window.PrivacyPolicy.open({
+                            onClose: restoreGDPR
                         });
                     }
                 });
             } else {
-                gdprPanel.style.display = 'none';
-                window.PrivacyPolicy.open();
+                gdprPanel.style.visibility = 'hidden';
+                window.PrivacyPolicy.open({ onClose: restoreGDPR });
             }
         } else {
             window.PrivacyPolicy.open();
+        }
+
+        function restoreGDPR() {
+            if (!gdprPanel) return;
+            gdprPanel.style.visibility = 'visible';
+            if (window.gsap) {
+                gsap.fromTo(['#gdpr-card', '#gdpr-backdrop'],
+                    { opacity: 0 },
+                    { opacity: 1, duration: 0.3, ease: 'power2.out' }
+                );
+            }
         }
     });
 
