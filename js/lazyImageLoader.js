@@ -10,12 +10,16 @@
             // Always read from INSaNE_DATA at call time.
             // Intentionally ignores settings.pathToMessageMap — main.min.js passes
             // a stale hardcoded EN-only object via options that would override the JSON.
-            const map = ((window.INSaNE_DATA || {})['path-messages'] || {}).messages || {
+            const raw = (window.INSaNE_DATA || {})['path-messages'];
+            console.log('[lazyImageLoader] INSaNE_DATA keys:', Object.keys(window.INSaNE_DATA || {}));
+            console.log('[lazyImageLoader] path-messages raw:', raw);
+            const map = (raw || {}).messages || {
                 downloadText: { '/': 'Download' },
                 openText:     { '/': 'Open Image' },
                 closeText:    { '/': 'Close Image' }
             };
             const path = window.location.pathname.replace(/\/$/, '') || '/';
+            console.log('[lazyImageLoader] path:', path, '| /es entry:', map.downloadText && map.downloadText['/es']);
             return {
                 downloadTextpath: map.downloadText[path] || map.downloadText['/'],
                 openTextpath:     map.openText[path]     || map.openText['/'],
