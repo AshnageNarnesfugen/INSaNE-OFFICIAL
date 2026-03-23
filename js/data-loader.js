@@ -28,6 +28,7 @@
         { key: 'privacy-policy', url: '/data/i18n/privacy-policy.json' },
         { key: 'accessibility',  url: '/data/i18n/accessibility.json'  },
         { key: 'gdpr-panel',     url: '/data/i18n/gdpr-panel.json'     },
+        { key: 'main-ui',        url: '/data/i18n/main-ui.json'        },
         { key: 'lang-cases',     url: '/data/config/lang-cases.json'   },
         { key: 'fonts',          url: '/data/config/fonts.json'        },
         { key: 'char-pools',     url: '/data/config/char-pools.json'   },

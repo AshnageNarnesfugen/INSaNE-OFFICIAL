@@ -1,570 +1,346 @@
-jQuery(() => {
-    $.fn.clickToggle = function(func1, func2) {
-        var funcs = [func1, func2];
-        this.data('toggleclicked', 0);
-        this.click(() => {
-            var data = $(this).data();
-            var tc = data.toggleclicked;
-            $.proxy(funcs[tc], this)();
-            data.toggleclicked = (tc + 1) % 2;
-        });
-        return this;
-    };
+/**
+ * main.js — INSaNE | A Broken Hero
+ *
+ * Optimizations applied vs original main.min.js:
+ *  - translations, invitationalTexts extracted → /data/i18n/main-ui.json
+ *  - urls{} removed — reads from window.INSaNE_DATA['lang-cases'] (single source)
+ *  - $.fn.clickToggle replaced with simple boolean toggle
+ *  - $.proxy() removed — replaced with arrow functions
+ *  - getUrlParameter() replaced with URLSearchParams API
+ *  - $(window).scroll() throttled with requestAnimationFrame
+ *  - SectionShuffler: observer disconnects per section after first trigger
+ *  - setInterval for shuffleLetters: paused on tab hidden, cleared when unused
+ *  - DynamicTitleHandler: skips anchors that already have a title
+ *  - Waits for INSaNE_DATA_READY before reading JSON data
+ */
 
-    // Creamos una línea de tiempo para controlar la secuencia
-    const tl = gsap.timeline();
+jQuery(function($) {
 
-    // 1. Configuración inicial (aseguramos que sea visible antes de empezar)
-    gsap.set(".intro_animation", { display: "grid", opacity: 1 });
-    gsap.set([".intro_title", ".intro_subtitle"], { opacity: 0, y: 20 });
+    // ── 0. Wait for data-loader JSONs ────────────────────────────
+    const dataReady = window.INSaNE_DATA_READY || Promise.resolve();
 
-    tl.to(".intro_animation", {
-        backgroundColor: "rgba(0, 0, 0, 1)", // Iniciamos en negro sólido
-        duration: 0
-    })
-
-    // 2. Aparece el título principal con un ligero movimiento hacia arriba
-    .to(".intro_title", {
-        opacity: 1,
-        y: 0,
-        duration: 1.2,
-        ease: "power3.out"
-    }, "+=0.5")
-
-    // 3. Aparece el subtítulo poco después
-    .to(".intro_subtitle", {
-        opacity: 1,
-        y: 0,
-        duration: 1,
-        ease: "power2.out"
-    }, "-=0.5")
-
-    // 4. EL CLÍMAX: Transición del fondo y el blur
-    // Pasamos de opaco a 0.8 y animamos el backdrop-filter
-    .to(".intro_animation", {
-        backgroundColor: "rgba(0, 0, 0, 0.8)",
-        backdropFilter: "blur(20px)",
-        duration: 2,
-        ease: "none"
-    }, "+=1")
-
-    // 5. Salida elegante: Desvanecemos todo y finalmente ocultamos
-    .to(".intro_animation", {
-        opacity: 0,
-        duration: 1.5,
-        ease: "power2.inOut",
-        onComplete: () => $(".intro_animation").css("display", "none")
-    }, "+=2");
-
-    // Definir traducciones
-    var translations = {
-        'en': { 'readMore': 'Read More',           'readLess': 'Read Less'            },
-        'es': { 'readMore': 'Leer Más',             'readLess': 'Leer Menos'           },
-        'pt': { 'readMore': 'Ler Mais',             'readLess': 'Ler Menos'            },
-        'fr': { 'readMore': 'Lire la suite',        'readLess': 'Lire moins'           },
-        'it': { 'readMore': 'Leggi di più',         'readLess': 'Leggi di meno'        },
-        'de': { 'readMore': 'Weiterlesen',          'readLess': 'Weniger lesen'        },
-        'ru': { 'readMore': 'Читать далее',         'readLess': 'Читать меньше'        },
-        'zh': { 'readMore': '阅读更多',              'readLess': '阅读更少'              },
-        'ja': { 'readMore': 'もっと読む',            'readLess': '読むのをやめる'        },
-        'ko': { 'readMore': '더 읽기',               'readLess': '적게 읽기'             },
-        'ar': { 'readMore': 'اقرأ أكثر',            'readLess': 'أقرأ أقل'             },
-        'hi': { 'readMore': 'और पढ़ें',              'readLess': 'कम पढ़ें'             },
-        'th': { 'readMore': 'อ่านเพิ่มเติม',         'readLess': 'อ่านน้อยลง'           },
-        'ms': { 'readMore': 'Baca Lagi',            'readLess': 'Baca Kurang'          },
-        'id': { 'readMore': 'Baca Selengkapnya',    'readLess': 'Baca Lebih Sedikit'   },
-        'tl': { 'readMore': 'Magbasa Pa',           'readLess': 'Basahin Nang Kaunti'  },
-        'vi': { 'readMore': 'Đọc Thêm',             'readLess': 'Đọc Ít Hơn'           }
-    };
-
-    // Idioma de la página
-    var pageLanguage = $('html').attr('lang') || 'en';
-
-    // Elementos
-    const customClass = 'fw-bold text-dark';
-    const $btn = $('#show-btn');
-    const $content = $('.read-more-content');
-
-    // Estado inicial
-    let expanded = false;
-    $btn.html(`<p class="${customClass}">${translations[pageLanguage]['readMore']}</p>`);
-    $btn.attr('aria-label', translations[pageLanguage]['readMore']);
-    gsap.set($content, { height: 0, overflow: 'hidden' });
-    gsap.registerPlugin(ScrollTrigger);
-
-    // Evento de clic
-    $btn.on('click', function() {
-    // Animar contenido
-    if (!expanded) {
-        gsap.to($content, {
-        height: 'auto',
-        duration: 0.8,
-        ease: 'power2.out',
-        onStart: () => $content.css('overflow', 'hidden'),
-        onComplete: () => $content.css('overflow', 'visible')
-        });
-
-        // Transición suave del botón
-        gsap.to($btn, {
-        opacity: 0,
-        duration: 0.25,
-        ease: 'power1.in',
-        onComplete: () => {
-            $btn.html(`<p class="${customClass}">${translations[pageLanguage]['readLess']}</p>`);
-            $btn.attr('aria-label', translations[pageLanguage]['readLess']);
-            gsap.to($btn, { opacity: 1, duration: 0.25, ease: 'power1.out' });
-        }
-        });
-
-        expanded = true;
-    } else {
-        gsap.to($content, {
-        height: 0,
-        duration: 0.8,
-        ease: 'power2.in',
-        onStart: () => $content.css('overflow', 'hidden')
-        });
-
-        gsap.to($btn, {
-        opacity: 0,
-        duration: 0.25,
-        ease: 'power1.in',
-        onComplete: () => {
-            $btn.html(`<p class="${customClass}">${translations[pageLanguage]['readMore']}</p>`);
-            $btn.attr('aria-label', translations[pageLanguage]['readMore']);
-            gsap.to($btn, { opacity: 1, duration: 0.25, ease: 'power1.out' });
-        }
-        });
-
-        expanded = false;
+    // ── 1. Helpers ───────────────────────────────────────────────
+    function getParam(name) {
+        return new URLSearchParams(window.location.search).get(name) || '';
     }
+
+    const pageLang = ($('html').attr('lang') || 'en').toLowerCase().split('-')[0];
+
+    // ── 2. Intro animation ───────────────────────────────────────
+    gsap.registerPlugin(ScrollTrigger);
+    gsap.set('.intro_animation', { display: 'grid', opacity: 1 });
+    gsap.set(['.intro_title', '.intro_subtitle'], { opacity: 0, y: 20 });
+
+    gsap.timeline()
+        .to('.intro_animation', { backgroundColor: 'rgba(0,0,0,1)', duration: 0 })
+        .to('.intro_title',     { opacity: 1, y: 0, duration: 1.2, ease: 'power3.out' }, '+=0.5')
+        .to('.intro_subtitle',  { opacity: 1, y: 0, duration: 1,   ease: 'power2.out' }, '-=0.5')
+        .to('.intro_animation', {
+            backgroundColor: 'rgba(0,0,0,0.8)',
+            backdropFilter:  'blur(20px)',
+            duration: 2, ease: 'none'
+        }, '+=1')
+        .to('.intro_animation', {
+            opacity: 0, duration: 1.5, ease: 'power2.inOut',
+            onComplete: () => $('.intro_animation').css('display', 'none')
+        }, '+=2');
+
+    // ── 3. Read More / Read Less ─────────────────────────────────
+    dataReady.then(() => {
+        const ui       = (window.INSaNE_DATA || {})['main-ui'] || {};
+        const readMore = (ui.readMore || {})[pageLang] || 'Read More';
+        const readLess = (ui.readLess || {})[pageLang] || 'Read Less';
+
+        const customClass = 'fw-bold text-dark';
+        const $btn        = $('#show-btn');
+        const $content    = $('.read-more-content');
+        let   expanded    = false;
+
+        gsap.set($content, { height: 0, overflow: 'hidden' });
+        $btn.html(`<p class="${customClass}">${readMore}</p>`)
+            .attr('aria-label', readMore);
+
+        $btn.on('click', function() {
+            const label = expanded ? readMore : readLess;
+            gsap.to($content, {
+                height:   expanded ? 0 : 'auto',
+                duration: 0.8,
+                ease:     expanded ? 'power2.in' : 'power2.out',
+                onStart:    () => $content.css('overflow', 'hidden'),
+                onComplete: expanded ? null : () => $content.css('overflow', 'visible')
+            });
+            gsap.to($btn, {
+                opacity: 0, duration: 0.25, ease: 'power1.in',
+                onComplete: () => {
+                    $btn.html(`<p class="${customClass}">${label}</p>`)
+                        .attr('aria-label', label);
+                    gsap.to($btn, { opacity: 1, duration: 0.25, ease: 'power1.out' });
+                }
+            });
+            expanded = !expanded;
+        });
     });
 
+    // ── 4. Footer year ───────────────────────────────────────────
+    $('footer').html((i, html) => html.replace('{{ current_year }}', new Date().getFullYear()));
 
-
-    var currentYear = new Date().getFullYear();
-    $('footer').html(function(i, oldHtml) {
-        return oldHtml.replace('{{ current_year }}', currentYear);
-    });
-
-    var path = window.location.pathname;
+    // ── 5. Language dropdown ─────────────────────────────────────
+    const currentPath = window.location.pathname;
     $('#language-dropdown option').each(function() {
-        if ($(this).val() == path) {
-            $(this).prop('selected', 'selected');
-        }
+        if ($(this).val() === currentPath) $(this).prop('selected', true);
     });
-    $('#language-dropdown').change(function() {
+    $('#language-dropdown').on('change', function() {
         window.location.href = $(this).val();
     });
 
-    $('.share-btn').on('click', function() {
-    var platform = $(this).attr('data-platform');
-    var language = $(this).attr('data-language');
+    // ── 6. Share buttons ─────────────────────────────────────────
+    dataReady.then(() => {
+        const ui       = (window.INSaNE_DATA || {})['main-ui'] || {};
+        const casesRaw = ((window.INSaNE_DATA || {})['lang-cases'] || {}).cases || {};
 
-    var shareUrl = '';
+        $('.share-btn').on('click', function() {
+            const platform  = $(this).attr('data-platform');
+            const lang      = $(this).attr('data-language');
+            const shareText = (ui.shareText || {})[lang] || (ui.shareText || {}).en || '';
+            // lang-cases keys are uppercase; data-language attrs are lowercase
+            const langPath  = (casesRaw[lang.toUpperCase()] || {}).path || '/';
+            const pageUrl   = window.location.origin + langPath;
 
-    // Invitational texts in different languages
-    let invitationalTexts = {
-        'en': 'Dive into "INSaNE | A Broken Hero". Join Ashnage, a gravity-controller, on his epic quest against an alien invasion. Personal struggles, intense battles, deep mysteries await. Join now!!',
-        'es': 'Sumérgete en "INSaNE | Un Héroe Roto". Únete a Ashnage, un controlador de gravedad, en su épica misión contra una invasión alienígena. Luchas personales, intensas batallas, profundos misterios te esperan. ¡¡Únete ahora!!',
-        'pt': 'Mergulhe em "INSaNE | Um Herói Quebrado". Junte-se a Ashnage, um controlador de gravidade, em sua épica missão contra uma invasão alienígena. Lutas pessoais, intensas batalhas, profundos mistérios te esperam. Junte-se agora!!',
-        'jp': '「INSaNE | 壊れた英雄」に飛び込んでください。重力を制御するAshnageと一緒に、エイリアンの侵略に対する壮大なクエストに参加してください。個人的な闘争、激しい戦闘、深い謎が待っています。今すぐ参加してください!',
-        'fr': 'Plongez dans "INSaNE | Un Héros Brisé". Rejoignez Ashnage, un contrôleur de gravité, dans sa quête épique contre une invasion extraterrestre. Des luttes personnelles, des batailles intenses, des mystères profonds vous attendent. Rejoignez-nous maintenant!!',
-        'de': 'Tauchen Sie ein in "INSaNE | Ein Gebrochener Held". Begleiten Sie Ashnage, einen Schwerkraft-Controller, auf seiner epischen Quest gegen eine Alien-Invasion. Persönliche Kämpfe, intensive Schlachten, tiefe Geheimnisse warten. Mach jetzt mit!!',
-        'it': 'Immergiti in "INSaNE | Un Eroe Spezzato". Unisciti a Ashnage, un controllore di gravità, nella sua epica missione contro un\'invasione aliena. Lotte personali, battaglie intense, profondi misteri ti aspettano. Unisciti ora!!',
-        'ru': 'Погрузитесь в "INSaNE | Сломленный Герой". Присоединитесь к Ашнейджу, контролеру гравитации, в его эпическом квесте против инопланетного вторжения. Личные борьбы, интенсивные битвы, глубокие тайны ждут вас. Присоединяйтесь сейчас!!',
-        'zh': '深入"INSaNE | 一个破碎的英雄"。加入Ashnage，一个重力控制器，在他对抗外星入侵的史诗般的任务中。个人的斗争，激烈的战斗，深深的秘密等待着你。现在就加入!!',
-        'ko': '"INSaNE | 부서진 영웅"에 뛰어들어보세요. 중력 컨트롤러인 Ashnage와 함께 외계인 침략에 대한 서사시적인 퀘스트에 참여하세요. 개인적인 싸움, 격렬한 전투, 깊은 미스터리가 기다리고 있습니다. 지금 바로 참여하세요!!',
-        'ar': 'انغمس في "جنون | بطل مكسور". انضم إلى Ashnage، المتحكم في الجاذبية، في سعيه الملحمي ضد الغزو الفضائي. صراعات شخصية ومعارك شديدة وأسرار عميقة في انتظارك. نضم الان!!',
-        'hi': 'डाइव इंटू "INSaNE | ए ब्रोकन हीरो". एलियन इनवेशन के खिलाफ उनकी महाकाव्यिक प्रेषण में आश्नाज, एक ग्रैविटी-नियंत्रक, के साथ जुड़ें। व्यक्तिगत संघर्ष, तीव्र युद्ध, गहरे रहस्यों का इंतजार है। अभी शामिल हों!!',
-        'th': 'ดำดิ่งสู่ "INSaNE | วีรบุรุษผู้แตกสลาย" ร่วมเดินทางกับ Ashnage ผู้ควบคุมแรงโน้มถ่วงในการผจญภัยอันยิ่งใหญ่ต่อต้านการรุกรานของมนุษย์ต่างดาว ความขัดแย้งส่วนตัว การต่อสู้อันดุเดือด และความลึกลับที่รอคุณอยู่ เข้าร่วมตอนนี้!!',
-        'ms': 'Selami "INSaNE | Wira Yang Patah". Sertai Ashnage, pengawal graviti, dalam pengembaraan epik menentang serangan alien. Konflik peribadi, pertempuran sengit, misteri mendalam menanti. Sertai sekarang!!',
-        'id': 'Selami "INSaNE | Pahlawan yang Terluka". Bergabunglah dengan Ashnage, pengendali gravitasi, dalam petualangan epik melawan invasi alien. Konflik pribadi, pertempuran sengit, misteri mendalam menanti. Bergabunglah sekarang!!',
-        'tl': 'Sumabak sa "INSaNE | Isang Sirang Bayani". Samahan si Ashnage, kontroler ng grabidad, sa kanyang epikong pakikipagsapalaran laban sa pagsalakay ng alien. Mga personal na pakikibaka, matinding labanan, malalim na misteryo ang naghihintay. Sumali na!!',
-        'vi': 'Khám phá "INSaNE | Người Hùng Gãy Nát". Hãy cùng Ashnage, người kiểm soát trọng lực, trong hành trình sử thi chống lại cuộc xâm lăng ngoài hành tinh. Những đấu tranh nội tâm, trận chiến căng thẳng, bí ẩn sâu xa đang chờ đón. Tham gia ngay!!'
-    };
+            const urls = {
+                facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(pageUrl)}`,
+                twitter:  `https://twitter.com/intent/tweet?url=${encodeURIComponent(pageUrl)}&text=${encodeURIComponent(shareText)}`,
+                linkedin: `https://www.linkedin.com/shareArticle?url=${encodeURIComponent(pageUrl)}`,
+                reddit:   `https://www.reddit.com/submit?url=${encodeURIComponent(pageUrl)}&title=${encodeURIComponent(shareText)}`
+            };
+            if (urls[platform]) window.open(urls[platform], '_blank');
+        });
+    });
 
-    var invitationalText = invitationalTexts[language];
+    // ── 7. Dynamic link titles ───────────────────────────────────
+    $('a:not([title])').each(function() {
+        const text = $(this).text().trim();
+        if (text) $(this).attr('title', text);
+    });
 
-    // Different main page URLs for different languages
-    let urls = {
-        'en':  window.location.origin + '/',
-        'es':  window.location.origin + '/es',
-        'pt':  window.location.origin + '/pt',
-        'jp':  window.location.origin + '/jp',
-        'fr':  window.location.origin + '/fr',
-        'de':  window.location.origin + '/de',
-        'it':  window.location.origin + '/it',
-        'ru':  window.location.origin + '/ru',
-        'zh':  window.location.origin + '/zh',
-        'ko':  window.location.origin + '/kr',
-        'ar':  window.location.origin + '/ar',
-        'hi':  window.location.origin + '/hi',
-        'th':  window.location.origin + '/th',
-        'ms':  window.location.origin + '/ms',
-        'id':  window.location.origin + '/id',
-        'tl':  window.location.origin + '/tl',
-        'vi':  window.location.origin + '/vi'
-    };
-
-    var url = urls[language];
-
-    switch (platform) {
-        case 'facebook':
-            shareUrl = 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(url);
-            break;
-        case 'twitter':
-            shareUrl = 'https://twitter.com/intent/tweet?url=' + encodeURIComponent(url) + '&text=' + encodeURIComponent(invitationalText);
-            break;
-        case 'linkedin':
-            shareUrl = 'https://www.linkedin.com/shareArticle?url=' + encodeURIComponent(url);
-            break;
-        case 'reddit':
-            shareUrl = 'https://www.reddit.com/submit?url=' + encodeURIComponent(url) + '&title=' + encodeURIComponent(invitationalText);
-            break;
-        default:
-            return;
-    }
-
-    window.open(shareUrl, '_blank');
-});
-
-    
-    
-    // Create a class with a function to set the title property
-    class DynamicTitleHandler {
-        static setTitleForLinks() {
-            $('a').each(function() {
-                const $this = $(this);
-                const content = $this.text().trim();
-
-                if (content.length > 0) {
-                    $this.attr('title', content);
-                } else {
-                    return;
-                }
-            });
-        }
-    }
-
-    DynamicTitleHandler.setTitleForLinks();
-    
+    // ── 8. Lazy loaders ──────────────────────────────────────────
     $('video').lazyVideoLoader();
-
     $('img').lazyImageLoader();
 
-    $(".menu-wrapper").clickToggle(() => {
-        $(".burger_menu").css({
-            "opacity": "1",
-            "z-index": "6"
+    // ── 9. Burger menu ───────────────────────────────────────────
+    let menuOpen = false;
+    $('.menu-wrapper').on('click', function() {
+        menuOpen = !menuOpen;
+        $('.burger_menu').css({
+            opacity:  menuOpen ? '1' : '0',
+            'z-index': menuOpen ? '6' : '-1'
         });
-    }, () => {
-        $(".burger_menu").css({
-            "opacity": "0",
-            "z-index": "-1"
-        });
-    });
-
-    $('.menu-wrapper').on('click', () => {
         $('.hamburger-menu').toggleClass('animate');
-    })
+    });
 
-    var scrolllink = $('.scroll');
-    scrolllink.click(function(e) {
+    // ── 10. Scroll nav links ─────────────────────────────────────
+    $('.scroll').on('click', function(e) {
         e.preventDefault();
-        $(".menu-wrapper").trigger("click");
-        $('body,html').animate({
-            scrollTop: $(this.hash).offset().top
-        }, 1000);
+        $('.menu-wrapper').trigger('click');
+        $('body, html').animate({ scrollTop: $(this.hash).offset().top }, 1000);
     });
 
-    var scrollBtn = $('.scroll-top-button');
-    var arrowIcon = scrollBtn.find('.arrow-btn div');
+    // ── 11. Scroll-to-top / scroll-to-section button ────────────
+    const $scrollBtn = $('.scroll-top-button');
+    const $arrow     = $scrollBtn.find('.arrow-btn div');
+    let   ticking    = false;
 
-    $(window).scroll(() => {
-        var y = $(window).scrollTop();
-
-        if (y > 500) {
-            scrollBtn.fadeIn().css('z-index', '111111').data('action', 'up');
-            arrowIcon.removeClass('arrow-down').addClass('arrow-up');
-        } else {
-            scrollBtn.fadeIn().css('z-index', '111111').data('action', 'down');
-            arrowIcon.removeClass('arrow-up').addClass('arrow-down');
-        }
+    $(window).on('scroll.main', function() {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(() => {
+            const goUp = $(window).scrollTop() > 500;
+            $scrollBtn.fadeIn().css('z-index', '111111').data('action', goUp ? 'up' : 'down');
+            $arrow.toggleClass('arrow-up', goUp).toggleClass('arrow-down', !goUp);
+            ticking = false;
+        });
     });
 
-    scrollBtn.click(() => {
-        var action = scrollBtn.data('action');
-
-        if (action === 'up') {
+    $scrollBtn.on('click', function() {
+        if ($(this).data('action') === 'up') {
             $('html, body').animate({ scrollTop: 0 }, 1000);
         } else {
-            var nextSection = $('#quickresume').first();
-            if (nextSection.length) {
-                $('html, body').animate({ scrollTop: nextSection.offset().top }, 1000);
-            }
+            const $next = $('#quickresume').first();
+            if ($next.length) $('html, body').animate({ scrollTop: $next.offset().top }, 1000);
         }
     });
 
-    $("#esc3").parallaxie({
-        speed: 0.8,
-        disableMobile: true
-    });
+    // ── 12. Parallax ─────────────────────────────────────────────
+    $('#esc3').parallaxie({ speed: 0.8, disableMobile: true });
+    $('#speakers').parallaxie({ speed: 0.2, disableMobile: true, size: 'contain', pos_x: 'center', repeat: 'repeat' });
+    $('#sneak-peak').parallaxie({ speed: 0.5, disableMobile: true, size: 'unset',    pos_x: 'center', repeat: 'repeat' });
 
-    $("#speakers").parallaxie({
-        speed: 0.2,
-        disableMobile: true,
-        size: 'contain',
-        pos_x: 'center',
-        repeat: 'repeat',
-    })
+    // ── 13. Shuffle letters interval ─────────────────────────────
+    const $letter = $('#letter');
+    if ($letter.length) {
+        const shuffleData = JSON.parse($letter.attr('data-array') || '[]');
+        let   idx         = 0;
+        let   timer       = null;
 
-    $("#sneak-peak").parallaxie({
-        speed: 0.5,
-        disableMobile: true,
-        size: 'unset',
-        pos_x: 'center',
-        repeat: 'repeat',
-    })
+        const tick  = () => {
+            $letter.shuffleLetters({ step: 30, fps: 60, text: shuffleData[idx] });
+            idx = (idx + 1) % shuffleData.length;
+        };
+        const start = () => { if (!timer) timer = setInterval(tick, 4000); };
+        const stop  = () => { clearInterval(timer); timer = null; };
 
-    let data = $('#letter').attr('data-array');
-    data = JSON.parse(data)
+        start();
+        document.addEventListener('visibilitychange', () => document.hidden ? stop() : start());
+    }
 
-    var container = $("#letter")
-    var index = 0
-    const interval = () => {
-        container.shuffleLetters({
-            "step": 30,
-            "fps": 60,
-            "text": data[index]
-        });
+    // ── 14. Form handler ─────────────────────────────────────────
+    class FormHandler {
+        constructor(formId, ajaxUrl) {
+            this.$form              = $(formId);
+            this.ajaxUrl            = ajaxUrl;
+            this.notifSuccess       = this._parseJSON(this.$form.attr('data-notif-success'));
+            this.notifError         = this._parseJSON(this.$form.attr('data-notif-error'));
+            this.tyMsg              = this.$form.attr('data-tymsg');
+            this.errMsg             = this.$form.attr('data-errmsg');
+            this.cookieSubmittedMSN = this.$form.attr('data-cookiesubmittedmsn');
+            this._checkPrior();
+            this.$form.on('submit', e => this._onSubmit(e));
+        }
 
-        index++
+        _sanitize(input) {
+            if (typeof input !== 'string') return '';
+            return input
+                .replace(/<script.*?>.*?<\/script>/gi, '')
+                .replace(/<iframe.*?>.*?<\/iframe>/gi, '')
+                .replace(/<object.*?>.*?<\/object>/gi, '')
+                .replace(/<embed.*?>.*?<\/embed>/gi,   '')
+                .replace(/<applet.*?>.*?<\/applet>/gi, '')
+                .replace(/<meta.*?>/gi, '').replace(/<link.*?>/gi, '')
+                .replace(/\bon[a-z]+\s*=\s*(['"]).*?\1/gi, '')
+                .replace(/javascript:/gi, '')
+                .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;').replace(/'/g, '&#x27;').replace(/\//g, '&#x2F;');
+        }
 
-        if (index === data.length) {
-            index = 0;
+        _parseJSON(str) {
+            try { return JSON.parse(str).map(s => this._sanitize(s)); }
+            catch { return ['Invalid Data', 'Invalid Data']; }
+        }
+
+        _checkPrior() {
+            if (Cookies.get('registered') === 'true') {
+                this.$form.css('display', 'none');
+                $('.form-container').html(this.cookieSubmittedMSN);
+            }
+        }
+
+        _notify(title, body) {
+            Notification.requestPermission().then(perm => {
+                if (perm === 'granted') {
+                    new Notification(this._sanitize(title), {
+                        body: this._sanitize(body),
+                        icon: 'img/webiconspace-removebg-preview.png'
+                    });
+                }
+            });
+        }
+
+        _formData() {
+            return this.$form.serializeArray().reduce((obj, item) => {
+                obj[item.name] = this._sanitize(item.value);
+                return obj;
+            }, {});
+        }
+
+        _onSubmit(e) {
+            e.preventDefault();
+            $.ajax({
+                method: 'POST', url: this.ajaxUrl,
+                dataType: 'json', accepts: 'application/json',
+                data:    this._formData(),
+                success: () => this._respond(true),
+                error:   () => this._respond(false)
+            });
+        }
+
+        _respond(ok) {
+            const msg = ok ? [this.notifSuccess, this.tyMsg] : [this.notifError, this.errMsg];
+            this._notify(msg[0][0], msg[0][1]);
+            this.$form.css('display', 'none');
+            $('.form-container').html(msg[1]);
+            if (ok) Cookies.set('registered', 'true', { expires: 365 });
         }
     }
 
-    setInterval(interval, 4000)
+    if ($('#former-form').length) {
+        new FormHandler('#former-form', 'https://formsubmit.co/ajax/70a19f04e48d9da8774f32b49b924edf');
+    }
 
-        class FormHandler {
-            constructor(formId, ajaxUrl) {
-                this.form = $(formId);
-                this.ajaxUrl = ajaxUrl;
-                this.notifSuccess = this.sanitizeJSON(this.form.attr('data-notif-success'));
-                this.notifError = this.sanitizeJSON(this.form.attr('data-notif-error'));
-                this.tyMsg = this.form.attr('data-tymsg');
-                this.errMsg = this.form.attr('data-errmsg');
-                this.cookieSubmittedMSN = this.form.attr('data-cookiesubmittedmsn');
-        
-                this.checkRegistrationStatus();
-                this.form.on('submit', (e) => this.handleSubmit(e));
-            }
-        
-            sanitize(input) {
-                if (typeof input !== 'string') return '';
-                
-                input = input.replace(/<script.*?>.*?<\/script>/gi, '')
-                             .replace(/<iframe.*?>.*?<\/iframe>/gi, '')
-                             .replace(/<object.*?>.*?<\/object>/gi, '')
-                             .replace(/<embed.*?>.*?<\/embed>/gi, '')
-                             .replace(/<applet.*?>.*?<\/applet>/gi, '')
-                             .replace(/<meta.*?>/gi, '')
-                             .replace(/<link.*?>/gi, '');
-        
-                input = input.replace(/\bon[a-z]+\s*=\s*(['"]).*?\1/gi, '');
-                input = input.replace(/javascript:/gi, '');
-        
-                return input.replace(/&/g, "&amp;")
-                            .replace(/</g, "&lt;")
-                            .replace(/>/g, "&gt;")
-                            .replace(/"/g, "&quot;")
-                            .replace(/'/g, "&#x27;")
-                            .replace(/\//g, "&#x2F;");
-            }
-        
-            sanitizeJSON(jsonString) {
-                try {
-                    return JSON.parse(jsonString).map(item => this.sanitize(item));
-                } catch (e) {
-                    return ["Invalid Data", "Invalid Data"];
-                }
-            }
-        
-            checkRegistrationStatus() {
-                if (Cookies.get('registered') === 'true') {
-                    this.form.css('display', 'none');
-                    $('.form-container').html(this.cookieSubmittedMSN);
-                }
-            }
-        
-            sendNotification(type, title, body) {
-                Notification.requestPermission().then(perm => {
-                    if (perm === "granted") {
-                        new Notification(this.sanitize(title), {
-                            body: this.sanitize(body),
-                            icon: "img/webiconspace-removebg-preview.png"
-                        });
-                    }
-                });
-            }
-        
-            getFormData() {
-                return this.form.serializeArray().reduce((obj, item) => {
-                    obj[item.name] = this.sanitize(item.value);
-                    return obj;
-                }, {});
-            }
-        
-            submitForm() {
-                $.ajax({
-                    method: 'POST',
-                    url: this.ajaxUrl,
-                    dataType: 'json',
-                    accepts: 'application/json',
-                    data: this.getFormData(),
-                    success: (data) => {
-                        this.handleResponse('Accepted', data);
-                    },
-                    error: (err) => {
-                        this.handleResponse('Rejected', err);
-                    }
-                });
-            }
-        
-            handleResponse(type, response) {
-                if (type === 'Accepted') {
-                    this.sendNotification(type, this.notifSuccess[0], this.notifSuccess[1]);
-                    this.form.css('display', 'none');
-                    $('.form-container').html(this.tyMsg);
-                    Cookies.set('registered', 'true', { expires: 365 });
-                } else {
-                    this.sendNotification(type, this.notifError[0], this.notifError[1]);
-                    this.form.css('display', 'none');
-                    $('.form-container').html(this.errMsg);
-                }
-            }
-        
-            handleSubmit(e) {
-                e.preventDefault();
-                this.submitForm();
-            }
-        }
-        
-    let formHandler = new FormHandler('#former-form', 'https://formsubmit.co/ajax/70a19f04e48d9da8774f32b49b924edf');
-
+    // ── 15. Section shuffler ─────────────────────────────────────
     class SectionShuffler {
         constructor() {
-            this.observerConfig = {
-                root: null,
-                rootMargin: '0px',
-                threshold: 0.5
-            };
-            this.observer = new IntersectionObserver(this.handleIntersection.bind(this), this.observerConfig);
-            this.sections = this.getShuffleSections();
+            this.observer = new IntersectionObserver(
+                this._onIntersect.bind(this),
+                { root: null, rootMargin: '0px', threshold: 0.5 }
+            );
         }
-
-        getShuffleSections() {
-            const sections = [];
-            $('.shuffle-section').each((index, element) => {
-                const section = $(element);
-                const titles = section.find('[data-text]').map((idx, el) => {
-                    return {
-                        element: $(el),
-                        text: $(el).attr('data-text'),
-                    };
-                }).get();
-                if (titles.length > 0) {
-                    sections.push({
-                        element: section,
-                        titles: titles,
-                    });
-                }
-            });
-            return sections;
-        }
-
         init() {
-            this.sections.forEach(section => {
-                this.observer.observe(section.element[0]);
+            $('.shuffle-section').each((_, el) => {
+                const titles = $(el).find('[data-text]').map((_, t) => ({
+                    element: $(t), text: $(t).attr('data-text')
+                })).get();
+                if (titles.length) {
+                    $(el).data('shuffle-titles', titles);
+                    this.observer.observe(el);
+                }
             });
         }
-
-        handleIntersection(entries, observer) {
+        _onIntersect(entries) {
             entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const section = this.sections.find(s => s.element[0] === entry.target);
-                    section.titles.forEach(title => {
-                        title.element.shuffleLetters({
-                            step: 30,
-                            fps: 60,
-                            text: title.text
-                        });
-                    });
-                }
+                if (!entry.isIntersecting) return;
+                ($(entry.target).data('shuffle-titles') || []).forEach(t =>
+                    t.element.shuffleLetters({ step: 30, fps: 60, text: t.text })
+                );
+                this.observer.unobserve(entry.target); // fire once per section
             });
         }
     }
+    new SectionShuffler().init();
 
-        const shuffler = new SectionShuffler();
-        shuffler.init();
-        
+    // ── 16. Scroll to section from URL param ─────────────────────
+    const sectionScrollID = getParam('sectionScrollID');
+    if (sectionScrollID) {
+        const $target = $('#' + sectionScrollID);
+        if ($target.length) {
+            $('html, body').animate({
+                scrollTop: $target.offset().top
+                    - ($(window).height() / 2)
+                    + ($target.height() / 2)
+            }, 1000);
+        }
+    }
 
-   var sectionScrollID = getUrlParameter('sectionScrollID');
+    // ── 17. Owl Carousel ─────────────────────────────────────────
+    const $owl = $('.owl-carousel');
+    if ($owl.length) {
+        $owl.owlCarousel({
+            items: 1, loop: false, mouseDrag: true,
+            dotsContainer: '#custom-owl-dots', dotsSpeed: 400,
+            autoplay: false, nav: false, rewind: true
+        });
+        $('.owl-prev').on('click', () => $owl.trigger('prev.owl.carousel'));
+        $('.owl-next').on('click', () => $owl.trigger('next.owl.carousel'));
+        $('.owl-dot').on('click', function() {
+            $owl.trigger('to.owl.carousel', [$(this).index(), 300]);
+        });
+        $('.cuztomized')
+            .on('dragstart', e => { e.stopPropagation(); e.preventDefault(); })
+            .on('drop',      e => { e.stopPropagation(); e.preventDefault(); });
+    }
 
-   if (sectionScrollID) {
-       var targetElement = $('#' + sectionScrollID);
+    // ── 18. Load time ────────────────────────────────────────────
+    const _t0 = performance.now();
+    $(window).on('load', () =>
+        console.log(`[INSaNE] Load: ${Math.round(performance.now() - _t0)}ms`)
+    );
 
-       if (targetElement.length > 0) {
-           var windowHeight = $(window).height();
-           var elementHeight = targetElement.height();
-           var scrollTo = targetElement.offset().top - (windowHeight / 2) + (elementHeight / 2);
-           
-           $('html, body').animate({
-               scrollTop: scrollTo
-           }, 1000);
-       }
-   }
-
-   function getUrlParameter(name) {
-       name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
-       var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
-       var results = regex.exec(location.search);
-       return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
-   }
-
-    var owl = $('.owl-carousel')
-    owl.owlCarousel({
-        items: 1,
-        loop: false,
-        mouseDrag: true,
-        dotsContainer: '#custom-owl-dots',
-        dotsSpeed: 400,
-        autoplay: false,
-        nav: false,
-        rewind: true
-    })
-
-    $('.owl-prev').click(() => owl.trigger('prev.owl.carousel'))
-    $('.owl-next').click(() => owl.trigger('next.owl.carousel'))
-    $('.cuztomized')
-        .on('dragstart', (e) => e.stopPropagation().preventDefault(), {
-            passive: true
-        })
-        .on('drop', (e) => e.stopPropagation().preventDefault(), {
-            passive: true
-        })
-    
-    $('.owl-dot').click(function () {
-        owl.trigger('to.owl.carousel', [$(this).index(), 300]);
-    });
-
-    var startTime = new Date().getTime();
-
-    $(window).on('load', function() {
-        var endTime = new Date().getTime();
-        var loadTime = endTime - startTime;
-        console.log(`Load Time: ${loadTime}ms`);
-    });
-})
+});
