@@ -112,7 +112,16 @@ jQuery(() => {
                 langCases: customCases,
 
                 run() {
-                    if (Cookies.get('has_been_redirected') === 'true') return;
+                    // If has_been_redirected is set but language cookie is missing,
+                    // the previous redirect was incomplete — reset and retry.
+                    if (Cookies.get('has_been_redirected') === 'true') {
+                        if (!Cookies.get('language')) {
+                            Cookies.remove('has_been_redirected', { path: '/' });
+                            console.log('[CookieManager] Stale redirect cookie cleared — retrying.');
+                        } else {
+                            return; // genuine prior redirect, skip
+                        }
+                    }
 
                     const urlParams = new URLSearchParams(window.location.search);
                     if (urlParams.has('language') && urlParams.has('browserLanguage')) return;
@@ -124,10 +133,13 @@ jQuery(() => {
                         if (key === language) {
                             window.fetchGeoIP()
                                 .then((data) => {
-                                    const userCountry = value[1].includes(data.country) ? data.country : null;
+                                    const userCountry = value[1].includes(data.country_code) ? data.country_code : null;
                                     if (window.location.pathname !== value[0]) {
                                         this._setRedirectedCookie();
-                                        window.location.href = `${this.baseUrl}${value[0]}?language=${language}&country=${userCountry}`;
+                                        const p = new URLSearchParams();
+                                        p.set('language', language);
+                                        if (userCountry) p.set('country', userCountry);
+                                        window.location.href = `${this.baseUrl}${value[0]}?${p.toString()}`;
                                     }
                                 })
                                 .catch(() => console.warn('[CookieManager] Could not fetch country.'));
@@ -165,17 +177,19 @@ jQuery(() => {
                 },
 
                 _redirectToCountry(baseUrl, lang, data, browserLang) {
-                    const finalLang    = lang || browserLang;
-                    let userCountry    = null;
+                    const finalLang = lang || browserLang;
+                    if (!finalLang) return; // nothing to do
 
-                    for (const [key, value] of Object.entries(this.langCases)) {
-                        if (key === finalLang) {
-                            if (value[1].includes(data.country)) userCountry = data.country;
-                            break;
-                        }
-                    }
+                    // Clean country — null from failed API should not be stored
+                    const userCountry = (data.country_code && data.country_code !== 'null')
+                        ? data.country_code : null;
 
-                    const cookieOpts = { expires: CONSENT_EXPIRES, path: '/', domain: this.baseUrl, secure: true, sameSite: 'Strict' };
+                    // Cookie domain must not include protocol
+                    const cookieDomain = baseUrl.replace(/^https?:\/\//, '').split('/')[0];
+                    const cookieOpts   = {
+                        expires: CONSENT_EXPIRES, path: '/',
+                        domain: cookieDomain, secure: true, sameSite: 'Strict'
+                    };
                     Cookies.set('language', finalLang, cookieOpts);
                     if (userCountry) Cookies.set('country', userCountry, cookieOpts);
                     this._setRedirectedCookie();
@@ -185,12 +199,15 @@ jQuery(() => {
                         if (key === finalLang) { redirectPath = value[0]; break; }
                     }
 
-                    data.browserLanguage = browserLang;
-                    const params         = new URLSearchParams(data).toString();
-                    const base           = baseUrl.endsWith('/') ? baseUrl.slice(0,-1) : baseUrl;
-                    const path           = redirectPath.startsWith('/') ? redirectPath.slice(1) : redirectPath;
+                    // Build clean query string — omit null/undefined values
+                    const base   = baseUrl.endsWith('/') ? baseUrl.slice(0,-1) : baseUrl;
+                    const path   = redirectPath.startsWith('/') ? redirectPath.slice(1) : redirectPath;
+                    const params = new URLSearchParams();
+                    params.set('language', finalLang);
+                    if (userCountry) params.set('country', userCountry);
+                    if (browserLang) params.set('browserLanguage', browserLang);
 
-                    window.location.href = `${base}/${path}?language=${finalLang}&country=${userCountry}&${params}`;
+                    window.location.href = `${base}/${path}?${params.toString()}`;
                 },
 
                 _setRedirectedCookie() {
