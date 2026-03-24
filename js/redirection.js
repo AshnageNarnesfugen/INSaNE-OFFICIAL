@@ -15,11 +15,11 @@
  */
 
 // ── Inline geo-IP helper (post-consent only) ────────────────
-// JSONP — bypasses CORS. One call per page load via shared Promise.
+// Uses ip-api.com — no daily limit, CORS enabled, works with VPNs.
+// Falls back to { country_code: null } if fetch fails or times out.
 // Only called after user has given functional cookie consent.
 ;(function() {
-    const CB   = '__ipapi_' + Math.random().toString(36).slice(2, 7);
-    const URL  = 'https://ipapi.co/json/?callback=' + CB;
+    const URL  = 'http://ip-api.com/json/?fields=countryCode';
     const WAIT = 6000;
     let _p = null;
 
@@ -27,37 +27,23 @@
         if (window.__geoip) return Promise.resolve(window.__geoip);
         if (_p) return _p;
         _p = new Promise(function(resolve) {
-            var done = false;
-            var fb   = { country_code: null, country: null };
-            var t    = setTimeout(function() {
-                if (done) return;
-                done = true;
-                cleanup();
-                resolve(fb);
-            }, WAIT);
-            function cleanup() {
-                clearTimeout(t);
-                delete window[CB];
-                var el = document.getElementById('__ipapi_s');
-                if (el) el.parentNode.removeChild(el);
-            }
-            window[CB] = function(data) {
-                if (done) return;
-                done = true;
-                cleanup();
-                window.__geoip = data;
-                resolve(data);
-            };
-            var s    = document.createElement('script');
-            s.id     = '__ipapi_s';
-            s.src    = URL;
-            s.onerror = function() {
-                if (done) return;
-                done = true;
-                cleanup();
-                resolve(fb);
-            };
-            document.head.appendChild(s);
+            var fb      = { country_code: null };
+            var timeout = setTimeout(function() { resolve(fb); }, WAIT);
+
+            fetch(URL)
+                .then(function(r) { return r.json(); })
+                .then(function(data) {
+                    clearTimeout(timeout);
+                    // ip-api.com returns { countryCode: 'DE' }
+                    // normalize to match existing code expecting { country_code: 'DE' }
+                    var result = { country_code: data.countryCode || null };
+                    window.__geoip = result;
+                    resolve(result);
+                })
+                .catch(function() {
+                    clearTimeout(timeout);
+                    resolve(fb);
+                });
         });
         return _p;
     };
@@ -112,13 +98,13 @@ jQuery(() => {
                 langCases: customCases,
 
                 run() {
-                    console.log('[CM] run() start — has_been_redirected:', Cookies.get('has_been_redirected'), '| language:', Cookies.get('language'));
+                    console.log('[CM] run() start — has_been_redirected:', sessionStorage.getItem('has_been_redirected'), '| language:', Cookies.get('language'));
 
                     // If has_been_redirected is set but language cookie is missing,
                     // the previous redirect was incomplete — reset and retry.
-                    if (Cookies.get('has_been_redirected') === 'true') {
+                    if (sessionStorage.getItem('has_been_redirected') === 'true') {
                         if (!Cookies.get('language')) {
-                            Cookies.remove('has_been_redirected', { path: '/' });
+                            sessionStorage.removeItem('has_been_redirected');
                             console.log('[CM] Stale redirect cookie cleared — retrying.');
                         } else {
                             console.log('[CM] Already redirected with language:', Cookies.get('language'), '— skipping.');
@@ -220,9 +206,8 @@ jQuery(() => {
                 },
 
                 _setRedirectedCookie() {
-                    Cookies.set('has_been_redirected', 'true', {
-                        expires: 7, path: '/', secure: true, sameSite: 'Strict'
-                    });
+                    // sessionStorage — dies when tab closes, never persists to incognito
+                    sessionStorage.setItem('has_been_redirected', 'true');
                 }
             };
 
