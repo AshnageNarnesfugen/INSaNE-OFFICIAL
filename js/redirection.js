@@ -112,25 +112,33 @@ jQuery(() => {
                 langCases: customCases,
 
                 run() {
+                    console.log('[CM] run() start — has_been_redirected:', Cookies.get('has_been_redirected'), '| language:', Cookies.get('language'));
+
                     // If has_been_redirected is set but language cookie is missing,
                     // the previous redirect was incomplete — reset and retry.
                     if (Cookies.get('has_been_redirected') === 'true') {
                         if (!Cookies.get('language')) {
                             Cookies.remove('has_been_redirected', { path: '/' });
-                            console.log('[CookieManager] Stale redirect cookie cleared — retrying.');
+                            console.log('[CM] Stale redirect cookie cleared — retrying.');
                         } else {
-                            return; // genuine prior redirect, skip
+                            console.log('[CM] Already redirected with language:', Cookies.get('language'), '— skipping.');
+                            return;
                         }
                     }
 
                     const urlParams = new URLSearchParams(window.location.search);
-                    if (urlParams.has('language') && urlParams.has('browserLanguage')) return;
+                    if (urlParams.has('language') && urlParams.has('browserLanguage')) {
+                        console.log('[CM] URL already has language params — skipping.');
+                        return;
+                    }
 
                     const language = Cookies.get('language');
+                    console.log('[CM] language cookie:', language);
 
                     // Known language cookie — verify country still matches
                     for (const [key, value] of Object.entries(this.langCases)) {
                         if (key === language) {
+                            console.log('[CM] Known language match:', key, '— calling fetchGeoIP to verify country');
                             window.fetchGeoIP()
                                 .then((data) => {
                                     const userCountry = value[1].includes(data.country_code) ? data.country_code : null;
@@ -622,8 +630,12 @@ jQuery(() => {
 
     // ── GDPR panel for all users — one consent flow globally ──
     GDPRConsent.init((consent) => {
+        console.log('[Boot] GDPRConsent.init callback — consent:', JSON.stringify(consent));
         if (consent.functional) {
+            console.log('[Boot] functional=true — calling cookieManager');
             $(document).cookieManager(customCases, targetPage);
+        } else {
+            console.log('[Boot] functional=false — cookieManager skipped');
         }
         if (consent.analytics) {
             // Load GTM only after analytics consent — GDPR compliant
