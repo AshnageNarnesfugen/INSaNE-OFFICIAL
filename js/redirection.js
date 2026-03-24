@@ -150,6 +150,7 @@ jQuery(() => {
                     // No language cookie — detect by IP
                     window.fetchGeoIP()
                         .then((data) => {
+                            console.log('[CookieManager] fetchGeoIP result:', JSON.stringify(data));
                             const browserLang = (navigator.language || navigator.userLanguage).split('-')[0].toUpperCase();
                             this._performRedirection(data, language, browserLang);
                         })
