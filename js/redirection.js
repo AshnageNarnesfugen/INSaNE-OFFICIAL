@@ -19,7 +19,7 @@
 // Falls back to { country_code: null } if fetch fails or times out.
 // Only called after user has given functional cookie consent.
 ;(function() {
-    const URL  = 'http://ip-api.com/json/?fields=countryCode';
+    const URL  = 'https://ip-api.com/json/?fields=countryCode';
     const WAIT = 6000;
     let _p = null;
 
