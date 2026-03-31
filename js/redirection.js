@@ -18,8 +18,8 @@
 // Uses ip-api.com — no daily limit, CORS enabled, works with VPNs.
 // Falls back to { country_code: null } if fetch fails or times out.
 // Only called after user has given functional cookie consent.
-;(function() {
-    const URL  = 'https://ip-api.com/json/?fields=countryCode';
+(function() {
+    const URL  = 'http://ip-api.com/json/?fields=countryCode';
     const WAIT = 6000;
     let _p = null;
 
