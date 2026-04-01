@@ -576,12 +576,50 @@
     //  BOOT
     // ═══════════════════════════════════════════════════════════
 
+    // ── GTM loader (called once per page load) ─────────────
+    let gtmLoaded = false;
+
+    function loadGTM() {
+        if (gtmLoaded) return;
+        gtmLoaded = true;
+
+        // Consent Mode v2 — grant analytics
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { window.dataLayer.push(arguments); }
+        gtag('consent', 'update', {
+            analytics_storage: 'granted'
+        });
+
+        // Inject GTM script
+        (function (w, d, s, l, i) {
+            w[l] = w[l] || [];
+            w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
+            var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s),
+                dl = l !== 'dataLayer' ? '&l=' + l : '';
+            j.async = true;
+            j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+
+            j.onload = function () {
+                w[l].push({
+                    event: 'delayed_pageview',
+                    page_path: w.location.pathname + w.location.search,
+                    page_title: d.title
+                });
+            };
+
+            f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-KP3R25CS');
+
+        console.log('[GTM] Loaded and analytics_storage granted.');
+    }
+
     function boot() {
         const customCases = buildCustomCases();
         const targetPage  = window.location.origin;
 
-        // Google Consent Mode v2 — default to denied.
-        // Must run BEFORE GTM loads so Google tags respect consent state.
+        // Google Consent Mode v2 — default everything to denied.
+        // Must run BEFORE any gtag or GTM call.
         window.dataLayer = window.dataLayer || [];
         function gtag() { window.dataLayer.push(arguments); }
         gtag('consent', 'default', {
@@ -592,51 +630,31 @@
             wait_for_update: 500
         });
 
+        // ── Early GTM load ──────────────────────────────────
+        // If consent cookie already exists (returning visitor),
+        // load GTM IMMEDIATELY — before the GDPR panel or the
+        // redirect logic runs. This way analytics fires on every
+        // page load, even if cookieManager redirects right after.
+        const existingConsent = GDPRConsent.get();
+        if (existingConsent && existingConsent.analytics) {
+            loadGTM();
+        }
+
+        // ── GDPR panel / consent flow ───────────────────────
         GDPRConsent.init((consent) => {
             console.log('[Boot] Consent:', JSON.stringify(consent));
 
+            // Load GTM if just granted (first-time visitor)
+            if (consent.analytics) {
+                loadGTM();
+            }
+
+            // Language redirect — runs AFTER GTM is already injected
             if (consent.functional) {
                 console.log('[Boot] functional=true — running cookieManager');
                 CookieManager.run(customCases, targetPage);
             } else {
                 console.log('[Boot] functional=false — cookieManager skipped');
-            }
-
-            if (consent.analytics) {
-                // 1. Initialize dataLayer and push GTM bootstrap event
-                (function (w, d, s, l, i) {
-                    w[l] = w[l] || [];
-                    w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
-                    var f = d.getElementsByTagName(s)[0],
-                        j = d.createElement(s),
-                        dl = l !== 'dataLayer' ? '&l=' + l : '';
-                    j.async = true;
-                    j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
-
-                    // 2. Once GTM script loads, fire a custom pageview event.
-                    //    The standard "All Pages" trigger fires at container
-                    //    load, but since we inject GTM late (post-consent),
-                    //    GA4 may miss it. This custom event lets you create
-                    //    a trigger in GTM on "delayed_pageview" as backup.
-                    j.onload = function () {
-                        w[l].push({
-                            event: 'delayed_pageview',
-                            page_path: w.location.pathname + w.location.search,
-                            page_title: d.title
-                        });
-                    };
-
-                    f.parentNode.insertBefore(j, f);
-                })(window, document, 'script', 'dataLayer', 'GTM-KP3R25CS');
-
-                // 3. Google Consent Mode v2 — signal that analytics is granted.
-                //    If you use Google tags (GA4/Ads) this tells them consent
-                //    was given so they process hits instead of dropping them.
-                window.dataLayer = window.dataLayer || [];
-                function gtag() { window.dataLayer.push(arguments); }
-                gtag('consent', 'update', {
-                    analytics_storage: 'granted'
-                });
             }
         });
 
