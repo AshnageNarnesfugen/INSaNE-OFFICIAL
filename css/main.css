@@ -8,6 +8,10 @@ select:focus {
 
 /* *:focus outline removed — breaks keyboard nav and a11y menu *:focus-visible */
 
+#video-showcase {
+    background-color: #424f42;
+}
+
 .pdf-button {
     width: 100%;
     height: 100%;
