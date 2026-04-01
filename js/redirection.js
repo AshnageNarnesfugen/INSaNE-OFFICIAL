@@ -580,6 +580,18 @@
         const customCases = buildCustomCases();
         const targetPage  = window.location.origin;
 
+        // Google Consent Mode v2 — default to denied.
+        // Must run BEFORE GTM loads so Google tags respect consent state.
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { window.dataLayer.push(arguments); }
+        gtag('consent', 'default', {
+            analytics_storage: 'denied',
+            ad_storage: 'denied',
+            ad_user_data: 'denied',
+            ad_personalization: 'denied',
+            wait_for_update: 500
+        });
+
         GDPRConsent.init((consent) => {
             console.log('[Boot] Consent:', JSON.stringify(consent));
 
@@ -591,6 +603,7 @@
             }
 
             if (consent.analytics) {
+                // 1. Initialize dataLayer and push GTM bootstrap event
                 (function (w, d, s, l, i) {
                     w[l] = w[l] || [];
                     w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
@@ -599,8 +612,31 @@
                         dl = l !== 'dataLayer' ? '&l=' + l : '';
                     j.async = true;
                     j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+
+                    // 2. Once GTM script loads, fire a custom pageview event.
+                    //    The standard "All Pages" trigger fires at container
+                    //    load, but since we inject GTM late (post-consent),
+                    //    GA4 may miss it. This custom event lets you create
+                    //    a trigger in GTM on "delayed_pageview" as backup.
+                    j.onload = function () {
+                        w[l].push({
+                            event: 'delayed_pageview',
+                            page_path: w.location.pathname + w.location.search,
+                            page_title: d.title
+                        });
+                    };
+
                     f.parentNode.insertBefore(j, f);
                 })(window, document, 'script', 'dataLayer', 'GTM-KP3R25CS');
+
+                // 3. Google Consent Mode v2 — signal that analytics is granted.
+                //    If you use Google tags (GA4/Ads) this tells them consent
+                //    was given so they process hits instead of dropping them.
+                window.dataLayer = window.dataLayer || [];
+                function gtag() { window.dataLayer.push(arguments); }
+                gtag('consent', 'update', {
+                    analytics_storage: 'granted'
+                });
             }
         });
 
