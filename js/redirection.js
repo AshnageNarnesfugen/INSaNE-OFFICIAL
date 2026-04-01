@@ -24,72 +24,41 @@
     const CONSENT_COOKIE  = 'insane_gdpr_consent';
     const CONSENT_VERSION = '1';
     const CONSENT_EXPIRES = 365;
-    const GTM_ID          = 'GTM-KP3R25CS';
 
     // ═══════════════════════════════════════════════════════════
-    //  GTM — LOAD AS EARLY AS POSSIBLE
-    //  Runs synchronously at parse time. No DOM needed, no
-    //  data-loader, no promises. Just reads document.cookie
-    //  and injects GTM via document.write-free snippet.
+    //  ANALYTICS CONSENT BRIDGE
+    //  GTM + Consent Mode v2 defaults live in <head> of the HTML.
+    //  This function only signals "granted" after user accepts.
     // ═══════════════════════════════════════════════════════════
 
-    // 1. Consent Mode v2 defaults — must come before ANY Google tag
-    window.dataLayer = window.dataLayer || [];
-    function gtag() { window.dataLayer.push(arguments); }
-    gtag('consent', 'default', {
-        analytics_storage:  'denied',
-        ad_storage:         'denied',
-        ad_user_data:       'denied',
-        ad_personalization: 'denied',
-        wait_for_update:    500
-    });
+    function grantAnalytics() {
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { window.dataLayer.push(arguments); }
+        gtag('consent', 'update', {
+            analytics_storage: 'granted'
+        });
+        // Fire a virtual pageview so GA4 registers this visit
+        // even though GTM loaded with consent denied initially.
+        window.dataLayer.push({
+            event:      'consent_granted_pageview',
+            page_path:  location.pathname + location.search,
+            page_title: document.title
+        });
+        console.log('[Analytics] consent update → granted, pageview pushed.');
+    }
 
-    // 2. Read consent cookie directly (no helpers needed yet)
-    let gtmLoaded = false;
-    function readConsentCookie() {
+    // If consent cookie already exists with analytics=true,
+    // grant immediately at parse time (before any redirect).
+    (function earlyGrant() {
         try {
-            const m = document.cookie.match(
-                /(?:^|; )insane_gdpr_consent=([^;]*)/
-            );
-            if (!m) return null;
-            const parsed = JSON.parse(decodeURIComponent(m[1]));
-            if (parsed.version !== CONSENT_VERSION) return null;
-            return parsed;
-        } catch(e) { return null; }
-    }
-
-    function loadGTM() {
-        if (gtmLoaded) return;
-        gtmLoaded = true;
-
-        // Grant analytics
-        gtag('consent', 'update', { analytics_storage: 'granted' });
-
-        // Inject GTM
-        window.dataLayer.push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
-
-        var j  = document.createElement('script');
-        j.async = true;
-        j.src   = 'https://www.googletagmanager.com/gtm.js?id=' + GTM_ID;
-        j.onload = function () {
-            window.dataLayer.push({
-                event:      'delayed_pageview',
-                page_path:  location.pathname + location.search,
-                page_title: document.title
-            });
-        };
-
-        // Insert into <head> — works even before DOMContentLoaded
-        // because <head> exists as soon as the parser reaches this script.
-        document.head.appendChild(j);
-        console.log('[GTM] Injected synchronously at parse time.');
-    }
-
-    // 3. If consent already exists, load GTM RIGHT NOW
-    var earlyConsent = readConsentCookie();
-    if (earlyConsent && earlyConsent.analytics) {
-        loadGTM();
-    }
+            var m = document.cookie.match(/(?:^|; )insane_gdpr_consent=([^;]*)/);
+            if (!m) return;
+            var parsed = JSON.parse(decodeURIComponent(m[1]));
+            if (parsed.version === CONSENT_VERSION && parsed.analytics) {
+                grantAnalytics();
+            }
+        } catch(e) { /* no consent yet */ }
+    })();
 
     // ═══════════════════════════════════════════════════════════
     //  HELPERS
@@ -649,13 +618,12 @@
         GDPRConsent.init((consent) => {
             console.log('[Boot] Consent:', JSON.stringify(consent));
 
-            // Load GTM if just granted (first-time visitor).
-            // For returning visitors it was already loaded at parse time.
+            // Signal analytics granted (GTM is already in the HTML,
+            // this just flips the consent flag so it starts sending data)
             if (consent.analytics) {
-                loadGTM();
+                grantAnalytics();
             }
 
-            // Language redirect — runs AFTER GTM is already injected
             if (consent.functional) {
                 console.log('[Boot] functional=true — running cookieManager');
                 CookieManager.run(customCases, targetPage);
