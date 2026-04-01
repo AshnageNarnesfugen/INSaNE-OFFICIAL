@@ -134,25 +134,24 @@
 
         // Detect panel language lazily (called at build time, not at
         // IIFE init time, so the JSON is guaranteed to be loaded).
-        //  1. Path segment (/es, /fr, /jp …)
-        //  2. navigator.language fallback (first visit on /)
-        //  3. 'en' as last resort
+        //
+        // Priority: page path always wins.
+        //  1. Path segment (/es → es, /jp → ja, /kr → ko …)
+        //  2. Root path / → 'en' (English homepage)
+        //  3. 'en' as final fallback
         function detectLang() {
             const labels = ((window.INSaNE_DATA || {})['gdpr-panel'] || {}).labels || {};
             const available = Object.keys(labels);
 
+            // Extract first path segment: "/es/foo" → "es", "/" → ""
             const seg = window.location.pathname.split('/')[1];
+
             if (seg) {
                 const normed = normMap[seg] || seg;
                 if (available.includes(normed)) return normed;
             }
 
-            const browserLang = (navigator.language || '').split('-')[0].toLowerCase();
-            if (browserLang) {
-                const normedBrowser = normMap[browserLang] || browserLang;
-                if (available.includes(normedBrowser)) return normedBrowser;
-            }
-
+            // No segment (root /) or unrecognised segment → English
             return 'en';
         }
 
