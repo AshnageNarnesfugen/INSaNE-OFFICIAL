@@ -46,8 +46,59 @@
     <link rel="preload" href="js/smoothscroll.js" as="script" fetchpriority="high">
     <link rel="preload" href="js/lazyFontLoad.js" as="script" fetchpriority="high">
     <link rel="preload" href="./img/SEO_IMAGES/insane-new-age-min.webp" as="image" fetchpriority="high">
-    <script src="js/smoothscroll.js"></script>
-    <script src="js/lazyFontLoad.js"></script>
+
+    <link rel="preconnect dns-prefetch" href="https://www.googletagmanager.com" crossorigin/>
+    <link rel="preconnect dns-prefetch" href="https://www.google-analytics.com" crossorigin/>
+<!-- ═══════════════════════════════════════════════════════════
+     GTM + Consent Mode v2 — paste as FIRST thing inside <head>
+     
+     How it works:
+     1. Set consent defaults to "denied" (no data collected)
+     2. Read the GDPR consent cookie immediately
+     3. If analytics was previously granted → update to "granted"
+     4. Load GTM — it respects consent mode automatically
+     
+     This runs at parse time, before any JS file, before any
+     redirect. GTM is ALWAYS present but only sends data when
+     analytics_storage is "granted".
+     ═══════════════════════════════════════════════════════════ -->
+
+<!-- 1. Consent Mode defaults + early cookie check -->
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+
+// Default: everything denied
+gtag('consent', 'default', {
+    analytics_storage:  'denied',
+    ad_storage:         'denied',
+    ad_user_data:       'denied',
+    ad_personalization: 'denied'
+});
+
+// Check if user already gave consent (returning visitor).
+// Read the cookie directly — no libraries needed.
+(function(){
+    try {
+        var m = document.cookie.match(/(?:^|; )insane_gdpr_consent=([^;]*)/);
+        if (!m) return;
+        var c = JSON.parse(decodeURIComponent(m[1]));
+        if (c.version === '1' && c.analytics) {
+            gtag('consent', 'update', { analytics_storage: 'granted' });
+        }
+    } catch(e) {}
+})();
+</script>
+
+<!-- 2. Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-KP3R25CS');</script>
+
+<!-- End GTM + Consent Mode -->
+        <script src="js/lazyFontLoad.js"></script>
     <script src="js/smoothscroll.js"></script>
     <script type="text/javascript">
         SmoothScroll({
@@ -55,28 +106,6 @@
             stepSize: 200
         });
     </script>
-    <link rel="preconnect dns-prefetch" href="https://www.googletagmanager.com" crossorigin/>
-    <link rel="preconnect dns-prefetch" href="https://www.google-analytics.com" crossorigin/>
-<!-- Consent Mode v2 defaults -->
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('consent', 'default', {
-            analytics_storage: 'denied',
-            ad_storage: 'denied',
-            ad_user_data: 'denied',
-            ad_personalization: 'denied'
-        });
-        </script>
-
-        <!-- GTM — always loads, respects consent mode -->
-        <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-        })(window,document,'script','dataLayer','GTM-KP3R25CS');
-    </script>
-    
     <link rel="preload" href="css/bootstrap.css" as="style">
     <link rel="stylesheet" href="css/bootstrap.css">
     <link rel="preload" href="css/main.min.css" as="style">

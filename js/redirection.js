@@ -26,41 +26,6 @@
     const CONSENT_EXPIRES = 365;
 
     // ═══════════════════════════════════════════════════════════
-    //  ANALYTICS CONSENT BRIDGE
-    //  GTM + Consent Mode v2 defaults live in <head> of the HTML.
-    //  This function only signals "granted" after user accepts.
-    // ═══════════════════════════════════════════════════════════
-
-    function grantAnalytics() {
-        window.dataLayer = window.dataLayer || [];
-        function gtag() { window.dataLayer.push(arguments); }
-        gtag('consent', 'update', {
-            analytics_storage: 'granted'
-        });
-        // Fire a virtual pageview so GA4 registers this visit
-        // even though GTM loaded with consent denied initially.
-        window.dataLayer.push({
-            event:      'consent_granted_pageview',
-            page_path:  location.pathname + location.search,
-            page_title: document.title
-        });
-        console.log('[Analytics] consent update → granted, pageview pushed.');
-    }
-
-    // If consent cookie already exists with analytics=true,
-    // grant immediately at parse time (before any redirect).
-    (function earlyGrant() {
-        try {
-            var m = document.cookie.match(/(?:^|; )insane_gdpr_consent=([^;]*)/);
-            if (!m) return;
-            var parsed = JSON.parse(decodeURIComponent(m[1]));
-            if (parsed.version === CONSENT_VERSION && parsed.analytics) {
-                grantAnalytics();
-            }
-        } catch(e) { /* no consent yet */ }
-    })();
-
-    // ═══════════════════════════════════════════════════════════
     //  HELPERS
     // ═══════════════════════════════════════════════════════════
 
@@ -618,10 +583,19 @@
         GDPRConsent.init((consent) => {
             console.log('[Boot] Consent:', JSON.stringify(consent));
 
-            // Signal analytics granted (GTM is already in the HTML,
-            // this just flips the consent flag so it starts sending data)
+            // Signal analytics granted to GTM (already in <head>).
+            // For returning visitors, the HTML snippet already did this
+            // at parse time — but calling it again is harmless.
             if (consent.analytics) {
-                grantAnalytics();
+                window.dataLayer = window.dataLayer || [];
+                function gtag() { window.dataLayer.push(arguments); }
+                gtag('consent', 'update', { analytics_storage: 'granted' });
+                window.dataLayer.push({
+                    event: 'consent_granted_pageview',
+                    page_path: location.pathname + location.search,
+                    page_title: document.title
+                });
+                console.log('[Boot] analytics consent update → granted');
             }
 
             if (consent.functional) {
