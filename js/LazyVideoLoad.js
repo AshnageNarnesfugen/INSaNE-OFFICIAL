@@ -8,8 +8,8 @@
             endWidth: "100%",
             startRadius: "40px",
             endRadius: "0px",
-            gsapStart: "top bottom",
-            gsapEnd: "top 10%"
+            gsapStart: "top 40%",
+            gsapEnd: "+=800"
         }, options);
 
         if (typeof gsap !== "undefined" && typeof ScrollTrigger !== "undefined") {
