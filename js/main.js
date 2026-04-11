@@ -28,6 +28,7 @@ jQuery(function($) {
 
     // ── 2. Intro animation ───────────────────────────────────────
     gsap.registerPlugin(ScrollTrigger);
+    gsap.registerPlugin(ScrollToPlugin);
     gsap.set('.intro_animation', { display: 'grid', opacity: 1 });
     gsap.set(['.intro_title', '.intro_subtitle'], { opacity: 0, y: 20 });
 

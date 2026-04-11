@@ -1,5 +1,3 @@
-gsap.registerPlugin(ScrollToPlugin);
-
 const config = {
   duration: 0.6,    // Equivalente a animationTime (en segundos)
   stepSize: 150,    // Equivalente a stepSize (píxeles por salto)
