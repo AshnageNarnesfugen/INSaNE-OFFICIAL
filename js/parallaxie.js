@@ -100,7 +100,7 @@
 
 function initParallaxie(selector, options = {}) {
   // Registramos el plugin de GSAP
-  gsap.registerPlugin(ScrollTrigger);
+  // gsap.registerPlugin(ScrollTrigger);
 
   // Opciones por defecto (idénticas al original)
   const config = {
