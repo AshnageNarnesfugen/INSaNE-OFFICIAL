@@ -171,7 +171,6 @@ jQuery(function($) {
 
     // ── 12. Parallax ─────────────────────────────────────────────
     initParallaxie('#esc3', { speed: 0.8, disableMobile: true });
-    initParallaxie('#speakers', { speed: 0.2, disableMobile: true, size: 'contain', pos_x: 'center', repeat: 'repeat' });
     initParallaxie('#sneak-peak', { speed: 0.5, disableMobile: true, size: 'unset',    pos_x: 'center', repeat: 'repeat' });
 
     // ── 13. Shuffle letters interval ─────────────────────────────
