@@ -6,7 +6,7 @@
  *
  * Requires: jQuery 1.9+
  */
-(function( $ ){
+/*(function( $ ){
 
     $.fn.parallaxie = function( options ){
 
@@ -91,4 +91,85 @@
         return window.matchMedia("(max-width: 767px)").matches;
     }
 
-}( jQuery ));
+}( jQuery ));*/
+
+/**
+ * Parallaxie Reconstruido con GSAP y ScrollTrigger
+ * Sin dependencias de jQuery.
+ */
+
+function initParallaxie(selector, options = {}) {
+  // Registramos el plugin de GSAP
+  gsap.registerPlugin(ScrollTrigger);
+
+  // Opciones por defecto (idénticas al original)
+  const config = {
+    speed: 0.2,
+    repeat: 'no-repeat',
+    size: 'cover',
+    pos_x: 'center',
+    offset: 0,
+    disableMobile: true,
+    ...options
+  };
+
+  // Funciones de detección de dispositivos
+  const isMobileDevice = () => ('ontouchstart' in window) || (navigator.userAgent.indexOf('IEMobile') !== -1);
+  const isSmallScreen = () => window.matchMedia("(max-width: 767px)").matches;
+
+  // Detener si es móvil y disableMobile es true
+  if (config.disableMobile && (isMobileDevice() || isSmallScreen())) {
+    return;
+  }
+
+  // Seleccionamos todos los elementos
+  const elements = document.querySelectorAll(selector);
+
+  elements.forEach(el => {
+    // Heredar opciones locales mediante atributos de datos (ej. data-parallaxie='{"speed": 0.5}')
+    let localOptions = { ...config };
+    const dataOptions = el.getAttribute('data-parallaxie');
+    if (dataOptions) {
+      try {
+        localOptions = { ...localOptions, ...JSON.parse(dataOptions) };
+      } catch (e) {
+        console.error("Parallaxie: Error al parsear data-parallaxie", e);
+      }
+    }
+
+    // Gestionar la imagen de fondo (desde data-image o CSS existente)
+    let imageUrl = el.getAttribute('data-image');
+    if (!imageUrl) {
+      imageUrl = window.getComputedStyle(el).backgroundImage;
+      if (!imageUrl || imageUrl === 'none') return; // Si no hay imagen, omitimos este elemento
+    } else {
+      el.style.backgroundImage = `url(${imageUrl})`;
+    }
+
+    // Aplicar CSS por defecto
+    el.style.backgroundSize = localOptions.size;
+    el.style.backgroundRepeat = localOptions.repeat;
+    el.style.backgroundAttachment = 'fixed';
+
+    // Crear la animación GSAP con ScrollTrigger
+    // Utilizamos fromTo con valores funcionales para replicar la fórmula matemática original
+    gsap.fromTo(el, 
+      {
+        // Posición inicial: cuando la parte superior del elemento toca la parte inferior de la pantalla
+        backgroundPosition: () => `${localOptions.pos_x} ${localOptions.offset + (window.innerHeight * (1 - localOptions.speed))}px`
+      },
+      {
+        // Posición final: cuando la parte inferior del elemento toca la parte superior de la pantalla
+        backgroundPosition: () => `${localOptions.pos_x} ${localOptions.offset + (-el.offsetHeight * (1 - localOptions.speed))}px`,
+        ease: "none", // Sin aceleración, movimiento lineal puro como el scroll
+        scrollTrigger: {
+          trigger: el,
+          start: "top bottom", // Inicia la animación al entrar al viewport
+          end: "bottom top",   // Termina al salir del viewport
+          scrub: true,         // 'scrub' vincula la animación estrictamente a la barra de scroll
+          invalidateOnRefresh: true // Recalcula las dimensiones automáticamente si el usuario redimensiona la ventana
+        }
+      }
+    );
+  });
+}

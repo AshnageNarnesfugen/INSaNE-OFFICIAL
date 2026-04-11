@@ -170,9 +170,9 @@ jQuery(function($) {
     });
 
     // ── 12. Parallax ─────────────────────────────────────────────
-    $('#esc3').parallaxie({ speed: 0.8, disableMobile: true });
-    $('#speakers').parallaxie({ speed: 0.2, disableMobile: true, size: 'contain', pos_x: 'center', repeat: 'repeat' });
-    $('#sneak-peak').parallaxie({ speed: 0.5, disableMobile: true, size: 'unset',    pos_x: 'center', repeat: 'repeat' });
+    initParallaxie('#esc3', { speed: 0.8, disableMobile: true });
+    initParallaxie('#speakers', { speed: 0.2, disableMobile: true, size: 'contain', pos_x: 'center', repeat: 'repeat' });
+    initParallaxie('#sneak-peak', { speed: 0.5, disableMobile: true, size: 'unset',    pos_x: 'center', repeat: 'repeat' });
 
     // ── 13. Shuffle letters interval ─────────────────────────────
     const $letter = $('#letter');
