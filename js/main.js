@@ -175,6 +175,7 @@ jQuery(function($) {
     initParallaxie('#sneak-peak', { speed: 0.5, disableMobile: true, size: 'unset',    pos_x: 'center', repeat: 'repeat' });
 
     // ── 13. Shuffle letters interval ─────────────────────────────
+    /*
     const $letter = $('#letter');
     if ($letter.length) {
         const shuffleData = JSON.parse($letter.attr('data-array') || '[]');
@@ -190,6 +191,27 @@ jQuery(function($) {
 
         start();
         document.addEventListener('visibilitychange', () => document.hidden ? stop() : start());
+    } */
+
+    // ── 13. Shuffle letters interval ─────────────────────────────
+    const $letter = $('#letter');
+    if ($letter.length) {
+        const shuffleData = JSON.parse($letter.attr('data-array') || '[]');
+        let idx = 0;
+
+        if (shuffleData.length > 0) {
+            // Función que ejecuta el efecto y programa el siguiente ciclo
+            const tick = () => {
+                $letter.shuffleLetters({ step: 30, fps: 60, text: shuffleData[idx] });
+                idx = (idx + 1) % shuffleData.length;
+                
+                // Llama a esta misma función de nuevo en 4 segundos
+                gsap.delayedCall(4, tick);
+            };
+
+            // Iniciamos el primer ciclo
+            tick();
+        }
     }
 
     // ── 14. Form handler ─────────────────────────────────────────
@@ -276,7 +298,7 @@ jQuery(function($) {
     }
 
     // ── 15. Section shuffler ─────────────────────────────────────
-    class SectionShuffler {
+    /*class SectionShuffler {
         constructor() {
             this.observer = new IntersectionObserver(
                 this._onIntersect.bind(this),
@@ -301,6 +323,37 @@ jQuery(function($) {
                     t.element.shuffleLetters({ step: 30, fps: 60, text: t.text })
                 );
                 this.observer.unobserve(entry.target); // fire once per section
+            });
+        }
+    }
+    new SectionShuffler().init();*/
+
+    // Asegúrate de haber registrado el plugin de ScrollTrigger al inicio de tu archivo:
+    // gsap.registerPlugin(ScrollTrigger);
+
+    // ── 15. Section shuffler ─────────────────────────────────────
+    class SectionShuffler {
+        init() {
+            $('.shuffle-section').each((_, el) => {
+                const $el = $(el);
+                const titles = $el.find('[data-text]').map((_, t) => ({
+                    element: $(t), 
+                    text: $(t).attr('data-text')
+                })).get();
+
+                if (titles.length) {
+                    // Usamos ScrollTrigger en lugar de IntersectionObserver
+                    ScrollTrigger.create({
+                        trigger: el,
+                        start: "top 75%", // Se dispara cuando el tope del elemento llega al 75% de la pantalla (ajústalo a tu gusto)
+                        once: true,       // Reemplaza la lógica de unobserve() - se ejecuta una sola vez
+                        onEnter: () => {
+                            titles.forEach(t => {
+                                t.element.shuffleLetters({ step: 30, fps: 60, text: t.text });
+                            });
+                        }
+                    });
+                }
             });
         }
     }
