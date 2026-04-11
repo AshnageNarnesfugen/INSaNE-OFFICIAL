@@ -6,6 +6,8 @@
             threshold: 0.1,
             startWidth: "80%",
             endWidth: "100%",
+            startTop: "-50px",
+            endTop: "0px",
             startRadius: "40px",
             endRadius: "0px",
             gsapStart: "top 50%",
@@ -57,6 +59,7 @@
             $wrapper.css({
                 'width': settings.startWidth,
                 'border-radius': settings.startRadius,
+                'top': settings.startTop,
                 'margin': '0 auto',
                 'overflow': 'hidden',
                 'position': 'relative',
@@ -65,6 +68,7 @@
 
             if (typeof gsap !== "undefined") {
                 gsap.to($wrapper, {
+                    top: settings.endTop,
                     width: settings.endWidth,
                     borderRadius: settings.endRadius,
                     ease: "none",
