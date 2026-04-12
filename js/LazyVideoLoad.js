@@ -1,4 +1,4 @@
-(function($) {
+/*(function($) {
     $.fn.lazyVideoLoader = function(options) {
         const settings = $.extend({
             root: null,
@@ -263,6 +263,391 @@
                         videoEl.pause();
                         video.attr('data-user-started', 'false'); // Marcamos que el usuario quiso pausar
                         video.removeAttr('data-autopaused'); // Quitamos autopaused para que no se reanude solo
+                        updateUIState(video, true);
+                    }
+                });
+            } else {
+                gsap.set($playBtn, { opacity: 1, scale: 1 });
+                $playBtn.on('click', function(e) {
+                    e.stopPropagation();
+                    if (videoEl.paused) {
+                        videoEl.play();
+                        video.attr('data-user-started', 'true');
+                        video.removeAttr('data-autopaused');
+                        updateUIState(video, false);
+                    } else {
+                        videoEl.pause();
+                        video.attr('data-user-started', 'false');
+                        video.removeAttr('data-autopaused');
+                        updateUIState(video, true);
+                    }
+                });
+            }
+
+            video.on('ended', function() {
+                video.attr('data-user-started', 'false');
+                video.removeAttr('data-autopaused');
+                updateUIState(video, true);
+                isGifActive = false;
+                const posters = video.data('posters');
+                if (posters) video.attr('poster', posters[0]);
+                gsap.to($playBtn, { opacity: 0, scale: 0.5, duration: 0.4 });
+            });
+        }
+
+        return this.each(function() {
+            loadVideos($(this));
+        });
+    };
+}(jQuery));*/
+
+(function($) {
+    $.fn.lazyVideoLoader = function(options) {
+        const settings = $.extend({
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1,
+            startWidth: "80%",
+            endWidth: "100%",
+            startTop: "-50px",
+            endTop: "0px",
+            startRadius: "40px",
+            endRadius: "0px",
+            gsapStart: "top 50%",
+            gsapEnd: "top 10%",
+            // Nuevas opciones para el Droplet
+            dropletColor: "#000",
+            dropletDuration: 1.2
+        }, options);
+
+        if (typeof gsap !== "undefined" && typeof ScrollTrigger !== "undefined") {
+            gsap.registerPlugin(ScrollTrigger);
+        }
+
+        const observer = new IntersectionObserver(handleIntersection, settings);
+        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
+        let hidden, visibilityChange;
+        if (typeof document.hidden !== "undefined") {
+            hidden = "hidden"; visibilityChange = "visibilitychange";
+        } else if (typeof document.msHidden !== "undefined") {
+            hidden = "msHidden"; visibilityChange = "msvisibilitychange";
+        } else if (typeof document.webkitHidden !== "undefined") {
+            hidden = "webkitHidden"; visibilityChange = "webkitvisibilitychange";
+        }
+
+        // --- LÓGICA DE CAMBIO DE PESTAÑA (TAB) ---
+        function handleVisibilityChange(videoElement) {
+            const video = $(videoElement);
+            const videoEl = videoElement;
+
+            if (document[hidden]) {
+                if (!videoEl.paused) {
+                    videoEl.pause();
+                    video.attr('data-autopaused', 'true');
+                    updateUIState(video, true);
+                }
+            } else {
+                if (video.attr('data-autopaused') === 'true' && video.attr('data-user-started') === 'true') {
+                    videoEl.play();
+                    video.removeAttr('data-autopaused');
+                    updateUIState(video, false);
+                }
+            }
+        }
+
+        // --- NUEVA LÓGICA: STICKY DROPLET SCROLL ---
+        function setupDropletAnimation($video, $wrapper) {
+            const anchorSelector = $video.attr('data-droplet-anchor');
+            if (!anchorSelector) return;
+
+            const $anchor = $(anchorSelector);
+            if ($anchor.length === 0) return;
+
+            $anchor.on('click', function(e) {
+                e.preventDefault();
+
+                // 1. Obtener coordenadas iniciales (Ancla)
+                const startRect = $anchor[0].getBoundingClientRect();
+                const startTop = startRect.top + window.scrollY;
+                const startLeft = startRect.left + window.scrollX;
+
+                // 2. Obtener coordenadas finales (Contenedor del video)
+                const endTop = $wrapper.offset().top;
+                const endLeft = $wrapper.offset().left;
+                // Calculamos el ancho final basado en el setting si la pantalla ya cargó, o forzamos lectura
+                const endWidth = $wrapper.outerWidth(); 
+                const endHeight = $wrapper.outerHeight() || (endWidth * 9 / 16); // Asume 16:9 si el video no ha cargado altura
+
+                // 3. Crear el elemento "Gota" (Droplet)
+                const $droplet = $('<div class="video-droplet"></div>').css({
+                    position: 'absolute',
+                    top: startTop,
+                    left: startLeft,
+                    width: startRect.width,
+                    height: startRect.height,
+                    backgroundColor: settings.dropletColor,
+                    borderRadius: '50px', // Forma inicial de píldora/círculo
+                    zIndex: 9999,
+                    pointerEvents: 'none',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    overflow: 'hidden'
+                }).appendTo('body');
+
+                // 4. Ocultar el video real temporalmente para dar la ilusión de morphing
+                gsap.set($wrapper, { opacity: 0 });
+
+                // 5. Animar Scroll (Usa ScrollToPlugin de GSAP si existe, si no usa scroll nativo)
+                if (typeof gsap.plugins.ScrollToPlugin !== "undefined") {
+                    gsap.to(window, { duration: settings.dropletDuration, scrollTo: { y: endTop - 100 }, ease: "power3.inOut" });
+                } else {
+                    window.scrollTo({ top: endTop - 100, behavior: 'smooth' });
+                }
+
+                // 6. Animar la Gota desplazándose y expandiéndose
+                gsap.to($droplet, {
+                    top: endTop,
+                    left: endLeft,
+                    width: endWidth,
+                    height: endHeight,
+                    borderRadius: settings.endRadius || '0px',
+                    duration: settings.dropletDuration,
+                    ease: "power3.inOut",
+                    onComplete: () => {
+                        // 7. Limpiar y reproducir
+                        $droplet.remove();
+                        gsap.set($wrapper, { opacity: 1 });
+                        
+                        // Cargar y reproducir
+                        if ($video.attr('data-loaded') !== 'true') {
+                            lazyLoadVideo($video);
+                            $video.attr('data-loaded', 'true');
+                        }
+                        
+                        $video[0].play();
+                        $video.attr('data-user-started', 'true');
+                        $video.removeAttr('data-autopaused');
+                        updateUIState($video, false);
+                    }
+                });
+            });
+        }
+
+        function loadVideos($video) {
+            const videoElement = $video[0];
+            const $wrapper = $video.wrap('<div class="dynamic-video-wrapper"></div>').parent();
+            
+            $wrapper.css({
+                'width': settings.startWidth,
+                'border-radius': settings.startRadius,
+                'top': settings.startTop,
+                'margin': '0 auto',
+                'overflow': 'hidden',
+                'position': 'relative',
+                'background': '#000',
+                'min-height': '100px' // Prevenir colapso si el video no ha cargado
+            });
+
+            if (typeof gsap !== "undefined") {
+                gsap.to($wrapper, {
+                    top: settings.endTop,
+                    width: settings.endWidth,
+                    borderRadius: settings.endRadius,
+                    ease: "none",
+                    scrollTrigger: {
+                        trigger: $wrapper,
+                        start: settings.gsapStart,
+                        end: settings.gsapEnd,
+                        scrub: true
+                    }
+                });
+            }
+
+            // Inicializar animación Droplet si tiene el atributo
+            setupDropletAnimation($video, $wrapper);
+
+            observer.observe(videoElement);
+            document.addEventListener(visibilityChange, () => handleVisibilityChange(videoElement), false);
+        }
+
+        // --- LÓGICA DE INTERSECCIÓN (SCROLL) ---
+        function handleIntersection(entries) {
+            entries.forEach(entry => {
+                const video = $(entry.target);
+                const videoEl = entry.target;
+
+                if (entry.isIntersecting) {
+                    if (video.attr('data-loaded') !== 'true') {
+                        video.data('posters', []);
+                        lazyLoadVideo(video);
+                        lazyLoadPoster(video);
+                        video.attr('data-loaded', 'true');
+                    }
+                    
+                    if (video.attr('data-autopaused') === 'true' && video.attr('data-user-started') === 'true') {
+                        videoEl.play();
+                        video.removeAttr('data-autopaused');
+                        updateUIState(video, false);
+                    }
+                } else {
+                    if (!videoEl.paused) {
+                        videoEl.pause();
+                        video.attr('data-autopaused', 'true');
+                        updateUIState(video, true);
+                    }
+                }
+            });
+        }
+
+        function fetchVideoSource(src) {
+            return fetch(src).then(r => r.blob()).then(b => URL.createObjectURL(b)).catch(() => '');
+        }
+
+        function lazyLoadPoster(video) {
+            const posterData = video.attr('data-poster');
+            if (posterData) {
+                let posterObject;
+                try { posterObject = JSON.parse(posterData); } catch { return; }
+                const posterPriorityList = Object.keys(posterObject).sort();
+                loadPostersFromPriorityList(video, posterObject, posterPriorityList, 0);
+            }
+        }
+
+        function loadPostersFromPriorityList(video, posterObject, posterPriorityList, index = 0) {
+            if (index >= posterPriorityList.length) return;
+            fetch(posterObject[posterPriorityList[index]]).then(r => r.blob()).then(blob => {
+                const url = URL.createObjectURL(blob);
+                video.data('posters').push(url);
+                if (index === 0) video.attr('poster', url);
+                loadPostersFromPriorityList(video, posterObject, posterPriorityList, index + 1);
+            });
+        }
+
+        function lazyLoadVideo(video) {
+            const sources = video.find('source');
+            const overlay = createOverlay(video);
+            video.prop('controls', false);
+
+            const loadingTemplate = `
+                <div class="video-loading-indicator d-flex align-items-center justify-content-center" style="position: absolute; width: 100%; height: 100%;">
+                    <span style="color:white;">Loading</span><span class="dot-1" style="color:white;">.</span><span class="dot-2" style="color:white;">.</span><span class="dot-3" style="color:white;">.</span>
+                </div>`;
+            overlay.html(loadingTemplate);
+
+            if (typeof gsap !== "undefined") {
+                gsap.timeline({ repeat: -1 })
+                    .to(overlay.find('span'), { opacity: 1, stagger: 0.2, duration: 0.3 })
+                    .to(overlay.find('span'), { opacity: 0, duration: 0.3, delay: 0.5 });
+            }
+        
+            const promises = sources.map((index, el) => {
+                return fetchVideoSource($(el).attr('data-src')).then(url => {
+                    if (url) { $(el).attr('src', url); return url; }
+                    throw new Error();
+                });
+            }).get();
+        
+            $.when.apply($, promises).then(() => {
+                video[0].load();
+                overlay.find('.video-loading-indicator').remove();
+                setupInteractiveControls(overlay, video);
+            });
+        }
+
+        function createOverlay(video) {
+            const overlay = $('<div>', { class: 'video-overlay', style: 'pointer-events: none; position: absolute; top:0; left:0; width:100%; height:100%;' });
+            video.parent().append(overlay);
+            return overlay;
+        }
+
+        function updateUIState(video, isPaused) {
+            const $overlay = video.parent().find('.video-overlay');
+            const $btn = $overlay.find('.play-button');
+            const $shape = $btn.find('.button-shape');
+
+            const filterState = { blur: isPaused ? 0 : 10, opacity: isPaused ? 0 : 0.7 };
+            gsap.to(filterState, {
+                blur: isPaused ? 10 : 0,
+                opacity: isPaused ? 0.7 : 0,
+                duration: 0.6,
+                overwrite: "auto",
+                onUpdate: () => {
+                    $overlay.css({
+                        'background-color': `rgba(0, 0, 0, ${filterState.opacity})`,
+                        'backdrop-filter': `blur(${filterState.blur}px)`,
+                        '-webkit-backdrop-filter': `blur(${filterState.blur}px)`
+                    });
+                }
+            });
+
+            if (isPaused) {
+                $btn.removeClass('is-playing-state').addClass('is-paused-state');
+                gsap.to($shape, { rotate: 45, borderRadius: "2px", duration: 0.4 });
+            } else {
+                $btn.removeClass('is-paused-state').addClass('is-playing-state');
+                gsap.to($shape, { rotate: 0, borderRadius: "8px", duration: 0.4 });
+            }
+        }
+
+        function setupInteractiveControls(overlay, video) {
+            const playButtonTemplate = `
+                <div class="play-button-overlay d-flex align-items-center justify-content-center" style="width: 100%; height: 100%;">
+                    <button class="play-button btn-custom-video is-paused-state" aria-label="Play Button" style="pointer-events: auto; opacity: 0; transform: scale(0.5); position: absolute;">
+                        <div class="button-shape" style="width: 20px; height: 20px; background: white;"><span class="icon-symbol"></span></div>
+                    </button>
+                </div>`;
+
+            overlay.html(playButtonTemplate);
+            const $wrapper = video.parent();
+            const $playBtn = overlay.find('.play-button');
+            const videoEl = video[0];
+            let isGifActive = false;
+
+            if (!isMobile) {
+                $wrapper.css('cursor', 'none').find('*').css('cursor', 'none');
+
+                $wrapper.on('mousemove', function(e) {
+                    const rect = $wrapper[0].getBoundingClientRect();
+                    gsap.to($playBtn, {
+                        x: (e.clientX - rect.left) - ($playBtn.outerWidth() / 2),
+                        y: (e.clientY - rect.top) - ($playBtn.outerHeight() / 2),
+                        duration: 0.6,
+                        overwrite: "auto"
+                    });
+                });
+
+                $wrapper.on('mouseenter', function() {
+                    gsap.to($playBtn, { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(1.7)" });
+                    if (videoEl.paused && !isGifActive) {
+                        const posters = video.data('posters');
+                        if (posters && posters.length > 1) {
+                            video.attr('poster', posters[1]);
+                            isGifActive = true;
+                        }
+                    }
+                }).on('mouseleave', function() {
+                    gsap.to($playBtn, { opacity: 0, scale: 0.5, duration: 0.4, ease: "power2.in" });
+                    if (isGifActive) {
+                        const posters = video.data('posters');
+                        if (posters && posters.length > 0) {
+                            video.attr('poster', posters[0]);
+                            isGifActive = false;
+                        }
+                    }
+                });
+
+                $wrapper.on('click', function() {
+                    if (videoEl.paused) {
+                        videoEl.play();
+                        video.attr('data-user-started', 'true');
+                        video.removeAttr('data-autopaused');
+                        updateUIState(video, false);
+                    } else {
+                        videoEl.pause();
+                        video.attr('data-user-started', 'false');
+                        video.removeAttr('data-autopaused');
                         updateUIState(video, true);
                     }
                 });
