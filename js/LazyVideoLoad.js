@@ -18,7 +18,11 @@
             gsap.registerPlugin(ScrollTrigger);
         }
 
-        const observer = new IntersectionObserver(handleIntersection, settings);
+        const observer = new IntersectionObserver(handleIntersection, {
+            root:       settings.root,
+            rootMargin: settings.rootMargin,
+            threshold:  settings.threshold
+        });
         const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
         let hidden, visibilityChange;
@@ -117,27 +121,18 @@
         }
 
         function fetchVideoSource(src) {
-            return fetch(src).then(r => r.blob()).then(b => URL.createObjectURL(b)).catch(() => '');
+            // Direct src assignment — browser handles caching, no double-download
+            return Promise.resolve(src);
         }
 
         function lazyLoadPoster(video) {
             const posterData = video.attr('data-poster');
-            if (posterData) {
-                let posterObject;
-                try { posterObject = JSON.parse(posterData); } catch { return; }
-                const posterPriorityList = Object.keys(posterObject).sort();
-                loadPostersFromPriorityList(video, posterObject, posterPriorityList, 0);
-            }
-        }
-
-        function loadPostersFromPriorityList(video, posterObject, posterPriorityList, index = 0) {
-            if (index >= posterPriorityList.length) return;
-            fetch(posterObject[posterPriorityList[index]]).then(r => r.blob()).then(blob => {
-                const url = URL.createObjectURL(blob);
-                video.data('posters').push(url);
-                if (index === 0) video.attr('poster', url);
-                loadPostersFromPriorityList(video, posterObject, posterPriorityList, index + 1);
-            });
+            if (!posterData) return;
+            let posterObject;
+            try { posterObject = JSON.parse(posterData); } catch { return; }
+            const urls = Object.keys(posterObject).sort().map(k => posterObject[k]);
+            video.data('posters', urls);
+            if (urls.length > 0) video.attr('poster', urls[0]);
         }
 
         function lazyLoadVideo(video) {
@@ -223,17 +218,23 @@
             if (!isMobile) {
                 $wrapper.css('cursor', 'none').find('*').css('cursor', 'none');
 
+                // Cache rect on enter — avoids getBoundingClientRect() on every mousemove
+                let rect = null;
+                const halfW = $playBtn.outerWidth()  / 2;
+                const halfH = $playBtn.outerHeight() / 2;
+
                 $wrapper.on('mousemove', function(e) {
-                    const rect = $wrapper[0].getBoundingClientRect();
+                    if (!rect) rect = $wrapper[0].getBoundingClientRect();
                     gsap.to($playBtn, {
-                        x: (e.clientX - rect.left) - ($playBtn.outerWidth() / 2),
-                        y: (e.clientY - rect.top) - ($playBtn.outerHeight() / 2),
+                        x: (e.clientX - rect.left) - halfW,
+                        y: (e.clientY - rect.top)  - halfH,
                         duration: 0.6,
                         overwrite: "auto"
                     });
                 });
 
                 $wrapper.on('mouseenter', function() {
+                    rect = $wrapper[0].getBoundingClientRect();
                     gsap.to($playBtn, { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(1.7)" });
                     if (videoEl.paused && !isGifActive) {
                         const posters = video.data('posters');

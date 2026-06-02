@@ -46,9 +46,10 @@
         };
         const observer = new IntersectionObserver(handleIntersection, observerOptions);
 
-        const downloadMSN = getPathtomessagemap().downloadTextpath;
-        const openMSN     = getPathtomessagemap().openTextpath;
-        const closeMSN    = getPathtomessagemap().closeTextpath;
+        const _pathMsgs   = getPathtomessagemap();
+        const downloadMSN = _pathMsgs.downloadTextpath;
+        const openMSN     = _pathMsgs.openTextpath;
+        const closeMSN    = _pathMsgs.closeTextpath;
 
         // --- Estilos necesarios para la funcionalidad ---
         if (!$('#lazy-loader-styles').length) {
@@ -103,17 +104,25 @@
                 if (dataModule === 'true') {
                     setupModalImage($img);
                     $container.addClass('cursor-container');
+                    // Cache rect on mouseenter — avoids getBoundingClientRect() on every mousemove
+                    let _rect = null;
+                    $container.on('mouseenter', () => {
+                        _rect = $container[0].getBoundingClientRect();
+                        gsap.to($cursor, { opacity: 1, scale: 1, duration: 0.2 });
+                    });
                     $container.on('mousemove', (e) => {
-                        const rect = $container[0].getBoundingClientRect();
+                        if (!_rect) _rect = $container[0].getBoundingClientRect();
                         gsap.to($cursor, {
-                            x: e.clientX - rect.left,
-                            y: e.clientY - rect.top,
+                            x: e.clientX - _rect.left,
+                            y: e.clientY - _rect.top,
                             duration: 0.3,
                             ease: 'power2.out'
                         });
                     });
-                    $container.on('mouseenter', () => gsap.to($cursor, { opacity: 1, scale: 1, duration: 0.2 }));
-                    $container.on('mouseleave', () => gsap.to($cursor, { opacity: 0, scale: 0.5, duration: 0.2 }));
+                    $container.on('mouseleave', () => {
+                        _rect = null;
+                        gsap.to($cursor, { opacity: 0, scale: 0.5, duration: 0.2 });
+                    });
                 }
 
                 return imageLoadPromise($img);
@@ -155,11 +164,11 @@
             const src = $img.attr('data-src');
             if (!src) return;
 
-            $img.on('load', function() {
-                setImageDimensions($img, src);
+            $img.one('load', function() {
+                setImageDimensions($img);
                 $img.parent().addClass('loaded');
             });
-            $img.on('error', function() {
+            $img.one('error', function() {
                 console.error(`Failed to load image: ${src}`);
             });
 
@@ -167,17 +176,13 @@
             $img.attr('src', src);
         }
 
-        function setImageDimensions($imgElement, src) {
-            // Respetar dimensiones hardcodeadas en el HTML (evitan CLS)
-            // Solo calcular dinámicamente si no están definidas
+        function setImageDimensions($imgElement) {
             if ($imgElement.attr('width') && $imgElement.attr('height')) return;
-
-            const img = new Image();
-            img.onload = function() {
-                $imgElement.attr('width', this.width);
-                $imgElement.attr('height', this.height);
-            };
-            img.src = src;
+            // Use naturalWidth/Height — image is already decoded, no extra request
+            const el = $imgElement[0];
+            if (el.naturalWidth) {
+                $imgElement.attr({ width: el.naturalWidth, height: el.naturalHeight });
+            }
         }
 
         function imageLoadPromise($img) {

@@ -17,6 +17,10 @@
 (function () {
     'use strict';
 
+    // Set ?__debug=1 in the URL (or #debug) to enable verbose logging.
+    const DEBUG = window.location.search.includes('__debug=1') ||
+                  window.location.hash === '#debug';
+
     // ═══════════════════════════════════════════════════════════
     //  CONSTANTS
     // ═══════════════════════════════════════════════════════════
@@ -69,7 +73,7 @@
 
     const GeoIP = (function () {
         const URL  = 'https://ipapi.co/json/';
-        const WAIT = 6000;
+        const WAIT = 2500;
         let pending = null;
 
         function fetchGeo() {
@@ -84,6 +88,7 @@
                     .then(r => r.json())
                     .then(data => {
                         clearTimeout(timer);
+                        pending = null;
                         const result = { country_code: data.country_code || data.countryCode || null };
                         window.__geoip = result;
                         resolve(result);
@@ -435,32 +440,32 @@
 
     const CookieManager = {
         run(langCases, baseUrl) {
-            console.log('[CM] run() — has_been_redirected:',
+            DEBUG && console.log('[CM] run() — has_been_redirected:',
                 sessionStorage.getItem('has_been_redirected'),
                 '| language:', MiniCookie.get('language'));
 
             if (sessionStorage.getItem('has_been_redirected') === 'true') {
                 if (!MiniCookie.get('language')) {
                     sessionStorage.removeItem('has_been_redirected');
-                    console.log('[CM] Stale redirect flag cleared — retrying.');
+                    DEBUG && console.log('[CM] Stale redirect flag cleared — retrying.');
                 } else {
-                    console.log('[CM] Already redirected — skipping.');
+                    DEBUG && console.log('[CM] Already redirected — skipping.');
                     return;
                 }
             }
 
             const urlParams = new URLSearchParams(window.location.search);
             if (urlParams.has('language') && urlParams.has('browserLanguage')) {
-                console.log('[CM] URL already has language params — skipping.');
+                DEBUG && console.log('[CM] URL already has language params — skipping.');
                 return;
             }
 
             const language = MiniCookie.get('language');
-            console.log('[CM] language cookie:', language);
+            DEBUG && console.log('[CM] language cookie:', language);
 
-            if (language && langCases.hasOwnProperty(language)) {
+            if (language && Object.prototype.hasOwnProperty.call(langCases, language)) {
                 const entry = langCases[language];
-                console.log('[CM] Known language:', language, '— verifying country');
+                DEBUG && console.log('[CM] Known language:', language, '— verifying country');
 
                 GeoIP.fetch().then(data => {
                     const country = entry[1].includes(data.country_code)
@@ -481,13 +486,11 @@
             }
 
             GeoIP.fetch().then(data => {
-                console.log('[CM] GeoIP result:', JSON.stringify(data));
-                const browserLang = (navigator.language || navigator.userLanguage)
-                    .split('-')[0].toUpperCase();
+                DEBUG && console.log('[CM] GeoIP result:', JSON.stringify(data));
+                const browserLang = (navigator.language || 'en').split('-')[0].toUpperCase();
                 this._matchAndRedirect(langCases, baseUrl, data, language, browserLang);
             }).catch(() => {
-                const browserLang = (navigator.language || navigator.userLanguage)
-                    .split('-')[0].toUpperCase();
+                const browserLang = (navigator.language || 'en').split('-')[0].toUpperCase();
                 this._matchAndRedirect(langCases, baseUrl, {}, null, browserLang);
             });
         },
@@ -581,7 +584,7 @@
         const targetPage  = window.location.origin;
 
         GDPRConsent.init((consent) => {
-            console.log('[Boot] Consent:', JSON.stringify(consent));
+            DEBUG && console.log('[Boot] Consent:', JSON.stringify(consent));
 
             // Signal analytics granted to GTM (already in <head>).
             // For returning visitors, the HTML snippet already did this
@@ -595,14 +598,14 @@
                     page_path: location.pathname + location.search,
                     page_title: document.title
                 });
-                console.log('[Boot] analytics consent update → granted');
+                DEBUG && console.log('[Boot] analytics consent update → granted');
             }
 
             if (consent.functional) {
-                console.log('[Boot] functional=true — running cookieManager');
+                DEBUG && console.log('[Boot] functional=true — running cookieManager');
                 CookieManager.run(customCases, targetPage);
             } else {
-                console.log('[Boot] functional=false — cookieManager skipped');
+                DEBUG && console.log('[Boot] functional=false — cookieManager skipped');
             }
         });
 

@@ -1,12 +1,19 @@
 {
     "short_name": "INSaNE",
     "name": "INSaNE OFFICIAL",
-    "icons": [{
-        "src": "img/webiconspace-removebg-preview.png",
-        "sizes": "192x192",
-        "type": "image/png"
-    }],
-    "start_url": "index.html",
+    "description": "INSaNE | A Broken Hero — the official site for the original comic series by Alexis Cantú.",
+    "icons": [
+        {
+            "src": "img/webiconspace-removebg-preview.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any maskable"
+        }
+    ],
+    "start_url": "/",
+    "scope": "/",
     "display": "standalone",
-    "orientation": "portrait"
+    "orientation": "portrait",
+    "theme_color": "#e83b2e",
+    "background_color": "#0f1810"
 }

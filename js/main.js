@@ -142,7 +142,7 @@ jQuery(function($) {
     $('.scroll').on('click', function(e) {
         e.preventDefault();
         $('.menu-wrapper').trigger('click');
-        $('body, html').animate({ scrollTop: $(this.hash).offset().top }, 1000);
+        gsap.to(window, { scrollTo: $(this.hash).offset().top, duration: 1, ease: 'power2.inOut' });
     });
 
     // ── 11. Scroll-to-top / scroll-to-section button ────────────
@@ -163,10 +163,10 @@ jQuery(function($) {
 
     $scrollBtn.on('click', function() {
         if ($(this).data('action') === 'up') {
-            $('html, body').animate({ scrollTop: 0 }, 1000);
+            gsap.to(window, { scrollTo: 0, duration: 1, ease: 'power2.inOut' });
         } else {
             const $next = $('#quickresume').first();
-            if ($next.length) $('html, body').animate({ scrollTop: $next.offset().top }, 1000);
+            if ($next.length) gsap.to(window, { scrollTo: $next.offset().top, duration: 1, ease: 'power2.inOut' });
         }
     });
 
@@ -234,14 +234,18 @@ jQuery(function($) {
         }
 
         _notify(title, body) {
-            Notification.requestPermission().then(perm => {
-                if (perm === 'granted') {
-                    new Notification(this._sanitize(title), {
-                        body: this._sanitize(body),
-                        icon: 'img/webiconspace-removebg-preview.png'
-                    });
-                }
+            if (!('Notification' in window)) return;
+            const show = () => new Notification(this._sanitize(title), {
+                body: this._sanitize(body),
+                icon: 'img/webiconspace-removebg-preview.png'
             });
+            if (Notification.permission === 'granted') {
+                show();
+            } else if (Notification.permission !== 'denied') {
+                Notification.requestPermission().then(perm => {
+                    if (perm === 'granted') show();
+                });
+            }
         }
 
         _formData() {
@@ -256,6 +260,7 @@ jQuery(function($) {
             $.ajax({
                 method: 'POST', url: this.ajaxUrl,
                 dataType: 'json', accepts: 'application/json',
+                timeout: 8000,
                 data:    this._formData(),
                 success: () => this._respond(true),
                 error:   () => this._respond(false)
@@ -311,11 +316,13 @@ jQuery(function($) {
     if (sectionScrollID) {
         const $target = $('#' + sectionScrollID);
         if ($target.length) {
-            $('html, body').animate({
-                scrollTop: $target.offset().top
+            gsap.to(window, {
+                scrollTo: $target.offset().top
                     - ($(window).height() / 2)
-                    + ($target.height() / 2)
-            }, 1000);
+                    + ($target.height() / 2),
+                duration: 1,
+                ease: 'power2.inOut'
+            });
         }
     }
 

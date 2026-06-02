@@ -81,28 +81,26 @@ $.fn.shuffleLetters = function(prop) {
             letters.push(i);
         }
 
-        var animationDuration = (options.step * textLength) / options.fps * 1000;
-
-        function shuffle(start) {
+        // Single interval instead of recursive setTimeout chain —
+        // avoids creating (step * 2) timer objects per call
+        var start = -options.step;
+        var interval = setInterval(function() {
             if (start > options.step) {
+                clearInterval(interval);
                 el.text(originalText);
                 return;
             }
-
             var strCopy = originalText.split('');
-            letters.forEach((pos, i) => {
+            letters.forEach(function(pos, i) {
                 if (i < start + options.step) {
                     strCopy[pos] = $.fn.shuffleLetters.randomChar(types[pos]);
                 }
             });
             el.text(strCopy.join(""));
+            start++;
+        }, 1000 / options.fps);
 
-            setTimeout(() => shuffle(start + 1), 1000 / options.fps);
-        }
-
-        shuffle(-options.step);
-
-        return animationDuration;
+        return interval;
     });
 };
 

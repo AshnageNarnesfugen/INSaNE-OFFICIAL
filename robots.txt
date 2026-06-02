@@ -5,7 +5,7 @@ Disallow: /admin/
 User-agent: Googlebot
 Disallow: /temp/
 
-User-agent:Twitterbot
+User-agent: Twitterbot
 Disallow: /temp/
 
 Sitemap: https://insane-bh.space/sitemap.xml
@@ -18,7 +18,6 @@ Sitemap: https://insane-bh.space/it/sitemap.xml
 Sitemap: https://insane-bh.space/ru/sitemap.xml
 Sitemap: https://insane-bh.space/zh/sitemap.xml
 Sitemap: https://insane-bh.space/kr/sitemap.xml
-Sitemap: https://insane-bh.space/it/sitemap.xml
 Sitemap: https://insane-bh.space/ar/sitemap.xml
 Sitemap: https://insane-bh.space/hi/sitemap.xml
 Sitemap: https://insane-bh.space/id/sitemap.xml
