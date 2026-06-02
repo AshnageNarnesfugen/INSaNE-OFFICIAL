@@ -780,11 +780,27 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <script src="js/lazyImageLoader.js" defer></script>  
     <script src="js/LazyVideoLoad.js" defer></script>
     <script src="js/redirection.min.js" defer></script>
-    <script src="js/privacypolicy.js" defer></script>
     <script src="js/main.min.js" defer></script>
     <script src="js/smoothscroll.js" defer></script>
-    <script src="js/accessibility.js" defer></script>
-    <script src="js/drum-dropdown-faq.js" defer></script>    
+    <!-- Non-critical scripts: loaded when the browser is idle to keep TBT low -->
+    <script>
+    (function () {
+      var deferred = ['js/privacypolicy.js', 'js/accessibility.js', 'js/drum-dropdown-faq.js'];
+      function loadDeferred() {
+        deferred.forEach(function (src) {
+          var s = document.createElement('script');
+          s.src = src;
+          document.body.appendChild(s);
+        });
+      }
+      function schedule() {
+        if ('requestIdleCallback' in window) { requestIdleCallback(loadDeferred, { timeout: 3000 }); }
+        else { setTimeout(loadDeferred, 2000); }
+      }
+      if (document.readyState === 'complete') schedule();
+      else window.addEventListener('load', schedule);
+    })();
+    </script>    
 </body>
 
 </html>
